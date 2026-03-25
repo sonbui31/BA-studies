@@ -5,7 +5,7 @@
 
 ---
 
-## 1. BA-Documents-Product — Dự án Sản phẩm (SaaS / Platform / App)
+## 1. BA-agent/BA-Documents-Product — Dự án Sản phẩm (SaaS / Platform / App)
 
 > **Đặc thù:** Data-driven, user research, metrics-focused, continuous improvement.
 
@@ -25,7 +25,7 @@
 
 ---
 
-## 2. BA-Documents-Outsource — Dự án Thuê ngoài
+## 2. BA-agent/BA-Documents-Outsource — Dự án Thuê ngoài
 
 > **Đặc thù:** Tài liệu formal, sign-off bắt buộc, ràng buộc hợp đồng, giao tiếp từ xa.
 
@@ -46,7 +46,7 @@
 
 ---
 
-## 3. BA-document-rule — Bộ Rule & Template gốc
+## 3. BA-agent/BA-document-rule — Bộ Rule & Template gốc
 
 > **Đặc thù:** Không dùng trực tiếp — đây là "hệ điều hành" sinh ra 2 bộ tài liệu trên.
 > **Cách dùng:** Chọn overlay (product/outsource/inhouse/startup) → áp lên template → tạo ra bộ tài liệu phù hợp.

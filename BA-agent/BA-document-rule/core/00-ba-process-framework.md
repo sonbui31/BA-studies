@@ -1,17 +1,17 @@
-# QUY TRÌNH BA TỔNG QUÁT — 5 PHA
+# QUY TRÌNH BA TỔNG QUÁT 2.0 — DATA & AI DRIVEN
 
-> **Áp dụng:** Mọi loại dự án (in-house, outsource, product, startup)
-> **Phương pháp:** Hybrid (Agile + Formal Documentation)
-> **Tham chiếu:** BABOK® v3 — Business Analysis Planning & Monitoring
+> **Áp dụng:** Mọi loại dự án (Hybrid/Agile)
+> **Đặc điểm:** AI-Augmented, Data-Informed, Visual-First
+> **Tham chiếu:** BABOK® v3 + Modern Product Management
 
 ---
 
-## 1. Tổng quan 5 Pha
+## 1. Tổng quan 5 Pha 2.0
 
 ```
 ┌─────────────┐    ┌──────────────┐    ┌─────────────┐    ┌──────────────┐    ┌───────────┐
 │  INCEPTION   │───▶│  DISCOVERY   │───▶│ ELABORATION │───▶│   DELIVERY   │───▶│  CLOSURE  │
-│  Khởi động   │    │  Khám phá    │    │ Chi tiết hóa│    │  Phát triển  │    │ Kết thúc  │
+│  (AI Assist) │    │ (Data Driven)│    │ (Visual Dev)│    │  (Agile Ref) │    │ (Analytics)│
 └─────────────┘    └──────────────┘    └─────────────┘    └──────────────┘    └───────────┘
 ```
 
