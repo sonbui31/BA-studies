@@ -1,41 +1,39 @@
 ---
-description: Business Analysis Workflow 2.2 - Multi-LLM Orchestrated
+description: Business Analysis Workflow 2.6 - Ultimate AI Orchestrated
 ---
 
-# BA Workflow Protocol 2.2
+# BA Workflow Protocol 2.6
 
-This workflow automates the creation of BA documentation with a focus on Data-Driven decisions and AI-assisted analysis.
+This workflow automates BA documentation using the full v2.6 skill suite, including Predictive Risk Forecasting and Requirement-to-Code Traceability.
 
 // turbo-all
 
 ## Steps
 
-1. **Project Classification & Metric Identification**
-   - Check if project is `Product` or `Outsource`.
-   - **New 2.2:** Ask user for the "North Star Metric" or "Business Goal".
+1. **Strategic Vision & Predictive Risk Scan**
+   - Identify goals and stakeholders.
+   - **New 2.6 (Predictive):** Run `../BA-document-rule/core/predictive-ba-guide.md` to forecast early Scope Creep risks.
 
-2. **Initialize Workspace 2.2**
-   - Create directory `d:\Project\BA studies\{topic}`.
-   - Initialize a `00-Internal-Brainstorming.md` file for AI-driven notes.
+2. **Initialize Workspace & Brainstorm (o4/GPT-5)**
+   - Create project directory.
+   - Initial brainstorming for complex logic.
 
 3. **Template Selection & Data Planning**
-   - Refer to `../BA-document-rule/overlays/{type}/overlay-config.md`.
-   - **New 2.2:** Identify data events that need to be tracked for the success metrics.
+   - Map features to success metrics and tracking events.
 
-4. **Document Generation (via @ba-specialist 2.2)**
-   - For each mandatory file:
-     - Copy template from `../BA-document-rule/templates/`.
-     - **AI Insight:** Call `@ba-specialist` to generate the document PLUS an "Edge Cases & Risks" section.
-     - **Visual First:** Generate at least one Mermaid diagram per document.
-     - Add a "Success Metrics" table to the BRD.
+4. **Document Generation & Visual Prototyping**
+   - Generate artifacts with 2026 AI precision.
+   - Generate wireframes via `StitchMCP`.
 
-5. **AI-Driven Quality Gate**
-   - Run `../BA-document-rule/core/quality-checklist.md`.
-   - **New 2.2:** Self-ask "Does this feature have a way to measure its success?"
+5. **AI Quality Gate & Traceability Audit**
+   - Run C-S-K-A Matrix evaluation.
+   - **New 2.6 (Audit):** Run `../BA-document-rule/core/code-traceability-audit.md` to ensure code aligns with requirements.
 
-6. **Final 2.2 Report**
-   - List created files.
-   - Summarize the **Data Plan** and **Key Risks**.
+6. **Impact Analysis & Stakeholder Simulation**
+   - Cross-file dependency scan and persona roleplay.
+
+7. **Final Ultimate 2.6 Report**
+   - Scorecard, Wireframes, Risk Predictions, and Traceability Status.
 
 ---
 

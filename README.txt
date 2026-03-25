@@ -1,27 +1,29 @@
 ================================================================================
-                    BỘ KIT BA 2.2 — AI-ORCHESTRATED (2026)
+                    BỘ KIT BA 2.6 — ULTIMATE AI-ORCHESTRATED
 ================================================================================
 
 TÓM TẮT CÁCH SỬ DỤNG:
 
-1. Kích hoạt Workflow:
-   Gõ `/ba-workflow [tên_dự_án] [yêu_cầu]` để khởi tạo toàn bộ thư mục và tài liệu
-   theo chuẩn Layered OS. Hệ thống sẽ tự động phối hợp GPT-5 (Nội dung) và 
-   Claude 4.6 (Sơ đồ) để draft bản thảo đầu tiên.
+1. Kích hoạt Workflow 2.6:
+   Gõ `/ba-workflow [topic] [yêu_cầu]` để khởi tạo dự án. Hệ thống sẽ tự động:
+   - Dự báo rủi ro (Predictive Scan).
+   - Tạo tài liệu & Wireframes (Drafting & Prototyping).
+   - Đối soát Code thực tế (Traceability Audit).
 
-2. Tư duy Phản biện (Reasoning):
-   Sử dụng `@ba-specialist` để yêu cầu OpenAI o4 kiểm tra các logic nghiệp vụ 
-   hóc búa hoặc tìm lỗ hổng trong quy trình thanh toán/vận hành.
+2. Kỹ năng "Hạng nặng" (@ba-specialist):
+   - Đánh giá chất lượng: Chấm điểm C-S-K-A Matrix (v2.2).
+   - AI Prototyping: Tạo bản phác thảo UI (v2.5).
+   - Phân tích ảnh hưởng: Tìm file mâu thuẫn khi đổi logic (v2.5).
+   - Mô phỏng Persona: Đóng vai Stakeholder phản biện (v2.5).
+   - Đối soát Code vs Req: Đảm báo triển khai đúng 100% (v2.6).
+   - Dự báo BA: Cảnh báo Scope Creep & Chậm deadline (v2.6).
 
-3. Quản trị Context:
-   Tận dụng Gemini 3 Pro để đọc và đối soát tính nhất quán giữa hàng trăm file 
-   tài liệu dự án, đảm bảo mọi thứ bám sát Vision ban đầu.
-
-4. Data-Driven:
-   Mọi tính năng mới phải đi kèm với Success Metrics (OKRs) và Tracking Plan 
-   đã có sẵn trong các template của bộ kit.
+3. Phối hợp Multi-LLM 2026:
+   - Gemini 3 Pro: Infinite Context (Quản trị toàn bộ Repository).
+   - OpenAI o4: Advanced Reasoning (Xử lý logic chồng chéo).
+   - Claude 4.6 & GPT-5: High-Precision Drafting (Viết & Vẽ sơ đồ).
 
 --------------------------------------------------------------------------------
-=> TOÀN BỘ "BỘ NÃO" ĐÃ ĐƯỢC GOM VÀO THƯ MỤC: [ BA-agent/ ]
-   Giúp bạn quản lý và nâng cấp dễ dàng trong tương lai.
+=> TRUNG TÂM ĐIỀU HÀNH TẠI THƯ MỤC: [ BA-agent/ ]
+   Hướng dẫn chi tiết nằm tại file: [ BA-agent/USER-GUIDE.md ]
 ================================================================================

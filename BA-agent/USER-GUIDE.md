@@ -1,7 +1,7 @@
-# HƯỚNG DẪN SỬ DỤNG BỘ KIT BA 2.2 (AI-ORCHESTRATED)
+# HƯỚNG DẪN SỬ DỤNG BỘ KIT BA 2.6 (ULTIMATE AI-ORCHESTRATED)
 
 > **Chào mừng bạn đến với kỷ nguyên BA 2026!**
-> Bộ kit "Layered OS" v2.2 giúp bạn làm việc ít hơn nhưng chất lượng cao hơn gấp 10x nhờ phối hợp Gemini 3, Claude 4.6, OpenAI o4, GPT-5.
+> Bộ kit "Layered OS" v2.6 là đỉnh cao của sự tự động hóa, kết hợp khả năng dự báo rủi ro và đối soát Code thực tế.
 
 ---
 
@@ -9,30 +9,35 @@
 
 **Lệnh chính:** `/ba-workflow [tên_dự_án] [mô_tả_ngắn]`
 
-**Ví dụ:**
-```
-/ba-workflow SaaS-HRM Xây dựng hệ thống quản lý nhân sự cho doanh nghiệp SME
-```
-
-**Quy trình tự động:**
-1. **Phân loại** — Agent xác định `Product` hay `Outsource`
-2. **Khởi tạo** — Tạo folder dự án + file brainstorming
-3. **AI Drafting** — Claude 4.6 viết Stories, GPT-5 điền BRD/SRS, o4 tìm Edge Cases
-4. **Data Plan** — Đề xuất OKRs cho từng tính năng
-5. **Quality Gate** — Tự audit theo BACCM + Quality Checklist
+**Quy trình 2.6:**
+1. **Predictive Scan** — Dự báo rủi ro Scope Creep ngay từ đầu.
+2. **AI Drafting & Prototyping** — Viết tài liệu + Tạo wireframes.
+3. **Traceability Audit** — Đối soát Code vs Yêu cầu để tránh sai sót.
+4. **Quality Gate** — Chấm điểm C-S-K-A.
 
 ---
 
-## 🤖 Gọi BA-Specialist Agent
+## 🤖 Các kỹ năng "Hạng nặng" (Ultimate Skills)
 
-Dùng `@ba-specialist` bất cứ lúc nào:
+| Kỹ năng | Lệnh tiêu biểu | Kết quả |
+|---|---|---|
+| **Predictive BA** | `@ba-specialist dự báo rủi ro dự án này` | Cảnh báo Scope Creep & Chậm deadline |
+| **Code-to-Req Audit** | `@ba-specialist đối soát SRS này với code` | Tìm lỗi logic giữa tài liệu và thực tế |
+| **Impact Analysis** | `@ba-specialist phân tích ảnh hưởng thay đổi X`| Tìm file mâu thuẫn dắt dây |
+| **Persona Sim** | `@ba-specialist đóng vai CFO phản biện` | Stress-test yêu cầu trước khi họp |
+| **AI Prototyping** | `@ba-specialist tạo wireframe cho tính năng X`| Link bản phác thảo UI trực quan |
 
-| Yêu cầu | AI được gọi | Kết quả |
-|---------|------------|---------|
-| "Audit logic thanh toán" | OpenAI o4 | Tìm mâu thuẫn & edge cases |
-| "Vẽ sơ đồ luồng đặt hàng" | Claude 4.6 | Mermaid diagram chuẩn |
-| "Tổng hợp rủi ro 10 file tài liệu" | Gemini 3 Pro | Báo cáo rủi ro tổng thể |
-| "Draft BRD cho tính năng X" | GPT-5 | BRD template đã điền sẵn |
+---
+
+## 🕵️ Chi tiết Kỹ năng mới (v2.6)
+
+### 1. Đối soát Yêu cầu vs Mã nguồn (v2.6)
+Đảm bảo Dev thực hiện đúng 100% những gì BA đã viết.
+- **Lệnh:** `@ba-specialist đối soát [tài_liệu] với [thư_mục_code]`
+
+### 2. Dự báo BA & Rủi ro (v2.6)
+Sử dụng dữ liệu để "nhìn thấy" tương lai dự án.
+- **Lệnh:** `@ba-specialist dự báo rủi ro phình scope cho dự án này`
 
 ---
 
