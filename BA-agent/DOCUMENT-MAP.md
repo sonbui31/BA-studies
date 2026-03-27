@@ -67,8 +67,13 @@
 | `writing-guide.md` | Chuẩn viết tài liệu: naming, format bảng, viết AC, ngôn ngữ, tone |
 | `diagram-guide.md` | Quy ước sơ đồ: Mermaid syntax, hình dạng, khi nào dùng loại nào |
 | `quality-checklist.md` | Checklist chất lượng: completeness, consistency, traceability check |
-| `customer-intelligence-guide.md` | Kỹ thuật khai thác & phân tích thông tin KH: probing, hidden needs, tâm lý stakeholder |
 | `glossary.md` | Thuật ngữ BA A-Z (AC, BABOK, BRD, CR, DoD, Epic, SRS, UAT...) |
+| `evaluation-protocol.md` | C-S-K-A Matrix: chấm điểm tài liệu 1-10 (Completeness, Clarity, Consistency, Actionability) |
+| `impact-analysis-guide.md` | Phân tích ảnh hưởng: cross-file dependency scan, downstream risk |
+| `persona-simulation.md` | Mô phỏng stakeholder persona: đóng vai CFO, Architect, End-User để stress-test |
+| `code-traceability-audit.md` | Đối soát Requirement vs Code: đảm bảo Dev triển khai đúng SRS/Stories |
+| `predictive-ba-guide.md` | Dự báo rủi ro: Scope Creep, Timeline delay bằng data pattern matching |
+| `customer-intelligence-guide.md` | Kỹ thuật khai thác & phân tích thông tin KH: probing, hidden needs, tâm lý stakeholder |
 
 ### 📁 templates/ — 12 template generic
 

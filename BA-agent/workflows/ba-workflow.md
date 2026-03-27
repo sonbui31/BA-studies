@@ -1,10 +1,10 @@
 ---
-description: Business Analysis Workflow 2.6 - Ultimate AI Orchestrated
+description: Business Analysis Workflow 2.6.1 - Ultimate AI Orchestrated
 ---
 
-# BA Workflow Protocol 2.6
+# BA Workflow Protocol 2.6.1
 
-This workflow automates BA documentation using the full v2.6 skill suite, including Predictive Risk Forecasting and Requirement-to-Code Traceability.
+This workflow automates BA documentation using the full v2.6.1 skill suite, including Predictive Risk Forecasting, Customer Intelligence, Auto-Diagram Generation, and Requirement-to-Code Traceability.
 
 // turbo-all
 
@@ -25,8 +25,9 @@ This workflow automates BA documentation using the full v2.6 skill suite, includ
 4. **Template Selection & Data Planning**
    - Map features to success metrics and tracking events.
 
-5. **Document Generation & Visual Prototyping**
+5. **Document Generation, Auto-Diagram & Visual Prototyping**
    - Generate artifacts with 2026 AI precision.
+   - **New 2.6.1 (Auto-Diagram):** Parse raw input → auto-select diagram type → generate Mermaid diagram.
    - Generate wireframes via `StitchMCP`.
 
 6. **AI Quality Gate & Traceability Audit**
@@ -36,8 +37,9 @@ This workflow automates BA documentation using the full v2.6 skill suite, includ
 7. **Impact Analysis & Stakeholder Simulation**
    - Cross-file dependency scan and persona roleplay.
 
-8. **Final Ultimate 2.6 Report**
-   - Scorecard, Wireframes, Risk Predictions, Traceability Status, and Insight Cards.
+8. **Final Ultimate 2.6.1 Report**
+   - Scorecard, Auto-Generated Diagrams, Wireframes, Risk Predictions, Traceability Status, and Insight Cards.
+
 
 ---
 

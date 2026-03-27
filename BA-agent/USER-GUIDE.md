@@ -1,7 +1,7 @@
-# HƯỚNG DẪN SỬ DỤNG BỘ KIT BA 2.6 (ULTIMATE AI-ORCHESTRATED)
+# HƯỚNG DẪN SỬ DỤNG BỘ KIT BA 2.6.1 (ULTIMATE AI-ORCHESTRATED)
 
 > **Chào mừng bạn đến với kỷ nguyên BA 2026!**
-> Bộ kit "Layered OS" v2.6 là đỉnh cao của sự tự động hóa, kết hợp khả năng dự báo rủi ro và đối soát Code thực tế.
+> Bộ kit "Layered OS" v2.6.1 — tự động hóa toàn diện: dự báo rủi ro, khai thác thông tin KH, và vẽ sơ đồ tự động từ dữ liệu thô.
 
 ---
 
@@ -9,16 +9,16 @@
 
 **Lệnh chính:** `/ba-workflow [tên_dự_án] [mô_tả_ngắn]`
 
-**Quy trình 2.6:**
+**Quy trình 2.6.1:**
 1. **Predictive Scan** — Dự báo rủi ro Scope Creep ngay từ đầu.
 2. **Customer Intelligence** — Phỏng vấn & khai thác insight từ KH.
-3. **AI Drafting & Prototyping** — Viết tài liệu + Tạo wireframes.
+3. **AI Drafting & Auto-Diagram** — Viết tài liệu + Vẽ sơ đồ tự động + Wireframes.
 4. **Traceability Audit** — Đối soát Code vs Yêu cầu để tránh sai sót.
 5. **Quality Gate** — Chấm điểm C-S-K-A.
 
 ---
 
-## 🤖 Các kỹ năng "Hạng nặng" (Ultimate Skills)
+## 🤖 Các kỹ năng "Hạng nặng" (8 Ultimate Skills)
 
 | Kỹ năng | Lệnh tiêu biểu | Kết quả |
 |---|---|---|
@@ -28,10 +28,11 @@
 | **Persona Sim** | `@ba-specialist đóng vai CFO phản biện` | Stress-test yêu cầu trước khi họp |
 | **AI Prototyping** | `@ba-specialist tạo wireframe cho tính năng X`| Link bản phác thảo UI trực quan |
 | **Customer Intelligence** | `@ba-specialist phỏng vấn KH cho dự án X` | Bộ câu hỏi chiến lược + phân tích insight |
+| **Auto-Diagram Engine** | `@ba-specialist vẽ [loại sơ đồ] cho [quy trình]` | Mermaid diagram tự động từ dữ liệu thô |
 
 ---
 
-## 🕵️ Chi tiết Kỹ năng mới (v2.6)
+## 🕵️ Chi tiết Kỹ năng mới (v2.6 → v2.6.1)
 
 ### 1. Đối soát Yêu cầu vs Mã nguồn (v2.6)
 Đảm bảo Dev thực hiện đúng 100% những gì BA đã viết.
@@ -47,16 +48,33 @@ Khai thác tối đa thông tin từ KH — từ trao đổi, moi móc nhu cầu
 - **Lệnh:** `@ba-specialist phân tích insight từ buổi phỏng vấn`
 - **Lệnh:** `@ba-specialist tạo câu hỏi deep-dive cho [stakeholder/topic]`
 
+### 4. Auto-Diagram Engine (v2.6.1) ✨ MỚI
+Chỉ cần đưa dữ liệu thô — agent tự chọn đúng loại sơ đồ và vẽ tự động.
+
+| Bạn nói... | Agent tự vẽ |
+|---|---|
+| "ai tương tác với hệ thống" | Context Diagram |
+| "ai làm gì / chức năng" | Use Case Diagram |
+| "quy trình / luồng / BPMN" | Swimlane / BPMN 2.0 |
+| "hệ thống gọi nhau / API" | Sequence Diagram |
+| "trạng thái / vòng đời" | State Diagram |
+| "bảng dữ liệu / database" | ERD |
+| "trải nghiệm / pain point" | User Journey Map |
+| "điều kiện / nếu...thì" | Decision Flowchart |
+| "timeline / sprint" | Gantt Chart |
+
+- **Lệnh mẫu:** `@ba-specialist vẽ sơ đồ cho quy trình: [paste quy trình thô vào đây]`
+
 ---
 
 ## 📂 Cấu trúc thư mục
 
 ```
 BA-agent/
-├── agents/ba-specialist.md     ← Agent persona & 7 Ultimate Skills
-├── workflows/ba-workflow.md    ← Slash command logic
+├── agents/ba-specialist.md     ← Agent persona & 8 Ultimate Skills (v2.6.1)
+├── workflows/ba-workflow.md    ← Slash command logic (9 bước)
 ├── BA-document-rule/           ← "Hệ điều hành" (Core + Templates + Overlays)
-│   ├── core/                   ← 12 files: Principles, Guides, Checklist, Intelligence...
+│   ├── core/                   ← 12 files: Principles, Guides, Intelligence...
 │   ├── templates/              ← 12 templates generic
 │   ├── overlays/               ← Config theo loại dự án (Product/Outsource/...)
 │   └── references/             ← RACI, Estimation, Elicitation
