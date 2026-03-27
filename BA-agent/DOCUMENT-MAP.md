@@ -1,7 +1,7 @@
 # HƯỚNG DẪN BỘ TÀI LIỆU BA (Document Map)
 
 > **Mục đích:** Giải thích chức năng và nội dung từng file trong 3 thư mục BA
-> **Cập nhật:** 06/03/2026
+> **Cập nhật:** 27/03/2026
 
 ---
 
@@ -67,6 +67,7 @@
 | `writing-guide.md` | Chuẩn viết tài liệu: naming, format bảng, viết AC, ngôn ngữ, tone |
 | `diagram-guide.md` | Quy ước sơ đồ: Mermaid syntax, hình dạng, khi nào dùng loại nào |
 | `quality-checklist.md` | Checklist chất lượng: completeness, consistency, traceability check |
+| `customer-intelligence-guide.md` | Kỹ thuật khai thác & phân tích thông tin KH: probing, hidden needs, tâm lý stakeholder |
 | `glossary.md` | Thuật ngữ BA A-Z (AC, BABOK, BRD, CR, DoD, Epic, SRS, UAT...) |
 
 ### 📁 templates/ — 12 template generic

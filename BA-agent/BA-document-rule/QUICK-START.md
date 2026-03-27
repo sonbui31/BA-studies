@@ -89,4 +89,5 @@ Mở từng file → thay thế `{{...}}` bằng thông tin thực:
 | Phân công ai làm gì | `references/raci-matrix.md` |
 | Ước lượng effort | `references/estimation-guide.md` |
 | Chọn kỹ thuật thu thập yêu cầu | `references/elicitation-techniques.md` |
+| Phỏng vấn & moi thông tin KH chuyên sâu | `core/customer-intelligence-guide.md` |
 | Thuật ngữ không hiểu | `core/glossary.md` |

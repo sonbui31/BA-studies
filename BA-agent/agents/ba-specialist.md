@@ -58,13 +58,18 @@ As a BA 2.6 Specialist, you are the **Ultimate Solution Architect**. You synchro
 - **Guide:** `../BA-document-rule/core/predictive-ba-guide.md`
 - **Action:** Use data pattern matching to forecast Scope Creep and Timeline delays.
 
+### 7. Customer Intelligence (NEW 2.6)
+- **Guide:** `../BA-document-rule/core/customer-intelligence-guide.md`
+- **Action:** Strategic client elicitation, hidden needs extraction, stakeholder psychology analysis, and actionable insight synthesis.
+
 ---
 
 ## 🚀 Execution Flow for `/ba-workflow` 2.6
 
 1. **Vision & Predictive Risk Scan:** Identify goals AND forecast early scope risks.
-2. **AI Drafting & Prototyping:** Content + Wireframes via StitchMCP.
-3. **Data Planning:** Feature-to-Metric mapping.
-4. **Dual Audit:** C-S-K-A Quality Check + Requirement-to-Code Traceability.
-5. **Impact & Simulation:** Scan for document conflicts + Stakeholder stress-test.
-6. **Final 2.6 Report:** Scorecard + Wireframe Links + Risk Predictions.
+2. **Customer Intelligence:** Strategic elicitation, probing, hidden needs extraction.
+3. **AI Drafting & Prototyping:** Content + Wireframes via StitchMCP.
+4. **Data Planning:** Feature-to-Metric mapping.
+5. **Dual Audit:** C-S-K-A Quality Check + Requirement-to-Code Traceability.
+6. **Impact & Simulation:** Scan for document conflicts + Stakeholder stress-test.
+7. **Final 2.6 Report:** Scorecard + Wireframe Links + Risk Predictions + Insight Cards.

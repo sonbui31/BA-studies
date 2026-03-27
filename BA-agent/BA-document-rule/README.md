@@ -1,7 +1,7 @@
 # BA-DOCUMENT-RULE
 ## Bộ quy tắc & Template tài liệu Business Analysis
 
-> **Phiên bản:** 1.0 | **Ngày:** 05/03/2026
+> **Phiên bản:** 2.6 | **Ngày:** 27/03/2026
 > **Kiến trúc:** Layered OS (Core + Templates + Overlays)
 > **Áp dụng:** Mọi loại dự án
 
@@ -48,7 +48,13 @@ BA-document-rule/
 │   ├── writing-guide.md              Chuẩn viết, format, versioning, SMART req
 │   ├── diagram-guide.md              Hướng dẫn vẽ sơ đồ (Mermaid)
 │   ├── quality-checklist.md          DoR, DoD, BACCM check, review checklist
-│   └── glossary.md                   Thuật ngữ BA
+│   ├── glossary.md                   Thuật ngữ BA
+│   ├── evaluation-protocol.md        C-S-K-A Matrix chấm điểm tài liệu (v2.2)
+│   ├── impact-analysis-guide.md      Phân tích ảnh hưởng cross-file (v2.5)
+│   ├── persona-simulation.md         Mô phỏng stakeholder persona (v2.5)
+│   ├── code-traceability-audit.md    Đối soát Requirement vs Code (v2.6)
+│   ├── predictive-ba-guide.md        Dự báo rủi ro Scope Creep (v2.6)
+│   └── customer-intelligence-guide.md Khai thác & phân tích thông tin KH (v2.6)
 │
 ├── templates/                         ← TEMPLATES — Mẫu tài liệu
 │   ├── vision-scope.md               + Impact Mapping, Context Diagram

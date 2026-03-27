@@ -17,6 +17,7 @@ TÓM TẮT CÁCH SỬ DỤNG:
    - Mô phỏng Persona: Đóng vai Stakeholder phản biện (v2.5).
    - Đối soát Code vs Req: Đảm báo triển khai đúng 100% (v2.6).
    - Dự báo BA: Cảnh báo Scope Creep & Chậm deadline (v2.6).
+   - Customer Intelligence: Khai thác & phân tích thông tin KH chuyên sâu (v2.6).
 
 3. Phối hợp Multi-LLM 2026:
    - Gemini 3 Pro: Infinite Context (Quản trị toàn bộ Repository).
