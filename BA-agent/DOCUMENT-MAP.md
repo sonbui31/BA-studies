@@ -1,7 +1,7 @@
-# HƯỚNG DẪN BỘ TÀI LIỆU BA (Document Map)
+# HƯỚNG DẪN BỘ TÀI LIỆU BA (Document Map v3.0)
 
-> **Mục đích:** Giải thích chức năng và nội dung từng file trong 3 thư mục BA
-> **Cập nhật:** 27/03/2026
+> **Mục đích:** Giải thích chức năng và nội dung từng file trong hệ thống BA-agent
+> **Cập nhật:** 01/04/2026 — v3.0 (thêm 3 core + 4 templates mới)
 
 ---
 
@@ -58,39 +58,46 @@
 | `README.md` | Tổng quan: cách hoạt động, cấu trúc thư mục, flow sử dụng |
 | `QUICK-START.md` | Hướng dẫn 5 phút: chọn overlay → copy template → viết tài liệu |
 
-### 📁 core/ — Nguyên tắc cốt lõi (áp dụng mọi dự án)
+### 📁 core/ — Nguyên tắc cốt lõi (15 files — áp dụng mọi dự án)
 
-| File | Mô tả |
-|------|-------|
-| `00-ba-process-framework.md` | Quy trình BA generic 5 phase: Inception → Discovery → Elaboration → Delivery → Closure |
-| `principles.md` | Nguyên tắc BA: BACCM, stakeholder-centric, traceability, iterative |
-| `writing-guide.md` | Chuẩn viết tài liệu: naming, format bảng, viết AC, ngôn ngữ, tone |
-| `diagram-guide.md` | Quy ước sơ đồ: Mermaid syntax, hình dạng, khi nào dùng loại nào |
-| `quality-checklist.md` | Checklist chất lượng: completeness, consistency, traceability check |
-| `glossary.md` | Thuật ngữ BA A-Z (AC, BABOK, BRD, CR, DoD, Epic, SRS, UAT...) |
-| `evaluation-protocol.md` | C-S-K-A Matrix: chấm điểm tài liệu 1-10 (Completeness, Clarity, Consistency, Actionability) |
-| `impact-analysis-guide.md` | Phân tích ảnh hưởng: cross-file dependency scan, downstream risk |
-| `persona-simulation.md` | Mô phỏng stakeholder persona: đóng vai CFO, Architect, End-User để stress-test |
-| `code-traceability-audit.md` | Đối soát Requirement vs Code: đảm bảo Dev triển khai đúng SRS/Stories |
-| `predictive-ba-guide.md` | Dự báo rủi ro: Scope Creep, Timeline delay bằng data pattern matching |
-| `customer-intelligence-guide.md` | Kỹ thuật khai thác & phân tích thông tin KH: probing, hidden needs, tâm lý stakeholder |
+| File | Mô tả | v3.0? |
+|------|-------|:---:|
+| `00-ba-process-framework.md` | Quy trình BA generic 5 phase: Inception → Discovery → Elaboration → Delivery → Closure | |
+| `principles.md` | Nguyên tắc BA: BACCM, stakeholder-centric, traceability, iterative | |
+| `writing-guide.md` | Chuẩn viết tài liệu: naming, format bảng, viết AC, ngôn ngữ, tone | |
+| `diagram-guide.md` | Quy ước sơ đồ: Mermaid syntax, hình dạng, khi nào dùng loại nào | |
+| `quality-checklist.md` | Checklist chất lượng: completeness, consistency, traceability check | |
+| `glossary.md` | Thuật ngữ BA A-Z (AC, BABOK, BRD, CR, DoD, Epic, SRS, UAT...) | |
+| `evaluation-protocol.md` | C-S-K-A Matrix 3.0: **inline audit** + Multi-LLM phases + Pre-Flight cross-check | ⬆ Updated |
+| `impact-analysis-guide.md` | Phân tích ảnh hưởng: cross-file dependency scan, downstream risk | |
+| `persona-simulation.md` | Mô phỏng stakeholder persona: đóng vai CFO, Architect, End-User để stress-test | |
+| `code-traceability-audit.md` | Đối soát Requirement vs Code 3.0: **actionable output format** + full chain | ⬆ Updated |
+| `predictive-ba-guide.md` | Risk Management 3.0: **pattern-based detection** từ tài liệu thực tế | ⬆ Updated |
+| `customer-intelligence-guide.md` | Kỹ thuật khai thác & phân tích thông tin KH: probing, hidden needs, tâm lý stakeholder | |
+| `pre-flight-checklist.md` | ⭐ Pre-Flight Engine: checklist per document type — PASS mới được viết | ⭐ NEW |
+| `traceability-validator.md` | ⭐ Auto-scan cross-doc traceability: BRQ→FR→Feature→US→TC chain | ⭐ NEW |
+| `screen-inventory-guide.md` | ⭐ Screen Inventory & Wireframe enforcement: mỗi Feature ≥ 1 screen | ⭐ NEW |
 
-### 📁 templates/ — 12 template generic
+### 📁 templates/ — 16 templates generic
 
-| File | Mô tả |
-|------|-------|
-| `vision-scope.md` | Template Vision & Scope |
-| `brd.md` | Template BRD (Business Requirements) |
-| `stakeholder-map.md` | Template Stakeholder Map + RACI |
-| `process-flow.md` | Template Process Flow (As-Is / To-Be) |
-| `srs.md` | Template SRS (Functional + Non-functional) |
-| `user-story-map.md` | Template User Story Map (Epic → Feature → Story) |
-| `data-model.md` | Template Data Model (ERD + Data Dictionary) |
-| `uat-plan.md` | Template UAT Plan |
-| `change-log.md` | Template Change Log + CR Process |
-| `meeting-minutes.md` | Template Meeting Minutes |
-| `handover-checklist.md` | Template Bàn giao |
-| `api-specification.md` | Template API Specification |
+| File | Mô tả | v3.0? |
+|------|-------|:---:|
+| `vision-scope.md` | Template Vision & Scope | |
+| `brd.md` | Template BRD (Business Requirements) | |
+| `stakeholder-map.md` | Template Stakeholder Map + RACI | |
+| `process-flow.md` | Template Process Flow (As-Is / To-Be) | |
+| `srs.md` | Template SRS (Functional + Non-functional) | |
+| `user-story-map.md` | Template User Story Map (Epic → Feature → Story) | |
+| `data-model.md` | Template Data Model (ERD + Data Dictionary) | |
+| `uat-plan.md` | Template UAT Plan | |
+| `change-log.md` | Template Change Log + CR Process | |
+| `meeting-minutes.md` | Template Meeting Minutes | |
+| `handover-checklist.md` | Template Bàn giao | |
+| `api-specification.md` | Template API Specification | |
+| `as-is-process.md` | ⭐ Template As-Is Process: Current State + Pain Points + Gap Analysis + Metrics Baseline | ⭐ NEW |
+| `risk-register.md` | ⭐ Template Risk Register: Impact×Probability + Heatmap + Auto-detect rules | ⭐ NEW |
+| `data-migration-plan.md` | ⭐ Template Data Migration: Source→Target mapping + Cleansing + Rollback | ⭐ NEW |
+| `screen-inventory.md` | ⭐ Template Screen Inventory: Master screen list + Navigation Map + Responsive Matrix | ⭐ NEW |
 
 ### 📁 overlays/ — Tùy chỉnh theo loại dự án
 
