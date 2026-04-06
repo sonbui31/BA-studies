@@ -12,6 +12,9 @@
 | **Outsource** | Khách hàng – Nhà cung cấp, hợp đồng, sign-off | `overlays/outsource/` |
 | **Product** | SaaS/Platform, data-driven, continuous | `overlays/product/` |
 | **Startup/MVP** | Lean, nhanh, validate giả thuyết | `overlays/startup-mvp/` |
+| **Government** ⭐ | Đấu thầu, nghiệm thu nhà nước, ATTT, LGSP/NGSP | `overlays/government/` |
+| **Healthcare** ⭐ | HIS/EMR, PHI protection, HL7/FHIR, clinical validation | `overlays/healthcare/` |
+| **Fintech** ⭐ | Payment, AML/KYC, PCI-DSS, reconciliation, NHNN | `overlays/fintech/` |
 
 → Mở `overlays/{{loại}}/overlay-config.md` → xem tài liệu nào **bắt buộc**.
 

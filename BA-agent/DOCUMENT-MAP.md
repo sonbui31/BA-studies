@@ -115,6 +115,23 @@
 | `outsource/overlay-config.md` | Dự án thuê ngoài | Phase 0, SRS đầy đủ, sign-off, NDA, Payment Milestone |
 | `product/overlay-config.md` | Sản phẩm SaaS/App | BRD nhẹ + OKR, User Flow, Beta Test, A/B Test |
 | `startup-mvp/overlay-config.md` | Startup cần MVP nhanh | Lean Canvas, chỉ 2-4 docs, tốc độ > chất lượng tài liệu |
+| `government/overlay-config.md` | ⭐ Dự án CNTT Chính phủ/Khu vực công | Đấu thầu (Luật 22/2023), nghiệm thu nhiều cấp, ATTT, LGSP/NGSP |
+| `healthcare/overlay-config.md` | ⭐ Dự án Y tế: HIS/EMR/LIS | PHI protection (NĐ 13/2023), HL7 FHIR, Clinical Workflow, DDI check |
+| `fintech/overlay-config.md` | ⭐ Dự án Tài chính/Thanh toán | PCI-DSS, AML/KYC, Transaction Integrity, Reconciliation, NHNN compliance |
+
+### 📁 templates/industry/ — Template đặc thù ngành (Chỉ dùng cho 🏛️ Gov / 🏥 HC / 💰 FT)
+
+| File | Ngành | Mô tả |
+|------|:-----:|-------|
+| `regulatory-compliance-matrix.md` | 🏛️🏥💰 | Feature → Regulation mapping + Gap Analysis + Audit Readiness |
+| `procurement-bidding-spec.md` | 🏛️ | Hồ sơ mời thầu (HSMT) + Ước lượng ngân sách (ROM) + Đào tạo CBCC |
+| `multi-level-acceptance.md` | 🏛️🏥 | Nghiệm thu sơ bộ → Vận hành thử → Nghiệm thu chính thức + Clinical Validation |
+| `clinical-workflow-map.md` | 🏥 | Clinical Pathway Maps (OPD/IPD/ER) + DDI Rules + HL7 FHIR Data Flow |
+| `data-privacy-consent.md` | 🏥💰 | Data Classification Matrix + Consent Lifecycle + Break-the-Glass Protocol |
+| `industry-integration-spec.md` | 🏛️🏥💰 | Tích hợp ngành: LGSP/NGSP, HL7 FHIR, Open Banking + Error handling + Retry |
+| `transaction-recon-spec.md` | 💰 | Transaction State Machine + Double-entry Ledger + Idempotency + Reconciliation |
+| `aml-kyc-process.md` | 💰 | eKYC 4-tier + CDD Risk Scoring + AML Rules + SAR Filing |
+| `security-continuity-plan.md` | 🏛️🏥💰 | STRIDE Threat Model + DR/BCP + ATTT Assessment (NĐ 85/2016) |
 
 ### 📁 references/ — Tài liệu tham khảo
 

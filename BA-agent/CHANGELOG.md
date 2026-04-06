@@ -5,6 +5,31 @@
 
 ---
 
+## [3.3.1] — 2026-04-06
+
+### ⭐ Added — Industry Overlays
+- **Government Overlay** — Đấu thầu (Luật 22/2023), nghiệm thu nhiều cấp, ATTT (NĐ 85/2016), tích hợp LGSP/NGSP/CSDL QG (`overlays/government/`) [NEW]
+- **Healthcare Overlay** — PHI protection (NĐ 13/2023), HL7 FHIR R4, Clinical Workflow Maps, Drug Interaction (DDI), Data Classification Matrix (`overlays/healthcare/`) [NEW]
+- **Fintech Overlay** — PCI-DSS v4.0, AML/KYC (Luật 14/2022), Transaction Integrity (ACID + Idempotency), Reconciliation Spec, eKYC Tiering (`overlays/fintech/`) [NEW]
+
+### ⭐ Added — Industry Templates (9 files, `templates/industry/`)
+- **regulatory-compliance-matrix.md** — 🏛️🏥💰 Feature → Regulation mapping + Gap Analysis [NEW]
+- **procurement-bidding-spec.md** — 🏛️ HSMT + ROM + Đào tạo CBCC [NEW]
+- **multi-level-acceptance.md** — 🏛️🏥 Nghiệm thu nhiều cấp + Clinical Validation [NEW]
+- **clinical-workflow-map.md** — 🏥 Clinical Pathway + DDI + HL7 FHIR Data Flow [NEW]
+- **data-privacy-consent.md** — 🏥💰 Data Classification + Consent Management [NEW]
+- **industry-integration-spec.md** — 🏛️🏥💰 LGSP/HL7 FHIR/Open Banking integration [NEW]
+- **transaction-recon-spec.md** — 💰 Transaction Lifecycle + Double-entry + Reconciliation [NEW]
+- **aml-kyc-process.md** — 💰 eKYC 4-tier + AML Rules + SAR [NEW]
+- **security-continuity-plan.md** — 🏛️🏥💰 STRIDE + DR/BCP + ATTT [NEW]
+
+### Changed
+- `README.md` — Cập nhật directory tree: overlays 4 → 7
+- `DOCUMENT-MAP.md` — Thêm 3 overlays mới vào bảng
+- `QUICK-START.md` — Thêm 3 loại dự án mới vào bảng chọn
+
+---
+
 ## [3.3] — 2026-04-03
 
 ### ⭐ Added — "Viết tốt hơn" (Writing Quality Engine)

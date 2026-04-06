@@ -83,11 +83,25 @@ BA-document-rule/
 │   ├── post-implementation-review.md ⭐ PIR: Benefits + Lessons + Tech Debt (v3.2)
 │   └── ai-feature-spec.md            ⭐ AI Behavior + Confidence Matrix + Fallbacks (v3.1)
 │
-├── overlays/                          ← OVERLAYS — Tùy chỉnh theo loại dự án
+├── overlays/                          ← OVERLAYS — Tùy chỉnh theo loại dự án (7 loại)
 │   ├── inhouse/overlay-config.md      In-house: SRS Lite, flexible
 │   ├── outsource/overlay-config.md    Outsource: formal, sign-off, NDA, payment
 │   ├── product/overlay-config.md      Product: BRD, OKR, A/B test
-│   └── startup-mvp/overlay-config.md  Startup: Lean Canvas, 2-4 docs only
+│   ├── startup-mvp/overlay-config.md  Startup: Lean Canvas, 2-4 docs only
+│   ├── government/overlay-config.md   ⭐ Chính phủ: đấu thầu, nghiệm thu, ATTT, LGSP (v3.3)
+│   ├── healthcare/overlay-config.md   ⭐ Y tế: PHI, HL7/FHIR, clinical validation (v3.3)
+│   └── fintech/overlay-config.md      ⭐ Fintech: PCI-DSS, AML/KYC, reconciliation (v3.3)
+│
+├── templates/industry/                 ← INDUSTRY TEMPLATES — Chỉ dùng cho Gov/HC/FT (9 files, v3.3.1)
+│   ├── regulatory-compliance-matrix.md 🏛️🏥💰 Feature → Regulation mapping + Gap Analysis
+│   ├── procurement-bidding-spec.md     🏛️ HSMT, ước lượng ngân sách, đào tạo CBCC
+│   ├── multi-level-acceptance.md       🏛️🏥 Nghiệm thu nhiều cấp + Clinical Validation
+│   ├── clinical-workflow-map.md        🏥 Clinical Pathway + DDI Rules + Data Flow
+│   ├── data-privacy-consent.md         🏥💰 PHI/PII classification + Consent Management
+│   ├── industry-integration-spec.md    🏛️🏥💰 LGSP/HL7 FHIR/Open Banking integration
+│   ├── transaction-recon-spec.md       💰 Transaction lifecycle + Double-entry + Reconciliation
+│   ├── aml-kyc-process.md              💰 eKYC Tiering + AML Rules + SAR
+│   └── security-continuity-plan.md     🏛️🏥💰 STRIDE Threat Model + DR/BCP + ATTT
 │
 └── references/                        ← REFERENCES — Tài liệu tham khảo (7 files)
     ├── elicitation-techniques.md      Kỹ thuật thu thập yêu cầu

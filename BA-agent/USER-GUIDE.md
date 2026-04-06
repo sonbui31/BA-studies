@@ -108,8 +108,9 @@ BA-agent/
 │   │   ├── risk-register.md           ⭐ Risk Register + Response Strategies
 │   │   ├── data-migration-plan.md     ⭐ Migration with rollback
 │   │   ├── screen-inventory.md        ⭐ Screen tracking
+│   │   ├── industry/                  ⭐ 9 templates ngành (Gov/HC/FT) — v3.3.1
 │   │   └── ... (12 existing templates)
-│   ├── overlays/               ← Config theo loại dự án
+│   ├── overlays/               ← Config theo loại dự án (7 loại: 4 generic + 3 industry)
 │   └── references/             ← RACI, Estimation, Elicitation, Anti-Patterns (7 files)
 │       ├── anti-patterns.md           ⭐ Top 15 sai lầm BA (v3.2)
 │       ├── writing-examples.md        ⭐ Mẫu viết: Precondition/Exception/BR (v3.3)

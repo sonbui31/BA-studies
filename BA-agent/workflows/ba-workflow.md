@@ -1,10 +1,10 @@
 ---
-description: Business Analysis Workflow 3.3 - Advanced Analysis & Writing Quality Engine
+description: Business Analysis Workflow 3.3.1 - Advanced Analysis & Writing Quality Engine + Industry Routing
 ---
 
-# BA Workflow Protocol 3.3
+# BA Workflow Protocol 3.3.1
 
-This workflow automates BA documentation using the full v3.3 skill suite (15 skills) with **mandatory gates** + **Requirement Quality Engine** (Decomposition → Rubric → Conflict Detection → AC Coverage) to ensure "Think Deeper, Write Better" output.
+This workflow automates BA documentation using the full v3.3 skill suite (15 skills) with **mandatory gates** + **Requirement Quality Engine** + **Industry Routing** (Government / Healthcare / Fintech) to ensure "Think Deeper, Write Better" output across all project types.
 
 // turbo-all
 
@@ -43,10 +43,66 @@ This workflow automates BA documentation using the full v3.3 skill suite (15 ski
 
 ### 📝 GENERATION (Có Pre-Flight)
 
-3. **Initialize Workspace & Template Selection**
-   - Chọn overlay: Product / Outsource / In-house / Startup-MVP
+3. **Initialize Workspace & Project Type Routing**
+   - Xác định loại dự án → Chọn overlay → Load industry templates (nếu có)
    - Map features → success metrics → tracking events
    - Tạo thư mục project nếu chưa có
+
+   **📋 Project Type Routing Table:**
+
+   | Loại | Overlay | Industry Templates | Flow bổ sung |
+   |------|---------|:------------------:|-------------|
+   | **In-house** | `overlays/inhouse/` | ❌ Không | Standard flow (Step 4→8) |
+   | **Outsource** | `overlays/outsource/` | ❌ Không | Standard + Phase 0 (Hợp đồng) |
+   | **Product** | `overlays/product/` | ❌ Không | Standard + OKR/A-B test |
+   | **Startup/MVP** | `overlays/startup-mvp/` | ❌ Không | Lean flow (skip SRS, chỉ 2-4 docs) |
+   | 🏛️ **Government** | `overlays/government/` | ✅ 5 templates | **→ Step 3.5G** (HSMT, ATTT, nghiệm thu) |
+   | 🏥 **Healthcare** | `overlays/healthcare/` | ✅ 6 templates | **→ Step 3.5H** (Clinical, PHI, consent) |
+   | 💰 **Fintech** | `overlays/fintech/` | ✅ 6 templates | **→ Step 3.5F** (Transaction, AML, recon) |
+
+   **Routing Logic:**
+   ```
+   IF loại dự án ∈ {Government, Healthcare, Fintech}
+     → Load overlay-config.md
+     → Load industry templates (templates/industry/)
+     → Execute Step 3.5 (Industry Preparation) TRƯỚC Step 4
+   ELSE
+     → Load overlay-config.md
+     → Skip Step 3.5 → Tiến thẳng Step 4
+   END
+   ```
+
+3.5. **Industry-Specific Preparation (CHỈ cho Government / Healthcare / Fintech)** ⭐ NEW v3.3.1
+
+    > ⚠️ **Skip step này** nếu dự án là In-house / Outsource / Product / Startup.
+
+    **🏛️ Step 3.5G — Government Preparation:**
+    | Thứ tự | Hành động | Template | Output |
+    |:------:|----------|---------|--------|
+    | G1 | Lập Regulatory Compliance Matrix | `templates/industry/regulatory-compliance-matrix.md` | Feature → Luật ĐT / NĐ 85 / ATTT |
+    | G2 | Chuẩn bị HSMT (nếu đấu thầu) | `templates/industry/procurement-bidding-spec.md` | HSMT + ROM + Kế hoạch đào tạo |
+    | G3 | Spec tích hợp LGSP/NGSP | `templates/industry/industry-integration-spec.md` | Integration spec cho CSDL QG |
+    | G4 | Lập Security & BCP Plan | `templates/industry/security-continuity-plan.md` | ATTT assessment + DR/BCP |
+    - **Gate Rule:** HSMT phải hoàn thành TRƯỚC khi bắt đầu Step 5 (vì SRS là phụ lục HSMT)
+
+    **🏥 Step 3.5H — Healthcare Preparation:**
+    | Thứ tự | Hành động | Template | Output |
+    |:------:|----------|---------|--------|
+    | H1 | Document Clinical Workflow Maps | `templates/industry/clinical-workflow-map.md` | Pathway OPD/IPD/ER + DDI rules |
+    | H2 | Lập Data Classification Matrix | `templates/industry/data-privacy-consent.md` | PHI 5-level + Consent lifecycle |
+    | H3 | Spec tích hợp HL7 FHIR | `templates/industry/industry-integration-spec.md` | FHIR Resources mapping |
+    | H4 | Lập Regulatory Matrix | `templates/industry/regulatory-compliance-matrix.md` | Feature → NĐ 13/2023, TT BYT |
+    - **Gate Rule:** Clinical Workflow Map phải được BS review TRƯỚC khi viết SRS
+
+    **💰 Step 3.5F — Fintech Preparation:**
+    | Thứ tự | Hành động | Template | Output |
+    |:------:|----------|---------|--------|
+    | F1 | Design Transaction State Machine | `templates/industry/transaction-recon-spec.md` | State diagram + Ledger + Recon |
+    | F2 | Spec AML/KYC Process | `templates/industry/aml-kyc-process.md` | eKYC flow + AML rules + SAR |
+    | F3 | Lập Data Privacy & Consent | `templates/industry/data-privacy-consent.md` | PII classification + KYC consent |
+    | F4 | Lập Regulatory Matrix | `templates/industry/regulatory-compliance-matrix.md` | Feature → PCI-DSS, NHNN, AML |
+    | F5 | Lập Security & BCP Plan | `templates/industry/security-continuity-plan.md` | STRIDE + DR/BCP |
+    - **Gate Rule:** Transaction State Machine + AML rules phải được Compliance approve TRƯỚC Step 5
 
 4. **Screen Inventory (NEW v3.0)**
    - Liệt kê TẤT CẢ screens cần thiết cho dự án
@@ -60,6 +116,10 @@ This workflow automates BA documentation using the full v3.3 skill suite (15 ski
      - Nếu FAIL ≥ 5 items → STOP, yêu cầu user bổ sung
      - Nếu FAIL 1-4 items → Cảnh báo, tự fill nếu được
    - Generate BRD → SRS → Feature Spec → Story Map → UAT Plan
+   - **Industry Documents (nếu Step 3.5 đã chạy):**
+     - 🏛️ Gov → Tích hợp HSMT specs vào SRS phụ lục + Nghiệm thu protocol → UAT
+     - 🏥 HC → Tích hợp Clinical Workflow vào Process Flow + PHI NFRs vào SRS + DDI specs
+     - 💰 FT → Tích hợp Transaction State Machine vào SRS + AML rules vào Feature Spec
    - **Auto-Diagram:** Parse raw input → auto-select diagram type → generate Mermaid
    - **Wireframes:** Generate via `StitchMCP` hoặc Mermaid mockup cho screens trong Inventory
    - **Requirement Quality Engine (NEW v3.3):**
@@ -84,8 +144,13 @@ This workflow automates BA documentation using the full v3.3 skill suite (15 ski
 6.7. **Cross-Document Traceability Validation (NEW v3.0)**
      - Run `../BA-document-rule/core/traceability-validator.md`
      - Scan: BRQ-ID → FR-ID → Feature-ID → US-ID → TC-ID
-     - Output: Full Chain Report + Missing Items
+     - **Industry Traceability (nếu Gov/HC/FT):**
+       - 🏛️ Gov: FR → Regulation (Luật/NĐ/TT) mapping validated
+       - 🏥 HC: FR → Clinical Pathway → DDI rule traceability
+       - 💰 FT: FR → Transaction State → AML Rule → Recon flow traceability
+     - Output: Full Chain Report + Missing Items + Regulatory Gaps (nếu industry)
      - **Gate Rule:** Nếu có ≥ 1 ORPHAN_BRQ hoặc MISSING_TC → agent PHẢI fix trước khi báo hoàn tất
+     - **Gate Rule (Industry):** Nếu có FR chưa map → Regulation → BLOCK until mapped
      - **LLM:** Gemini 3 Pro — massive cross-doc scan
 
 7. **Impact Analysis & Stakeholder Simulation**
@@ -101,7 +166,7 @@ This workflow automates BA documentation using the full v3.3 skill suite (15 ski
 
 ### 📊 FINAL REPORT
 
-8. **Final v3.3 Report**
+8. **Final v3.3.1 Report**
    - Scorecard: Điểm Rubric trung bình + C-S-K-A
    - Auto-Generated Diagrams summary
    - Wireframe Links (StitchMCP)
@@ -111,6 +176,10 @@ This workflow automates BA documentation using the full v3.3 skill suite (15 ski
    - Insight Cards từ Elicitation
    - As-Is → To-Be Gap Analysis summary
    - **Communication Packages:** Links tới các bản đóng gói (CEO/Dev)
+   - **Industry-Specific Section (nếu Gov/HC/FT):**
+     - 🏛️ Gov: Regulatory Compliance Status + HSMT Readiness + ATTT Assessment + Nghiệm thu Plan
+     - 🏥 HC: Clinical Validation Status + PHI Compliance + Integration Readiness (HL7/FHIR)
+     - 💰 FT: Transaction Integrity Report + AML/KYC Coverage + Reconciliation Readiness + PCI-DSS Status
 
 ---
 
@@ -120,10 +189,12 @@ This workflow automates BA documentation using the full v3.3 skill suite (15 ski
 
 ```
 Step 6.7 FAIL (traceability gaps)     → Quay lại Step 5 (bổ sung docs/stories/TCs thiếu)
+Step 6.7 FAIL (regulatory gaps)       → Quay lại Step 3.5 (bổ sung Regulatory Mapping) [INDUSTRY]
 Step 6.5 FAIL (pre-flight items fail) → Quay lại Step 5 (sửa inline sections)
 Step 6 FAIL (C-S-K-A < 7.5)          → Quay lại Step 5 (rewrite sections chất lượng kém)
 Step 5 FAIL (pre-flight TRƯỚC doc)    → Quay lại Step 0/2 (bổ sung input từ KH)
 Step 4 FAIL (screens không map)       → Quay lại Step 3 (review feature → screen mapping)
+Step 3.5 FAIL (industry gate)         → Quay lại Step 0/2 (bổ sung domain expertise) [INDUSTRY]
 Step 2.5 FAIL (không có As-Is info)   → Quay lại Step 0 (hỏi KH về quy trình hiện tại)
 ```
 
@@ -144,7 +215,8 @@ Step 2.5 FAIL (không có As-Is info)   → Quay lại Step 0 (hỏi KH về quy
 | 1 | Risk Scan + Register | 1-2 giờ | 4 giờ | 1 ngày |
 | 2 | Customer Intelligence | 2-4 giờ | 1-2 ngày | 2-4 ngày |
 | 2.5 | As-Is Process | 1-2 giờ (hoặc N/A) | 4-8 giờ | 1-2 ngày |
-| 3 | Template Selection | 30 phút | 1 giờ | 2 giờ |
+| 3 | Project Type Routing | 30 phút | 1 giờ | 2 giờ |
+| **3.5** | **Industry Preparation** 🏛️🏥💰 | **2-4 giờ** | **1-2 ngày** | **2-3 ngày** |
 | 4 | Screen Inventory | 1-2 giờ | 4-8 giờ | 1-2 ngày |
 | 5 | Document Generation | 4-8 giờ | 2-4 ngày | 5-10 ngày |
 | 6 | AI Quality Gate | 1-2 giờ | 4 giờ | 1 ngày |
@@ -152,7 +224,8 @@ Step 2.5 FAIL (không có As-Is info)   → Quay lại Step 0 (hỏi KH về quy
 | 6.7 | Traceability Validation | 30 phút | 1-2 giờ | 4-8 giờ |
 | 7 | Impact & Persona Sim | 1-2 giờ | 4 giờ | 1 ngày |
 | 8 | Final Report | 1 giờ | 2-4 giờ | 4-8 giờ |
-| | **TỔNG ước lượng** | **~2-3 ngày** | **~1-2 tuần** | **~3-4 tuần** |
+| | **TỔNG (Generic)** | **~2-3 ngày** | **~1-2 tuần** | **~3-4 tuần** |
+| | **TỔNG (Industry +3.5)** | **~3-4 ngày** | **~2-3 tuần** | **~4-5 tuần** |
 
 > **Lưu ý:** Effort Step 5 chiếm 40-50% tổng. Đây là step cần plan kỹ nhất.
 
@@ -169,5 +242,10 @@ Step 2.5 FAIL (không có As-Is info)   → Quay lại Step 0 (hỏi KH về quy
 /ba-workflow QLTS "Xây dựng hệ thống quản lý tài sản bệnh viện"
 /ba-workflow HRM-SaaS "Thiết kế nền tảng quản lý nhân sự SaaS"
 /ba-workflow "audit" "Chạy traceability validator cho bộ tài liệu hiện tại"
+
+# Industry Examples:
+/ba-workflow HIS-BV "Xây dựng HIS cho bệnh viện đa khoa"           → Auto-route: Healthcare
+/ba-workflow eWallet "Phát triển ví điện tử thanh toán"              → Auto-route: Fintech
+/ba-workflow DVC-TinhX "Cổng dịch vụ công trực tuyến tỉnh X"       → Auto-route: Government
 ```
 
