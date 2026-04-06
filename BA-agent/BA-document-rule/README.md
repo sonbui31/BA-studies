@@ -1,7 +1,7 @@
 # BA-DOCUMENT-RULE
 ## Bộ quy tắc & Template tài liệu Business Analysis
 
-> **Phiên bản:** 2.6.1 | **Ngày:** 27/03/2026
+> **Phiên bản:** 3.3 | **Ngày:** 06/04/2026
 > **Kiến trúc:** Layered OS (Core + Templates + Overlays)
 > **Áp dụng:** Mọi loại dự án
 
@@ -42,21 +42,28 @@ BA-document-rule/
 ├── README.md                          ← Bạn đang đọc file này
 ├── QUICK-START.md                     ← 5 phút bắt đầu dự án mới
 │
-├── core/                              ← CORE LAYER — Quy tắc bất biến
+├── core/                              ← CORE LAYER — Quy tắc bất biến (19 files)
 │   ├── 00-ba-process-framework.md     Quy trình BA 5 pha + BABOK mapping
 │   ├── principles.md                  BACCM, MoSCoW, Kano, INVEST, GWT, SWOT, 5W1H
 │   ├── writing-guide.md              Chuẩn viết, format, versioning, SMART req
 │   ├── diagram-guide.md              Hướng dẫn vẽ sơ đồ (Mermaid)
 │   ├── quality-checklist.md          DoR, DoD, BACCM check, review checklist
 │   ├── glossary.md                   Thuật ngữ BA
-│   ├── evaluation-protocol.md        C-S-K-A Matrix chấm điểm tài liệu (v2.2)
-│   ├── impact-analysis-guide.md      Phân tích ảnh hưởng cross-file (v2.5)
-│   ├── persona-simulation.md         Mô phỏng stakeholder persona (v2.5)
-│   ├── code-traceability-audit.md    Đối soát Requirement vs Code (v2.6)
-│   ├── predictive-ba-guide.md        Dự báo rủi ro Scope Creep (v2.6)
-│   └── customer-intelligence-guide.md Khai thác & phân tích thông tin KH (v2.6)
+│   ├── evaluation-protocol.md        C-S-K-A Matrix 3.3: inline audit + Multi-LLM phases
+│   ├── impact-analysis-guide.md      Phân tích ảnh hưởng: Scoring + Ripple Effect + Regression Map
+│   ├── persona-simulation.md         Mô phỏng stakeholder persona
+│   ├── code-traceability-audit.md    Đối soát Requirement vs Code
+│   ├── predictive-ba-guide.md        Risk Management: pattern-based detection
+│   ├── customer-intelligence-guide.md Khai thác & phân tích thông tin KH
+│   ├── pre-flight-checklist.md       ⭐ Pre-Flight Engine: checklist per document type (v3.0)
+│   ├── traceability-validator.md     ⭐ Auto-scan cross-doc: BRQ→FR→US→TC + NFR chain (v3.2)
+│   ├── screen-inventory-guide.md     ⭐ Screen Inventory & Wireframe enforcement (v3.0)
+│   ├── requirement-quality-rubric.md ⭐ 5-point rubric + 8 Smell Detector (v3.3)
+│   ├── decision-analysis-framework.md ⭐ Weighted Scoring, Pugh, CBA, Decision Tree (v3.3)
+│   ├── nfr-discovery-guide.md        ⭐ 7 câu hỏi + 5 kỹ thuật phát hiện NFR (v3.3)
+│   └── process-decomposition-guide.md ⭐ Phân rã quy trình L0→L3 (v3.3)
 │
-├── templates/                         ← TEMPLATES — Mẫu tài liệu
+├── templates/                         ← TEMPLATES — Mẫu tài liệu (18 files)
 │   ├── vision-scope.md               + Impact Mapping, Context Diagram
 │   ├── brd.md                        + SWOT, 5W1H, MoSCoW, Kano
 │   ├── stakeholder-map.md            + Power/Interest Grid, RACI
@@ -66,9 +73,15 @@ BA-document-rule/
 │   ├── data-model.md                 + ERD, Data Dictionary, Index Strategy
 │   ├── uat-plan.md                   + Entry/Exit Criteria, Traceability
 │   ├── change-log.md                 + CR workflow, Impact Analysis
-│   ├── meeting-minutes.md            + Action Item tracking
+│   ├── meeting-minutes.md            + Decision Log, Risk Escalation, Open Items (v3.2)
 │   ├── handover-checklist.md         + Knowledge Transfer, Warranty
-│   └── api-specification.md          + REST conventions, Auth flow
+│   ├── api-specification.md          + REST conventions, Auth flow
+│   ├── as-is-process.md              ⭐ As-Is: Current State + Pain Points + Gap Analysis (v3.0)
+│   ├── risk-register.md              ⭐ Risk Register + Response Strategies + Heatmap (v3.2)
+│   ├── data-migration-plan.md        ⭐ Migration: Source→Target + Rollback (v3.0)
+│   ├── screen-inventory.md           ⭐ Screen list + Navigation Map + Responsive (v3.0)
+│   ├── post-implementation-review.md ⭐ PIR: Benefits + Lessons + Tech Debt (v3.2)
+│   └── ai-feature-spec.md            ⭐ AI Behavior + Confidence Matrix + Fallbacks (v3.1)
 │
 ├── overlays/                          ← OVERLAYS — Tùy chỉnh theo loại dự án
 │   ├── inhouse/overlay-config.md      In-house: SRS Lite, flexible
@@ -76,11 +89,14 @@ BA-document-rule/
 │   ├── product/overlay-config.md      Product: BRD, OKR, A/B test
 │   └── startup-mvp/overlay-config.md  Startup: Lean Canvas, 2-4 docs only
 │
-└── references/                        ← REFERENCES — Tài liệu tham khảo
-    ├── raci-matrix.md                 Hướng dẫn RACI
+└── references/                        ← REFERENCES — Tài liệu tham khảo (7 files)
     ├── elicitation-techniques.md      Kỹ thuật thu thập yêu cầu
     ├── estimation-guide.md            Ước lượng: T-Shirt, Planning Poker, 3-Point
-    └── tools-recommendation.md        Công cụ khuyến nghị
+    ├── raci-matrix.md                 Hướng dẫn RACI
+    ├── tools-recommendation.md        Công cụ khuyến nghị
+    ├── anti-patterns.md               ⭐ 15 sai lầm BA + Root Cause + Self-check (v3.2)
+    ├── writing-examples.md            ⭐ Mẫu viết: Precondition/Exception/BR/NFR/TC (v3.3)
+    └── communication-packaging.md     ⭐ 4 package types: CEO/Dev/QC/End-User (v3.3)
 ```
 
 ---

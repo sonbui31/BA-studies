@@ -1,10 +1,10 @@
 ---
-description: Business Analysis Workflow 3.0 - Multi-LLM Orchestrated with Actionable Gates
+description: Business Analysis Workflow 3.3 - Advanced Analysis & Writing Quality Engine
 ---
 
-# BA Workflow Protocol 3.0
+# BA Workflow Protocol 3.3
 
-This workflow automates BA documentation using the full v3.0 skill suite with **mandatory gates** (Elicitation → As-Is → Pre-Flight → Traceability) to ensure "Right First Time" output.
+This workflow automates BA documentation using the full v3.3 skill suite (15 skills) with **mandatory gates** + **Requirement Quality Engine** (Decomposition → Rubric → Conflict Detection → AC Coverage) to ensure "Think Deeper, Write Better" output.
 
 // turbo-all
 
@@ -62,8 +62,12 @@ This workflow automates BA documentation using the full v3.0 skill suite with **
    - Generate BRD → SRS → Feature Spec → Story Map → UAT Plan
    - **Auto-Diagram:** Parse raw input → auto-select diagram type → generate Mermaid
    - **Wireframes:** Generate via `StitchMCP` hoặc Mermaid mockup cho screens trong Inventory
+   - **Requirement Quality Engine (NEW v3.3):**
+     - Áp dụng 4 Decomposition Patterns (`writing-guide.md` §10)
+     - Khám phá NFR qua 7 câu hỏi (`../BA-document-rule/core/nfr-discovery-guide.md`)
+     - Phân rã quy trình L0→L3 (`../BA-document-rule/core/process-decomposition-guide.md`)
    - **LLM:** GPT-5 — technical SRS drafting | Claude 4.6 — User Stories & AC
-   - **Inline Audit:** Sau mỗi major section, nhanh verify C-S-K-A (không chờ cuối)
+   - **Inline Audit:** Sau mỗi section, tính điểm 5-point rubric + bắt 8 Smells + bắt 6 Conflict Patterns
 
 ### ✅ VALIDATION (Multi-Layer)
 
@@ -86,20 +90,71 @@ This workflow automates BA documentation using the full v3.0 skill suite with **
 
 7. **Impact Analysis & Stakeholder Simulation**
    - Cross-file dependency scan (`../BA-document-rule/core/impact-analysis-guide.md`)
+     - Dùng Impact Scoring Matrix + định tuyến Decision Flowchart
    - Persona roleplay stress-test (`../BA-document-rule/core/persona-simulation.md`)
    - Cập nhật Risk Register nếu phát hiện risks mới
+   - **Decision Analysis (NEW v3.3):** Dùng Weighted Scoring/Decision Tree nếu có 2+ options
+
+7.5 **Communication Packaging (NEW v3.3)**
+   - Đóng gói nội dung thành: Executive Summary / Tech Brief / Test Strategy
+   - Template: `../BA-document-rule/references/communication-packaging.md`
 
 ### 📊 FINAL REPORT
 
-8. **Final v3.0 Report**
-   - Scorecard: C-S-K-A per document
+8. **Final v3.3 Report**
+   - Scorecard: Điểm Rubric trung bình + C-S-K-A
    - Auto-Generated Diagrams summary
    - Wireframe Links (StitchMCP)
    - Screen Inventory summary
-   - Risk Register summary
-   - Traceability Validation Report (Full Chain + Gaps)
+   - Risk Register summary (incl. Response Strategies)
+   - Traceability Validation Report (Full Chain + NFR Chain + Gaps)
    - Insight Cards từ Elicitation
    - As-Is → To-Be Gap Analysis summary
+   - **Communication Packages:** Links tới các bản đóng gói (CEO/Dev)
+
+---
+
+## ⚡ Rollback Paths (Nếu step fail) ⭐ NEW v3.3
+
+> **Nguyên tắc:** Khi step fail → không tiến tiếp. Quay lại step thích hợp để fix.
+
+```
+Step 6.7 FAIL (traceability gaps)     → Quay lại Step 5 (bổ sung docs/stories/TCs thiếu)
+Step 6.5 FAIL (pre-flight items fail) → Quay lại Step 5 (sửa inline sections)
+Step 6 FAIL (C-S-K-A < 7.5)          → Quay lại Step 5 (rewrite sections chất lượng kém)
+Step 5 FAIL (pre-flight TRƯỚC doc)    → Quay lại Step 0/2 (bổ sung input từ KH)
+Step 4 FAIL (screens không map)       → Quay lại Step 3 (review feature → screen mapping)
+Step 2.5 FAIL (không có As-Is info)   → Quay lại Step 0 (hỏi KH về quy trình hiện tại)
+```
+
+**Quy tắc rollback:**
+1. **Tối đa 2 lần rollback** cho cùng 1 step — nếu fail lần 3 → escalate cho PM/PO
+2. **Ghi nhận mỗi rollback** vào Final Report (số iterations thực tế)
+3. **KHÔNG skip step sau khi rollback** — phải re-run từ step quay lại
+
+---
+
+## ⏱ Effort Estimation per Step ⭐ NEW v3.3
+
+> **Hướng dẫn:** Thời gian ước lượng theo kích thước dự án. Dùng để planning sprint BA.
+
+| Step | Tên | S (< 3 sprints) | M (3-8 sprints) | L (> 8 sprints) |
+|:---:|---|:---:|:---:|:---:|
+| 0 | Elicitation Gate | 2-4 giờ | 1-2 ngày | 2-3 ngày |
+| 1 | Risk Scan + Register | 1-2 giờ | 4 giờ | 1 ngày |
+| 2 | Customer Intelligence | 2-4 giờ | 1-2 ngày | 2-4 ngày |
+| 2.5 | As-Is Process | 1-2 giờ (hoặc N/A) | 4-8 giờ | 1-2 ngày |
+| 3 | Template Selection | 30 phút | 1 giờ | 2 giờ |
+| 4 | Screen Inventory | 1-2 giờ | 4-8 giờ | 1-2 ngày |
+| 5 | Document Generation | 4-8 giờ | 2-4 ngày | 5-10 ngày |
+| 6 | AI Quality Gate | 1-2 giờ | 4 giờ | 1 ngày |
+| 6.5 | Pre-Flight Verify | 30 phút | 1-2 giờ | 4 giờ |
+| 6.7 | Traceability Validation | 30 phút | 1-2 giờ | 4-8 giờ |
+| 7 | Impact & Persona Sim | 1-2 giờ | 4 giờ | 1 ngày |
+| 8 | Final Report | 1 giờ | 2-4 giờ | 4-8 giờ |
+| | **TỔNG ước lượng** | **~2-3 ngày** | **~1-2 tuần** | **~3-4 tuần** |
+
+> **Lưu ý:** Effort Step 5 chiếm 40-50% tổng. Đây là step cần plan kỹ nhất.
 
 ---
 
@@ -115,3 +170,4 @@ This workflow automates BA documentation using the full v3.0 skill suite with **
 /ba-workflow HRM-SaaS "Thiết kế nền tảng quản lý nhân sự SaaS"
 /ba-workflow "audit" "Chạy traceability validator cho bộ tài liệu hiện tại"
 ```
+

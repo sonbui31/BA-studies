@@ -37,6 +37,11 @@ INPUT nhận được → Chọn document type → Chạy Pre-Flight Checklist t
 | 8 | **Traceability Matrix** | Mỗi BRQ có mapping → FR/Feature (dù là placeholder) | Tạo skeleton traceability matrix |
 | 9 | **As-Is Process** | Có mô tả quy trình hiện tại HOẶC user xác nhận không có | Hỏi user: "Quy trình hiện tại vận hành thế nào?" |
 | 10 | **Elicitation Record** | Có ≥ 1 nguồn input (transcript, file, meeting notes) | Hỏi user câu hỏi elicitation trước khi viết |
+| 11 | **Business Rule Architecture** | Nếu có ≥ 5 rules tương tác: có Execution Order + Override Matrix | Hỏi user: "Các quy tắc này có thứ tự ưu tiên? Rule nào ghi đè rule nào?" |
+| 12 | **Output Severity Design** | Nếu hệ thống có validation/audit: có bảng severity levels | Tự sinh draft severity table → yêu cầu user confirm |
+| 13 | **System Memory Check** | Nếu rules phụ thuộc lịch sử: có bảng System Memory Req | Hỏi: "Quyết định này có phụ thuộc vào dữ liệu đợt trước không?" |
+| 14 | **AI Feature Spec** | Nếu có AI/ML features: có `ai-feature-spec.md` hoặc reference | Hướng dẫn user tạo `ai-feature-spec.md` theo template |
+| 15 | **Assumption Validation** ⭐ v3.3 | Assumptions có Impact=High phải có Owner + Validate method | Chuyển sang Assumption Register (`writing-guide.md` §13) |
 
 ### 📋 PFC-SRS: Pre-Flight cho Software Requirements Specification
 
@@ -50,8 +55,11 @@ INPUT nhận được → Chọn document type → Chạy Pre-Flight Checklist t
 | 6 | **Data Dictionary** | Mỗi entity chính có table definition (Field, Type, Constraint) | Sinh Data Dictionary skeleton |
 | 7 | **API Conventions** | Có Base URL, Auth method, Naming, Pagination standards | Sinh API Conventions section |
 | 8 | **Validation Rules** | Mỗi Data Rule trong BRD có regex/range/enum definition | Map DR-xx → validation spec |
-| 9 | **NFR Coverage** | Có ≥ 5 NFRs: Performance, Security, Availability, Backup, Accessibility | Check NFR list, bổ sung thiếu |
+| 9 | **NFR Coverage** | Có ≥ 5 NFRs: Performance, Security, Availability, Backup, Accessibility | Check NFR list, bổ sung thiếu — **dùng NFR Discovery 7 câu hỏi** (`nfr-discovery-guide.md`) |
 | 10 | **Sequence Diagram** | ≥ 2 luồng phức tạp có Sequence Diagram | Sinh Sequence cho top 2 complex flows |
+| 11 | **Decomposition Pattern** ⭐ v3.3 | Mỗi BRQ "Quản lý [X]" đã decompose theo CRUD/Lifecycle/Actor/Integration | Áp dụng `writing-guide.md` §10 → decompose |
+| 12 | **Requirement Quality Gate** ⭐ v3.3 | Mọi FR/NFR đạt Rubric ≥ 3/5 (Smell Detector PASS) | Chạy `requirement-quality-rubric.md` → fix smells |
+| 13 | **Conflict Scan** ⭐ v3.3 | 0 Contradictory + 0 Overlapping conflicts detected | Chạy 6 Conflict Detection patterns (`writing-guide.md` §12) |
 
 ### 📋 PFC-USM: Pre-Flight cho User Story Map
 
@@ -63,6 +71,7 @@ INPUT nhận được → Chọn document type → Chạy Pre-Flight Checklist t
 | 4 | **Happy Path + Edge Case** | ≥ 50% stories có cả Happy Path và Edge Case AC | Bổ sung Edge Case AC |
 | 5 | **Sprint Assignment** | Mỗi story gán Sprint (S1, S2, S3...) | Tự phân Sprint theo dependency |
 | 6 | **Traceability Table** | US → BRQ → FR → TC mapping table | Sinh traceability table |
+| 7 | **AC Coverage ≥ 4 Types** ⭐ v3.3 | Must stories có ≥ 4 loại AC (Happy/Negative/Boundary/Permission) | Áp dụng AC Pattern Library (`writing-guide.md` §11) |
 
 ### 📋 PFC-UAT: Pre-Flight cho UAT Plan
 
@@ -73,6 +82,23 @@ INPUT nhận được → Chọn document type → Chạy Pre-Flight Checklist t
 | 3 | **Pre-requisites** | Có environment setup + test accounts | Liệt kê pre-requisites |
 | 4 | **Sign-off Criteria** | Có ≥ 5 sign-off criteria cụ thể | Sinh sign-off criteria |
 | 5 | **Business Rule TCs** | Mỗi Business Rule (Rule-1, Rule-2...) có ≥ 1 TC | Map Rules → TCs |
+
+### 📋 PFC-AI: Pre-Flight cho AI/ML Feature Specification ⭐ NEW v3.1
+
+> **Trigger:** Khi dự án có ≥ 1 tính năng AI/ML.
+> **Template:** `templates/ai-feature-spec.md`
+
+| # | Check Item | Điều kiện PASS | Nếu FAIL |
+|---|------------|----------------|----------|
+| 1 | **AI Behavior List** | Mọi AI behavior có ID + Input + Output rõ ràng | Liệt kê behaviors từ BRD requirements |
+| 2 | **Accuracy Targets** | Mọi behavior có Precision/Recall/Accuracy target đo được | Hỏi user: "AI sai bao nhiêu % là chấp nhận được?" |
+| 3 | **False Pos/Neg Impact** | Đã đánh giá cái nào nguy hiểm hơn: FP hay FN | Phân tích impact và chọn model bias |
+| 4 | **Human-in-the-Loop** | Có Confidence matrix + Override flow | Sinh draft confidence matrix |
+| 5 | **Training Data** | Đã xác định data source + volume + quality | Hỏi user: "Dữ liệu huấn luyện lấy từ đâu?" |
+| 6 | **Knowledge Base** | Nếu có configurable AI: có KB spec (format, CRUD, scope) | Sinh KB template |
+| 7 | **Fallback Behaviors** | Mọi failure scenario có fallback action | Liệt kê failure scenarios + fallbacks |
+| 8 | **Explainability** | User hiểu được TẠI SAO AI ra kết quả | Thiết kế explanation UI |
+| 9 | **Monitoring** | Có production accuracy metrics + degradation alert | Sinh monitoring spec |
 
 ---
 

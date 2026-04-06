@@ -85,7 +85,55 @@ Khi phân tích tài liệu dự án, agent PHẢI tự phát hiện rủi ro d�
 
 ---
 
-## 7. Review & Update Protocol
+## 7. Risk Response Strategies ⭐ NEW v3.2
+
+> **Mục đích:** Mỗi risk PHẢI có 1 trong 4 chiến lược phản ứng. Không chỉ ghi "monitor".
+
+### 7.1 Strategy Matrix
+
+| Strategy | Khi nào dùng | Ví dụ | Cost |
+|----------|-------------|-------|:---:|
+| **🟢 Accept** | Impact thấp HOẶC probability thấp. Chi phí xử lý > chi phí rủi ro | "Font chữ có thể hiển thị khác trên Safari — chấp nhận, fix nếu user report" | Thấp |
+| **🔵 Mitigate** | Có thể giảm Impact HOẶC Probability bằng hành động cụ thể | "Thêm retry mechanism cho API timeout → giảm probability từ 4→2" | Trung bình |
+| **🟡 Transfer** | Chuyển trách nhiệm cho bên khác (bảo hiểm, vendor, outsource) | "Chuyển integration risk cho partner bằng SLA trong hợp đồng" | Trung bình-Cao |
+| **🔴 Avoid** | Thay đổi scope/approach để loại bỏ hoàn toàn rủi ro | "Bỏ tính năng import 50K dòng realtime → chuyển sang batch import" | Cao (scope change) |
+
+### 7.2 Response Decision Flowchart
+
+```
+Risk Score ≥ 15 (Critical)?
+├── YES → Avoid hoặc Mitigate NGAY. Escalate cho Sponsor
+│         ├── Avoid nếu: có thể thay đổi scope mà không ảnh hưởng Must features
+│         └── Mitigate nếu: không thể thay đổi scope → giảm probability/impact
+│
+├── Score 10-14 (High)?
+│   └── Mitigate hoặc Transfer
+│         ├── Mitigate nếu: team kiểm soát được
+│         └── Transfer nếu: phụ thuộc bên ngoài (vendor, partner)
+│
+├── Score 5-9 (Medium)?
+│   └── Mitigate hoặc Accept
+│         ├── Mitigate nếu: chi phí thấp
+│         └── Accept nếu: chi phí mitigate > chi phí risk
+│
+└── Score 1-4 (Low)?
+    └── Accept + Monitor
+```
+
+### 7.3 Risk Response trong Risk Register Table
+
+Thêm cột **Response Strategy** khi điền Risk Register:
+
+| Risk ID | Score | Level | Response | Action | Owner |
+|---|:---:|:---:|:---:|---|---|
+| RSK-01 | 16 | 🔴 | 🔴 **Avoid** | Bỏ realtime import → batch | PM |
+| RSK-02 | 12 | 🟡 | 🔵 **Mitigate** | Thêm retry + timeout config | Dev Lead |
+| RSK-03 | 10 | 🟡 | 🟡 **Transfer** | SLA trong hợp đồng partner | PM |
+| RSK-04 | 4 | 🟢 | 🟢 **Accept** | Monitor hàng tháng | BA |
+
+---
+
+## 8. Review & Update Protocol
 
 | Phase | Reviewer | Frequency | Action |
 |-------|----------|-----------|--------|
@@ -96,7 +144,7 @@ Khi phân tích tài liệu dự án, agent PHẢI tự phát hiện rủi ro d�
 
 ---
 
-## 8. Lệnh kích hoạt
+## 9. Lệnh kích hoạt
 
 ```
 @ba-specialist tạo risk register cho dự án [tên] dựa trên BRD

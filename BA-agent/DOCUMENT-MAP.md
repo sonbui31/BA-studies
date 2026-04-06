@@ -1,7 +1,7 @@
-# HƯỚNG DẪN BỘ TÀI LIỆU BA (Document Map v3.0)
+# HƯỚNG DẪN BỘ TÀI LIỆU BA (Document Map v3.3)
 
 > **Mục đích:** Giải thích chức năng và nội dung từng file trong hệ thống BA-agent
-> **Cập nhật:** 01/04/2026 — v3.0 (thêm 3 core + 4 templates mới)
+> **Cập nhật:** 03/04/2026 — v3.3 (thêm 4 core + 3 references mới — Advanced Analysis & Writing Quality Engine)
 
 ---
 
@@ -28,6 +28,8 @@
 ## 2. BA-agent/BA-Documents-Outsource — Dự án Thuê ngoài
 
 > **Đặc thù:** Tài liệu formal, sign-off bắt buộc, ràng buộc hợp đồng, giao tiếp từ xa.
+
+> **📌 Lưu ý đánh số:** Bộ Outsource bắt đầu từ `01-` (khác với Product bắt đầu từ `00-`) vì Process Framework của Outsource mô tả Phase 0 (Hợp đồng) — là tài liệu hướng dẫn quy trình, không phải deliverable đánh số.
 
 | # | File | Mô tả | Khi nào dùng |
 |---|------|-------|-------------|
@@ -58,7 +60,7 @@
 | `README.md` | Tổng quan: cách hoạt động, cấu trúc thư mục, flow sử dụng |
 | `QUICK-START.md` | Hướng dẫn 5 phút: chọn overlay → copy template → viết tài liệu |
 
-### 📁 core/ — Nguyên tắc cốt lõi (15 files — áp dụng mọi dự án)
+### 📁 core/ — Nguyên tắc cốt lõi (19 files — áp dụng mọi dự án)
 
 | File | Mô tả | v3.0? |
 |------|-------|:---:|
@@ -68,17 +70,21 @@
 | `diagram-guide.md` | Quy ước sơ đồ: Mermaid syntax, hình dạng, khi nào dùng loại nào | |
 | `quality-checklist.md` | Checklist chất lượng: completeness, consistency, traceability check | |
 | `glossary.md` | Thuật ngữ BA A-Z (AC, BABOK, BRD, CR, DoD, Epic, SRS, UAT...) | |
-| `evaluation-protocol.md` | C-S-K-A Matrix 3.0: **inline audit** + Multi-LLM phases + Pre-Flight cross-check | ⬆ Updated |
+| `evaluation-protocol.md` | C-S-K-A Matrix 3.2: **inline audit** + Multi-LLM phases + Pre-Flight cross-check | ⬆ Updated |
 | `impact-analysis-guide.md` | Phân tích ảnh hưởng: cross-file dependency scan, downstream risk | |
 | `persona-simulation.md` | Mô phỏng stakeholder persona: đóng vai CFO, Architect, End-User để stress-test | |
 | `code-traceability-audit.md` | Đối soát Requirement vs Code 3.0: **actionable output format** + full chain | ⬆ Updated |
 | `predictive-ba-guide.md` | Risk Management 3.0: **pattern-based detection** từ tài liệu thực tế | ⬆ Updated |
 | `customer-intelligence-guide.md` | Kỹ thuật khai thác & phân tích thông tin KH: probing, hidden needs, tâm lý stakeholder | |
 | `pre-flight-checklist.md` | ⭐ Pre-Flight Engine: checklist per document type — PASS mới được viết | ⭐ NEW |
-| `traceability-validator.md` | ⭐ Auto-scan cross-doc traceability: BRQ→FR→Feature→US→TC chain | ⭐ NEW |
-| `screen-inventory-guide.md` | ⭐ Screen Inventory & Wireframe enforcement: mỗi Feature ≥ 1 screen | ⭐ NEW |
+| `traceability-validator.md` | ⭐ Auto-scan cross-doc traceability: BRQ→FR→Feature→US→TC + **NFR→NFR-TC chain** + Bi-directional + Impact Chain | ⬆ v3.2 |
+| `screen-inventory-guide.md` | ⭐ Screen Inventory & Wireframe enforcement: mỗi Feature ≥ 1 screen | v3.0 |
+| `requirement-quality-rubric.md` | ⭐ Rubric 5 bậc chấm điểm từng câu requirement + 8 Smell Detector patterns | ⭐ NEW v3.3 |
+| `decision-analysis-framework.md` | ⭐ 4 công cụ ra quyết định: Weighted Scoring, Pugh, CBA, Decision Tree | ⭐ NEW v3.3 |
+| `nfr-discovery-guide.md` | ⭐ 7 câu hỏi + 5 kỹ thuật phát hiện NFR specific cho từng dự án | ⭐ NEW v3.3 |
+| `process-decomposition-guide.md` | ⭐ Phân rã quy trình L0→L1→L2→L3 + rules khi nào dừng | ⭐ NEW v3.3 |
 
-### 📁 templates/ — 16 templates generic
+### 📁 templates/ — 18 templates generic
 
 | File | Mô tả | v3.0? |
 |------|-------|:---:|
@@ -91,13 +97,15 @@
 | `data-model.md` | Template Data Model (ERD + Data Dictionary) | |
 | `uat-plan.md` | Template UAT Plan | |
 | `change-log.md` | Template Change Log + CR Process | |
-| `meeting-minutes.md` | Template Meeting Minutes | |
+| `meeting-minutes.md` | Template Meeting Minutes + **Decision Log** + **Risk Escalation** + **Open Items tracking** | ⬆ v3.2 |
 | `handover-checklist.md` | Template Bàn giao | |
 | `api-specification.md` | Template API Specification | |
 | `as-is-process.md` | ⭐ Template As-Is Process: Current State + Pain Points + Gap Analysis + Metrics Baseline | ⭐ NEW |
-| `risk-register.md` | ⭐ Template Risk Register: Impact×Probability + Heatmap + Auto-detect rules | ⭐ NEW |
+| `risk-register.md` | ⭐ Template Risk Register: Impact×Probability + Heatmap + Auto-detect + **Risk Response Strategies** | ⬆ v3.2 |
 | `data-migration-plan.md` | ⭐ Template Data Migration: Source→Target mapping + Cleansing + Rollback | ⭐ NEW |
 | `screen-inventory.md` | ⭐ Template Screen Inventory: Master screen list + Navigation Map + Responsive Matrix | ⭐ NEW |
+| `post-implementation-review.md` | ⭐ Template PIR: Benefits Realization + Lessons Learned + Tech Debt + User Adoption | ⭐ NEW v3.2 |
+| `ai-feature-spec.md` | ⭐ Template AI/ML Feature: AI Behavior + Confidence Matrix + Human-in-the-Loop + Fallbacks | ⭐ NEW v3.1 |
 
 ### 📁 overlays/ — Tùy chỉnh theo loại dự án
 
@@ -116,3 +124,6 @@
 | `estimation-guide.md` | Ước lượng: story points, T-shirt sizing, ROM, function points |
 | `raci-matrix.md` | Hướng dẫn xây dựng RACI + ví dụ + sai lầm thường gặp |
 | `tools-recommendation.md` | Khuyến nghị công cụ: Jira, Confluence, Figma, Draw.io |
+| `anti-patterns.md` | ⭐ **15 sai lầm BA thường gặp** + Root Cause + Cách tránh + Self-check | v3.2 |
+| `writing-examples.md` | ⭐ Bộ mẫu viết: Precondition, Exception, Business Rule, NFR, Integration Spec, Test Case | ⭐ NEW v3.3 |
+| `communication-packaging.md` | ⭐ 4 package types đóng gói thông tin: Executive Summary, Technical Brief, Test Strategy, Quick Start | ⭐ NEW v3.3 |

@@ -33,7 +33,11 @@
 ├── 09-Change-Log.md
 ├── 10-Meeting-Minutes.md
 ├── 11-Handover-Checklist.md
-└── 12-API-Specification.md
+├── 12-API-Specification.md
+├── 13-Risk-Register.md           ← ⭐ NEW v3.0 (từ templates/risk-register.md)
+├── 14-Screen-Inventory.md        ← ⭐ NEW v3.0 (từ templates/screen-inventory.md)
+├── 15-As-Is-Process.md           ← ⭐ NEW v3.0 (từ templates/as-is-process.md)
+└── 16-Data-Migration-Plan.md     ← ⭐ Tùy chọn (từ templates/data-migration-plan.md)
 ```
 
 > ⚠️ Chỉ copy những file **bắt buộc** theo overlay. Startup chỉ cần 2-4 files.
@@ -58,8 +62,13 @@ Mở từng file → thay thế `{{...}}` bằng thông tin thực:
 ### Phase đầu tiên (Inception):
 1. ☐ Điền `01-Vision-Scope.md` — đặc biệt: Context, Change, Scope
 2. ☐ Điền `03-Stakeholder-Map.md` — Power/Interest Grid
-3. ☐ Bắt đầu As-Is trong `04-Process-Flow.md`
-4. ☐ Đặt lịch Kickoff Meeting
+3. ☐ Document As-Is trong `15-As-Is-Process.md` (⭐ bắt buộc trước To-Be)
+4. ☐ Điền `13-Risk-Register.md` — Risk patterns từ BRD
+5. ☐ Đặt lịch Kickoff Meeting
+
+### ⚡ Mandatory Gates (v3.0+):
+- **Pre-Flight:** Chạy `core/pre-flight-checklist.md` TRƯỚC mỗi document
+- **Traceability:** Chạy `core/traceability-validator.md` SAU khi sinh xong bộ tài liệu
 
 ### Review trước khi chuyển Phase:
 → Mở `core/quality-checklist.md` → làm Phase Gate Checklist
@@ -91,3 +100,8 @@ Mở từng file → thay thế `{{...}}` bằng thông tin thực:
 | Chọn kỹ thuật thu thập yêu cầu | `references/elicitation-techniques.md` |
 | Phỏng vấn & moi thông tin KH chuyên sâu | `core/customer-intelligence-guide.md` |
 | Thuật ngữ không hiểu | `core/glossary.md` |
+| Xem lỗi BA hay mắc | `references/anti-patterns.md` |
+| Mẫu viết requirement/AC/BR | `references/writing-examples.md` |
+| Đóng gói tài liệu cho audiences khác nhau | `references/communication-packaging.md` |
+| Chấm điểm chất lượng requirement | `core/requirement-quality-rubric.md` |
+| Phân tích quyết định (A vs B) | `core/decision-analysis-framework.md` |

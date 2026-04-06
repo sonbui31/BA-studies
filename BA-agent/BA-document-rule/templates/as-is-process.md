@@ -67,13 +67,46 @@ graph LR
 
 ---
 
-## 5. Gap Analysis (As-Is → To-Be)
+## 5. Gap Analysis Framework (As-Is → To-Be) ⭐ ENHANCED v3.3
 
-| # | As-Is (Hiện tại) | To-Be (Mong muốn) | Gap Description | BRQ liên quan | Priority |
-|---|-------------------|-------------------|-----------------|---------------|----------|
-| GAP-01 | Nhập tài sản bằng Excel, không có validation | Nhập trên PM với auto-validate + duplicate check | Cần form nhập có business rules, check trùng mã TS | BRQ-01 | Must |
-| GAP-02 | Kiểm kê bằng sổ giấy, đối soát thủ công | Kiểm kê bằng QR + Mobile, đối soát tự động | Cần HHT/Mobile + QR Scanner + auto-reconcile | BRQ-06 | Must |
-| ... | ... | ... | ... | ... | ... |
+> **Mục đích:** Phân loại gaps theo 5 categories → ưu tiên hóa → theo dõi closure.
+
+### 5.1 Gap Classification (5 loại)
+
+| # | As-Is (Hiện tại) | To-Be (Mong muốn) | Gap Type | Gap Description | BRQ liên quan | Priority |
+|---|-------------------|-------------------|:--------:|-----------------|:-------------:|:--------:|
+| GAP-01 | Nhập tài sản bằng Excel, không validation | Nhập trên PM với auto-validate | 🔧 **Process** | Cần form nhập có business rules | BRQ-01 | Must |
+| GAP-02 | Kiểm kê bằng sổ giấy | Kiểm kê bằng QR + Mobile | 🖥️ **Technology** | Cần HHT/Mobile + QR Scanner | BRQ-06 | Must |
+| GAP-03 | Không ai biết data quality | Có data cleansing trước migration | 👤 **People** | Cần hire/train Data Analyst | — | Should |
+| GAP-04 | Data Excel thiếu trường, trùng mã | Data clean, unique, đầy đủ | 📊 **Data** | ETL + Cleansing + Migration plan | BRQ-08 | Must |
+| GAP-05 | Không log ai sửa gì khi nào | Audit trail đầy đủ 5 năm | 📜 **Compliance** | Cần audit logging infrastructure | BRQ-10 | Must |
+
+### 5.2 Gap Type Legend
+
+| Type | Icon | Mô tả | Action thường thấy |
+|------|:----:|-------|------------------|
+| **Process** | 🔧 | Bước thủ công cần tự động hóa | Automate, redesign workflow |
+| **Technology** | 🖥️ | Hạ tầng / tool không đáp ứng | Upgrade, migrate, integrate |
+| **People** | 👤 | Thiếu skill, role, hoặc headcount | Train, hire, outsource |
+| **Data** | 📊 | Dữ liệu thiếu, trùng, không sạch | Cleanse, migrate, standardize |
+| **Compliance** | 📜 | Chưa tuân thủ quy định nội bộ/pháp lý | Implement controls, logging |
+
+### 5.3 Gap Prioritization Matrix
+
+| Gap ID | As-Is Score (1-5) | To-Be Score (1-5) | Gap Size | Fix Effort (S/M/L) | Business Value (H/M/L) | Priority |
+|:------:|:--:|:--:|:--:|:--:|:--:|:--------:|
+| GAP-01 | 2 | 5 | **3** | M | H | 🔴 Must |
+| GAP-02 | 1 | 5 | **4** | L | H | 🔴 Must |
+| GAP-03 | 1 | 3 | **2** | M | M | 🟡 Should |
+
+> **Quy tắc:** Gap Size = To-Be - As-Is. Size ≥ 3 + Business Value = H → Must
+
+### 5.4 Gap Closure Tracking (dùng trong PIR)
+
+| Gap ID | Planned Close Date | Actual Close Date | % Closed | Evidence |
+|:------:|:------------------:|:-----------------:|:--------:|----------|
+| GAP-01 | Sprint 2 | Sprint 2 | 100% | Form nhập + validation live |
+| GAP-02 | Sprint 4 | — | 0% | Chưa bắt đầu |
 
 ---
 

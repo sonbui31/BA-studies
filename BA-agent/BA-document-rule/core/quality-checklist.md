@@ -5,7 +5,21 @@
 
 ---
 
-## 1. BACCM Check — Áp dụng cho MỌI tài liệu
+## 1. Presentation & Spelling Check (Zero-Tolerance) ⭐ NEW v3.3
+
+> **Quy tắc:** Bắt buộc áp dụng cho TẤT CẢ văn bản đầu ra. Bất kỳ lỗi nào cũng đánh rớt bài (Fail).
+
+| # | Tiêu chí | Check |
+|---|----------|-------|
+| 1 | **Chính tả & Ngữ pháp:** Không sai dấu câu, sai chính tả, viết hoa/thường chuẩn chỉnh. | ☐ |
+| 2 | **Trật tự Logic:** Bố cục tuân thủ đúng template, sắp xếp mạch lạc, không lộn xộn. | ☐ |
+| 3 | **Đánh số Chỉ mục:** Số thứ tự tuần tự (1., 1.1, 1.2), không lặp, không nhảy cóc. | ☐ |
+| 4 | **Nhất quán Thuật ngữ (Audience-Aware):** Tiếng Kinh doanh phổ thông cho BRD, Thuật ngữ Kỹ Thuật cho SRS/US. Nhất quán 100% *trong cùng một phân lớp tài liệu*. | ☐ |
+| 5 | **Văn phong Chuyên nghiệp:** Câu từ phải được trau chuốt, trang trọng (formal), khách quan. Tuyệt đối không dùng văn nói, ngôn ngữ lủng củng. | ☐ |
+
+---
+
+## 1.1 BACCM Check — Áp dụng cho MỌI tài liệu
 
 > 6 khái niệm lõi phải được đề cập đầy đủ trong bộ tài liệu.
 
@@ -82,6 +96,11 @@
 | 5 | Feasibility assessment (kỹ thuật + kinh doanh) | ☐ |
 | 6 | ROI hoặc cost-benefit analysis | ☐ |
 | 7 | Risk & Mitigation plan | ☐ |
+| 8 | Pain Points viết dạng **Narrative Storytelling** (top 3) ⭐ v3.1 | ☐ |
+| 9 | **Business Rule Architecture**: Execution Order + Override Matrix (nếu ≥ 5 rules) ⭐ v3.1 | ☐ |
+| 10 | **Output Severity Design**: Bảng severity levels cho validation/audit output ⭐ v3.1 | ☐ |
+| 11 | **System Memory Requirements**: Bảng trí nhớ hệ thống (nếu rules phụ thuộc lịch sử) ⭐ v3.1 | ☐ |
+| 12 | **AI Feature Spec** reference (nếu có AI/ML features) ⭐ v3.1 | ☐ |
 
 ### 📄 SRS (Software Requirements Specification)
 

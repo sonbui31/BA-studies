@@ -1,6 +1,6 @@
-# NGUYÊN TẮC & MÔ HÌNH CỐT LÕI CỦA BA 2.2
+# NGUYÊN TẮC & MÔ HÌNH CỐT LÕI CỦA BA 3.3
 
-> **Phiên bản:** 2.2 | **Ngày:** 25/03/2026
+> **Phiên bản:** 3.3 | **Ngày:** 03/04/2026
 > **Đặc điểm:** Multi-LLM Orchestrated (Gemini 3, Claude 4.6, GPT-5 & o4), Data-Driven, Hybrid Agile
 
 ---
@@ -22,13 +22,15 @@
 
 ## 2. BABOK® v3 — 7 Knowledge Areas
 
-1. **BA Planning & Monitoring** — Lập kế hoạch và giám sát hoạt động BA
-2. **Elicitation & Collaboration** — Thu thập và cộng tác với Stakeholder
-3. **Requirements Life Cycle Mgmt** — Quản lý vòng đời yêu cầu
-4. **Strategy Analysis** — Phân tích chiến lược kinh doanh
-5. **Requirements Analysis & Design Definition** — Phân tích và thiết kế giải pháp
-6. **Solution Evaluation** — Đánh giá giải pháp sau triển khai
-7. **Underlying Competencies** — Năng lực nền tảng (giao tiếp, tư duy, lãnh đạo)
+| # | Knowledge Area | Mô tả | Tài liệu tương ứng trong BA-agent |
+|---|---------------|-------|-----------------------------------|
+| 1 | **BA Planning & Monitoring** | Lập kế hoạch và giám sát hoạt động BA | `core/00-ba-process-framework.md`, `references/estimation-guide.md` |
+| 2 | **Elicitation & Collaboration** | Thu thập và cộng tác với Stakeholder | `core/customer-intelligence-guide.md`, `references/elicitation-techniques.md` |
+| 3 | **Requirements Life Cycle Mgmt** | Quản lý vòng đời yêu cầu | `core/traceability-validator.md`, `templates/change-log.md` |
+| 4 | **Strategy Analysis** | Phân tích chiến lược kinh doanh | `templates/vision-scope.md`, `core/decision-analysis-framework.md` |
+| 5 | **Requirements Analysis & Design** | Phân tích và thiết kế giải pháp | `templates/srs.md`, `core/writing-guide.md`, `core/requirement-quality-rubric.md` |
+| 6 | **Solution Evaluation** | Đánh giá giải pháp sau triển khai | `templates/post-implementation-review.md`, `templates/uat-plan.md` |
+| 7 | **Underlying Competencies** | Năng lực nền tảng (giao tiếp, tư duy, lãnh đạo) | `references/communication-packaging.md`, `core/glossary.md` |
 
 ---
 
@@ -153,7 +155,7 @@ doanh thu    ─────────    hơn           Auto-fill address
 
 ---
 
-## 11. Multi-LLM Orchestration (Gemini 3, Claude 4.6, GPT-5 & o4) — BA 2.2
+## 11. Multi-LLM Orchestration (Gemini 3, Claude 4.6, GPT-5 & o4) — BA 3.3
 
 > Sử dụng sức mạnh tối thượng của các thế hệ LLM mới nhất (Q1/2026) để dẫn đầu trong phân tích nghiệp vụ.
 
@@ -177,7 +179,7 @@ doanh thu    ─────────    hơn           Auto-fill address
 
 ---
 
-## 12. Data-Driven Business Analysis — BA 2.2
+## 12. Data-Driven Business Analysis — BA 3.2
 
 > BA không chỉ "nghe" stakeholder nói, mà phải "nhìn" vào dữ liệu để ra quyết định.
 
@@ -193,7 +195,7 @@ Mọi giải pháp (Solution) phải đi kèm với cách đo lường giá tr�
 
 ---
 
-## 13. Mười Nguyên tắc vàng của BA 2.2
+## 13. Mười Nguyên tắc vàng của BA 3.3
 
 1. **AI as a Partner** — Co-creation thay vì manual creation.
 2. **Data-Informed Decisions** — Kết hợp trực giác kinh doanh và bằng chứng dữ liệu.

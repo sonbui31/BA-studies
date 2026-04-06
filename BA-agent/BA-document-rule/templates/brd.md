@@ -62,6 +62,13 @@ Tài liệu này mô tả yêu cầu kinh doanh (business requirements) cho dự
 
 ### 2.2 Vấn đề hiện tại (As-Is Pain Points)
 
+> ⭐ **v3.1:** Dùng **Narrative Storytelling** cho top 3 pain points (đau nhất), bảng tổng hợp cho phần còn lại.
+> Xem chi tiết kỹ thuật tại `core/writing-guide.md` > Mục 9.
+
+**{{Pain Point 1}} — Rủi ro #1:**
+> {{Actor}} hiện đang {{action cụ thể}}. Khi {{failure point}},
+> {{hậu quả 1}} → {{hậu quả 2}} → {{hậu quả 3 (tài chính/pháp lý)}}.
+
 | # | Vấn đề | Ai bị ảnh hưởng | Tần suất | Chi phí ảnh hưởng |
 |---|--------|----------------|---------|-------------------|
 | 1 | {{Vấn đề}} | {{Stakeholder}} | {{Hàng ngày / tuần / tháng}} | {{Ước tính}} |
@@ -116,6 +123,84 @@ Tài liệu này mô tả yêu cầu kinh doanh (business requirements) cho dự
 | Won't | {{x}} | {{%}} | ~5% |
 
 > ⚠️ Nếu Must > 60% → cần review lại: có thật sự phải Must không?
+
+### 4.3 Business Rule Architecture (Kiến trúc Quy tắc Nghiệp vụ) ⭐ NEW v3.1
+
+> **Khi nào cần:** Khi hệ thống có ≥ 5 business rules có tương tác lẫn nhau.
+> **Mục đích:** Xác định thứ tự thực thi, quan hệ override, và luồng logic giữa các rules.
+> **Không bắt buộc** cho BRD đơn giản (≤ 4 rules độc lập).
+
+#### 4.3.1 Thứ tự Thực thi (Execution Order)
+
+| Bước | Rule ID | Tên Rule | Điều kiện chạy |
+|------|---------|----------|----------------|
+| 1 | QT-01 | {{Tên}} | Chạy luôn (foundation check) |
+| 2 | QT-02 | {{Tên}} | Chạy sau QT-01 PASS |
+| 3 | QT-03 | {{Tên}} | Chạy trong boundary đã xác định bởi QT-02 |
+| ... | ... | ... | ... |
+
+> **Quy tắc:**
+> - Rules phía trên FAIL → rules phía dưới có chạy không? (Ghi rõ: STOP hay CONTINUE)
+> - Mỗi rule chỉ chạy SAU KHI dependencies đã hoàn thành
+
+#### 4.3.2 Ma trận Ghi đè (Override Matrix)
+
+> **Khi nào cần:** Khi rule A có thể giảm/tăng severity của rule B.
+
+| Rule bị Override | Bởi Rule | Điều kiện Override | Severity thay đổi |
+|-----------------|----------|--------------------|-----------|
+| {{QT-03 (Thiếu chất)}} | {{QT-05 (Synonym)}} | {{Tên khác nhau nhưng nghĩa giống}} | 🔴 Critical → 🔵 Info |
+| {{QT-03 (Thiếu chất)}} | {{QT-06 (Memory)}} | {{Lịch sử đã đo đủ tần suất}} | 🔴 Critical → 🔵 Info |
+
+#### 4.3.3 Decision Flowchart
+
+```mermaid
+graph TD
+    A["Bắt đầu kiểm tra"] --> B{"QT-01: Thông tin KH khớp?"}
+    B -->|Không| B_ERR["🔴 Sai thông tin KH"]
+    B -->|Có| C{"QT-02: Xác định hạng mục"}
+    C --> D{"QT-03: So khớp 1-1"}
+    D -->|Thiếu| E{"QT-05: Synonym?"}
+    E -->|Có trong từ điển| F["🔵 Lệch tên gọi"]
+    E -->|Không| G{"QT-06: Lịch sử đủ?"}
+    G -->|Đủ tần suất| H["🔵 Đã đo đủ"]
+    G -->|Chưa đủ| I["🔴 THIẾU"]
+    D -->|Thừa| J["🟡 Cảnh báo thừa"]
+    D -->|Khớp| K["✅ OK"]
+```
+
+### 4.4 Output Severity Design (Thiết kế Mức độ Output) ⭐ NEW v3.1
+
+> **Khi nào cần:** Hệ thống có tính năng validation / audit / comparison mà output cần phân loại mức độ để user ra quyết định.
+> **Mục đích:** Xác định rõ hệ thống output bao nhiêu mức, mỗi mức nghĩa là gì, user cần làm gì.
+
+| Level | Visual | Ý nghĩa nghiệp vụ | User Action Required |
+|-------|--------|------------------|---------------------|
+| 🔴 **Critical** | ❌ | {{VD: Thiếu chất bắt buộc so với File Gốc}} | PHẢI xử lý trước khi duyệt |
+| 🟡 **Warning** | ⚠️ | {{VD: Thừa chất so với File Gốc}} | NÊN xem xét |
+| 🔵 **Info** | ℹ️ | {{VD: Lệch tên gọi / Đã đo đủ lịch sử}} | Tham khảo, có thể bỏ qua |
+| ✅ **OK** | ✓ | {{VD: So khớp chính xác 100%}} | Không cần hành động |
+
+> **Quy tắc:**
+> - Mỗi Business Rule trong mục 4.3 PHẢI gắn với ĐÚNG MỘT severity level default.
+> - Severity có thể bị override bởi rule khác (xem Override Matrix ở 4.3.2).
+> - Nếu hệ thống có tính năng AI, xem thêm `ai-feature-spec.md` > Mục 4 (Confidence-based Action).
+
+### 4.5 System Memory Requirements (Yêu cầu Trí nhớ Hệ thống) ⭐ NEW v3.1
+
+> **Khi nào cần:** Khi business rules phụ thuộc vào **dữ liệu lịch sử** từ các transactions / đợt / phien trước đó.
+> **Ví dụ phổ biến:** Giới hạn tần suất (đo 2 lần/năm), credit limit tích lũy, quota sử dụng, ngày phép đã dùng.
+
+| Rule ID | Cần nhớ gì | Scope truy vấn | Điều kiện trigger | Kết quả |
+|---------|------------|----------------|-------------------|---------|
+| {{QT-06}} | {{Số lần đã đo chỉ tiêu X trong năm}} | {{Cùng Folder/Dự án}} | {{Khi phát hiện thiếu chỉ tiêu X}} | {{Override lỗi nếu đã đủ tần suất năm}} |
+
+> **Câu hỏi elicitation khi phát hiện cần System Memory:**
+> 1. "Quyết định ở bước này có phụ thuộc vào lần chạy/đợt/phien TRƯỚC không?"
+> 2. "Nếu phụ thuộc — nhìn lại bao xa? (1 đợt? 1 năm? tất cả?)"
+> 3. "Dữ liệu cũ bị XÓA/SỬa thì tính toán hiện tại có sai không?"
+> 4. "Tần suất tính theo năm dương lịch, năm tài chính, hay theo Hợp đồng?"
+> 5. "Nếu đợt trước bị TỪ CHỐI (không duyệt) thì có tính vào lịch sử không?"
 
 ---
 
