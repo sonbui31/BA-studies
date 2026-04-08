@@ -47,7 +47,7 @@
 | 2 | Hướng dẫn sử dụng (User Manual) | ☐ | |
 | 3 | FAQ / Troubleshooting guide | ☐ | |
 | 4 | Training sessions đã hoàn thành | ☐ | {{Số buổi}} |
-| 5 | Quy trình hỗ trợ / escalation rõ ràng | ☐ | |
+| 5 | Quy trình hỗ trợ / báo cáo cấp trên (escalation) rõ ràng | ☐ | |
 
 ---
 
@@ -87,11 +87,11 @@
 
 ---
 
-## 7. Sign-off bàn giao
+## 7. Phê duyệt bàn giao
 
 | Vai trò | Tên | Ngày | Xác nhận |
-|---------|-----|------|---------|
-| PM (Nhà cung cấp) | | | ☐ |
+|---------|-----|------|--------|
+| Quản lý dự án — PM (Nhà cung cấp) | | | ☐ |
 | BA | | | ☐ |
-| PO (Khách hàng) | | | ☐ |
-| Sponsor | | | ☐ |
+| Người đại diện KH (PO) | | | ☐ |
+| Nhà tài trợ (Sponsor) | | | ☐ |

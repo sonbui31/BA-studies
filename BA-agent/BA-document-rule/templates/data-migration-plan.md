@@ -84,7 +84,7 @@ graph LR
 ### Phase 4: UAT Verify
 - [ ] KH kiểm tra dữ liệu trên hệ thống mới
 - [ ] So sánh: record count, giá trị key fields
-- [ ] Sign-off: "Dữ liệu import chính xác ≥ [X]%"
+- [ ] Phê duyệt: "Dữ liệu import chính xác ≥ [X]%"
 
 ### Phase 5: Production Import
 - [ ] Backup production DB

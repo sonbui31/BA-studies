@@ -12,7 +12,7 @@
 ## 1. Giới thiệu
 
 ### 1.1 Mục đích tài liệu
-Tài liệu này xác định tầm nhìn, phạm vi và mục tiêu của dự án **[Tên dự án]**, được ký kết giữa **[Khách hàng]** và **[Nhà cung cấp]** theo Hợp đồng số **[HĐ-ID]**. Đây là tài liệu baseline — mọi thay đổi phạm vi sau sign-off sẽ được xử lý qua quy trình Yêu cầu thay đổi (CR).
+Tài liệu này xác định tầm nhìn, phạm vi và mục tiêu của dự án **[Tên dự án]**, được ký kết giữa **[Khách hàng]** và **[Nhà cung cấp]** theo Hợp đồng số **[HĐ-ID]**. Đây là tài liệu **Chốt phạm vi (Baseline)** — mọi thay đổi phạm vi sau khi phê duyệt sẽ được xử lý qua quy trình Yêu cầu thay đổi (CR).
 
 ### 1.2 Bối cảnh dự án
 - **Tên Khách hàng:** [Công ty ABC]
@@ -34,10 +34,10 @@ Tài liệu này xác định tầm nhìn, phạm vi và mục tiêu của dự 
 |-----------|------------|
 | KH | Khách hàng / Bên A — chủ sở hữu sản phẩm |
 | NCC | Nhà cung cấp / Bên B — đội outsource |
-| PO | Product Owner (phía Khách hàng) |
-| CR | Yêu cầu thay đổi — thay đổi có ảnh hưởng chi phí |
-| HĐ | Hợp đồng — phạm vi công việc và điều khoản |
-| Baseline | Phiên bản tài liệu được sign-off, cơ sở cho CR |
+| PO | Người đại diện Khách hàng (Product Owner) — người ra quyết định về yêu cầu |
+| CR | Yêu cầu thay đổi — phát sinh ngoài phạm vi ban đầu, có ảnh hưởng chi phí |
+| HĐ | Hợp đồng — văn bản pháp lý quy định phạm vi công việc và điều khoản |
+| Baseline | Bản chốt phạm vi — phiên bản tài liệu đã được phê duyệt, làm cơ sở cho mọi thay đổi |
 
 ---
 
@@ -98,7 +98,7 @@ Tài liệu này xác định tầm nhìn, phạm vi và mục tiêu của dự 
 
 | # | Giả định | Rủi ro nếu sai | Biện pháp |
 |---|----------|----------------|-----------|
-| A1 | KH cung cấp tài liệu API hệ thống cũ trong 2 tuần đầu | Trì hoãn tích hợp | Escalation sớm |
+| A1 | KH cung cấp tài liệu API hệ thống cũ trong 2 tuần đầu | Trì hoãn tích hợp | Báo cáo cấp trên sớm |
 | A2 | KH bổ nhiệm PO sẵn sàng ≥ 4 giờ/ngày | Trì hoãn quyết định | PO dự phòng |
 | A3 | Môi trường kiểm thử do KH cung cấp | Trì hoãn kiểm thử | NCC tự thiết lập |
 | A4 | Nội dung (văn bản, hình ảnh) do KH cung cấp | Hiển thị tạm ở demo | Ghi rõ trong Báo cáo Sprint |
@@ -126,26 +126,26 @@ Tài liệu này xác định tầm nhìn, phạm vi và mục tiêu của dự 
 
 ---
 
-## 5. Các stakeholder chính
+## 5. Các bên liên quan chính
 
 ### Phía Khách hàng
 
 | Vai trò | Tên | Trách nhiệm | Sẵn sàng |
 |---------|-----|-------------|----------|
-| Sponsor | [Tên] | Phê duyệt, quyết định | Khi escalation |
-| Product Owner (PO) | [Tên] | Quyết định yêu cầu, ưu tiên, UAT | ≥ 4 giờ/ngày |
-| SME (SME) | [Tên] | Giải đáp nghiệp vụ chuyên sâu | 2-3 giờ/tuần |
+| Nhà tài trợ (Sponsor) | [Tên] | Phê duyệt, quyết định | Khi cần báo cáo cấp trên |
+| Người đại diện KH (PO) | [Tên] | Quyết định yêu cầu, ưu tiên, nghiệm thu | ≥ 4 giờ/ngày |
+| Chuyên gia nghiệp vụ (SME) | [Tên] | Giải đáp nghiệp vụ chuyên sâu | 2-3 giờ/tuần |
 | Đầu mối CNTT | [Tên] | API, hạ tầng, triển khai | Khi cần |
 
 ### Phía Nhà cung cấp
 
 | Vai trò | Tên | Trách nhiệm |
 |---------|-----|-------------|
-| Project Manager | [Tên] | Quản lý tiến độ, ngân sách, rủi ro |
-| BA Lead | [Tên] | Phân tích yêu cầu, tài liệu |
-| Tech Lead | [Tên] | Kiến trúc, rà soát mã nguồn |
-| Đội phát triển | [N người] | Phát triển |
-| QC Lead | [Tên] | Kiểm thử, hỗ trợ UAT |
+| Quản lý dự án (PM) | [Tên] | Quản lý tiến độ, ngân sách, rủi ro |
+| Trưởng nhóm Phân tích (BA Lead) | [Tên] | Phân tích yêu cầu, tài liệu |
+| Trưởng nhóm Kỹ thuật (Tech Lead) | [Tên] | Kiến trúc, rà soát mã nguồn |
+| Đội phát triển | [N người] | Lập trình, phát triển |
+| Trưởng nhóm Kiểm thử (QC Lead) | [Tên] | Kiểm thử, hỗ trợ nghiệm thu |
 
 ---
 
@@ -175,24 +175,24 @@ Giai đoạn 3 — Vận hành + Bảo hành (1 tháng):
 | # | Rủi ro | Xác suất | Tác động | Chịu TN | Biện pháp giảm thiểu |
 |---|--------|----------|----------|---------|----------------------|
 | R1 | PO KH không sẵn sàng → trì hoãn quyết định | Cao | Cao | KH | PO dự phòng, quyết định qua email |
-| R2 | Scope creep — KH thêm yêu cầu ngoài phạm vi | Cao | Cao | PM | Quy trình CR, baseline sign-off |
-| R3 | API hệ thống cũ không đúng tài liệu | Trung bình | Cao | NCC | Thử nghiệm tích hợp sớm (Sprint 1) |
+| R2 | Phát sinh yêu cầu ngoài phạm vi (Scope creep) | Cao | Cao | PM | Quy trình Yêu cầu thay đổi (CR), Chốt phạm vi (Baseline) |
+| R3 | API hệ thống cũ không đúng tài liệu | Trung bình | Cao | NCC | Thử nghiệm tích hợp sớm (Giai đoạn 1) |
 | R4 | Lệch múi giờ gây hiểu sai | Trung bình | Trung bình | PM | Trùng 4 giờ, tài liệu hóa bất đồng bộ |
 | R5 | Nhân sự chủ chốt nghỉ/chuyển nhóm | Thấp | Cao | PM | Chia sẻ kiến thức, làm cặp |
-| R6 | Thay đổi yêu cầu kỹ thuật muộn | Thấp | Cao | BA | Khóa baseline sớm, CR cho thay đổi |
+| R6 | Thay đổi yêu cầu kỹ thuật muộn | Thấp | Cao | BA | Chốt phạm vi (Baseline) sớm, phát sinh qua quy trình CR |
 
 ---
 
 ## 8. Phê duyệt
 
-> ⚠️ **Tài liệu này sau khi sign-off sẽ trở thành BASELINE. Mọi thay đổi phạm vi phải thông qua quy trình Yêu cầu thay đổi.**
+> ⚠️ **Tài liệu này sau khi phê duyệt sẽ trở thành BẢN CHỐT PHẠM VI (Baseline). Mọi thay đổi phạm vi phải thông qua quy trình Yêu cầu thay đổi (CR).**
 
 | Vai trò | Bên | Họ tên | Chữ ký | Ngày |
 |---------|-----|--------|--------|------|
-| Sponsor | Khách hàng | | | |
-| Product Owner | Khách hàng | | | |
-| Project Manager | Nhà cung cấp | | | |
-| BA Lead | Nhà cung cấp | | | |
+| Nhà tài trợ (Sponsor) | Khách hàng | | | |
+| Người đại diện KH (Product Owner) | Khách hàng | | | |
+| Quản lý dự án (PM) | Nhà cung cấp | | | |
+| Trưởng nhóm Phân tích (BA Lead) | Nhà cung cấp | | | |
 
 ---
 
@@ -202,4 +202,4 @@ Giai đoạn 3 — Vận hành + Bảo hành (1 tháng):
 |-----------|------|----------|-------|
 | 0.1 | [Ngày] | Draft đầu tiên | BA |
 | 0.2 | [Ngày] | Cập nhật theo phản hồi KH | BA |
-| 1.0 | [Ngày] | **Baseline đã sign-off** | BA |
+| 1.0 | [Ngày] | **Đã phê duyệt — Chốt phạm vi** | BA |

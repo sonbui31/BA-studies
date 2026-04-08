@@ -90,7 +90,7 @@
 
 ---
 
-## 6. UAT Sign-off
+## 6. Phê duyệt nghiệm thu (UAT)
 
 ### Biên bản nghiệm thu
 
@@ -121,5 +121,5 @@
 ☐ Traceability: FR → Test Case
 ☐ Test data đã chuẩn bị
 ☐ Bug severity/priority classification đúng
-☐ Sign-off template sẵn sàng
+☐ Mẫu phê duyệt nghiệm thu sẵn sàng
 ```

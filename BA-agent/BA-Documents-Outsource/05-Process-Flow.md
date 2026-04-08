@@ -1,4 +1,4 @@
-# QUY TRÌNH NGHIỆP VỤ (AS-IS / TO-BE) — DỰ ÁN OUTSOURCE
+# QUY TRÌNH NGHIỆP VỤ (Hiện tại / Tương lai) — DỰ ÁN OUTSOURCE
 # Dự án [Tên dự án]
 
 > **Phiên bản:** 1.0 | **Ngày:** 26/02/2026
@@ -14,12 +14,12 @@
 |---------|--------|----------|
 | Nguồn thông tin | Ngồi cạnh người dùng, quan sát | Phỏng vấn từ xa, chia sẻ màn hình, ghi hình |
 | Xác nhận | Đi thực tế (Gemba) | Video call + ghi màn hình + KH xác nhận qua email |
-| Sign-off | Không chính thức | **Chính thức** — KH ký vào Quy trình trước khi Dev bắt đầu |
+| Phê duyệt | Không chính thức | **Chính thức** — KH ký vào Quy trình trước khi đội phát triển bắt đầu |
 | Thay đổi | Cập nhật luôn | Yêu cầu thay đổi (CR) nếu ảnh hưởng phạm vi/khối lượng |
 
 ### Cách thu thập quy trình khi gia công (từ xa):
-1. **Phỏng vấn:** Video call với SME, ghi hình lại
-2. **Chia sẻ màn hình:** Yêu cầu SME thao tác hệ thống cũ qua chia sẻ màn hình
+1. **Phỏng vấn:** Video call với Chuyên gia nghiệp vụ (SME), ghi hình lại
+2. **Chia sẻ màn hình:** Yêu cầu Chuyên gia NV thao tác hệ thống cũ qua chia sẻ màn hình
 3. **Xem xét tài liệu:** KH gửi SOP, biểu mẫu, ảnh chụp
 4. **Bảng câu hỏi:** Gửi form câu hỏi cho KH điền (bất đồng bộ)
 5. **Workshop:** Phiên Miro/FigJam — cộng tác (trực tiếp)
@@ -31,11 +31,11 @@
 > Sử dụng mẫu dưới đây cho mỗi quy trình nghiệp vụ trong dự án.
 
 ### Quy trình: [Tên quy trình]
-**SME cung cấp thông tin:** [Tên, vai trò]
+**Chuyên gia nghiệp vụ (SME) cung cấp thông tin:** [Tên, vai trò]
 **Ngày phỏng vấn:** [DD/MM/YYYY]
 **Link bản ghi:** [Link video nếu có]
 
-#### 2.1 HIỆN TẠI (AS-IS — Quy trình hiện tại)
+#### 2.1 HIỆN TẠI (Quy trình hiện tại — As-Is)
 
 ```
 [Vẽ sơ đồ quy trình hiện tại]
@@ -65,7 +65,7 @@ Tác nhân 1           Hệ thống cũ / Thủ công       Tác nhân 2
 
 ---
 
-#### 2.2 TƯƠNG LAI (TO-BE — Quy trình mới)
+#### 2.2 TƯƠNG LAI (Quy trình mới — To-Be)
 
 ```
 [Vẽ sơ đồ quy trình mới với hệ thống]
@@ -94,7 +94,7 @@ Tác nhân 1           Hệ thống mới                Tác nhân 2
 
 ## 3. Danh sách quy trình cần vẽ
 
-| # | Tên quy trình | Module | Ưu tiên | Trạng thái | KH sign-off |
+| # | Tên quy trình | Module | Ưu tiên | Trạng thái | KH phê duyệt |
 |---|--------------|--------|---------|-----------|-------------|
 | P1 | [Quy trình chính 1] | Module 1 | P0 | ☐ Nháp | ☐ Chờ |
 | P2 | [Quy trình chính 2] | Module 1 | P0 | ☐ Nháp | ☐ Chờ |
@@ -116,12 +116,12 @@ Tác nhân 1           Hệ thống mới                Tác nhân 2
 
 ---
 
-## 5. Sign-off quy trình
+## 5. Phê duyệt quy trình
 
-| Quy trình | Phiên bản | PO Khách hàng | Ngày | Ghi chú |
-|-----------|-----------|--------------|------|---------|
-| P1: [Tên] | v1.0 | ☐ Approved | | |
-| P2: [Tên] | v1.0 | ☐ Approved | | |
-| P3: [Tên] | v1.0 | ☐ Approved | | |
+| Quy trình | Phiên bản | Người đại diện KH (PO) | Ngày | Ghi chú |
+|-----------|-----------|--------------------------|------|---------|
+| P1: [Tên] | v1.0 | ☐ Đã phê duyệt | | |
+| P2: [Tên] | v1.0 | ☐ Đã phê duyệt | | |
+| P3: [Tên] | v1.0 | ☐ Đã phê duyệt | | |
 
-> **Sau khi sign-off:** Quy trình trở thành **baseline**. Thay đổi = Yêu cầu thay đổi (CR).
+> **Sau khi phê duyệt:** Quy trình trở thành **Bản chốt phạm vi (Baseline)**. Thay đổi = Yêu cầu thay đổi (CR).

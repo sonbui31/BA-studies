@@ -148,7 +148,7 @@
 
 | # | Lesson | Root Cause | Mitigation cho lần sau |
 |---|---|---|---|
-| 1 | {{KH thay đổi requirement Phase Delivery}} | {{BRD sign-off chưa đủ chặt}} | {{Double-confirm trước Sprint 1}} |
+| 1 | {{KH thay đổi requirement Phase Delivery}} | {{BRD phê duyệt chưa đủ chặt}} | {{Double-confirm trước Sprint 1}} |
 | 2 | {{Integration test muộn → phát hiện lỗi muộn}} | {{Test env chưa sẵn sàng}} | {{Setup test env từ Sprint 1}} |
 | 3 | {{Data migration gần go-live mới test}} | {{Thiếu migration plan sớm}} | {{Test migration từ Sprint 2}} |
 
@@ -180,15 +180,15 @@
 
 ---
 
-## 10. Sign-Off
+## 10. Phê duyệt
 
 | Vai trò | Tên | Đồng ý? | Ngày | Ghi chú |
 |---|---|:---:|---|---|
 | BA | {{Tên}} | ☐ | | |
 | PM | {{Tên}} | ☐ | | |
 | Dev Lead | {{Tên}} | ☐ | | |
-| Product Owner | {{Tên}} | ☐ | | |
-| Sponsor | {{Tên}} | ☐ | | |
+| Người đại diện KH (Product Owner) | {{Tên}} | ☐ | | |
+| Nhà tài trợ (Sponsor) | {{Tên}} | ☐ | | |
 
 ---
 

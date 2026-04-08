@@ -6,7 +6,7 @@
 > **Khách hàng:** [Tên công ty khách hàng]
 > **Nhà cung cấp:** [Tên công ty phát triển]
 > **Trạng thái:** Draft
-> **⚠️ Tài liệu BASELINE — mọi thay đổi sau sign-off phải qua quy trình CR**
+> **⚠️ Tài liệu CHỐT PHẠM VI (Baseline) — mọi thay đổi sau khi phê duyệt phải qua quy trình Yêu cầu thay đổi (CR)**
 
 ---
 
@@ -16,7 +16,7 @@
 |-----------|------|----------|-------|----------------|
 | 0.1 | | Draft đầu tiên | BA | — |
 | 0.2 | | Cập nhật theo phản hồi Khách hàng | BA | — |
-| 1.0 | | **Baseline đã sign-off** | BA | Sponsor KH |
+| 1.0 | | **Đã phê duyệt — Chốt phạm vi** | BA | Nhà tài trợ KH |
 
 ---
 
@@ -37,9 +37,9 @@ Tài liệu này mô tả **yêu cầu kinh doanh** cho dự án [Tên], phục 
 
 | Đối tượng | Đọc phần |
 |-----------|---------|
-| Ban giám đốc / Sponsor | Mục 1-3, 7 (Tóm tắt, Luận chứng kinh doanh, ROI) |
-| Product Owner / Quản lý kinh doanh | Toàn bộ |
-| PM / BA Nhà cung cấp | Toàn bộ |
+| Ban giám đốc / Nhà tài trợ (Sponsor) | Mục 1-3, 7 (Tóm tắt, Luận chứng kinh doanh, Lợi ích đầu tư) |
+| Người đại diện KH (Product Owner) / Quản lý kinh doanh | Toàn bộ |
+| Quản lý dự án (PM) / Chuyên viên phân tích (BA) Nhà cung cấp | Toàn bộ |
 | Đội phát triển Nhà cung cấp | Mục 4-6 (yêu cầu chi tiết) |
 | Tài chính / Mua sắm | Mục 3, 7 (Chi phí-Lợi ích, Ngân sách) |
 | Pháp lý | Mục 8 (Ràng buộc, Tuân thủ) |
@@ -222,8 +222,8 @@ _(Thêm modules tương tự)_
 
 | # | Stakeholder | Vai trò | Kỳ vọng | Mức ảnh hưởng |
 |---|--------------|---------|---------|---------------|
-| 1 | [Giám đốc/Ban lãnh đạo] | Sponsor | ROI, đúng ngân sách | 🔴 Rất cao |
-| 2 | [Quản lý kinh doanh] | Product Owner | Đúng nghiệp vụ | 🔴 Rất cao |
+| 1 | [Giám đốc/Ban lãnh đạo] | Nhà tài trợ (Sponsor) | Lợi ích đầu tư (ROI), đúng ngân sách | 🔴 Rất cao |
+| 2 | [Quản lý kinh doanh] | Người đại diện KH (Product Owner) | Đúng nghiệp vụ | 🔴 Rất cao |
 | 3 | [Người dùng cuối] | Người dùng chính | Dễ dùng, giải quyết được việc | 🟠 Cao |
 | 4 | [Phòng CNTT] | Giám sát kỹ thuật | Tuân thủ chuẩn kỹ thuật | 🟠 Cao |
 | 5 | [Khách hàng/Đối tác] | Người dùng bên ngoài | Tự phục vụ, nhanh | 🟡 Trung bình |
@@ -286,10 +286,10 @@ _(Chi tiết: xem `06-SRS.md` Mục 3)_
 
 | # | Rủi ro | Xác suất | Tác động | Biện pháp giảm thiểu | Chịu trách nhiệm |
 |---|--------|----------|----------|----------------------|-------------------|
-| R1 | Scope creep → vượt ngân sách | Cao | Cao | SRS baseline + quy trình CR | Cả hai |
+| R1 | Phát sinh yêu cầu ngoài phạm vi (Scope creep) → vượt ngân sách | Cao | Cao | Chốt phạm vi (Baseline) + quy trình Yêu cầu thay đổi (CR) | Cả hai |
 | R2 | Người dùng kháng cự thay đổi | Cao | Trung bình | Cho tham gia sớm, đào tạo, quản lý thay đổi | KH |
 | R3 | Tích hợp phức tạp hơn dự kiến | Trung bình | Cao | Thử nghiệm sớm, xem xét API tuần 2 | NCC |
-| R4 | Stakeholder chính thay đổi giữa chừng | Thấp | Cao | Ghi nhận quyết định, sign-off chính thức | KH |
+| R4 | Stakeholder chính thay đổi giữa chừng | Thấp | Cao | Ghi nhận quyết định, phê duyệt chính thức | KH |
 | R5 | Dữ liệu cũ không sạch | Trung bình | Trung bình | Kiểm tra dữ liệu sớm, KH chịu trách nhiệm chất lượng dữ liệu | KH |
 
 ---
@@ -300,10 +300,10 @@ _(Chi tiết: xem `06-SRS.md` Mục 3)_
 
 | Giai đoạn | Thời lượng | Sản phẩm chính | Mốc |
 |-----------|-----------|----------------|-----|
-| Khám phá & Thiết kế | [X] tuần | SRS, Prototype | M1: Sign-off SRS |
-| Phát triển Phiên bản 1 (MVP) | [X] tuần | MVP hoạt động | M2: Nghiệm thu PB1 |
-| Phát triển Phiên bản 2 | [X] tuần | Đầy đủ tính năng | M3: Nghiệm thu PB2 |
-| Vận hành + Bảo hành | [X] tuần | Hệ thống sản xuất | M4: Hết bảo hành |
+| Khám phá & Thiết kế | [X] tuần | Đặc tả yêu cầu (SRS), Giao diện phác thảo | M1: Phê duyệt đặc tả |
+| Phát triển Giai đoạn 1 (Bản cơ bản - MVP) | [X] tuần | Phần mềm hoạt động được | M2: Nghiệm thu GĐ1 |
+| Phát triển Giai đoạn 2 | [X] tuần | Đầy đủ tính năng | M3: Nghiệm thu GĐ2 |
+| Vận hành + Bảo hành | [X] tuần | Hệ thống chính thức | M4: Kết thúc bảo hành |
 | **Tổng** | **[X] tuần** | | |
 
 ### 9.2 Tóm tắt ngân sách
@@ -331,18 +331,18 @@ _(Chi tiết: xem `06-SRS.md` Mục 3)_
 
 ---
 
-## 11. Phê duyệt — Sign-off BRD
+## 11. Phê duyệt BRD
 
-> ⚠️ **Sign-off BRD = Phê duyệt đầu tư + Baseline phạm vi**
-> Sau thời điểm này, mọi thay đổi phạm vi phải qua quy trình Yêu cầu thay đổi
+> ⚠️ **Phê duyệt BRD = Phê duyệt đầu tư + Chốt phạm vi (Baseline)**
+> Sau thời điểm này, mọi thay đổi phạm vi phải qua quy trình Yêu cầu thay đổi (CR)
 
 | Vai trò | Bên | Họ tên | Chữ ký | Ngày |
 |---------|-----|--------|--------|------|
-| Sponsor | Khách hàng | | | |
-| Product Owner | Khách hàng | | | |
+| Nhà tài trợ (Sponsor) | Khách hàng | | | |
+| Người đại diện KH (Product Owner) | Khách hàng | | | |
 | Tài chính/Mua sắm | Khách hàng | | | |
-| Project Manager | Nhà cung cấp | | | |
-| BA Lead | Nhà cung cấp | | | |
+| Quản lý dự án (PM) | Nhà cung cấp | | | |
+| Trưởng nhóm Phân tích (BA Lead) | Nhà cung cấp | | | |
 
 ---
 

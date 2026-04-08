@@ -7,50 +7,50 @@
 
 ---
 
-## 1. Problem Statement
+## 1. Vấn đề cần giải quyết
 
-> **User Problem:**
-> {{Mô tả vấn đề từ góc nhìn user — không phải từ góc nhìn business}}
+> **Vấn đề người dùng gặp phải:**
+> {{Mô tả vấn đề từ góc nhìn người dùng — không phải từ góc nhìn kinh doanh}}
 
-> **Evidence:**
-> - {{Dữ liệu support ticket / churn reason / user interview}}
-> - {{Analytics data: X% users drop off tại bước Y}}
-> - {{Competitor Z đã giải quyết vấn đề này}}
-
----
-
-## 2. User Personas
-
-| Persona | Đặc điểm | Nhu cầu | Pain Point | Goal |
-|---------|----------|---------|------------|------|
-| {{Persona A}} | {{Age, role, behavior}} | {{What they need}} | {{What frustrates them}} | {{Desired outcome}} |
-| {{Persona B}} | {{Age, role, behavior}} | {{What they need}} | {{What frustrates them}} | {{Desired outcome}} |
+> **Bằng chứng / Số liệu:**
+> - {{Dữ liệu phản hồi khách hàng / lý do rời bỏ / phỏng vấn người dùng}}
+> - {{Thống kê: X% người dùng bỏ dở tại bước Y}}
+> - {{Đối thủ Z đã giải quyết vấn đề này}}
 
 ---
 
-## 3. Success Metrics (OKRs)
+## 2. Nhóm người dùng mục tiêu
 
-| Objective | Key Result | Target | Baseline | Measurement |
-|-----------|-----------|--------|----------|-------------|
-| {{O1}} | {{KR1}} | {{Target}} | {{Current}} | {{Tool/Method}} |
-| | {{KR2}} | {{Target}} | {{Current}} | {{Tool/Method}} |
-| {{O2}} | {{KR3}} | {{Target}} | {{Current}} | {{Tool/Method}} |
+| Nhóm người dùng | Đặc điểm | Nhu cầu | Khó khăn / Nỗi đau | Mục tiêu |
+|-----------------|----------|---------|---------------------|----------|
+| {{Persona A}} | {{Tuổi, vai trò, hành vi}} | {{Họ cần gì}} | {{Điều gì khiến họ bực mình}} | {{Kết quả mong muốn}} |
+| {{Persona B}} | {{Tuổi, vai trò, hành vi}} | {{Họ cần gì}} | {{Điều gì khiến họ bực mình}} | {{Kết quả mong muốn}} |
 
 ---
 
-## 4. Solution
+## 3. Chỉ tiêu đo lường thành công (OKRs)
+
+| Mục tiêu | Kết quả then chốt | Chỉ tiêu | Hiện tại | Công cụ đo |
+|----------|--------------------|----------|----------|------------|
+| {{O1}} | {{KR1}} | {{Target}} | {{Current}} | {{Công cụ}} |
+| | {{KR2}} | {{Target}} | {{Current}} | {{Công cụ}} |
+| {{O2}} | {{KR3}} | {{Target}} | {{Current}} | {{Công cụ}} |
+
+---
+
+## 4. Giải pháp đề xuất
 
 ### 4.1 Mô tả giải pháp
 {{Mô tả tổng quan giải pháp, approach, và tại sao chọn cách này}}
 
-### 4.2 User Flow
+### 4.2 Luồng thao tác người dùng
 > Chi tiết tại `04-User-Flow.md`
 
 ```
 [Mô tả user flow chính — hoặc link đến Figma]
 ```
 
-### 4.3 Wireframe / Mockup
+### 4.3 Giao diện phác thảo
 > Link Figma: {{URL}}
 
 ---
@@ -59,8 +59,8 @@
 
 ### 5.1 Yêu cầu chức năng
 
-| Mã | Yêu cầu nghiệp vụ | Mô tả | Stakeholder |
-|----|-------------------|-------|-------------|
+| Mã | Yêu cầu nghiệp vụ | Mô tả | Bên liên quan |
+|----|-------------------|-------|---------------|
 | BR-001 | {{Tên yêu cầu}} | {{Mô tả chi tiết}} | {{Ai}} |
 | BR-002 | {{Tên yêu cầu}} | {{Mô tả chi tiết}} | {{Ai}} |
 
@@ -73,28 +73,28 @@
 
 ---
 
-## 6. Feature Scope (MoSCoW + Kano)
+## 6. Phạm vi tính năng (Phân loại ưu tiên)
 
-### ✅ MUST — Bắt buộc cho Release này
+### ✅ BẮT BUỘC (Must) — Không có không nghiệm thu
 
-| ID | Feature | User Story | Kano | Sprint |
-|----|---------|-----------|------|--------|
-| F-001 | {{Feature}} | Là **{{persona}}**, tôi muốn **{{action}}** để **{{benefit}}** | Performance | S1 |
-| F-002 | {{Feature}} | Là **{{persona}}**, tôi muốn **{{action}}** để **{{benefit}}** | Performance | S1 |
+| ID | Tính năng | Mô tả nhu cầu | Phân loại giá trị | Giai đoạn |
+|----|-----------|---------------|-------------------|----------|
+| F-001 | {{Feature}} | Là **{{persona}}**, tôi muốn **{{action}}** để **{{benefit}}** | Nâng cao (Performance) | GĐ1 |
+| F-002 | {{Feature}} | Là **{{persona}}**, tôi muốn **{{action}}** để **{{benefit}}** | Nâng cao (Performance) | GĐ1 |
 
-### 🟡 SHOULD — Nên có
+### 🟡 NÊN CÓ (Should) — Quan trọng nhưng có thể dời
 
-| ID | Feature | User Story | Kano | Sprint |
-|----|---------|-----------|------|--------|
-| F-003 | {{Feature}} | {{User Story}} | Attractive | S2 |
+| ID | Tính năng | Mô tả nhu cầu | Phân loại giá trị | Giai đoạn |
+|----|-----------|---------------|-------------------|----------|
+| F-003 | {{Feature}} | {{Mô tả nhu cầu}} | Gây ấn tượng (Attractive) | GĐ2 |
 
-### 🔵 COULD — Có thể có
+### 🔵 CÓ THỂ (Could) — Làm nếu còn thời gian
 
-| ID | Feature | User Story | Kano | Sprint |
-|----|---------|-----------|------|--------|
-| F-004 | {{Feature}} | {{User Story}} | Attractive | S3+ |
+| ID | Tính năng | Mô tả nhu cầu | Phân loại giá trị | Giai đoạn |
+|----|-----------|---------------|-------------------|----------|
+| F-004 | {{Feature}} | {{Mô tả nhu cầu}} | Gây ấn tượng (Attractive) | GĐ3+ |
 
-### ❌ WON'T (đợt này)
+### ❌ CHƯA LÀM (Won't) — Loại bỏ đợt này
 
 | Feature | Lý do | Xem xét lại |
 |---------|-------|-------------|
@@ -102,17 +102,17 @@
 
 ---
 
-## 7. Out of Scope
+## 7. Ngoài phạm vi
 
 - {{Những gì KHÔNG làm trong BRD này}}
 - {{Ranh giới rõ ràng}}
 
 ---
 
-## 8. Dependencies & Assumptions
+## 8. Phụ thuộc & Giả định
 
-### Dependencies
-| # | Dependency | Team/Service | Status |
+### Phụ thuộc (Dependencies)
+| # | Phụ thuộc vào | Đội / Dịch vụ | Trạng thái |
 |---|-----------|-------------|--------|
 | 1 | {{Phụ thuộc}} | {{Team}} | {{Status}} |
 
@@ -122,37 +122,37 @@
 
 ---
 
-## 9. Risks & Mitigations
+## 9. Rủi ro & Giải pháp giảm thiểu
 
-| # | Risk | Probability | Impact | Mitigation |
-|---|------|------------|--------|------------|
-| 1 | {{Rủi ro}} | High/Med/Low | High/Med/Low | {{Cách giảm thiểu}} |
-| 2 | {{Rủi ro}} | High/Med/Low | High/Med/Low | {{Cách giảm thiểu}} |
+| # | Rủi ro | Xác suất | Mức ảnh hưởng | Giải pháp giảm thiểu |
+|---|--------|----------|---------------|----------------------|
+| 1 | {{Rủi ro}} | Cao/TB/Thấp | Cao/TB/Thấp | {{Cách giảm thiểu}} |
+| 2 | {{Rủi ro}} | Cao/TB/Thấp | Cao/TB/Thấp | {{Cách giảm thiểu}} |
 
 ---
 
-## 10. Open Questions
+## 10. Câu hỏi chưa có lời đáp
 
-| # | Question | Owner | Deadline | Answer |
-|---|---------|-------|----------|--------|
+| # | Câu hỏi | Phụ trách | Hạn trả lời | Đáp án |
+|---|---------|-----------|-------------|--------|
 | 1 | {{Câu hỏi chưa trả lời}} | {{Ai}} | {{Khi nào}} | |
 
 ---
 
-## 11. Release & Rollout Plan
+## 11. Kế hoạch Phát hành & Triển khai
 
-| Phase | % Users | Duration | Criteria chuyển tiếp |
-|-------|---------|----------|--------------------|
-| Internal Testing | Team only | 1 tuần | 0 Critical bugs |
-| Beta (Closed) | 5% users | 1-2 tuần | NPS ≥ 7, no major issues |
-| Beta (Open) | 20% users | 1 tuần | Metrics stable |
-| GA (General Availability) | 100% users | — | OKRs on track |
+| Giai đoạn | % Người dùng | Thời gian | Tiêu chí chuyển tiếp |
+|-----------|-------------|-----------|----------------------|
+| Kiểm thử nội bộ | Chỉ đội ngũ | 1 tuần | 0 lỗi nghiêm trọng |
+| Thử nghiệm kín (Beta) | 5% người dùng | 1-2 tuần | NPS ≥ 7, không có sự cố lớn |
+| Thử nghiệm mở | 20% người dùng | 1 tuần | Các chỉ số ổn định |
+| Ra mắt chính thức | 100% người dùng | — | Đạt mục tiêu OKRs |
 
 ---
 
-## 12. Ma trận truy vết (RTM)
+## 12. Ma trận truy vết (RTM — Requirement Traceability Matrix)
 
-| Mục tiêu NV | BR liên quan | Feature | Sprint |
+| Mục tiêu nghiệp vụ | Yêu cầu liên quan | Tính năng | Giai đoạn |
 |-------------|-------------|---------|--------|
 | {{Objective 1}} | BR-001, BR-002 | F-001, F-002 | S1 |
 | {{Objective 2}} | BR-003 | F-003 | S2 |
@@ -166,7 +166,7 @@
 | Product Lead | | | |
 | PM / BA | | | |
 
-> **Quy tắc:** Sau khi approved, mọi thay đổi yêu cầu phải qua quy trình CR (`09-Release-Notes.md`)
+> **Quy tắc:** Sau khi phê duyệt, mọi thay đổi yêu cầu phải qua quy trình Yêu cầu Thay đổi (CR) — xem `09-Release-Notes.md`
 
 ---
 

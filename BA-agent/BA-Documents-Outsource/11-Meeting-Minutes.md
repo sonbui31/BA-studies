@@ -80,7 +80,7 @@
 
 ### Vấn đề còn mở / Vấn đề chặn
 
-| # | Vấn đề | Chịu TN | Hạng mục bị chặn | Escalation? |
+| # | Vấn đề | Chịu TN | Hạng mục bị chặn | Cần báo cáo cấp trên? |
 |---|--------|---------|------------------|-----------|
 | 1 | | | | ☐ Không ☐ Có → Cấp [1/2/3] |
 

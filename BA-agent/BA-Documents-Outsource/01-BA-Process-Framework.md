@@ -13,10 +13,10 @@
 |---------|----------|-----------|
 | Quan hệ | Nội bộ, linh hoạt | Hợp đồng, pháp lý ràng buộc |
 | Giao tiếp | Ngồi cạnh, hỏi luôn | Từ xa, lệch múi giờ, họp theo lịch |
-| Tài liệu | Vừa đủ, linh hoạt | **Phải chính thống**, baseline + sign-off |
+| Tài liệu | Vừa đủ, linh hoạt | **Phải chính thống**, chốt phạm vi (baseline) + phê duyệt |
 | Thay đổi yêu cầu | Dễ, nhanh | Yêu cầu thay đổi (CR) có **ảnh hưởng chi phí**, cần phê duyệt |
 | Nghiệm thu | Demo + phản hồi | **Nghiệm thu UAT chính thức** + Biên bản nghiệm thu + thanh toán |
-| Rủi ro chính | Scope creep | Hiểu sai yêu cầu, kỳ vọng lệch, phụ thuộc nhà cung cấp |
+| Rủi ro chính | Phát sinh yêu cầu ngoài phạm vi | Hiểu sai yêu cầu, kỳ vọng lệch, phụ thuộc nhà cung cấp |
 
 ---
 
@@ -50,7 +50,7 @@
 
 **BA cần lưu ý:**
 - ⚠️ **KHÔNG ước lượng khi chưa hiểu rõ yêu cầu** → đề xuất giai đoạn Khám phá có trả phí
-- ⚠️ Hợp đồng phải ghi rõ: phạm vi, ngoại trừ, giả định, quy trình thay đổi, payment milestone
+- ⚠️ Hợp đồng phải ghi rõ: phạm vi, ngoại trừ, giả định, quy trình thay đổi, mốc thanh toán
 
 ---
 
@@ -67,12 +67,12 @@
 | Thỏa thuận bảo mật & sở hữu trí tuệ | NDA đã ký |
 
 **Sản phẩm bàn giao:**
-- `03-Vision-Scope.md` (Khách hàng sign-off bắt buộc)
+- `03-Vision-Scope.md` (Khách hàng phê duyệt bắt buộc)
 - `04-Stakeholder-Map.md` (cả 2 bên: Khách hàng + Nhà cung cấp)
 - `05-Process-Flow.md`
 - Quy ước giao tiếp
 
-**Điều kiện chuyển giai đoạn:** Khách hàng sign-off Tầm nhìn & Phạm vi + BRD baseline
+**Điều kiện chuyển giai đoạn:** Khách hàng phê duyệt Tầm nhìn & Phạm vi + BRD đã chốt phạm vi (baseline)
 
 ---
 
@@ -85,7 +85,7 @@
 | Workshop từ xa (video call + Miro) | User Story Map |
 | Trình bày prototype với Khách hàng | Phiên ghi hình + phản hồi |
 | Gửi prototype cho Khách hàng xem offline (2-3 ngày) | Phản hồi bằng văn bản |
-| Sign-off chính thức phạm vi bản đồ câu chuyện | Story Map baseline đã ký |
+| Phê duyệt chính thức phạm vi bản đồ câu chuyện | Bản đồ câu chuyện đã chốt phạm vi (baseline) và ký |
 
 **⚠️ Mẹo Outsource:**
 - Mọi workshop **phải ghi hình** (video/âm thanh) → tránh "tôi không nói vậy" sau này
@@ -107,10 +107,10 @@
 
 **Sản phẩm bàn giao:**
 - `06-SRS.md` → chi tiết hơn bản in-house
-- `07-User-Story-Map.md` (baseline đã ký)
+- `07-User-Story-Map.md` (đã chốt phạm vi và ký)
 - `08-Data-Model.md` + Đặc tả API
 
-**Điều kiện chuyển giai đoạn:** Khách hàng sign-off SRS → đây là **baseline** cho theo dõi CR
+**Điều kiện chuyển giai đoạn:** Khách hàng phê duyệt SRS → đây là **bản chốt phạm vi (baseline)** cho theo dõi CR
 
 ---
 
@@ -176,7 +176,7 @@ Tuần 2: Bàn giao & Chuyển giao kiến thức
 ├── Hỗ trợ triển khai sản xuất
 └── Thông tin đăng nhập môi trường sản xuất
 
-Tuần 3: Sign-off & Bảo hành
+Tuần 3: Phê duyệt & Bảo hành
 ├── Ký Biên bản nghiệm thu
 ├── Thanh toán mốc cuối
 ├── Bắt đầu thời gian bảo hành (30-90 ngày)
@@ -188,7 +188,7 @@ Tuần 3: Sign-off & Bảo hành
 
 ## 3. Ma trận RACI — Hồ sơ BA cho Outsource
 
-| Hồ sơ | BA (NCC) | PM (NCC) | PO (KH) | Sponsor (KH) | Dev Lead |
+| Hồ sơ | BA (NCC) | PM (NCC) | PO (KH) | Nhà tài trợ (KH) | Dev Lead |
 |--------|----------|----------|---------|---------------------|-----------------|
 | BRD / Hợp đồng | C | **R** | **A** | **A** | C |
 | Tầm nhìn & Phạm vi | **R** | A | **A** | **A** | I |
@@ -204,7 +204,7 @@ Tuần 3: Sign-off & Bảo hành
 
 > **R** = Thực hiện, **A** = Phê duyệt, **C** = Tham vấn, **I** = Thông báo
 > **NCC** = Nhà cung cấp, **KH** = Khách hàng
-> ⚠️ Khách hàng luôn **Phê duyệt** cho sign-off (khác biệt lớn nhất vs in-house)
+> ⚠️ Khách hàng luôn **Phê duyệt** tài liệu chính thức (khác biệt lớn nhất so với nội bộ)
 
 ---
 
@@ -214,7 +214,7 @@ Tuần 3: Sign-off & Bảo hành
 |------|----------|----------|-------------|
 | **Jira** | Theo dõi công việc, lỗi, CR | Liên tục | 24 giờ |
 | **Slack/Teams** | Hỏi đáp nhanh, làm rõ | Giờ làm việc | 4 giờ (giờ hành chính) |
-| **Email** | Quyết định chính thức, sign-off, escalation | Khi cần | 24 giờ |
+| **Email** | Quyết định chính thức, phê duyệt, báo cáo cấp trên | Khi cần | 24 giờ |
 | **Video Call** | Sự kiện Sprint, workshop, demo | Theo lịch | Đúng giờ |
 | **Confluence** | Tài liệu, wiki, cơ sở tri thức | Cập nhật liên tục | — |
 
@@ -224,12 +224,12 @@ Tuần 3: Sign-off & Bảo hành
 
 ---
 
-## 5. Payment Milestone — Gắn với Sản phẩm bàn giao
+## 5. Mốc thanh toán — Gắn với Sản phẩm bàn giao
 
 | Mốc | % Thanh toán | Điều kiện |
 |------|-------------|-----------|
 | M0: Ký hợp đồng | 20% | Hợp đồng đã ký |
-| M1: Sign-off SRS | 15% | Khách hàng sign-off SRS + Mô hình dữ liệu |
+| M1: Phê duyệt SRS | 15% | Khách hàng phê duyệt SRS + Mô hình dữ liệu |
 | M2: Demo MVP (Phiên bản 1) | 25% | Nghiệm thu đạt Phiên bản 1 |
 | M3: Phiên bản đầy đủ | 25% | Nghiệm thu đạt toàn bộ |
 | M4: Vận hành + Hết bảo hành | 15% | Hết bảo hành, không còn lỗi nghiêm trọng |
@@ -245,18 +245,18 @@ Tuần 3: Sign-off & Bảo hành
 - [ ] Kênh giao tiếp đã thiết lập
 
 ### Khởi động → Khám phá
-- [ ] Tầm nhìn & Phạm vi **đã được Khách hàng sign-off**
+- [ ] Tầm nhìn & Phạm vi **đã được Khách hàng phê duyệt**
 - [ ] Stakeholder Map hoàn thành
 - [ ] Quy trình hiện tại (As-Is) đã được ghi nhận
 - [ ] Thanh toán M0 đã nhận ✅
 
 ### Khám phá → Chi tiết hóa
-- [ ] User Story Map **baseline đã được Khách hàng duyệt**
+- [ ] Bản đồ câu chuyện (User Story Map) **đã được Khách hàng phê duyệt chốt phạm vi**
 - [ ] Prototype đã được người dùng cuối xác nhận
 - [ ] Quy trình tương lai (To-Be) đã được xác nhận
 
 ### Chi tiết hóa → Phát triển
-- [ ] SRS **đã được Khách hàng sign-off** (= baseline yêu cầu)
+- [ ] SRS **đã được Khách hàng phê duyệt** (= bản chốt phạm vi yêu cầu)
 - [ ] Mô hình dữ liệu đã được Dev Lead xem xét
 - [ ] Nhịp Sprint đã thống nhất
 - [ ] Thanh toán M1 đã nhận ✅

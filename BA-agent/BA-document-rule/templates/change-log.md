@@ -1,6 +1,6 @@
 # CHANGE LOG — {{TÊN DỰ ÁN}}
 
-> **Mục đích:** Theo dõi mọi thay đổi yêu cầu sau khi baseline
+> **Mục đích:** Theo dõi mọi thay đổi yêu cầu sau khi chốt phạm vi (baseline)
 > **Tham chiếu:** BABOK® — Requirements Life Cycle Management
 
 ---
@@ -16,7 +16,7 @@ BA phân tích Impact (phạm vi, thời gian, chi phí)
     ↓
 Review meeting (BA + PM + Dev Lead)
     ↓
-Trình Sponsor / PO phê duyệt
+Trình Nhà tài trợ (Sponsor) / PO phê duyệt
     ↓ Approved?
     ├── ✅ Approved → Cập nhật SRS/Story Map → Đưa vào Sprint
     └── ❌ Rejected → Ghi lý do, đóng CR
@@ -28,7 +28,7 @@ Trình Sponsor / PO phê duyệt
 
 | Loại | Mô tả | Ai phê duyệt |
 |------|-------|-------------|
-| **Scope Change** | Thêm/bớt feature ngoài baseline | Sponsor |
+| **Thay đổi phạm vi** | Thêm/bớt feature ngoài bản chốt phạm vi (baseline) | Nhà tài trợ (Sponsor) |
 | **Enhancement** | Cải tiến feature đã có | PO |
 | **Bug/Defect** | Lỗi so với SRS (KHÔNG phải CR) | Dev Lead |
 | **Clarification** | Làm rõ requirement mơ hồ | BA |
@@ -86,6 +86,6 @@ Trình Sponsor / PO phê duyệt
 | Rejected | {{N}} ({{%}}) |
 | Pending | {{N}} |
 | Total effort thêm | {{SP}} |
-| Scope creep % | {{Effort thêm / Effort gốc × 100}}% |
+| Phát sinh phạm vi (Scope creep) % | {{Effort thêm / Effort gốc × 100}}% |
 
-> ⚠️ Scope creep > 20% → cần escalate lên Sponsor.
+> ⚠️ Phát sinh phạm vi > 20% → cần báo cáo cấp trên cho Nhà tài trợ (Sponsor).

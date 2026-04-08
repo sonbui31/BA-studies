@@ -10,7 +10,7 @@
 
 - **Khách hàng** xác nhận hệ thống đáp ứng yêu cầu trong BRD & SRS
 - Phát hiện lỗi/khoảng cách trước khi vận hành
-- **Sign-off chính thức** → kích hoạt payment milestone
+- **Phê duyệt chính thức** → kích hoạt mốc thanh toán
 
 ---
 
@@ -20,9 +20,9 @@
 |---------|-----------|-------------|
 | Ai kiểm thử | Người dùng cuối + QC | **PO/Người dùng cuối KH** (QC NCC hỗ trợ) |
 | Kết quả | Phản hồi → sửa | **Đạt/Không đạt → Thanh toán/Không thanh toán** |
-| Xử lý lỗi | Sửa ngay | Lỗi vs CR (phân loại ảnh hưởng chi phí) |
-| Sign-off | Không chính thức | **Biên bản nghiệm thu có giá trị pháp lý** |
-| Bảo hành | Không rõ ràng | **30-90 ngày sau sign-off** |
+| Xử lý lỗi | Sửa ngay | Lỗi vs Yêu cầu thay đổi (CR) — phân loại ảnh hưởng chi phí |
+| Phê duyệt | Không chính thức | **Biên bản nghiệm thu có giá trị pháp lý** |
+| Bảo hành | Không rõ ràng | **30-90 ngày sau khi phê duyệt** |
 | Môi trường | Dev/Staging | **Môi trường UAT riêng** (KH xác nhận) |
 
 ---
@@ -31,7 +31,7 @@
 
 ### 3.1 Phạm vi theo phiên bản
 
-| Phiên bản | Modules | Ngày UAT | Payment Milestone |
+| Phiên bản | Modules | Ngày nghiệm thu | Mốc thanh toán |
 |-----------|---------|----------|----------------|
 | PB1 (MVP) | [Module 1, Module 2] | [Ngày] | M2 — 25% |
 | PB2 (Đầy đủ) | [Module 3, Module 4, Tích hợp] | [Ngày] | M3 — 25% |
@@ -51,7 +51,7 @@
 - [ ] ≥ 95% kịch bản kiểm thử Đạt
 - [ ] 0 lỗi Nghiêm trọng mở
 - [ ] ≤ 3 lỗi Lớn mở (đồng ý sửa trong bảo hành)
-- [ ] **PO KH ký biên bản nghiệm thu**
+- [ ] **Người đại diện KH (PO) ký biên bản nghiệm thu**
 
 ---
 
@@ -73,8 +73,8 @@
 | Hoạt động đúng đặc tả nhưng UX không tốt? | — | **CR** (hoặc nâng cấp P2) |
 | Thiếu tính năng so với BRD/Hợp đồng? | **Lỗi** (thiếu yêu cầu) | — |
 
-> ⚠️ **Quy tắc vàng:** Nếu tính năng **không có trong SRS baseline** → đó là CR, không phải lỗi.
-> Đây là lý do sign-off SRS rất quan trọng trong gia công.
+> ⚠️ **Quy tắc vàng:** Nếu tính năng **không có trong bản chốt đặc tả (SRS baseline)** → đó là Yêu cầu thay đổi (CR), không phải lỗi.
+> Đây là lý do phê duyệt đặc tả (SRS) rất quan trọng trong gia công.
 
 ---
 
@@ -103,9 +103,9 @@
 | UAT-INT-01 | **[Tích hợp bên thứ 3]** | [Hệ thống A ↔ Hệ thống B] | 1. ... | - ... | ☐ |
 | UAT-INT-02 | **[Luồng thanh toán]** | [Ứng dụng ↔ Cổng thanh toán] | 1. ... | - ... | ☐ |
 
-### 5.4 Xác minh NFR
+### 5.4 Xác minh yêu cầu phi chức năng
 
-| Mã KT | NFR | Phương pháp | Tiêu chí chấp nhận | Kết quả | Đ/K |
+| Mã KT | Yêu cầu phi chức năng | Phương pháp | Tiêu chí chấp nhận | Kết quả | Đ/K |
 |-------|-----|-----------|---------------------|---------|-----|
 | UAT-NFR-01 | Hiệu năng (tải trang ≤ 3 giây) | Kiểm tra Lighthouse | Điểm ≥ 80 | — | ☐ |
 | UAT-NFR-02 | Người dùng đồng thời (≥ X) | Load test (K6/JMeter) | [X] người, p95 < 500ms | — | ☐ |
@@ -157,12 +157,12 @@
 
 | Giai đoạn | Thời lượng | Hoạt động | Sản phẩm |
 |-----------|-----------|-----------|----------|
-| **Chuẩn bị** | 3 ngày | Triển khai môi trường UAT, chuẩn bị dữ liệu, hướng dẫn PO KH | Danh mục sẵn sàng UAT |
+| **Chuẩn bị** | 3 ngày | Triển khai môi trường nghiệm thu, chuẩn bị dữ liệu, hướng dẫn Người đại diện KH | Danh mục sẵn sàng |
 | **UAT Vòng 1** | 5 ngày | KH chạy kịch bản, ghi nhận lỗi | Danh sách lỗi |
 | **Sửa lỗi** | 5 ngày | NCC sửa → triển khai → thông báo KH | Bản dựng đã sửa |
 | **UAT Vòng 2** | 3 ngày | Kiểm thử lại lỗi + hồi quy | Danh sách lỗi cập nhật |
 | **Dự phòng** | 2 ngày | Sửa nóng nếu còn Nghiêm trọng/Lớn | — |
-| **Sign-off** | 1 ngày | Xem xét kết quả, ký biên bản | **Biên bản đã ký** |
+| **Phê duyệt** | 1 ngày | Xem xét kết quả, ký biên bản | **Biên bản đã ký** |
 | **Tổng** | **~3 tuần** | | |
 
 ---

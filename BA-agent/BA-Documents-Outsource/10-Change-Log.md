@@ -63,7 +63,7 @@ Khách hàng đề xuất thay đổi
 | 🟢 **Giao diện** | < 0.5 NC | Miễn phí (thiện chí) | BA | 1 ngày |
 | 🟡 **Nhỏ** | 0.5 - 3 NC | Tính chi phí | PO KH | 2-3 ngày |
 | 🟠 **Lớn** | 3 - 10 NC | Tính chi phí + dịch tiến độ | PO KH + PM | 5 ngày |
-| 🔴 **Thay đổi phạm vi** | > 10 NC | Sửa đổi hợp đồng | **Sponsor KH** | 10 ngày |
+| 🔴 **Thay đổi phạm vi** | > 10 NC | Sửa đổi hợp đồng | **Nhà tài trợ KH (Sponsor)** | 10 ngày |
 
 > **Ngân sách thiện chí:** NCC có thể cho phép [X] NC miễn phí cho CR giao diện
 > Số lượng cụ thể ghi trong hợp đồng.
@@ -191,10 +191,10 @@ Còn lại:                     $___________
 | "Tính năng này đương nhiên phải có" | Kiểm tra **BRD & SRS**: có ghi = lỗi, ngầm hiểu nhưng không ghi = CR (thương lượng) |
 | "Chi phí quá cao cho thay đổi nhỏ" | Cung cấp **Phân tích ảnh hưởng chi tiết** — minh bạch khối lượng |
 
-### Escalation Path
+### Lộ trình báo cáo cấp trên
 ```
-Cấp 1: BA ↔ PO KH               → Rà soát SRS baseline
-Cấp 2: PM NCC ↔ PM KH            → Thương lượng chi phí/phạm vi
-Cấp 3: QĐ tài khoản ↔ Sponsor → Quyết định thương mại
-Cấp 4: Pháp lý (nếu cần)         → Tham chiếu hợp đồng
+Cấp 1: BA ↔ Người đại diện KH (PO)  → Rà soát bản chốt đặc tả (SRS baseline)
+Cấp 2: PM NCC ↔ PM KH               → Thương lượng chi phí/phạm vi
+Cấp 3: QĐ tài khoản ↔ Nhà tài trợ   → Quyết định thương mại
+Cấp 4: Pháp lý (nếu cần)            → Tham chiếu hợp đồng
 ```

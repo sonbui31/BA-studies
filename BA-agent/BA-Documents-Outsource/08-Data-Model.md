@@ -240,10 +240,10 @@
 
 ---
 
-## 7. Sign-off
+## 7. Phê duyệt
 
 | Vai trò | Bên | Họ tên | Ngày |
 |---------|-----|--------|------|
-| CNTT/PO KH | Khách hàng | | |
-| Tech Lead | Nhà cung cấp | | |
-| BA Lead | Nhà cung cấp | | |
+| CNTT / Người đại diện KH (PO) | Khách hàng | | |
+| Trưởng nhóm Kỹ thuật (Tech Lead) | Nhà cung cấp | | |
+| Trưởng nhóm Phân tích (BA Lead) | Nhà cung cấp | | |

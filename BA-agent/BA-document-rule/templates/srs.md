@@ -19,7 +19,7 @@
 |---------|-----|---------|--------|
 | BA | | | |
 | Dev Lead | | | |
-| PO / Sponsor | | | |
+| Người đại diện KH (PO) / Nhà tài trợ (Sponsor) | | | |
 
 ---
 

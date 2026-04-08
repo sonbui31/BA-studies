@@ -1,6 +1,6 @@
 # MEETING MINUTES — {{TÊN DỰ ÁN}}
 
-> **Mục đích:** Ghi nhận quyết định, action items, risk escalation từ các cuộc họp
+> **Mục đích:** Ghi nhận quyết định, việc cần làm, báo cáo rủi ro cấp trên từ các cuộc họp
 > **Quy tắc:** Gửi cho tất cả attendee trong vòng 24 giờ sau họp
 > **Phiên bản:** v3.2
 
@@ -54,7 +54,7 @@
 |---|-----------|:---:|---|---|:---:|
 | D-01 | {{VD: Chọn PostgreSQL thay vì MySQL}} | {{CTO}} | {{Performance tốt hơn cho geo-queries}} | {{Data Model cần update}} | ✅ Final |
 | D-02 | {{VD: Defer F04 sang Phase 2}} | {{PO}} | {{Timeline không đủ}} | {{Update BRD scope, Sprint Plan}} | ✅ Final |
-| D-03 | {{VD: Thêm bulk import cho module X}} | {{PM}} | {{KH yêu cầu}} | {{CR-003, +2 story points}} | ⏳ Pending sign-off |
+| D-03 | {{VD: Thêm bulk import cho module X}} | {{PM}} | {{KH yêu cầu}} | {{CR-003, +2 story points}} | ⏳ Chờ phê duyệt |
 
 **Quy tắc Decision Log:**
 1. Quyết định PHẢI có **người chịu trách nhiệm** — không "team đồng thuận" mơ hồ
@@ -63,19 +63,19 @@
 
 ---
 
-### ⚠️ Risk Escalation ⭐ NEW v3.2
+### ⚠️ Báo cáo rủi ro cấp trên (Risk Escalation) ⭐ NEW v3.2
 
-> **Mục đích:** Ghi nhận rủi ro và vấn đề phát hiện TRONG cuộc họp, cần escalate lên management hoặc thêm vào Risk Register.
+> **Mục đích:** Ghi nhận rủi ro và vấn đề phát hiện TRONG cuộc họp, cần báo cáo cấp trên hoặc thêm vào Risk Register.
 
-| # | Vấn đề phát hiện | Severity | Ai phát hiện | Cần escalate đến | Deadline | Linked Risk ID |
+| # | Vấn đề phát hiện | Severity | Ai phát hiện | Cần báo cáo đến | Deadline | Linked Risk ID |
 |---|---|:---:|---|---|---|---|
 | E-01 | {{VD: API HIS chưa có docs, có thể delay Sprint 3}} | 🔴 | {{BA}} | {{PM + HIS vendor}} | {{DD/MM}} | RSK-04 |
 | E-02 | {{VD: Key dev có thể nghỉ phép 2 tuần Sprint 4}} | 🟡 | {{Dev Lead}} | {{PM}} | {{DD/MM}} | RSK-NEW |
 
-**Quy tắc Escalation:**
-1. 🔴 Critical → Escalate **trong 24 giờ**, không chờ meeting tiếp theo
-2. 🟡 High → Escalate **trước Sprint Planning tiếp theo**
-3. Mỗi escalation → **tạo hoặc cập nhật Risk Register entry**
+**Quy tắc báo cáo cấp trên:**
+1. 🔴 Critical → Báo cáo **trong 24 giờ**, không chờ meeting tiếp theo
+2. 🟡 High → Báo cáo **trước Sprint Planning tiếp theo**
+3. Mỗi lần báo cáo → **tạo hoặc cập nhật Risk Register entry**
 
 ---
 
@@ -115,7 +115,7 @@
 2. **Ghi QUYẾT ĐỊNH, không ghi tranh luận** — focus vào outcome
 3. **Action Item phải có: Owner + Deadline + Priority** — không có = không tracking được
 4. **Decision Log cho mọi quyết định** — dù nhỏ, để truy vết sau này
-5. **Risk Escalation ngay khi phát hiện** — không chờ meeting tiếp
+5. **Báo cáo rủi ro cấp trên ngay khi phát hiện** — không chờ meeting tiếp
 6. **Open Items carry-forward** — items chưa close phải chuyển vào meeting tiếp
 7. **Đánh số liên tục** theo format — `[PROJECT]-MoM-YYYY-MM-DD-01`
 8. **Outsource: GHI HÌNH bắt buộc** — tránh "tôi không nói vậy"

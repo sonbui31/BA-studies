@@ -1,4 +1,4 @@
-# STAKEHOLDER MAP — {{TÊN DỰ ÁN}}
+# BẢN ĐỒ CÁC BÊN LIÊN QUAN (Stakeholder Map) — {{TÊN DỰ ÁN}}
 
 > **Phiên bản:** 0.1 | **Ngày:** {{DD/MM/YYYY}}
 > **Tác giả:** {{Tên BA}} | **Trạng thái:** Draft
@@ -22,7 +22,7 @@
              │
     ┌────────┼────────┐
     │ Keep   │ Manage │
-    │Satisfied│Closely │ ← Sponsor, PO, C-level
+    │Satisfied│Closely │ ← Nhà tài trợ, PO, Ban lãnh đạo
     │        │  ★★★   │
     ├────────┼────────┤
     │Monitor │ Keep   │
@@ -37,7 +37,7 @@
 
 | Stakeholder | Power | Interest | Quadrant | Chiến lược |
 |-------------|-------|----------|----------|-----------|
-| {{Sponsor}} | Cao | Cao | **Manage Closely** | Họp định kỳ, sign-off các deliverable chính |
+| {{Nhà tài trợ (Sponsor)}} | Cao | Cao | **Quản lý chặt** | Họp định kỳ, phê duyệt các sản phẩm bàn giao chính |
 | {{PO}} | Cao | Cao | **Manage Closely** | Tham gia Sprint Review, confirm requirements |
 | {{Dev Lead}} | Trung bình | Cao | **Keep Informed** | Review kỹ thuật, tham vấn giải pháp |
 | {{End-user}} | Thấp | Cao | **Keep Informed** | Workshop, UAT, feedback sessions |
@@ -48,7 +48,7 @@
 
 | Quadrant | Hành động | Tần suất | Kênh |
 |----------|----------|---------|------|
-| **Manage Closely** (High Power, High Interest) | Tham gia trực tiếp, sign-off | Hàng tuần | Meeting, Email chính thức |
+| **Quản lý chặt** (Ảnh hưởng Cao, Quan tâm Cao) | Tham gia trực tiếp, phê duyệt | Hàng tuần | Meeting, Email chính thức |
 | **Keep Satisfied** (High Power, Low Interest) | Update chủ động, tránh bất ngờ | 2 tuần / tháng | Email tóm tắt, Dashboard |
 | **Keep Informed** (Low Power, High Interest) | Chia sẻ thông tin, lấy feedback | Hàng tuần | Slack/Teams, Workshop |
 | **Monitor** (Low Power, Low Interest) | Theo dõi tối thiểu | Khi cần | Email thông báo |
@@ -60,7 +60,7 @@
 > **R** = Responsible (Thực hiện) | **A** = Accountable (Phê duyệt)
 > **C** = Consulted (Tham vấn) | **I** = Informed (Thông báo)
 
-| Tài liệu / Hoạt động | {{BA}} | {{PM}} | {{PO}} | {{Dev Lead}} | {{Sponsor}} |
+| Tài liệu / Hoạt động | {{BA}} | {{PM}} | {{PO}} | {{Dev Lead}} | {{Nhà tài trợ}} |
 |----------------------|--------|--------|--------|-------------|-------------|
 | Vision & Scope | **R** | A | C | I | **A** |
 | BRD | **R** | A | **A** | C | **A** |
@@ -79,7 +79,7 @@
 
 | Stakeholder | Kỳ vọng chính | Mối lo ngại | Cách address | Owner |
 |-------------|--------------|------------|-------------|-------|
-| {{Sponsor}} | {{Kỳ vọng}} | {{Lo ngại}} | {{Giải pháp}} | {{BA/PM}} |
+| {{Nhà tài trợ (Sponsor)}} | {{Kỳ vọng}} | {{Lo ngại}} | {{Giải pháp}} | {{BA/PM}} |
 | {{PO}} | {{Kỳ vọng}} | {{Lo ngại}} | {{Giải pháp}} | {{BA}} |
 | {{End-user}} | {{Kỳ vọng}} | {{Lo ngại}} | {{Giải pháp}} | {{BA}} |
 

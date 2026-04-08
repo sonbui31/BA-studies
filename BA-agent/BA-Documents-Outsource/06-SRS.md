@@ -4,7 +4,7 @@
 > **Phiên bản:** 1.0 | **Ngày:** 26/02/2026
 > **Trạng thái:** Draft
 > **Hợp đồng tham chiếu:** [HĐ-ID]
-> **⚠️ Đây là tài liệu BASELINE — mọi thay đổi sau sign-off phải qua quy trình CR**
+> **⚠️ Đây là tài liệu CHỐT PHẠM VI (Baseline) — mọi thay đổi sau khi phê duyệt phải qua quy trình Yêu cầu thay đổi (CR)**
 
 ---
 
@@ -17,8 +17,8 @@
 
 | Đối tượng | Đọc phần |
 |-----------|---------|
-| PO/Sponsor KH | Mục 1-4, 7 (phạm vi, tính năng, sign-off) |
-| Đội phát triển NCC | Mục 2-6 (chi tiết chức năng, NFR, dữ liệu, API) |
+| Người đại diện KH (PO) / Nhà tài trợ (Sponsor) | Mục 1-4, 7 (phạm vi, tính năng, phê duyệt) |
+| Đội phát triển NCC | Mục 2-6 (chi tiết chức năng, yêu cầu phi chức năng, dữ liệu, API) |
 | QC NCC | Mục 2-3, 5 (tiêu chí chấp nhận, NFR, quy tắc xác nhận) |
 | BA NCC | Toàn bộ |
 
@@ -45,7 +45,7 @@
 ## 2. Yêu cầu chức năng
 
 > **Quy ước ưu tiên:**
-> - **P0 (Bắt buộc):** Phải có, ảnh hưởng payment milestone
+> - **P0 (Bắt buộc):** Phải có, ảnh hưởng mốc thanh toán
 > - **P1 (Nên có):** Quan trọng, nên có trước vận hành
 > - **P2 (Có thể):** Tốt nếu có, có thể hoãn sang giai đoạn sau
 
@@ -67,7 +67,7 @@
 - VR-101: [Trường X] phải [xác nhận gì]
 - VR-102: [Trường Y] định dạng [quy định]
 
-**Acceptance Criteria (FR-101):**
+**Tiêu chí chấp nhận (FR-101):**
 ```gherkin
 Scenario: [Happy path]
   Given [điều kiện tiên quyết]
@@ -109,7 +109,7 @@ _(Thêm modules tương tự)_
 
 ---
 
-## 3. Yêu cầu phi chức năng (NFR)
+## 3. Yêu cầu phi chức năng
 
 | Mã | Danh mục | Yêu cầu | Chỉ tiêu | Cách xác minh |
 |----|----------|---------|----------|---------------|
@@ -183,7 +183,7 @@ _(Thêm modules tương tự)_
 | API-04 | /api/v1/reports/* | Tạo báo cáo | Frontend, Bộ lập lịch |
 | API-05 | /api/v1/webhooks/* | Nhận webhook | Bên thứ 3 |
 
-> **Sản phẩm:** Swagger/OpenAPI spec phải được giao cùng sign-off SRS
+> **Sản phẩm:** Swagger/OpenAPI spec phải được giao cùng khi phê duyệt SRS
 
 ---
 
@@ -222,18 +222,18 @@ _(Thêm modules tương tự)_
 
 ---
 
-## 8. Phê duyệt — SRS Baseline
+## 8. Phê duyệt — Chốt phạm vi SRS
 
-> ⚠️ **Sign-off SRS = Baseline yêu cầu = Cơ sở cho theo dõi CR**
+> ⚠️ **Phê duyệt SRS = Chốt phạm vi yêu cầu (Baseline) = Cơ sở cho theo dõi Yêu cầu thay đổi (CR)**
 > Mọi thay đổi sau thời điểm này PHẢI đi qua quy trình CR (10-Change-Log.md)
 
 | Vai trò | Bên | Họ tên | Chữ ký | Ngày |
 |---------|-----|--------|--------|------|
-| Product Owner | Khách hàng | | | |
+| Người đại diện KH (Product Owner) | Khách hàng | | | |
 | Quản lý CNTT | Khách hàng | | | |
-| Project Manager | Nhà cung cấp | | | |
-| BA Lead | Nhà cung cấp | | | |
-| Tech Lead | Nhà cung cấp | | | |
+| Quản lý dự án (PM) | Nhà cung cấp | | | |
+| Trưởng nhóm Phân tích (BA Lead) | Nhà cung cấp | | | |
+| Trưởng nhóm Kỹ thuật (Tech Lead) | Nhà cung cấp | | | |
 
 ---
 
@@ -243,5 +243,5 @@ _(Thêm modules tương tự)_
 |-----------|------|----------|-------|-------|
 | 0.1 | | Draft đầu tiên | — | BA |
 | 0.2 | | Cập nhật theo phản hồi KH | — | BA |
-| 1.0 | | **Baseline đã sign-off** | — | BA |
+| 1.0 | | **Đã phê duyệt — Chốt phạm vi** | — | BA |
 | 1.1 | | [Cập nhật theo CR-001] | CR-001 | BA |

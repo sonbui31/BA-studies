@@ -6,24 +6,24 @@
 
 ---
 
-## 1. Product Vision Board
+## 1. Tầm nhìn Sản phẩm
 
 | Mục | Nội dung |
 |-----|----------|
-| **Vision** | {{Một câu mô tả thế giới tốt đẹp hơn nhờ sản phẩm}} |
-| **Target Users** | {{Nhóm người dùng chính}} |
-| **User Needs** | {{3-5 nhu cầu chính mà sản phẩm giải quyết}} |
-| **Product** | {{Sản phẩm là gì, dạng SaaS/mobile/platform}} |
-| **Business Goals** | {{Mô hình kinh doanh, revenue model}} |
+| **Tầm nhìn (Vision)** | {{Một câu mô tả thế giới tốt đẹp hơn nhờ sản phẩm}} |
+| **Nhóm người dùng mục tiêu** | {{Nhóm người dùng chính}} |
+| **Nhu cầu cốt lõi** | {{3-5 nhu cầu chính mà sản phẩm giải quyết}} |
+| **Loại sản phẩm** | {{Sản phẩm là gì, dạng SaaS/mobile/platform}} |
+| **Mục tiêu kinh doanh** | {{Mô hình kinh doanh, cách tạo doanh thu}} |
 
 ---
 
-## 2. OKRs (Objectives & Key Results)
+## 2. Mục tiêu chiến lược (OKRs)
 
 ### OKR Q1
 
-| Objective | Key Result | Target | Baseline | Owner |
-|-----------|-----------|--------|----------|-------|
+| Mục tiêu (Objective) | Kết quả then chốt (Key Result) | Chỉ tiêu | Hiện tại | Phụ trách |
+|---------------------|-------------------------------|----------|----------|-----------|
 | O1: Đạt Product-Market Fit | KR1: DAU đạt {{X}} users | {{X}} | 0 | PM |
 | | KR2: D7 Retention ≥ {{X}}% | {{X}}% | 0% | PM |
 | | KR3: NPS ≥ {{X}} | {{X}} | N/A | PM |
@@ -34,51 +34,51 @@
 
 ---
 
-## 3. Target Users & Personas
+## 3. Nhóm Khách hàng mục tiêu
 
 > Chi tiết tại `03-User-Personas.md`
 
-| Persona | Đặc điểm | Nhu cầu chính | Pain point |
-|---------|----------|---------------|------------|
-| {{Persona 1}} | {{Mô tả ngắn}} | {{Nhu cầu}} | {{Pain point}} |
-| {{Persona 2}} | {{Mô tả ngắn}} | {{Nhu cầu}} | {{Pain point}} |
-| {{Persona 3}} | {{Mô tả ngắn}} | {{Nhu cầu}} | {{Pain point}} |
+| Nhóm khách hàng | Đặc điểm | Nhu cầu chính | Khó khăn / Nỗi đau |
+|-----------------|----------|---------------|--------------------|
+| {{Persona 1}} | {{Mô tả ngắn}} | {{Nhu cầu}} | {{Khó khăn}} |
+| {{Persona 2}} | {{Mô tả ngắn}} | {{Nhu cầu}} | {{Khó khăn}} |
+| {{Persona 3}} | {{Mô tả ngắn}} | {{Nhu cầu}} | {{Khó khăn}} |
 
 ---
 
-## 4. Problem Statement
+## 4. Vấn đề cần giải quyết
 
-> **Problem:** {{Mô tả vấn đề từ góc nhìn user}}
+> **Vấn đề:** {{Mô tả vấn đề từ góc nhìn người dùng}}
 >
-> **Current Solutions:** {{User hiện dùng gì? (competitors, workaround)}}
+> **Giải pháp hiện tại:** {{Người dùng hiện đang dùng gì? (đối thủ, giải pháp tạm)}}
 >
-> **Why Now:** {{Tại sao giải quyết bây giờ? Thay đổi thị trường? Công nghệ mới?}}
+> **Tại sao phải làm ngay?:** {{Thay đổi thị trường? Công nghệ mới? Mất cơ hội?}}
 
 ---
 
-## 5. Product Scope
+## 5. Phạm vi Sản phẩm
 
-### 5.1 Core Features (In-Scope)
+### 5.1 Tính năng cốt lõi (Trong phạm vi)
 
-| # | Feature | Mô tả | MoSCoW | Kano |
-|---|---------|-------|--------|------|
-| 1 | {{Feature A}} | {{Mô tả}} | Must | Performance |
-| 2 | {{Feature B}} | {{Mô tả}} | Must | Performance |
-| 3 | {{Feature C}} | {{Mô tả}} | Should | Attractive |
-| 4 | {{Feature D}} | {{Mô tả}} | Could | Attractive |
+| # | Tính năng | Mô tả | Mức ưu tiên | Phân loại giá trị |
+|---|-----------|-------|-------------|-------------------|
+| 1 | {{Feature A}} | {{Mô tả}} | Bắt buộc (Must) | Nâng cao (Performance) |
+| 2 | {{Feature B}} | {{Mô tả}} | Bắt buộc (Must) | Nâng cao (Performance) |
+| 3 | {{Feature C}} | {{Mô tả}} | Nên có (Should) | Gây ấn tượng (Attractive) |
+| 4 | {{Feature D}} | {{Mô tả}} | Có thể (Could) | Gây ấn tượng (Attractive) |
 
-### 5.2 Out of Scope (v1.0)
+### 5.2 Ngoài phạm vi (v1.0)
 
 - ❌ {{Feature không làm trong v1 + lý do}}
 - ❌ {{Feature chưa làm + khi nào xem xét}}
 
-### 5.3 Assumptions
+### 5.3 Giả định (Assumptions)
 
 1. {{Giả định về user behavior}}
 2. {{Giả định về technology}}
 3. {{Giả định về market}}
 
-### 5.4 Constraints
+### 5.4 Ràng buộc (Constraints)
 
 1. {{Ràng buộc kỹ thuật}}
 2. {{Ràng buộc pháp lý / compliance}}
@@ -86,27 +86,27 @@
 
 ---
 
-## 6. Competitive Landscape
+## 6. Bối cảnh cạnh tranh
 
-| Competitor | Ưu điểm | Nhược điểm | Khác biệt của ta |
-|-----------|---------|-----------|------------------|
-| {{Competitor A}} | {{Ưu}} | {{Nhược}} | {{Differentiation}} |
-| {{Competitor B}} | {{Ưu}} | {{Nhược}} | {{Differentiation}} |
-| {{Competitor C}} | {{Ưu}} | {{Nhược}} | {{Differentiation}} |
-
----
-
-## 7. Revenue Model
-
-| Pricing Tier | Giá | Tính năng | Target User |
-|-------------|------|----------|-------------|
-| Free / Trial | $0 | {{Core features giới hạn}} | {{User mới}} |
-| Pro | ${{X}}/tháng | {{Full features}} | {{Power user}} |
-| Enterprise | Custom | {{All + SLA + Support}} | {{Doanh nghiệp}} |
+| Đối thủ | Ưu điểm của họ | Nhược điểm của họ | Khác biệt của chúng ta |
+|---------|---------------|------------------|------------------------|
+| {{Competitor A}} | {{Ưu}} | {{Nhược}} | {{Lợi thế của ta}} |
+| {{Competitor B}} | {{Ưu}} | {{Nhược}} | {{Lợi thế của ta}} |
+| {{Competitor C}} | {{Ưu}} | {{Nhược}} | {{Lợi thế của ta}} |
 
 ---
 
-## 8. Release Plan
+## 7. Mô hình doanh thu
+
+| Gói dịch vụ | Giá | Tính năng | Đối tượng phù hợp |
+|-------------|------|----------|--------------------|
+| Dùng thử (Free / Trial) | $0 | {{Tính năng cốt lõi giới hạn}} | {{Người dùng mới}} |
+| Tiêu chuẩn (Pro) | ${{X}}/tháng | {{Đầy đủ tính năng}} | {{Người dùng thường xuyên}} |
+| Doanh nghiệp | Thỏa thuận | {{Tất cả + Cam kết vận hành + Hỗ trợ}} | {{Công ty lớn}} |
+
+---
+
+## 8. Kế hoạch phát hành theo giai đoạn
 
 ```
 Phase 1 — MVP (Sprint 1-4):
@@ -127,27 +127,27 @@ Phase 3 — Monetization (Sprint 9-12):
 
 ---
 
-## 9. Success Metrics (AARRR)
+## 9. Thước đo thành công (Mô hình AARRR)
 
-| Stage | Metric | Tool | Target (3 tháng) |
-|-------|--------|------|-------------------|
-| **Acquisition** | Sign-up rate, DAU | GA4 / Mixpanel | {{X}} |
-| **Activation** | Onboarding completion, Time-to-value | Mixpanel | {{X}}% |
-| **Retention** | D1/D7/D30 retention | Amplitude | D7 ≥ {{X}}% |
-| **Revenue** | MRR, ARPU, Churn rate | Stripe / Internal | ${{X}} |
-| **Referral** | NPS, Viral coefficient | Survey | NPS ≥ {{X}} |
+| Giai đoạn | Thước đo | Công cụ | Chỉ tiêu (3 tháng) |
+|-----------|----------|---------|---------------------|
+| **Thu hút (Acquisition)** | Lượt đăng ký, Người dùng / ngày | GA4 / Mixpanel | {{X}} |
+| **Kích hoạt (Activation)** | Tỷ lệ hoàn tất đăng ký, Thời gian nhận giá trị | Mixpanel | {{X}}% |
+| **Giữ chân (Retention)** | Tỷ lệ quay lại ngày 1/7/30 | Amplitude | D7 ≥ {{X}}% |
+| **Doanh thu (Revenue)** | Doanh thu tháng, Doanh thu / người, Tỷ lệ rời bỏ | Stripe / Nội bộ | ${{X}} |
+| **Lan tỏa (Referral)** | Điểm hài lòng (NPS), Hệ số lan truyền | Khảo sát | NPS ≥ {{X}} |
 
 ---
 
-## 10. Risks
+## 10. Rủi ro dự kiến
 
-| # | Rủi ro | Xác suất | Tác động | Mitigation |
-|---|--------|----------|----------|------------|
-| 1 | Không đạt Product-Market Fit | Cao | Rất cao | User research sớm, MVP nhanh |
-| 2 | Competitor ra tính năng tương tự | Trung bình | Cao | Tập trung vào differentiation |
-| 3 | User churn cao sau trial | Cao | Cao | Onboarding optimization, NPS tracking |
-| 4 | Scaling issues | Trung bình | Cao | Architecture review sớm |
-| 5 | Compliance / legal | Thấp | Cao | Legal review từ đầu |
+| # | Rủi ro | Xác suất | Tác động | Giải pháp giảm thiểu |
+|---|--------|----------|----------|----------------------|
+| 1 | Sản phẩm không phù hợp thị trường | Cao | Rất cao | Nghiên cứu người dùng sớm, ra bản cơ bản (MVP) nhanh |
+| 2 | Đối thủ ra tính năng tương tự | Trung bình | Cao | Tập trung vào lợi thế khác biệt |
+| 3 | Người dùng rời bỏ cao sau dùng thử | Cao | Cao | Tối ưu trải nghiệm đăng ký, theo dõi NPS |
+| 4 | Hệ thống không chịu tải khi mở rộng | Trung bình | Cao | Rà soát kiến trúc kỹ thuật sớm |
+| 5 | Vấn đề tuân thủ pháp lý | Thấp | Cao | Rà soát pháp lý ngay từ đầu |
 
 ---
 
@@ -155,6 +155,6 @@ Phase 3 — Monetization (Sprint 9-12):
 
 | Vai trò | Họ tên | Chữ ký | Ngày |
 |---------|--------|--------|------|
-| Product Lead | | | |
-| CTO / Tech Lead | | | |
-| BA | | | |
+| Giám đốc Sản phẩm (Product Lead) | | | |
+| Trưởng phòng Kỹ thuật (CTO) | | | |
+| Chuyên viên phân tích (BA) | | | |

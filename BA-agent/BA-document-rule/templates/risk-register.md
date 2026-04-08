@@ -17,7 +17,7 @@
 
 | Mức rủi ro | Impact × Probability | Hành động |
 |------------|:---:|---|
-| 🔴 **Critical** | ≥ 15 | Escalate ngay. Phải có mitigation plan TRƯỚC khi tiếp tục. |
+| 🔴 **Critical** | ≥ 15 | Báo cáo cấp trên ngay. Phải có kế hoạch xử lý TRƯỚC khi tiếp tục. |
 | 🟡 **High** | 10-14 | Lên kế hoạch mitigation trong sprint hiện tại. |
 | 🟠 **Medium** | 5-9 | Monitor hàng tuần. Có contingency plan. |
 | 🟢 **Low** | 1-4 | Accept. Review hàng tháng. |
@@ -32,7 +32,7 @@
 
 | Risk ID | Phân loại | Mô tả Rủi ro | Impact (1-5) | Prob (1-5) | Score | Level | Trigger | Mitigation Plan | Owner | Status | Updated |
 |---------|-----------|--------------|:---:|:---:|:---:|:---:|---|---|---|---|---|
-| RSK-01 | Scope | [VD: KH thay đổi yêu cầu Dashboard sau UAT → phình scope sprint cuối] | 4 | 4 | 16 | 🔴 | [VD: KH xem demo lần đầu] | [VD: Wireframe sign-off trước Sprint 3. CR process bắt buộc.] | [PM] | OPEN | [Date] |
+| RSK-01 | Scope | [VD: KH thay đổi yêu cầu Dashboard sau UAT → phình scope sprint cuối] | 4 | 4 | 16 | 🔴 | [VD: KH xem demo lần đầu] | [VD: Phê duyệt wireframe trước Sprint 3. Quy trình CR bắt buộc.] | [PM] | OPEN | [Date] |
 | RSK-02 | Technical | [VD: Import 50K dòng Excel bị timeout hoặc lỗi encoding] | 3 | 3 | 9 | 🟠 | [VD: Sprint 2 - test import] | [VD: Batch import + progress bar. Test với file thực tế từ BV.] | [Dev Lead] | OPEN | [Date] |
 | RSK-03 | Resource | [VD: Key dev (Backend) nghỉ việc giữa dự án] | 5 | 2 | 10 | 🟡 | [VD: Thông báo nghỉ việc] | [VD: Code review cross-team. Document API spec chi tiết.] | [PM] | OPEN | [Date] |
 | RSK-04 | Timeline | [VD: Tích hợp HIS mất thêm 2 sprint do chờ API docs] | 4 | 3 | 12 | 🟡 | [VD: Sprint 3 bắt đầu] | [VD: Yêu cầu HIS API docs từ Sprint 1. Mock API nếu chờ.] | [BA] | OPEN | [Date] |
@@ -60,12 +60,12 @@ b   1  [ 1] [ 2] [ 3] [ 4] [ 5]
 
 | Category | Typical Risks | Where to Look |
 |----------|--------------|---------------|
-| **Scope** | Feature creep, unclear requirements, KH thay đổi ý | BRD, Feature Spec sign-off status |
+| **Scope** | Phát sinh ngoài phạm vi, yêu cầu chưa rõ, KH thay đổi ý | BRD, Feature Spec — trạng thái phê duyệt |
 | **Technical** | Performance bottleneck, integration failure, security hole | SRS NFRs, Architecture decisions |
 | **Timeline** | Dependency delay, underestimation, multi-team coordination | Sprint plan, Gantt chart |
 | **Resource** | Key person leave, skill gap, vendor dependency | Team capacity, vendor contracts |
 | **Data** | Migration fails, data quality issues, encoding problems | As-Is process, Data sources |
-| **Business** | Regulatory change, market shift, sponsor withdrawal | Stakeholder interviews, industry scan |
+| **Business** | Regulatory change, market shift, nhà tài trợ rút lui | Stakeholder interviews, industry scan |
 | **User Adoption** | Resistance to change, training insufficient, UX poor | Change management plan |
 
 ---
@@ -102,7 +102,7 @@ Khi phân tích tài liệu dự án, agent PHẢI tự phát hiện rủi ro d�
 
 ```
 Risk Score ≥ 15 (Critical)?
-├── YES → Avoid hoặc Mitigate NGAY. Escalate cho Sponsor
+├── YES → Avoid hoặc Mitigate NGAY. Báo cáo cấp trên cho Nhà tài trợ (Sponsor)
 │         ├── Avoid nếu: có thể thay đổi scope mà không ảnh hưởng Must features
 │         └── Mitigate nếu: không thể thay đổi scope → giảm probability/impact
 │
@@ -139,7 +139,7 @@ Thêm cột **Response Strategy** khi điền Risk Register:
 |-------|----------|-----------|--------|
 | Sprint Planning | PM + BA | Mỗi sprint | Review risks liên quan đến sprint scope |
 | Sprint Retro | Full team | Mỗi sprint kết thúc | Đánh giá risks đã hiện thực hóa chưa |
-| Phase Gate | Sponsor | Mỗi Phase kết thúc | Approve mitigations cho phase tiếp |
+| Phase Gate | Nhà tài trợ (Sponsor) | Mỗi Phase kết thúc | Phê duyệt xử lý rủi ro cho phase tiếp |
 | Go-Live | Toàn team | Trước Go-Live | Final risk review + contingency activation |
 
 ---
@@ -148,7 +148,7 @@ Thêm cột **Response Strategy** khi điền Risk Register:
 
 ```
 @ba-specialist tạo risk register cho dự án [tên] dựa trên BRD
-@ba-specialist phân tích rủi ro scope creep cho Feature Spec này
+@ba-specialist phân tích rủi ro phát sinh phạm vi (scope creep) cho Feature Spec này
 @ba-specialist cập nhật risk register — RSK-03 đã xảy ra, chuyển sang REALIZED
 @ba-specialist tìm rủi ro ẩn trong SRS mà chưa có trong Risk Register
 ```

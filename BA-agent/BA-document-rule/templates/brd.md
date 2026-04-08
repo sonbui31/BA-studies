@@ -17,9 +17,9 @@
 
 | Vai trò | Tên | Ngày ký | Chữ ký |
 |---------|-----|---------|--------|
-| BA | | | |
-| PM | | | |
-| Sponsor | | | |
+| Chuyên viên phân tích (BA) | | | |
+| Quản lý dự án (PM) | | | |
+| Nhà tài trợ (Sponsor) | | | |
 
 ---
 
@@ -27,16 +27,16 @@
 
 ### 1.1 Mục đích tài liệu
 
-Tài liệu này mô tả yêu cầu kinh doanh (business requirements) cho dự án {{Tên dự án}}, bao gồm nhu cầu kinh doanh, phân tích tính khả thi, và yêu cầu cấp cao.
+Tài liệu này mô tả **yêu cầu kinh doanh** cho dự án {{Tên dự án}}, bao gồm: nhu cầu kinh doanh cần giải quyết, phân tích tính khả thi (đầu tư có xứng đáng không), và danh sách các yêu cầu cấp cao.
 
 ### 1.2 Đối tượng đọc
 
 | Đối tượng | Mục đích đọc |
 |-----------|-------------|
-| Sponsor / C-level | Phê duyệt dự án, đánh giá ROI |
-| PM | Lập kế hoạch dự án |
-| BA | Cơ sở để viết SRS |
-| Dev Lead | Đánh giá tính khả thi kỹ thuật |
+| Ban lãnh đạo / Nhà tài trợ | Phê duyệt dự án, đánh giá lợi ích đầu tư (ROI) |
+| Quản lý dự án (PM) | Lập kế hoạch dự án |
+| Chuyên viên phân tích (BA) | Cơ sở để viết đặc tả chi tiết (SRS) |
+| Trưởng nhóm Kỹ thuật | Đánh giá tính khả thi kỹ thuật |
 
 ### 1.3 Tham chiếu
 
@@ -47,7 +47,7 @@ Tài liệu này mô tả yêu cầu kinh doanh (business requirements) cho dự
 
 ---
 
-## 2. Nhu cầu kinh doanh (Need — BACCM)
+## 2. Nhu cầu kinh doanh
 
 ### 2.1 Phân tích 5W1H
 
@@ -60,18 +60,18 @@ Tài liệu này mô tả yêu cầu kinh doanh (business requirements) cho dự
 | **Where** — Triển khai ở đâu? | {{Platform / thị trường}} |
 | **How** — Thực hiện như thế nào? | {{Phương pháp / approach}} |
 
-### 2.2 Vấn đề hiện tại (As-Is Pain Points)
+### 2.2 Vấn đề hiện tại (Khó khăn đang gặp phải)
 
-> ⭐ **v3.1:** Dùng **Narrative Storytelling** cho top 3 pain points (đau nhất), bảng tổng hợp cho phần còn lại.
-> Xem chi tiết kỹ thuật tại `core/writing-guide.md` > Mục 9.
+> ⭐ **Gợi ý viết:** Dùng cách "kể chuyện" cho top 3 vấn đề nghiêm trọng nhất, bảng tổng hợp cho phần còn lại.
+> Xem chi tiết tại `core/writing-guide.md` > Mục 9.
 
-**{{Pain Point 1}} — Rủi ro #1:**
-> {{Actor}} hiện đang {{action cụ thể}}. Khi {{failure point}},
-> {{hậu quả 1}} → {{hậu quả 2}} → {{hậu quả 3 (tài chính/pháp lý)}}.
+**{{Vấn đề 1}} — Rủi ro #1:**
+> {{Người dùng / Phòng ban}} hiện đang {{thao tác / quy trình hiện tại}}. Khi {{sự cố hoặc tắc nghẽn xảy ra}},
+> {{hậu quả 1}} → {{hậu quả 2}} → {{hậu quả 3 (tổn thất tài chính / uy tín)}}.
 
 | # | Vấn đề | Ai bị ảnh hưởng | Tần suất | Chi phí ảnh hưởng |
 |---|--------|----------------|---------|-------------------|
-| 1 | {{Vấn đề}} | {{Stakeholder}} | {{Hàng ngày / tuần / tháng}} | {{Ước tính}} |
+| 1 | {{Vấn đề}} | {{Phòng ban / Vai trò}} | {{Hàng ngày / tuần / tháng}} | {{Ước tính}} |
 
 ---
 
@@ -99,36 +99,40 @@ Tài liệu này mô tả yêu cầu kinh doanh (business requirements) cho dự
 
 ## 4. Yêu cầu kinh doanh cấp cao
 
-### 4.1 Danh sách yêu cầu (MoSCoW Priority)
+### 4.1 Danh sách yêu cầu (Phân loại theo mức ưu tiên)
 
-| Req ID | Yêu cầu | Mô tả | MoSCoW | Kano |
-|--------|---------|-------|--------|------|
-| BR-001 | {{Tên yêu cầu}} | {{Mô tả chi tiết}} | Must | Basic |
-| BR-002 | {{Tên yêu cầu}} | {{Mô tả chi tiết}} | Must | Basic |
-| BR-003 | {{Tên yêu cầu}} | {{Mô tả chi tiết}} | Should | Performance |
-| BR-004 | {{Tên yêu cầu}} | {{Mô tả chi tiết}} | Could | Excitement |
-| BR-005 | {{Tên yêu cầu}} | {{Mô tả chi tiết}} | Won't | — |
+> **Giải thích cột Mức ưu tiên:** Bắt buộc (Must) = không có không nghiệm thu | Nên có (Should) = quan trọng nhưng có thể dời | Có thể (Could) = làm nếu còn thời gian | Chưa làm (Won't) = loại khỏi đợt này.
 
-> **Tham chiếu phân loại:**
-> - MoSCoW: xem `core/principles.md` > Mục 3
-> - Kano: xem `core/principles.md` > Mục 4
+| Mã YC | Yêu cầu | Mô tả | Mức ưu tiên | Phân loại giá trị |
+|-------|---------|-------|-------------|-------------------|
+| BR-001 | {{Tên yêu cầu}} | {{Mô tả chi tiết}} | Bắt buộc (Must) | Nền tảng (Basic) |
+| BR-002 | {{Tên yêu cầu}} | {{Mô tả chi tiết}} | Bắt buộc (Must) | Nền tảng (Basic) |
+| BR-003 | {{Tên yêu cầu}} | {{Mô tả chi tiết}} | Nên có (Should) | Nâng cao (Performance) |
+| BR-004 | {{Tên yêu cầu}} | {{Mô tả chi tiết}} | Có thể (Could) | Gây ấn tượng (Excitement) |
+| BR-005 | {{Tên yêu cầu}} | {{Mô tả chi tiết}} | Chưa làm (Won't) | — |
 
-### 4.2 Thống kê phân bổ MoSCoW
+> **Tham chiếu chi tiết:**
+> - Phương pháp MoSCoW: xem `core/principles.md` > Mục 3
+> - Mô hình Kano (phân loại giá trị): xem `core/principles.md` > Mục 4
 
-| Priority | Số lượng | % | Khuyến nghị |
-|----------|---------|---|-------------|
-| Must | {{x}} | {{%}} | ~60% |
-| Should | {{x}} | {{%}} | ~20% |
-| Could | {{x}} | {{%}} | ~15% |
-| Won't | {{x}} | {{%}} | ~5% |
+### 4.2 Thống kê tỷ lệ ưu tiên
 
-> ⚠️ Nếu Must > 60% → cần review lại: có thật sự phải Must không?
+| Mức ưu tiên | Số lượng | % | Khuyến nghị |
+|-------------|---------|---|-------------|
+| Bắt buộc (Must) | {{x}} | {{%}} | ~60% |
+| Nên có (Should) | {{x}} | {{%}} | ~20% |
+| Có thể (Could) | {{x}} | {{%}} | ~15% |
+| Chưa làm (Won't) | {{x}} | {{%}} | ~5% |
 
-### 4.3 Business Rule Architecture (Kiến trúc Quy tắc Nghiệp vụ) ⭐ NEW v3.1
+> ⚠️ Nếu "Bắt buộc" chiếm > 60% → cần xem lại: có thật sự bắt buộc tất cả không?
 
-> **Khi nào cần:** Khi hệ thống có ≥ 5 business rules có tương tác lẫn nhau.
-> **Mục đích:** Xác định thứ tự thực thi, quan hệ override, và luồng logic giữa các rules.
-> **Không bắt buộc** cho BRD đơn giản (≤ 4 rules độc lập).
+### 4.3 Kiến trúc Quy tắc Nghiệp vụ ⭐ v3.1
+
+> ⚠️ _Phần này dành cho nội bộ Team BA/Dev. Có thể ẩn khi gửi khách hàng nếu nội dung quá kỹ thuật._
+>
+> **Khi nào cần:** Khi hệ thống có ≥ 5 quy tắc nghiệp vụ có tương tác lẫn nhau.
+> **Mục đích:** Xác định thứ tự thực thi, quan hệ ghi đè, và luồng logic giữa các quy tắc.
+> **Không bắt buộc** cho BRD đơn giản (≤ 4 quy tắc độc lập).
 
 #### 4.3.1 Thứ tự Thực thi (Execution Order)
 
@@ -169,27 +173,31 @@ graph TD
     D -->|Khớp| K["✅ OK"]
 ```
 
-### 4.4 Output Severity Design (Thiết kế Mức độ Output) ⭐ NEW v3.1
+### 4.4 Thiết kế phân loại kết quả đầu ra ⭐ v3.1
 
-> **Khi nào cần:** Hệ thống có tính năng validation / audit / comparison mà output cần phân loại mức độ để user ra quyết định.
-> **Mục đích:** Xác định rõ hệ thống output bao nhiêu mức, mỗi mức nghĩa là gì, user cần làm gì.
+> ⚠️ _Phần này dành cho nội bộ Team BA/Dev._
+>
+> **Khi nào cần:** Hệ thống có tính năng kiểm tra / đối soát mà kết quả cần phân loại mức độ để người dùng ra quyết định.
+> **Mục đích:** Xác định rõ hệ thống trả ra bao nhiêu mức, mỗi mức nghĩa là gì, người dùng cần làm gì.
 
-| Level | Visual | Ý nghĩa nghiệp vụ | User Action Required |
-|-------|--------|------------------|---------------------|
-| 🔴 **Critical** | ❌ | {{VD: Thiếu chất bắt buộc so với File Gốc}} | PHẢI xử lý trước khi duyệt |
-| 🟡 **Warning** | ⚠️ | {{VD: Thừa chất so với File Gốc}} | NÊN xem xét |
-| 🔵 **Info** | ℹ️ | {{VD: Lệch tên gọi / Đã đo đủ lịch sử}} | Tham khảo, có thể bỏ qua |
-| ✅ **OK** | ✓ | {{VD: So khớp chính xác 100%}} | Không cần hành động |
+| Mức độ | Ký hiệu | Ý nghĩa nghiệp vụ | Hành động người dùng cần làm |
+|--------|---------|------------------|-----------------------------|
+| 🔴 **Nghiêm trọng** | ❌ | {{VD: Thiếu dữ liệu bắt buộc}} | PHẢI xử lý trước khi duyệt |
+| 🟡 **Cảnh báo** | ⚠️ | {{VD: Dữ liệu thừa, cần xem xét}} | NÊN xem xét |
+| 🔵 **Thông tin** | ℹ️ | {{VD: Lệch tên gọi / Đã đo đủ lịch sử}} | Tham khảo, có thể bỏ qua |
+| ✅ **Hợp lệ** | ✓ | {{VD: Khớp chính xác 100%}} | Không cần hành động |
 
 > **Quy tắc:**
 > - Mỗi Business Rule trong mục 4.3 PHẢI gắn với ĐÚNG MỘT severity level default.
 > - Severity có thể bị override bởi rule khác (xem Override Matrix ở 4.3.2).
 > - Nếu hệ thống có tính năng AI, xem thêm `ai-feature-spec.md` > Mục 4 (Confidence-based Action).
 
-### 4.5 System Memory Requirements (Yêu cầu Trí nhớ Hệ thống) ⭐ NEW v3.1
+### 4.5 Yêu cầu về dữ liệu lịch sử (Trí nhớ hệ thống) ⭐ v3.1
 
-> **Khi nào cần:** Khi business rules phụ thuộc vào **dữ liệu lịch sử** từ các transactions / đợt / phien trước đó.
-> **Ví dụ phổ biến:** Giới hạn tần suất (đo 2 lần/năm), credit limit tích lũy, quota sử dụng, ngày phép đã dùng.
+> ⚠️ _Phần này dành cho nội bộ Team BA/Dev._
+>
+> **Khi nào cần:** Khi quy tắc nghiệp vụ phụ thuộc vào **dữ liệu lịch sử** từ các giao dịch / đợt trước đó.
+> **Ví dụ phổ biến:** Giới hạn tần suất (đo 2 lần/năm), hạn mức tín dụng tích lũy, hạn ngạch sử dụng, ngày phép đã dùng.
 
 | Rule ID | Cần nhớ gì | Scope truy vấn | Điều kiện trigger | Kết quả |
 |---------|------------|----------------|-------------------|---------|
@@ -204,17 +212,17 @@ graph TD
 
 ---
 
-## 5. Stakeholder Analysis
+## 5. Phân tích các bên liên quan
 
 > Chi tiết: xem `stakeholder-map.md`
 
-| Stakeholder | Vai trò | Interest | Power | Chiến lược quản lý |
-|-------------|---------|----------|-------|-------------------|
-| {{Tên}} | {{Vai trò}} | Cao/Thấp | Cao/Thấp | Manage Closely / Keep Satisfied / Keep Informed / Monitor |
+| Bên liên quan | Vai trò | Mức quan tâm | Mức ảnh hưởng | Chiến lược phối hợp |
+|---------------|---------|-------------|--------------|--------------------|
+| {{Tên}} | {{Vai trò}} | Cao/Thấp | Cao/Thấp | Phối hợp chặt / Đảm bảo hài lòng / Thông tin thường xuyên / Theo dõi |
 
 ---
 
-## 6. Use Case tổng quan
+## 6. Tổng quan các nhóm chức năng chính
 
 ```mermaid
 graph LR
@@ -265,7 +273,7 @@ graph LR
 |---|--------|---------|-----------|-----------|-----------|
 | 1 | {{Rủi ro}} | C/TB/T | C/TB/T | {{H/M/L}} | {{Mitigation}} |
 
-> **Risk Score:** Cao × Cao = High, còn lại = Medium/Low
+> **Cách tính mức rủi ro:** Xác suất Cao × Ảnh hưởng Cao = Mức rủi ro Cao; các trường hợp còn lại = Trung bình/Thấp
 
 ---
 
@@ -293,13 +301,15 @@ graph LR
 
 ---
 
-## ✅ BACCM Self-Check
+## ✅ Checklist kiểm tra nội bộ (BACCM)
+
+> _Phần này dành cho Team BA tự rà soát trước khi gửi khách hàng._
 
 ```
-☐ CHANGE:      Vấn đề / cơ hội kinh doanh rõ ràng (Mục 2)
-☐ NEED:        Nhu cầu gốc đã phân tích (5W1H — Mục 2.1)
-☐ SOLUTION:    Phạm vi giải pháp phù hợp (Use Case — Mục 6)
-☐ STAKEHOLDER: Stakeholder đầy đủ + phân loại (Mục 5)
-☐ VALUE:       ROI / cost-benefit đã tính (Mục 7.2)
-☐ CONTEXT:     SWOT + ràng buộc ghi nhận (Mục 3, 9)
+☐ LÝ DO THAY ĐỔI:    Vấn đề / cơ hội kinh doanh rõ ràng (Mục 2)
+☐ NHU CẦU:            Nhu cầu gốc đã phân tích 5W1H (Mục 2.1)
+☐ GIẢI PHÁP:          Phạm vi giải pháp phù hợp (Mục 6)
+☐ CÁC BÊN LIÊN QUAN: Đã liệt kê đủ + phân loại (Mục 5)
+☐ GIÁ TRỊ:            Lợi ích đầu tư (ROI) đã ước tính (Mục 7.2)
+☐ BỐI CẢNH:           SWOT + ràng buộc đã ghi nhận (Mục 3, 9)
 ```

@@ -2,7 +2,7 @@
 # Dự án [Tên dự án]
 
 > **Phiên bản:** 1.0 | **Ngày:** 26/02/2026
-> **⚠️ Baseline:** Sau khi KH sign-off, thêm/bỏ story = Yêu cầu thay đổi (CR)
+> **⚠️ Chốt phạm vi (Baseline):** Sau khi KH phê duyệt, thêm/bỏ story = Yêu cầu thay đổi (CR)
 
 ---
 
@@ -67,7 +67,7 @@ _(Thêm Epics tương tự)_
 ```
 ╔══════════════════════════════════════════════════════════════╗
 ║ PHIÊN BẢN 1 (MVP) — Sprint 1-4                              ║
-║ 💰 Payment Milestone M2 (25%)                                  ║
+║ 💰 Mốc thanh toán M2 (25%)                                      ║
 ║                                                              ║
 ║  S1: Xác thực + CRUD cơ bản                [XX SP]          ║
 ║  S2: Tính năng module chính                 [XX SP]          ║
@@ -75,7 +75,7 @@ _(Thêm Epics tương tự)_
 ║  S4: Tích hợp + Sửa lỗi + UAT              [XX SP]          ║
 ╠══════════════════════════════════════════════════════════════╣
 ║ PHIÊN BẢN 2 — Sprint 5-8                                    ║
-║ 💰 Payment Milestone M3 (25%)                                  ║
+║ 💰 Mốc thanh toán M3 (25%)                                      ║
 ║                                                              ║
 ║  S5: Tính năng nâng cao                     [XX SP]          ║
 ║  S6: Module bổ sung                         [XX SP]          ║
@@ -83,7 +83,7 @@ _(Thêm Epics tương tự)_
 ║  S8: Tích hợp đầy đủ + UAT                 [XX SP]          ║
 ╠══════════════════════════════════════════════════════════════╣
 ║ VẬN HÀNH + BẢO HÀNH                                         ║
-║ 💰 Payment Milestone M4 (15%)                                  ║
+║ 💰 Mốc thanh toán M4 (15%)                                      ║
 ║                                                              ║
 ║  Triển khai sản xuất                                         ║
 ║  Bảo hành: 30-90 ngày                                       ║
@@ -124,12 +124,12 @@ _(Thêm Epics tương tự)_
 
 ---
 
-## 6. Sign-off — Baseline bản đồ câu chuyện
+## 6. Phê duyệt — Chốt phạm vi bản đồ câu chuyện
 
 | Vai trò | Bên | Họ tên | Chữ ký | Ngày |
 |---------|-----|--------|--------|------|
-| Product Owner | Khách hàng | | | |
-| Project Manager | Nhà cung cấp | | | |
-| BA Lead | Nhà cung cấp | | | |
+| Người đại diện KH (Product Owner) | Khách hàng | | | |
+| Quản lý dự án (PM) | Nhà cung cấp | | | |
+| Trưởng nhóm Phân tích (BA Lead) | Nhà cung cấp | | | |
 
-> **Quy tắc:** Thêm/xóa/thay đổi story sau baseline → Yêu cầu thay đổi → đánh giá ảnh hưởng chi phí
+> **Quy tắc:** Thêm/xóa/thay đổi story sau khi chốt phạm vi (baseline) → Yêu cầu thay đổi → đánh giá ảnh hưởng chi phí
