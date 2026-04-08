@@ -225,7 +225,7 @@ _(Thêm modules tương tự)_
 ## 8. Phê duyệt — Chốt phạm vi SRS
 
 > ⚠️ **Phê duyệt SRS = Chốt phạm vi yêu cầu (Baseline) = Cơ sở cho theo dõi Yêu cầu thay đổi (CR)**
-> Mọi thay đổi sau thời điểm này PHẢI đi qua quy trình CR (10-Change-Log.md)
+> Mọi thay đổi sau thời điểm này PHẢI đi qua quy trình CR (09-Change-Log.md)
 
 | Vai trò | Bên | Họ tên | Chữ ký | Ngày |
 |---------|-----|--------|--------|------|

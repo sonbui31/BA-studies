@@ -14,10 +14,10 @@ Khi một yêu cầu thay đổi, @ba-specialist thực hiện quét theo luồn
 |---|---|---|
 | **L0: Vision** | `01-Vision-Scope.md` | Thay đổi mục tiêu kinh doanh, OKRs, phạm vi tổng thể. |
 | **L1: Business** | `02-BRD.md` | Thay đổi quy trình nghiệp vụ, luật kinh doanh (Business Rules). |
-| **L2: System** | `06-SRS.md` | Thay đổi tính năng kỹ thuật, API, Non-functional requirements. |
+| **L2: System** | `05-SRS.md` | Thay đổi tính năng kỹ thuật, API, Non-functional requirements. |
 | **L3: Agile** | `User Story Map` | Thay đổi Acceptance Criteria, độ ưu tiên Story, Release plan. |
 | **L4: Data** | `07-Data-Model.md` | Thay đổi schema, thêm/sửa field, ảnh hưởng tới báo cáo. |
-| **L5: Testing** | `09-UAT-Plan.md` | Test case cũ không còn đúng, cần tạo bộ test mới. |
+| **L5: Testing** | `08-UAT-Plan.md` | Test case cũ không còn đúng, cần tạo bộ test mới. |
 | **L6: Code** | Source Code | File code bị ảnh hưởng (via code-traceability-audit). |
 
 ---

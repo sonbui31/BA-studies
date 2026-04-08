@@ -67,9 +67,9 @@
 | Thỏa thuận bảo mật & sở hữu trí tuệ | NDA đã ký |
 
 **Sản phẩm bàn giao:**
-- `03-Vision-Scope.md` (Khách hàng phê duyệt bắt buộc)
-- `04-Stakeholder-Map.md` (cả 2 bên: Khách hàng + Nhà cung cấp)
-- `05-Process-Flow.md`
+- `01-Vision-Scope.md` (Khách hàng phê duyệt bắt buộc)
+- `03-Stakeholder-Map.md` (cả 2 bên: Khách hàng + Nhà cung cấp)
+- `04-Process-Flow.md`
 - Quy ước giao tiếp
 
 **Điều kiện chuyển giai đoạn:** Khách hàng phê duyệt Tầm nhìn & Phạm vi + BRD đã chốt phạm vi (baseline)
@@ -106,9 +106,9 @@
 | Đặc tả API | Thỏa thuận miệng | **Swagger/OpenAPI chính thức** |
 
 **Sản phẩm bàn giao:**
-- `06-SRS.md` → chi tiết hơn bản in-house
-- `07-User-Story-Map.md` (đã chốt phạm vi và ký)
-- `08-Data-Model.md` + Đặc tả API
+- `05-SRS.md` → chi tiết hơn bản in-house
+- `06-User-Story-Map.md` (đã chốt phạm vi và ký)
+- `07-Data-Model.md` + Đặc tả API
 
 **Điều kiện chuyển giai đoạn:** Khách hàng phê duyệt SRS → đây là **bản chốt phạm vi (baseline)** cho theo dõi CR
 

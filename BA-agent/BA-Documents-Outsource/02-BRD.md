@@ -228,7 +228,7 @@ _(Thêm modules tương tự)_
 | 4 | [Phòng CNTT] | Giám sát kỹ thuật | Tuân thủ chuẩn kỹ thuật | 🟠 Cao |
 | 5 | [Khách hàng/Đối tác] | Người dùng bên ngoài | Tự phục vụ, nhanh | 🟡 Trung bình |
 
-_(Chi tiết: xem `04-Stakeholder-Map.md`)_
+_(Chi tiết: xem `03-Stakeholder-Map.md`)_
 
 ---
 
@@ -262,7 +262,7 @@ Bước 1 → Hệ thống tự động → Bước 3 → ... → Dashboard
 - ✅ [Cải tiến 2]
 - ✅ [Cải tiến 3]
 
-_(Chi tiết: xem `05-Process-Flow.md`)_
+_(Chi tiết: xem `04-Process-Flow.md`)_
 
 ---
 
@@ -278,7 +278,7 @@ _(Chi tiết: xem `05-Process-Flow.md`)_
 | **Tuân thủ** | Bảo vệ dữ liệu | [GDPR/PDPA/quy định] |
 | **Khả dụng** | Responsive | Di động + Máy tính |
 
-_(Chi tiết: xem `06-SRS.md` Mục 3)_
+_(Chi tiết: xem `05-SRS.md` Mục 3)_
 
 ---
 
@@ -349,7 +349,7 @@ _(Chi tiết: xem `06-SRS.md` Mục 3)_
 ## Phụ lục
 
 - **Phụ lục A:** Bảng thuật ngữ
-- **Phụ lục B:** Chi tiết Quy trình nghiệp vụ → xem `05-Process-Flow.md`
-- **Phụ lục C:** Chi tiết SRS → xem `06-SRS.md`
+- **Phụ lục B:** Chi tiết Quy trình nghiệp vụ → xem `04-Process-Flow.md`
+- **Phụ lục C:** Chi tiết SRS → xem `05-SRS.md`
 - **Phụ lục D:** Hợp đồng → xem tài liệu hợp đồng riêng
 - **Phụ lục E:** Ghi chú phỏng vấn stakeholder

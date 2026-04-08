@@ -29,22 +29,22 @@
 
 > **Đặc thù:** Tài liệu formal, sign-off bắt buộc, ràng buộc hợp đồng, giao tiếp từ xa.
 
-> **📌 Lưu ý đánh số:** Bộ Outsource bắt đầu từ `01-` (khác với Product bắt đầu từ `00-`) vì Process Framework của Outsource mô tả Phase 0 (Hợp đồng) — là tài liệu hướng dẫn quy trình, không phải deliverable đánh số.
+> **📌 Lưu ý:** Bộ Outsource đánh số từ `00-` (Process Framework là hướng dẫn quy trình), sau đó `01-` là Vision & Scope (tài liệu đầu tiên cần viết). Thứ tự đánh số phản ánh đúng thứ tự viết tài liệu.
 
 | # | File | Mô tả | Khi nào dùng |
 |---|------|-------|-------------|
-| 1 | `01-BA-Process-Framework.md` | Quy trình **6 phase** (thêm Phase 0: Hợp đồng). 5 Quy tắc vàng, Payment Milestone, Communication Protocol | Đọc đầu tiên — hiểu quy trình OS |
-| 2 | `02-BRD.md` | BRD formal — cơ sở cho **hợp đồng + ước lượng**, KH sign-off bắt buộc | Phase 0: Tiền dự án |
-| 3 | `03-Vision-Scope.md` | Vision & Scope với **KH sign-off**, baseline cho scope tracking | Phase 1: Khởi động |
-| 4 | `04-Stakeholder-Map.md` | Stakeholder **cả 2 bên** (KH + NCC), Communication Protocol, múi giờ, SLA phản hồi | Phase 1: Khởi động |
-| 5 | `05-Process-Flow.md` | As-Is / To-Be, workshop từ xa **(ghi hình bắt buộc)** | Phase 2: Khám phá |
-| 6 | `06-SRS.md` | SRS **đầy đủ** (15-25 trang) — Dev không ngồi cạnh nên phải rõ ràng tuyệt đối | Phase 3: Chi tiết hóa |
-| 7 | `07-User-Story-Map.md` | Stories + AC, **baseline signed bởi KH** = scope agreement | Phase 3: Chi tiết hóa |
-| 8 | `08-Data-Model.md` | ERD + Data Dictionary + **Swagger/OpenAPI** formal | Phase 3: Chi tiết hóa |
-| 9 | `09-UAT-Plan.md` | **UAT formal** + Biên bản nghiệm thu (gắn với thanh toán milestone) | Phase 5: Kết thúc |
-| 10 | `10-Change-Log.md` | CR Process — **mọi thay đổi = ảnh hưởng chi phí**, bắt buộc email/văn bản | Phase 4: Phát triển |
-| 11 | `11-Meeting-Minutes.md` | MoM formal, **ghi hình bắt buộc**, gửi KH xác nhận trong 24h | Mỗi cuộc họp |
-| 12 | `12-Handover-Checklist.md` | Bàn giao: mã nguồn, tài liệu, Knowledge Transfer, **bảo hành 30-90 ngày** | Phase 5: Kết thúc |
+| 0 | `00-BA-Process-Framework.md` | Quy trình **6 phase** (thêm Phase 0: Hợp đồng). 5 Quy tắc vàng, Mốc thanh toán, Communication Protocol | Đọc đầu tiên — hiểu quy trình OS |
+| 1 | `01-Vision-Scope.md` | Vision & Scope với **KH phê duyệt**, chốt phạm vi cho scope tracking | Phase 0-1: Khởi động |
+| 2 | `02-BRD.md` | BRD formal — cơ sở cho **hợp đồng + ước lượng**, KH phê duyệt bắt buộc | Phase 0-1: Tiền dự án |
+| 3 | `03-Stakeholder-Map.md` | Stakeholder **cả 2 bên** (KH + NCC), Communication Protocol, múi giờ, SLA phản hồi | Phase 1: Khởi động |
+| 4 | `04-Process-Flow.md` | As-Is / To-Be, workshop từ xa **(ghi hình bắt buộc)** | Phase 2: Khám phá |
+| 5 | `05-SRS.md` | SRS **đầy đủ** (15-25 trang) — Dev không ngồi cạnh nên phải rõ ràng tuyệt đối | Phase 3: Chi tiết hóa |
+| 6 | `06-User-Story-Map.md` | Stories + AC, **chốt phạm vi signed bởi KH** = scope agreement | Phase 3: Chi tiết hóa |
+| 7 | `07-Data-Model.md` | ERD + Data Dictionary + **Swagger/OpenAPI** formal | Phase 3: Chi tiết hóa |
+| 8 | `08-UAT-Plan.md` | **UAT formal** + Biên bản nghiệm thu (gắn với thanh toán milestone) | Phase 5: Kết thúc |
+| 9 | `09-Change-Log.md` | CR Process — **mọi thay đổi = ảnh hưởng chi phí**, bắt buộc email/văn bản | Phase 4: Phát triển |
+| 10 | `10-Meeting-Minutes.md` | MoM formal, **ghi hình bắt buộc**, gửi KH xác nhận trong 24h | Mỗi cuộc họp |
+| 11 | `11-Handover-Checklist.md` | Bàn giao: mã nguồn, tài liệu, Knowledge Transfer, **bảo hành 30-90 ngày** | Phase 5: Kết thúc |
 
 ---
 
