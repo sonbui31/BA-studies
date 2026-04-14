@@ -13,7 +13,10 @@
 |---|----------|-------|
 | 1 | **Chính tả & Ngữ pháp:** Không sai dấu câu, sai chính tả, viết hoa/thường chuẩn chỉnh. | ☐ |
 | 2 | **Trật tự Logic:** Bố cục tuân thủ đúng template, sắp xếp mạch lạc, không lộn xộn. | ☐ |
-| 3 | **Đánh số Chỉ mục:** Số thứ tự tuần tự (1., 1.1, 1.2), không lặp, không nhảy cóc. | ☐ |
+| 3 | **Đánh số Chỉ mục — Heading:** Số thứ tự mục (§1, §1.1, §1.2, §2) tuần tự, không lặp, không nhảy cóc. | ☐ |
+| 3a | **Đánh số Chỉ mục — Requirement ID:** BRQ/FR/NFR/US/TC-ID tuần tự trong cùng prefix, sub-ID tuần tự trong nhóm cha. | ☐ |
+| 3b | **Đánh số Chỉ mục — Test Group/Case:** Test Group numbering (2.1→2.2→2.3) và TC-ID (TC-01-A→TC-01-B) tuần tự. | ☐ |
+| 3c | **Đánh số Chỉ mục — Cross-doc:** Không có ID lệch giữa các tài liệu (VD: BRD ghi BRQ-03 nhưng SRS ghi BRQ-3). | ☐ |
 | 4 | **Nhất quán Thuật ngữ (Audience-Aware):** Tiếng Kinh doanh phổ thông cho BRD, Thuật ngữ Kỹ Thuật cho SRS/US. Nhất quán 100% *trong cùng một phân lớp tài liệu*. | ☐ |
 | 5 | **Văn phong Chuyên nghiệp:** Câu từ phải được trau chuốt, trang trọng (formal), khách quan. Tuyệt đối không dùng văn nói, ngôn ngữ lủng củng. | ☐ |
 

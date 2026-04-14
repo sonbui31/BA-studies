@@ -52,7 +52,27 @@ Mọi tài liệu BA phải có:
 
 1. **Chính tả & Ngữ pháp (Zero-Tolerance):** Tuyệt đối không sai chính tả, không dùng sai dấu câu, sai quy tắc viết hoa/viết thường. Sử dụng đúng thuật ngữ chuyên ngành đã định nghĩa.
 2. **Trật tự Logic (Structured Layout):** Các phần (sections), phần phụ (sub-sections), bảng biểu phải được sắp xếp vị trí hợp lý, liền mạch theo Template. **KHÔNG ĐƯỢC** trình bày lộn xộn, thiếu tính gắn kết hoặc đặt sai phân mục.
-3. **Đánh Số Chỉ Mục (Sequential Numbering):** Mọi danh sách, điều khoản, headings phải được đánh số đúng và giữ trình tự chặt chẽ (VD: `1.`, `1.1`, `1.2`, `2.1`, `2.1.1`). **Tuyệt đối không** nhảy cóc (skipping), không lặp số, không đảo lộn thứ tự.
+3. **Đánh Số Chỉ Mục (Sequential Numbering — ZERO-TOLERANCE):** Mọi danh sách, điều khoản, headings, và ID phải được đánh số đúng và giữ trình tự chặt chẽ. **Tuyệt đối không** nhảy cóc, không lặp số, không đảo lộn thứ tự. Quy tắc này áp dụng cho **3 loại đánh số**:
+
+   **3a. Heading Numbering (Số thứ tự mục):**
+   - ✅ Đúng: `1.` → `1.1` → `1.2` → `2.` → `2.1` → `2.1.1`
+   - ❌ Sai: `1.` → `1.1` → `1.3` (nhảy cóc 1.2) | `2.` → `2.1` → `2.1` (lặp) | `3.` → `1.` (đảo)
+
+   **3b. Requirement ID Numbering (Mã yêu cầu):**
+   - ✅ Đúng: `BRQ-01` → `BRQ-02` → `BRQ-03` | `US01` → `US02` → `US03`
+   - ❌ Sai: `BRQ-01` → `BRQ-03` (nhảy BRQ-02) | `US01` → `US01` (lặp) | `TC-01` → `TC-03` (nhảy TC-02)
+   - **Sub-ID:** `BRQ-06.1` → `BRQ-06.2` → `BRQ-06.3` (tuần tự trong cùng nhóm cha)
+
+   **3c. Test Case / Group Numbering:**
+   - ✅ Đúng: Test Group `2.1` → `2.2` → `2.3` | TC: `TC-01-A` → `TC-01-B` → `TC-01-C`
+   - ❌ Sai: Test Group `2.1` → `2.3` → `2.5` (nhảy cóc) | `TC-01-A` → `TC-01-D` (nhảy B, C)
+
+   **3d. Quy tắc Re-Index (BẮT BUỘC sau mỗi lần chỉnh sửa):**
+   - Khi **thêm** item mới vào giữa danh sách → đánh lại số cho tất cả items phía sau.
+   - Khi **xóa** item → đánh lại số cho tất cả items phía sau (không để lại lỗ trống).
+   - Khi **di chuyển** item → cập nhật số cả vị trí cũ lẫn mới.
+   - **Cross-document:** Nếu thay đổi ID trong 1 tài liệu (VD: đổi `BRQ-05` thành `BRQ-04`) → CẬP NHẬT tất cả tài liệu khác đang tham chiếu ID đó (SRS, Feature Spec, Story Map, UAT Plan).
+   - **Trước khi hoàn tất:** Agent PHẢI quét toàn bộ tài liệu vừa sinh/sửa để xác nhận: (1) Không nhảy cóc, (2) Không lặp, (3) Không đảo thứ tự.
 4. **Nhất quán & Liệu cơm gắp mắm Thuật ngữ (Audience-Aware Terminology):** 
    - **Tài liệu Kinh doanh (BRD, Vision):** Dùng từ ngữ phổ thông, dễ hiểu cho người ngoài ngành, tránh nhồi nhét thuật ngữ kỹ thuật (VD: dùng "Khách hàng", "Hệ thống lưu trữ lịch sử").
    - **Tài liệu Kỹ thuật (SRS, API Spec, US):** Được phép/Nên dùng thuật ngữ chuyên ngành Tech để Dev/QC hiểu chính xác (VD: dùng "End-User", "Audit Log", "Cronjob").

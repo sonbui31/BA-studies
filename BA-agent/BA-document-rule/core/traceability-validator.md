@@ -51,6 +51,9 @@ Mỗi BRQ-ID phải có **ít nhất 1 đường đi hoàn chỉnh**. NFR cũng 
 | **DUPLICATE_MAP** | 2 BRQs cùng map tới 1 FR mà logic khác nhau | 🟡 Warning |
 | **ORPHAN_NFR** | NFR tồn tại trong SRS nhưng không có NFR-TC trong UAT Plan | 🔴 Critical ⭐ NEW v3.2 |
 | **STALE_REF** | TC reference một US đã bị xóa/deprecated | 🟡 Warning ⭐ NEW v3.2 |
+| **INDEX_SKIP** | ID numbering nhảy cóc (VD: BRQ-01 → BRQ-03, thiếu BRQ-02) | 🔴 Critical ⭐ NEW v3.4 |
+| **INDEX_DUPLICATE** | 2+ items cùng ID (VD: 2 cái US01 hoặc 2 cái TC-03-A) | 🔴 Critical ⭐ NEW v3.4 |
+| **HEADING_SKIP** | Section numbering nhảy cóc (VD: §2.1 → §2.3, thiếu §2.2) | 🟡 Warning ⭐ NEW v3.4 |
 
 ### Step 4: Sinh Validation Report
 
@@ -112,6 +115,9 @@ Khi phát hiện gap, agent đề xuất fix cụ thể:
 | BROKEN_CHAIN | Tìm Feature phù hợp nhất và suggest mapping |
 | ORPHAN_NFR | Sinh draft NFR-TC (Performance test / Security test / Load test) ⭐ NEW v3.2 |
 | STALE_REF | Flag TC cho review, suggest remove hoặc re-link ⭐ NEW v3.2 |
+| INDEX_SKIP | Quét tất cả ID cùng prefix → Re-number tuần tự → Cập nhật cross-references ⭐ NEW v3.4 |
+| INDEX_DUPLICATE | Flag 2 items trùng ID → Đề xuất rename item sau → Cập nhật cross-references ⭐ NEW v3.4 |
+| HEADING_SKIP | Quét heading tree → Re-number tuần tự ⭐ NEW v3.4 |
 
 ---
 

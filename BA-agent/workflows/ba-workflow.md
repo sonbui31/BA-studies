@@ -141,6 +141,19 @@ This workflow automates BA documentation using the full v3.3 skill suite (15 ski
      - Verify tất cả items PASS sau khi viết (không phải chỉ trước khi viết)
      - Nếu vẫn FAIL → sửa inline → re-verify
 
+6.6. **Sequential Index Validation (NEW v3.4)** ⭐
+     - Quét toàn bộ documents ĐÃ SINH để kiểm tra chỉ mục tuần tự:
+       - **Heading scan:** §1 → §2 → §3... không nhảy cóc, không lặp, không đảo
+       - **Requirement ID scan:** BRQ-ID, FR-ID, NFR-ID, US-ID, TC-ID tuần tự trong cùng prefix
+       - **Sub-ID scan:** BRQ-XX.Y tuần tự trong nhóm cha (VD: BRQ-06.1 → .2 → .3)
+       - **Test Group scan:** Test Group 2.1 → 2.2 → 2.3... tuần tự
+       - **Cross-doc ID consistency:** ID cùng entity phải khớp giữa BRD ↔ SRS ↔ Feature Spec ↔ Story Map ↔ UAT Plan
+     - **Gap Types:** `INDEX_SKIP` (nhảy cóc) | `INDEX_DUPLICATE` (lặp) | `HEADING_SKIP` (heading nhảy)
+     - Nếu phát hiện gap → **Auto-fix re-index toàn bộ** → Re-scan → Verify PASS
+     - Nếu re-index thay đổi ID → CẬP NHẬT cross-references ở tất cả tài liệu liên quan
+     - **Gate Rule:** 0 INDEX_SKIP + 0 INDEX_DUPLICATE + 0 HEADING_SKIP trước khi sang Step 6.7
+     - Áp dụng quy tắc chi tiết: `../BA-document-rule/core/writing-guide.md` §1.1 rule 3
+
 6.7. **Cross-Document Traceability Validation (NEW v3.0)**
      - Run `../BA-document-rule/core/traceability-validator.md`
      - Scan: BRQ-ID → FR-ID → Feature-ID → US-ID → TC-ID
@@ -190,6 +203,7 @@ This workflow automates BA documentation using the full v3.3 skill suite (15 ski
 ```
 Step 6.7 FAIL (traceability gaps)     → Quay lại Step 5 (bổ sung docs/stories/TCs thiếu)
 Step 6.7 FAIL (regulatory gaps)       → Quay lại Step 3.5 (bổ sung Regulatory Mapping) [INDUSTRY]
+Step 6.6 FAIL (index gaps)            → Auto-fix re-index → Re-scan. Nếu vẫn FAIL → Quay lại Step 5 (sửa cấu trúc tài liệu)
 Step 6.5 FAIL (pre-flight items fail) → Quay lại Step 5 (sửa inline sections)
 Step 6 FAIL (C-S-K-A < 7.5)          → Quay lại Step 5 (rewrite sections chất lượng kém)
 Step 5 FAIL (pre-flight TRƯỚC doc)    → Quay lại Step 0/2 (bổ sung input từ KH)
