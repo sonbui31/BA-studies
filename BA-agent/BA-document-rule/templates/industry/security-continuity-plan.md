@@ -10,14 +10,14 @@
 
 ### 1.1 Threat Model (STRIDE)
 
-| Threat | Mô tả | Component bị ảnh hưởng | Severity | Mitigation |
-|--------|-------|----------------------|:--------:|-----------|
-| **S**poofing | Giả mạo danh tính | Auth module | 🔴 | MFA, biometric, PKI |
-| **T**ampering | Sửa đổi dữ liệu | API, Database | 🔴 | HMAC, digital signature, audit log |
-| **R**epudiation | Phủ nhận hành động | Transaction log | 🟡 | Immutable audit trail, timestamp |
-| **I**nformation Disclosure | Rò rỉ thông tin | Storage, Network | 🔴 | Encryption, DLP, access control |
-| **D**enial of Service | Từ chối dịch vụ | API Gateway | 🟡 | Rate limiting, WAF, CDN |
-| **E**levation of Privilege | Leo quyền | Admin panel | 🔴 | RBAC, least privilege, audit |
+| Threat | Mô tả | Component bị ảnh hưởng | Severity | Mitigation | Owner | Evidence / Test |
+|--------|-------|----------------------|:--------:|-----------|-------|-----------------|
+| **S**poofing | Giả mạo danh tính | Auth module | 🔴 | MFA, biometric, PKI | {{Security Lead}} | {{Pentest / IAM config}} |
+| **T**ampering | Sửa đổi dữ liệu | API, Database | 🔴 | HMAC, digital signature, audit log | {{Platform Lead}} | {{API test / DB audit}} |
+| **R**epudiation | Phủ nhận hành động | Transaction log | 🟡 | Immutable audit trail, timestamp | {{Ops Lead}} | {{Audit log sample}} |
+| **I**nformation Disclosure | Rò rỉ thông tin | Storage, Network | 🔴 | Encryption, DLP, access control | {{Security Lead}} | {{Config review / scan}} |
+| **D**enial of Service | Từ chối dịch vụ | API Gateway | 🟡 | Rate limiting, WAF, CDN | {{Infra Lead}} | {{Load test / WAF config}} |
+| **E**levation of Privilege | Leo quyền | Admin panel | 🔴 | RBAC, least privilege, audit | {{Security Lead}} | {{Role matrix / test case}} |
 
 ### 1.2 Security Layers
 
@@ -90,12 +90,12 @@
 
 ### 2.3 DR Scenarios & Procedures
 
-| Scenario | Impact | Detection | Failover Steps | Estimated Time |
-|---------|:------:|-----------|---------------|:--------------:|
-| Database failure | 🔴 | Health check (30s) | Auto-failover to replica | < 5 phút |
-| Application crash | 🟡 | Health check (10s) | Auto-restart + scale up | < 2 phút |
-| Region outage | 🔴 | Monitoring alert | DNS switch to DR site | < 15 phút |
-| Data corruption | 🔴 | Integrity check | Restore from backup (point-in-time) | < 4 giờ |
+| Scenario | Impact | Detection | Failover Steps | Estimated Time | Runbook Ref | Evidence of Drill |
+|---------|:------:|-----------|---------------|:--------------:|-------------|------------------|
+| Database failure | 🔴 | Health check (30s) | Auto-failover to replica | < 5 phút | {{RB-DB-01}} | {{Drill report / Screenshot}} |
+| Application crash | 🟡 | Health check (10s) | Auto-restart + scale up | < 2 phút | {{RB-APP-01}} | {{Incident replay}} |
+| Region outage | 🔴 | Monitoring alert | DNS switch to DR site | < 15 phút | {{RB-DR-01}} | {{Failover drill report}} |
+| Data corruption | 🔴 | Integrity check | Restore from backup (point-in-time) | < 4 giờ | {{RB-BKP-01}} | {{Restore validation}} |
 
 ---
 
@@ -164,12 +164,12 @@
 
 ## 5. DR Drill Schedule
 
-| # | Loại drill | Tần suất | Lần gần nhất | Kết quả | Lần tiếp |
-|---|-----------|:--------:|:------------:|:------:|:--------:|
-| 1 | Tabletop exercise | Hàng quý | {{DD/MM}} | ✅ / ❌ | {{DD/MM}} |
-| 2 | Failover test (DB) | 6 tháng | {{DD/MM}} | ✅ / ❌ | {{DD/MM}} |
-| 3 | Full DR drill | Hàng năm | {{DD/MM}} | ✅ / ❌ | {{DD/MM}} |
-| 4 | Backup restore test | Hàng quý | {{DD/MM}} | ✅ / ❌ | {{DD/MM}} |
+| # | Loại drill | Tần suất | Lần gần nhất | Kết quả | Evidence Link | Lần tiếp |
+|---|-----------|:--------:|:------------:|:------:|---------------|:--------:|
+| 1 | Tabletop exercise | Hàng quý | {{DD/MM}} | ✅ / ❌ | {{Link}} | {{DD/MM}} |
+| 2 | Failover test (DB) | 6 tháng | {{DD/MM}} | ✅ / ❌ | {{Link}} | {{DD/MM}} |
+| 3 | Full DR drill | Hàng năm | {{DD/MM}} | ✅ / ❌ | {{Link}} | {{DD/MM}} |
+| 4 | Backup restore test | Hàng quý | {{DD/MM}} | ✅ / ❌ | {{Link}} | {{DD/MM}} |
 
 ---
 

@@ -5,6 +5,28 @@
 
 ---
 
+## [3.4.0] — 2026-05-12
+
+### Added
+- `SKILL.md` — Skill entrypoint cho `BA-agent`, định tuyến đọc tài liệu theo nhu cầu và quy tắc execution
+- `agents/openai.yaml` — Metadata để bundle này hoạt động như một local skill hoàn chỉnh hơn
+- `scripts/ba_bundle_audit.py` — Kiểm tra bundle-level consistency cho version marker, entry files, và legacy ID examples
+- `scripts/preflight_check.py` — Script hóa pre-flight cho BRD/SRS/Story/UAT, thay vì chỉ giữ checklist ở markdown
+- `scripts/quality_rubric.py` — Script hóa quality rubric và smell detection cho requirement
+- `scripts/traceability_scan.py` — Audit traceability thật trên thư mục tài liệu BA, hỗ trợ cả legacy IDs và canonical IDs
+- `scripts/reindex_markdown.py` — Re-index heading/ID ở chế độ dry-run mặc định, có thể `--apply` khi đã review
+- `tests/test_runtime_scripts.py` — Unit tests tối thiểu cho runtime scripts chính
+- `BA-document-rule/core/stakeholder-conflict-resolution.md` — Protocol xử lý requirement conflict + decision ownership + artifact update rules
+
+### Changed
+- Đồng bộ bundle chính lên `v3.4.0` thay cho trạng thái nửa `3.3.1`, nửa `3.4`
+- Hợp thức hóa `Sequential Index Validation` thành capability chính thức của release `3.4.0`
+- Chuẩn hóa ví dụ traceability trong các tài liệu lõi theo dạng `US-ORD-001`, `TC-ORD-001`
+- Nối workflow và traceability guide với runtime scripts để agent ưu tiên automation trước khi audit thủ công
+- Nối pre-flight và requirement quality vào runtime flow thay vì chỉ mô tả bằng policy
+- Nâng `preflight_check.py` từ presence-check sang adequacy-check heuristics cho BRD/SRS/Story/UAT
+- Thêm evidence ownership và audit-readiness fields vào các templates regulated-domain
+
 ## [3.3.1] — 2026-04-06
 
 ### ⭐ Added — Industry Overlays

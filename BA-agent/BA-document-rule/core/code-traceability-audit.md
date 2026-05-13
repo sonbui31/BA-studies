@@ -103,8 +103,8 @@ Khi chạy Code Audit, agent cập nhật Traceability Matrix thêm cột `Code 
 
 | BRQ-ID | FR-ID | US-ID | TC-ID | Code Status |
 |---|---|---|---|---|
-| BRQ-01 | FR-STC-01 | US01 | TC-02-A | ✅ Implemented |
-| BRQ-07 | FR-CAP-01 | US13 | TC-11-B | ❌ Not Found |
+| BRQ-01 | FR-STC-001 | US-STC-001 | TC-STC-002 | ✅ Implemented |
+| BRQ-07 | FR-CAP-001 | US-CAP-013 | TC-CAP-011 | ❌ Not Found |
 
 ---
 

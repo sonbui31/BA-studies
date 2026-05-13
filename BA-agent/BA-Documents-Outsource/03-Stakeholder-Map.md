@@ -18,7 +18,7 @@
 
 ## 2. Danh sách stakeholder
 
-### 2.1 Phía Khách hàng
+### 2.1. Phía Khách hàng
 
 | # | Tên | Vai trò | Quyền lực | Quan tâm | Chiến lược |
 |---|-----|---------|-----------|----------|-----------|
@@ -29,7 +29,7 @@
 | 5 | [Tên] | Người dùng cuối | 🟢 Thấp | 🔴 Cao | Giữ hài lòng — Nghiệm thu, phản hồi |
 | 6 | [Tên] | Tài chính/Mua sắm | 🟠 Trung bình | 🟢 Thấp | Theo dõi — Hóa đơn, mốc thanh toán |
 
-### 2.2 Phía Nhà cung cấp
+### 2.2. Phía Nhà cung cấp
 
 | # | Tên | Vai trò | Quyền lực | Quan tâm | Trách nhiệm chính |
 |---|-----|---------|-----------|----------|-------------------|

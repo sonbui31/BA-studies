@@ -18,7 +18,7 @@
 
 ## 2. Danh mục bàn giao
 
-### 2.1 Mã nguồn & Kho lưu trữ
+### 2.1. Mã nguồn & Kho lưu trữ
 
 | # | Hạng mục | Định dạng / Vị trí | Trạng thái | KH đã xác nhận |
 |---|---------|-------------------|-----------|----------------|
@@ -30,7 +30,7 @@
 | 6 | Tệp migration CSDL (đầy đủ, chạy được) | Tệp migration | ☐ | ☐ |
 | 7 | Script dữ liệu khởi tạo (dữ liệu test/demo) | Tệp seed | ☐ | ☐ |
 
-### 2.2 Tài liệu
+### 2.2. Tài liệu
 
 | # | Tài liệu | Định dạng | Trạng thái | Xác nhận |
 |---|----------|----------|-----------|---------|
@@ -45,7 +45,7 @@
 | 9 | **Hướng dẫn xử lý sự cố** (vấn đề thường gặp + cách sửa) | Markdown | ☐ | ☐ |
 | 10 | **Vấn đề đã biết & Nợ kỹ thuật** (ghi nhận trung thực) | Markdown | ☐ | ☐ |
 
-### 2.3 Hạ tầng & DevOps
+### 2.3. Hạ tầng & DevOps
 
 | # | Hạng mục | Chi tiết | Trạng thái | Xác nhận |
 |---|---------|---------|-----------|---------|
@@ -59,7 +59,7 @@
 | 8 | Cấu hình sao lưu | Lịch, thời gian lưu giữ, quy trình khôi phục | ☐ | ☐ |
 | 9 | Tổng hợp nhật ký | [ELK / CloudWatch / ...], vị trí nhật ký | ☐ | ☐ |
 
-### 2.4 Tài khoản & Thông tin đăng nhập
+### 2.4. Tài khoản & Thông tin đăng nhập
 
 | # | Dịch vụ | Chủ tài khoản | Chuyển cho KH? | Trạng thái |
 |---|---------|--------------|---------------|-----------|
@@ -75,7 +75,7 @@
 
 > ⚠️ **Quy tắc:** Tất cả tài khoản nên được chuyển về sở hữu KH trước khi bảo hành kết thúc
 
-### 2.5 Tài liệu kiểm thử
+### 2.5. Tài liệu kiểm thử
 
 | # | Hạng mục | Định dạng | Trạng thái |
 |---|---------|----------|-----------|
@@ -89,7 +89,7 @@
 
 ## 3. Các buổi chuyển giao kiến thức (KT)
 
-### 3.1 Lịch KT
+### 3.1. Lịch KT
 
 | Buổi | Chủ đề | Người trình bày (NCC) | Người tham dự (KH) | Thời lượng | Ngày | Đã ghi? |
 |------|--------|----------------------|-------------------|-----------|------|--------|
@@ -105,7 +105,7 @@
 > **Tổng:** ~12-13 giờ buổi KT
 > **⚠️ Tất cả buổi phải được GHI HÌNH** — KH có thể xem lại
 
-### 3.2 Thời gian hỏi đáp sau KT
+### 3.2. Thời gian hỏi đáp sau KT
 - Sau các buổi KT, NCC sẵn sàng cho hỏi đáp: **[2 tuần]**
 - Kênh: [Slack / Email]
 - SLA phản hồi: 24 giờ (ngày làm việc)

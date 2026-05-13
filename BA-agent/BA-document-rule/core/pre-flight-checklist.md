@@ -74,7 +74,7 @@ INPUT nhận được → Chọn document type → Chạy Pre-Flight Checklist t
 | 5 | **Sprint Assignment** | Mỗi story gán Sprint (S1, S2, S3...) | Tự phân Sprint theo dependency |
 | 6 | **Traceability Table** | US → BRQ → FR → TC mapping table | Sinh traceability table |
 | 7 | **AC Coverage ≥ 4 Types** ⭐ v3.3 | Must stories có ≥ 4 loại AC (Happy/Negative/Boundary/Permission) | Áp dụng AC Pattern Library (`writing-guide.md` §11) |
-| 8 | **Sequential Numbering** ⭐ v3.4 | US-ID tuần tự (US01→US02→US03), EPIC numbering liên tục, AC numbering tuần tự trong mỗi US | Quét toàn bộ US/EPIC → re-index |
+| 8 | **Sequential Numbering** ⭐ v3.4 | US-ID tuần tự (US-ORD-001→US-ORD-002→US-ORD-003), EPIC numbering liên tục, AC numbering tuần tự trong mỗi US | Quét toàn bộ US/EPIC → re-index |
 
 ### 📋 PFC-UAT: Pre-Flight cho UAT Plan
 
@@ -107,6 +107,13 @@ INPUT nhận được → Chọn document type → Chạy Pre-Flight Checklist t
 ---
 
 ## 3. Cách Agent Sử Dụng
+
+### Lệnh script ưu tiên
+
+```powershell
+python .\scripts\preflight_check.py <project-folder>
+python .\scripts\preflight_check.py <project-folder> --output-json preflight-report.json
+```
 
 Khi chuẩn bị sinh tài liệu, agent thực hiện:
 

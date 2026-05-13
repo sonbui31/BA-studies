@@ -68,7 +68,7 @@
 
 ## 4. Data Dictionary
 
-### 4.1 Users (Người dùng)
+### 4.1. Users (Người dùng)
 
 | Cột | Kiểu | Ràng buộc | Mô tả | Mã hóa? |
 |-----|------|----------|--------|---------|
@@ -93,7 +93,7 @@
 
 ---
 
-### 4.2 Roles (Vai trò)
+### 4.2. Roles (Vai trò)
 
 | Cột | Kiểu | Ràng buộc | Mô tả |
 |-----|------|----------|--------|
@@ -108,7 +108,7 @@
 
 ---
 
-### 4.3 [Thực thể 1 — Tên theo nghiệp vụ]
+### 4.3. [Thực thể 1 — Tên theo nghiệp vụ]
 
 | Cột | Kiểu | Ràng buộc | Mô tả | Mã hóa? |
 |-----|------|----------|--------|---------|
@@ -134,7 +134,7 @@
 
 ---
 
-### 4.4 Attachments (Attachment — Đa hình)
+### 4.4. Attachments (Attachment — Đa hình)
 
 | Cột | Kiểu | Ràng buộc | Mô tả |
 |-----|------|----------|--------|
@@ -150,7 +150,7 @@
 
 ---
 
-### 4.5 Audit_Logs (Audit Log)
+### 4.5. Audit_Logs (Audit Log)
 
 | Cột | Kiểu | Ràng buộc | Mô tả |
 |-----|------|----------|--------|
@@ -172,7 +172,7 @@
 
 ## 5. Chuyển đổi dữ liệu (nếu có)
 
-### 5.1 Ánh xạ chuyển đổi
+### 5.1. Ánh xạ chuyển đổi
 
 | Trường cũ | Kiểu cũ | Bảng.Cột mới | Kiểu mới | Quy tắc chuyển đổi |
 |----------|---------|-------------|----------|-------------------|
@@ -180,7 +180,7 @@
 | [trường_cũ_2] | INT | [bảng_mới].[trường_mới] | UUID | Tra cứu từ bảng ánh xạ |
 | [trường_cũ_3] | TEXT | [bảng_mới].[trường_mới] | JSONB | Phân tích CSV → JSON |
 
-### 5.2 Phân công trách nhiệm chuyển đổi
+### 5.2. Phân công trách nhiệm chuyển đổi
 
 | Công việc | Chịu trách nhiệm | Ghi chú |
 |----------|-------------------|---------|

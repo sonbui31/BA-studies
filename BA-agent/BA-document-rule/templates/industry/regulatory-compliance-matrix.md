@@ -22,19 +22,19 @@
 
 > Với MỖI feature/module, xác định quy định nào áp dụng và yêu cầu tuân thủ cụ thể.
 
-| Feature / Module | Quy định | Điều khoản cụ thể | Yêu cầu tuân thủ | Status |
-|-----------------|---------|-------------------|------------------|:------:|
-| {{Đăng ký tài khoản}} | {{NĐ 13/2023}} | {{Điều 11 — Đồng ý xử lý DLCN}} | {{Hiển thị consent form, ghi nhận thời gian đồng ý}} | ☐ |
-| {{Thanh toán}} | {{PCI-DSS v4.0}} | {{Req 3 — Protect stored data}} | {{Tokenize card, never store CVV}} | ☐ |
-| {{Báo cáo}} | {{QĐ 2345/NHNN}} | {{Xác thực sinh trắc học}} | {{Face ID cho GD > 10 triệu}} | ☐ |
+| Feature / Module | Quy định | Điều khoản cụ thể | Yêu cầu tuân thủ | Control Owner | Evidence Source | Review Status |
+|-----------------|---------|-------------------|------------------|---------------|-----------------|:-------------:|
+| {{Đăng ký tài khoản}} | {{NĐ 13/2023}} | {{Điều 11 — Đồng ý xử lý DLCN}} | {{Hiển thị consent form, ghi nhận thời gian đồng ý}} | {{PO / Compliance}} | {{Consent log / Screenshot / Test case}} | ☐ |
+| {{Thanh toán}} | {{PCI-DSS v4.0}} | {{Req 3 — Protect stored data}} | {{Tokenize card, never store CVV}} | {{Security Lead}} | {{Architecture diagram / Pentest / Config}} | ☐ |
+| {{Báo cáo}} | {{QĐ 2345/NHNN}} | {{Xác thực sinh trắc học}} | {{Face ID cho GD > 10 triệu}} | {{Ops / Product}} | {{UAT script / Audit log}} | ☐ |
 
 ---
 
 ## 3. Gap Analysis
 
-| # | Gap | Quy định vi phạm | Mức độ | Giải pháp đề xuất | Effort | Owner |
-|---|-----|------------------|:------:|-------------------|:------:|-------|
-| 1 | {{Chưa có consent form}} | {{NĐ 13/2023 Đ11}} | 🔴 | {{Thêm consent management}} | {{M}} | {{BA}} |
+| # | Gap | Quy định vi phạm | Mức độ | Giải pháp đề xuất | Effort | Owner | Target Date | Residual Risk |
+|---|-----|------------------|:------:|-------------------|:------:|-------|-------------|--------------|
+| 1 | {{Chưa có consent form}} | {{NĐ 13/2023 Đ11}} | 🔴 | {{Thêm consent management}} | {{M}} | {{BA}} | {{DD/MM/YYYY}} | {{Medium}} |
 
 ---
 
@@ -76,10 +76,10 @@
 
 ## 5. Audit Readiness
 
-| Hạng mục | Người chịu trách nhiệm | Tần suất review | Lần review gần nhất | Status |
-|---------|----------------------|----------------|---------------------|:------:|
-| {{Security audit}} | {{Security team}} | {{Hàng quý}} | {{DD/MM/YYYY}} | ✅ / ⏳ / ❌ |
-| {{Compliance review}} | {{Compliance officer}} | {{Hàng tháng}} | {{DD/MM/YYYY}} | ✅ / ⏳ / ❌ |
+| Hạng mục | Người chịu trách nhiệm | Tần suất review | Lần review gần nhất | Evidence Location | Status |
+|---------|----------------------|----------------|---------------------|------------------|:------:|
+| {{Security audit}} | {{Security team}} | {{Hàng quý}} | {{DD/MM/YYYY}} | {{Drive/Repo/Link}} | ✅ / ⏳ / ❌ |
+| {{Compliance review}} | {{Compliance officer}} | {{Hàng tháng}} | {{DD/MM/YYYY}} | {{Drive/Repo/Link}} | ✅ / ⏳ / ❌ |
 
 ---
 

@@ -35,7 +35,7 @@
 **Ngày phỏng vấn:** [DD/MM/YYYY]
 **Link bản ghi:** [Link video nếu có]
 
-#### 2.1 HIỆN TẠI (Quy trình hiện tại — As-Is)
+#### 2.1. HIỆN TẠI (Quy trình hiện tại — As-Is)
 
 ```
 [Vẽ sơ đồ quy trình hiện tại]
@@ -65,7 +65,7 @@ Tác nhân 1           Hệ thống cũ / Thủ công       Tác nhân 2
 
 ---
 
-#### 2.2 TƯƠNG LAI (Quy trình mới — To-Be)
+#### 2.2. TƯƠNG LAI (Quy trình mới — To-Be)
 
 ```
 [Vẽ sơ đồ quy trình mới với hệ thống]

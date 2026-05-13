@@ -31,13 +31,13 @@
 
 ### 2.1 Consent Categories
 
-| # | Mục đích xử lý | Bắt buộc? | Granularity | VD Healthcare | VD Fintech |
-|---|----------------|:---------:|:-----------:|-------------|-----------|
-| 1 | **Cung cấp dịch vụ** | ✅ Bắt buộc | All-or-nothing | Khám chữa bệnh | Mở tài khoản |
-| 2 | **Tiếp thị** | ☐ Tùy chọn | Opt-in | Gửi tin sức khỏe | Gửi khuyến mãi |
-| 3 | **Chia sẻ bên thứ 3** | ☐ Tùy chọn | Per-partner | Chia sẻ BV khác | Chia sẻ đối tác |
-| 4 | **Nghiên cứu** | ☐ Tùy chọn | Opt-in | Dữ liệu nghiên cứu y khoa | Analytics |
-| 5 | **Lưu trữ lâu dài** | ☐ Tùy chọn | Duration-based | Lưu hồ sơ > 10 năm | Lưu GD > 10 năm |
+| # | Mục đích xử lý | Bắt buộc? | Granularity | VD Healthcare | VD Fintech | Owner | Evidence |
+|---|----------------|:---------:|:-----------:|-------------|-----------|-------|---------|
+| 1 | **Cung cấp dịch vụ** | ✅ Bắt buộc | All-or-nothing | Khám chữa bệnh | Mở tài khoản | {{PO}} | {{Consent form / API log}} |
+| 2 | **Tiếp thị** | ☐ Tùy chọn | Opt-in | Gửi tin sức khỏe | Gửi khuyến mãi | {{Marketing Lead}} | {{Opt-in record}} |
+| 3 | **Chia sẻ bên thứ 3** | ☐ Tùy chọn | Per-partner | Chia sẻ BV khác | Chia sẻ đối tác | {{Compliance}} | {{Partner consent log}} |
+| 4 | **Nghiên cứu** | ☐ Tùy chọn | Opt-in | Dữ liệu nghiên cứu y khoa | Analytics | {{Data Governance}} | {{Research consent record}} |
+| 5 | **Lưu trữ lâu dài** | ☐ Tùy chọn | Duration-based | Lưu hồ sơ > 10 năm | Lưu GD > 10 năm | {{Compliance}} | {{Retention approval}} |
 
 ### 2.2 Consent Lifecycle
 
@@ -79,14 +79,14 @@ stateDiagram-v2
 
 ## 3. Data Subject Rights (NĐ 13/2023)
 
-| # | Quyền | Mô tả | SLA xử lý | Endpoint/Flow |
-|---|-------|-------|:---------:|--------------|
-| 1 | **Truy cập** | Xem dữ liệu cá nhân của mình | ≤ 72 giờ | GET /api/v1/me/data |
-| 2 | **Chỉnh sửa** | Yêu cầu sửa dữ liệu sai | ≤ 72 giờ | PATCH /api/v1/me/data |
-| 3 | **Xóa** | Yêu cầu xóa dữ liệu | ≤ 72 giờ | DELETE /api/v1/me/data |
-| 4 | **Rút đồng ý** | Rút lại consent đã cho | Realtime | POST /api/v1/me/consent/withdraw |
-| 5 | **Xuất dữ liệu** | Tải về format đọc được (JSON/CSV) | ≤ 72 giờ | GET /api/v1/me/export |
-| 6 | **Hạn chế xử lý** | Chỉ lưu, không xử lý thêm | ≤ 24 giờ | POST /api/v1/me/restrict |
+| # | Quyền | Mô tả | SLA xử lý | Endpoint/Flow | Owner | Evidence |
+|---|-------|-------|:---------:|--------------|-------|---------|
+| 1 | **Truy cập** | Xem dữ liệu cá nhân của mình | ≤ 72 giờ | GET /api/v1/me/data | {{Support Lead}} | {{Audit log / response sample}} |
+| 2 | **Chỉnh sửa** | Yêu cầu sửa dữ liệu sai | ≤ 72 giờ | PATCH /api/v1/me/data | {{Ops Lead}} | {{Ticket / audit trail}} |
+| 3 | **Xóa** | Yêu cầu xóa dữ liệu | ≤ 72 giờ | DELETE /api/v1/me/data | {{Compliance}} | {{Deletion log}} |
+| 4 | **Rút đồng ý** | Rút lại consent đã cho | Realtime | POST /api/v1/me/consent/withdraw | {{Product / Compliance}} | {{Consent state change log}} |
+| 5 | **Xuất dữ liệu** | Tải về format đọc được (JSON/CSV) | ≤ 72 giờ | GET /api/v1/me/export | {{Support Lead}} | {{Export job log}} |
+| 6 | **Hạn chế xử lý** | Chỉ lưu, không xử lý thêm | ≤ 24 giờ | POST /api/v1/me/restrict | {{Compliance}} | {{Restriction flag audit}} |
 
 > ⚠️ **Healthcare exception:** PHI dùng cho chẩn đoán/điều trị có thể KHÔNG xóa được (quy định lưu trữ bệnh án ≥ 10 năm). Ghi rõ cho user.
 

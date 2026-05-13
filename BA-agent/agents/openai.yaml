@@ -1,0 +1,7 @@
+interface:
+  display_name: "BA Agent"
+  short_description: "Structured BA drafting and audit skill"
+  default_prompt: "Use $ba-agent to create or audit BA artifacts with traceability, quality gates, and project-type routing."
+
+policy:
+  allow_implicit_invocation: true

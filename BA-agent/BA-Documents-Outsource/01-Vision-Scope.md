@@ -11,16 +11,16 @@
 
 ## 1. Giới thiệu
 
-### 1.1 Mục đích tài liệu
+### 1.1. Mục đích tài liệu
 Tài liệu này xác định tầm nhìn, phạm vi và mục tiêu của dự án **[Tên dự án]**, được ký kết giữa **[Khách hàng]** và **[Nhà cung cấp]** theo Hợp đồng số **[HĐ-ID]**. Đây là tài liệu **Chốt phạm vi (Baseline)** — mọi thay đổi phạm vi sau khi phê duyệt sẽ được xử lý qua quy trình Yêu cầu thay đổi (CR).
 
-### 1.2 Bối cảnh dự án
+### 1.2. Bối cảnh dự án
 - **Tên Khách hàng:** [Công ty ABC]
 - **Ngành:** [Fintech / Y tế / Thương mại điện tử / ...]
 - **Vấn đề cần giải quyết:** [Mô tả vấn đề kinh doanh]
 - **Giải pháp đề xuất:** [Tóm tắt giải pháp kỹ thuật]
 
-### 1.3 Tài liệu liên quan
+### 1.3. Tài liệu liên quan
 
 | Tài liệu | Mã | Trạng thái |
 |-----------|----|-----------| 
@@ -28,7 +28,7 @@ Tài liệu này xác định tầm nhìn, phạm vi và mục tiêu của dự 
 | Thỏa thuận bảo mật (NDA) | NDA-[ID] | Đã ký |
 | Yêu cầu đề xuất (RFP/RFQ) | — | Đã nhận |
 
-### 1.4 Thuật ngữ
+### 1.4. Thuật ngữ
 
 | Thuật ngữ | Giải thích |
 |-----------|------------|
@@ -67,7 +67,7 @@ Tài liệu này xác định tầm nhìn, phạm vi và mục tiêu của dự 
 
 ## 4. Phạm vi dự án
 
-### 4.1 Trong phạm vi
+### 4.1. Trong phạm vi
 
 > ⚠️ **CHỈ những hạng mục dưới đây nằm trong hợp đồng và ngân sách đã thỏa thuận.**
 
@@ -84,7 +84,7 @@ Tài liệu này xác định tầm nhìn, phạm vi và mục tiêu của dự 
 - Tính năng 3.1: [Mô tả]
 - Tính năng 3.2: [Mô tả]
 
-### 4.2 Ngoài phạm vi
+### 4.2. Ngoài phạm vi
 
 > ⚠️ **Các hạng mục dưới đây KHÔNG nằm trong hợp đồng. Nếu Khách hàng yêu cầu thêm, cần thông qua quy trình CR với đánh giá chi phí & tiến độ.**
 
@@ -94,7 +94,7 @@ Tài liệu này xác định tầm nhìn, phạm vi và mục tiêu của dự 
 - ❌ [Hạng mục 4] — ví dụ: Đào tạo người dùng cuối (KH tự thực hiện)
 - ❌ Bảo trì/vận hành sau kỳ bảo hành
 
-### 4.3 Giả định
+### 4.3. Giả định
 
 | # | Giả định | Rủi ro nếu sai | Biện pháp |
 |---|----------|----------------|-----------|
@@ -104,7 +104,7 @@ Tài liệu này xác định tầm nhìn, phạm vi và mục tiêu của dự 
 | A4 | Nội dung (văn bản, hình ảnh) do KH cung cấp | Hiển thị tạm ở demo | Ghi rõ trong Báo cáo Sprint |
 | A5 | API bên thứ 3 (cổng thanh toán, SMS...) có môi trường sandbox | Không thể kiểm thử tích hợp | Giả lập API |
 
-### 4.4 Ràng buộc
+### 4.4. Ràng buộc
 
 | # | Ràng buộc | Loại |
 |---|-----------|------|
@@ -115,7 +115,7 @@ Tài liệu này xác định tầm nhìn, phạm vi và mục tiêu của dự 
 | C5 | Tuân thủ: [GDPR/PCI-DSS/Quy định Bộ TT&TT...] | Pháp lý |
 | C6 | Ngôn ngữ: Giao diện tiếng Việt, mã nguồn + tài liệu kỹ thuật tiếng Anh | Bản địa hóa |
 
-### 4.5 Phụ thuộc
+### 4.5. Phụ thuộc
 
 | # | Phụ thuộc vào | Phụ trách | Thời hạn | Trạng thái |
 |---|-------------|-----------|----------|-----------|

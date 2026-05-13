@@ -59,13 +59,13 @@ Mọi tài liệu BA phải có:
    - ❌ Sai: `1.` → `1.1` → `1.3` (nhảy cóc 1.2) | `2.` → `2.1` → `2.1` (lặp) | `3.` → `1.` (đảo)
 
    **3b. Requirement ID Numbering (Mã yêu cầu):**
-   - ✅ Đúng: `BRQ-01` → `BRQ-02` → `BRQ-03` | `US01` → `US02` → `US03`
-   - ❌ Sai: `BRQ-01` → `BRQ-03` (nhảy BRQ-02) | `US01` → `US01` (lặp) | `TC-01` → `TC-03` (nhảy TC-02)
+   - ✅ Đúng: `BRQ-01` → `BRQ-02` → `BRQ-03` | `US-ORD-001` → `US-ORD-002` → `US-ORD-003`
+   - ❌ Sai: `BRQ-01` → `BRQ-03` (nhảy BRQ-02) | `US-ORD-001` → `US-ORD-001` (lặp) | `TC-ORD-001` → `TC-ORD-003` (nhảy TC-ORD-002)
    - **Sub-ID:** `BRQ-06.1` → `BRQ-06.2` → `BRQ-06.3` (tuần tự trong cùng nhóm cha)
 
    **3c. Test Case / Group Numbering:**
-   - ✅ Đúng: Test Group `2.1` → `2.2` → `2.3` | TC: `TC-01-A` → `TC-01-B` → `TC-01-C`
-   - ❌ Sai: Test Group `2.1` → `2.3` → `2.5` (nhảy cóc) | `TC-01-A` → `TC-01-D` (nhảy B, C)
+   - ✅ Đúng: Test Group `2.1` → `2.2` → `2.3` | TC: `TC-ORD-001` → `TC-ORD-002` → `TC-ORD-003`
+   - ❌ Sai: Test Group `2.1` → `2.3` → `2.5` (nhảy cóc) | `TC-ORD-001` → `TC-ORD-004` (nhảy 002, 003)
 
    **3d. Quy tắc Re-Index (BẮT BUỘC sau mỗi lần chỉnh sửa):**
    - Khi **thêm** item mới vào giữa danh sách → đánh lại số cho tất cả items phía sau.

@@ -1,6 +1,6 @@
-# NGUYÊN TẮC & MÔ HÌNH CỐT LÕI CỦA BA 3.3
+# NGUYÊN TẮC & MÔ HÌNH CỐT LÕI CỦA BA 3.4
 
-> **Phiên bản:** 3.3 | **Ngày:** 03/04/2026
+> **Phiên bản:** 3.4 | **Ngày:** 12/05/2026
 > **Đặc điểm:** Multi-LLM Orchestrated (Gemini 3, Claude 4.6, GPT-5 & o4), Data-Driven, Hybrid Agile
 
 ---
@@ -155,7 +155,7 @@ doanh thu    ─────────    hơn           Auto-fill address
 
 ---
 
-## 11. Multi-LLM Orchestration (Gemini 3, Claude 4.6, GPT-5 & o4) — BA 3.3
+## 11. Multi-LLM Orchestration (Gemini 3, Claude 4.6, GPT-5 & o4) — BA 3.4
 
 > Sử dụng sức mạnh tối thượng của các thế hệ LLM mới nhất (Q1/2026) để dẫn đầu trong phân tích nghiệp vụ.
 
@@ -195,7 +195,7 @@ Mọi giải pháp (Solution) phải đi kèm với cách đo lường giá tr�
 
 ---
 
-## 13. Mười Nguyên tắc vàng của BA 3.3
+## 13. Mười Nguyên tắc vàng của BA 3.4
 
 1. **AI as a Partner** — Co-creation thay vì manual creation.
 2. **Data-Informed Decisions** — Kết hợp trực giác kinh doanh và bằng chứng dữ liệu.

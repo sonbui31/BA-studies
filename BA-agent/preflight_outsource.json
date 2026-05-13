@@ -1,0 +1,304 @@
+[
+  {
+    "file": "02-BRD.md",
+    "checklist": "PFC-BRD",
+    "results": [
+      {
+        "#": 1,
+        "item": "Glossary",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 2,
+        "item": "Problem Statement",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 3,
+        "item": "Stakeholder (≥3)",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 4,
+        "item": "OKRs / KPIs",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 5,
+        "item": "MoSCoW Priority",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 6,
+        "item": "Business Rules",
+        "status": "❌ FAIL",
+        "note": ""
+      },
+      {
+        "#": 7,
+        "item": "Assumptions",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 8,
+        "item": "Traceability Matrix",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 9,
+        "item": "As-Is Process",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 10,
+        "item": "Elicitation Record",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 11,
+        "item": "Rule Architecture",
+        "status": "❌ FAIL",
+        "note": ""
+      },
+      {
+        "#": 12,
+        "item": "Severity Design",
+        "status": "⚠️ N/A",
+        "note": "manual"
+      },
+      {
+        "#": 13,
+        "item": "System Memory",
+        "status": "⚠️ N/A",
+        "note": "manual"
+      },
+      {
+        "#": 14,
+        "item": "AI Feature Spec",
+        "status": "⚠️ N/A",
+        "note": "no AI"
+      },
+      {
+        "#": 15,
+        "item": "Sequential Numbering",
+        "status": "✅ PASS",
+        "note": ""
+      }
+    ],
+    "summary": {
+      "pass": 10,
+      "fail": 2,
+      "na": 3
+    }
+  },
+  {
+    "file": "05-SRS.md",
+    "checklist": "PFC-SRS",
+    "results": [
+      {
+        "#": 1,
+        "item": "BRD completed",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 2,
+        "item": "Architecture Diagram",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 3,
+        "item": "ER Diagram",
+        "status": "❌ FAIL",
+        "note": ""
+      },
+      {
+        "#": 4,
+        "item": "Use Case",
+        "status": "❌ FAIL",
+        "note": ""
+      },
+      {
+        "#": 5,
+        "item": "State Machine",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 6,
+        "item": "Data Dictionary",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 7,
+        "item": "API Conventions",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 8,
+        "item": "Validation Rules",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 9,
+        "item": "NFR Coverage (≥5)",
+        "status": "❌ FAIL",
+        "note": "0 NFRs"
+      },
+      {
+        "#": 10,
+        "item": "Sequence Diagram",
+        "status": "❌ FAIL",
+        "note": ""
+      },
+      {
+        "#": 11,
+        "item": "Decomposition",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 12,
+        "item": "Quality Gate",
+        "status": "✅ PASS",
+        "note": "12 FRs"
+      },
+      {
+        "#": 13,
+        "item": "Conflict Scan",
+        "status": "⚠️ N/A",
+        "note": "needs script"
+      },
+      {
+        "#": 14,
+        "item": "Sequential Numbering",
+        "status": "✅ PASS",
+        "note": ""
+      }
+    ],
+    "summary": {
+      "pass": 9,
+      "fail": 4,
+      "na": 1
+    }
+  },
+  {
+    "file": "06-User-Story-Map.md",
+    "checklist": "PFC-USM",
+    "results": [
+      {
+        "#": 1,
+        "item": "BRQ Coverage",
+        "status": "✅ PASS",
+        "note": "9 stories"
+      },
+      {
+        "#": 2,
+        "item": "INVEST Format",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 3,
+        "item": "BDD AC",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 4,
+        "item": "Happy+Edge",
+        "status": "❌ FAIL",
+        "note": ""
+      },
+      {
+        "#": 5,
+        "item": "Sprint Assignment",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 6,
+        "item": "Traceability",
+        "status": "❌ FAIL",
+        "note": ""
+      },
+      {
+        "#": 7,
+        "item": "AC ≥4 types",
+        "status": "❌ FAIL",
+        "note": ""
+      },
+      {
+        "#": 8,
+        "item": "Sequential Numbering",
+        "status": "✅ PASS",
+        "note": ""
+      }
+    ],
+    "summary": {
+      "pass": 5,
+      "fail": 3,
+      "na": 0
+    }
+  },
+  {
+    "file": "08-UAT-Plan.md",
+    "checklist": "PFC-UAT",
+    "results": [
+      {
+        "#": 1,
+        "item": "Story Coverage",
+        "status": "✅ PASS",
+        "note": "6 TCs"
+      },
+      {
+        "#": 2,
+        "item": "Test Data Spec",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 3,
+        "item": "Prerequisites",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 4,
+        "item": "Sign-off Criteria",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 5,
+        "item": "BR Test Cases",
+        "status": "✅ PASS",
+        "note": ""
+      },
+      {
+        "#": 6,
+        "item": "Sequential Numbering",
+        "status": "✅ PASS",
+        "note": ""
+      }
+    ],
+    "summary": {
+      "pass": 6,
+      "fail": 0,
+      "na": 0
+    }
+  }
+]

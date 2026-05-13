@@ -7,7 +7,7 @@
 
 ## 1. Quy trình quản lý thay đổi — Gia công
 
-### 1.1 Tại sao CR quan trọng hơn nội bộ?
+### 1.1. Tại sao CR quan trọng hơn nội bộ?
 
 | Nội bộ | Gia công |
 |--------|----------|
@@ -15,7 +15,7 @@
 | PO quyết định nhanh | KH phải **phê duyệt chi phí** trước khi NCC triển khai |
 | Ít tranh cãi | Có thể dẫn đến **tranh chấp** nếu không quản lý tốt |
 
-### 1.2 Quy trình CR
+### 1.2. Quy trình CR
 
 ```
 Khách hàng đề xuất thay đổi
@@ -83,22 +83,22 @@ Khách hàng đề xuất thay đổi
 
 ─────────────────────────────────────────────────
 
-## 1. Mô tả thay đổi
+## 4. Mô tả thay đổi
 [Mô tả chi tiết điều cần thay đổi]
 
-## 2. Lý do kinh doanh
+## 5. Lý do kinh doanh
 [Tại sao cần thay đổi? Ảnh hưởng gì nếu KHÔNG thay đổi?]
 
-## 3. Hành vi hiện tại (SRS Baseline)
+## 6. Hành vi hiện tại (SRS Baseline)
 [Hệ thống hiện tại / đặc tả hiện tại hoạt động thế nào]
 **Tham chiếu SRS:** FR-[XXX] / Mục [X.X]
 
-## 4. Hành vi mong muốn
+## 7. Hành vi mong muốn
 [Sau thay đổi, mong muốn hệ thống hoạt động thế nào]
 
 ─────────────────── NHÀ CUNG CẤP ĐIỀN ──────────────────
 
-## 5. Phân tích ảnh hưởng
+## 8. Phân tích ảnh hưởng
 
 | Hạng mục | Đánh giá |
 |----------|---------|
@@ -109,7 +109,7 @@ Khách hàng đề xuất thay đổi
 | **Kịch bản KT cần cập nhật** | [N kịch bản] |
 | **Tài liệu cần cập nhật** | [SRS, Bản đồ story, ...] |
 
-## 6. Ước lượng khối lượng & Chi phí
+## 9. Ước lượng khối lượng & Chi phí
 
 | Vai trò | Khối lượng (NC) | Đơn giá ($/NC) | Chi phí ($) |
 |---------|----------------|----------------|------------|
@@ -118,17 +118,17 @@ Khách hàng đề xuất thay đổi
 | QC | [X] | [Giá] | [Tổng] |
 | **Tổng** | **[X]** | | **$[Tổng]** |
 
-## 7. Ảnh hưởng tiến độ
+## 10. Ảnh hưởng tiến độ
 - Thời hạn hiện tại: [Ngày]
 - Thời hạn mới (nếu duyệt): [Ngày]
 - Trì hoãn: [N ngày]
 
-## 8. Rủi ro
+## 11. Rủi ro
 [Rủi ro kỹ thuật hoặc nghiệp vụ nếu thực hiện CR]
 
 ─────────────────────── QUYẾT ĐỊNH ──────────────────────
 
-## 9. Quyết định
+## 12. Quyết định
 
 | Quyết định | Bởi | Ngày | Ghi chú |
 |-----------|-----|------|---------|

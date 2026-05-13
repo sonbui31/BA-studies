@@ -1,4 +1,4 @@
-# TRACEABILITY VALIDATOR (v3.3)
+# TRACEABILITY VALIDATOR (v3.4)
 
 > **Mục đích:** Tự động phát hiện gaps trong cross-document traceability.
 > **Trigger:** Chạy SAU khi sinh xong bộ tài liệu (hoặc khi user yêu cầu audit).
@@ -26,17 +26,17 @@ Mỗi BRQ-ID phải có **ít nhất 1 đường đi hoàn chỉnh**. NFR cũng 
 | BRD | `BRQ-XX`, `BRQ-XX.X` | BRQ-01, BRQ-06.3 |
 | SRS | `FR-XXX-XX`, `NFR-XX` | FR-STC-01, NFR-03 |
 | Feature Spec | `Fxx` | F01, F16, F20 |
-| Story Map | `USxx` | US01, US15 |
-| UAT Plan | `TC-XX-X` | TC-01-A, TC-11-B |
+| Story Map | `US-MOD-XXX` | US-ORD-001, US-CAP-013 |
+| UAT Plan | `TC-MOD-XXX` | TC-ORD-001, TC-CAP-011 |
 
 ### Step 2: Build Traceability Matrix tự động
 
 ```markdown
 | BRQ-ID | BRD ✓ | SRS (FR) | Feature | Story (US) | UAT (TC) | Status |
 |---|:---:|---|---|---|---|---|
-| BRQ-01 | ✅ | FR-F15-01 | F05 | US01 | TC-02-A | ✅ FULL |
-| BRQ-07 | ✅ | FR-CAP-01 | F16 | US13 | ??? | ❌ MISSING TC |
-| BRQ-09.1 | ✅ | NFR-11 | F20 | US16 | TC-04-E | ✅ FULL |
+| BRQ-01 | ✅ | FR-ORD-001 | F05 | US-ORD-001 | TC-ORD-001 | ✅ FULL |
+| BRQ-07 | ✅ | FR-CAP-001 | F16 | US-CAP-013 | ??? | ❌ MISSING TC |
+| BRQ-09.1 | ✅ | NFR-PERF-011 | F20 | US-RPT-016 | TC-RPT-004 | ✅ FULL |
 ```
 
 ### Step 3: Gap Detection Rules
@@ -52,7 +52,7 @@ Mỗi BRQ-ID phải có **ít nhất 1 đường đi hoàn chỉnh**. NFR cũng 
 | **ORPHAN_NFR** | NFR tồn tại trong SRS nhưng không có NFR-TC trong UAT Plan | 🔴 Critical ⭐ NEW v3.2 |
 | **STALE_REF** | TC reference một US đã bị xóa/deprecated | 🟡 Warning ⭐ NEW v3.2 |
 | **INDEX_SKIP** | ID numbering nhảy cóc (VD: BRQ-01 → BRQ-03, thiếu BRQ-02) | 🔴 Critical ⭐ NEW v3.4 |
-| **INDEX_DUPLICATE** | 2+ items cùng ID (VD: 2 cái US01 hoặc 2 cái TC-03-A) | 🔴 Critical ⭐ NEW v3.4 |
+| **INDEX_DUPLICATE** | 2+ items cùng ID (VD: 2 cái US-ORD-001 hoặc 2 cái TC-ORD-003) | 🔴 Critical ⭐ NEW v3.4 |
 | **HEADING_SKIP** | Section numbering nhảy cóc (VD: §2.1 → §2.3, thiếu §2.2) | 🟡 Warning ⭐ NEW v3.4 |
 
 ### Step 4: Sinh Validation Report
@@ -78,7 +78,7 @@ Mỗi BRQ-ID phải có **ít nhất 1 đường đi hoàn chỉnh**. NFR cũng 
 ### 🔴 Critical Gaps
 | # | Gap Type | Item | Missing At | Suggested Fix |
 |---|---|---|---|---|
-| 1 | MISSING_TC | BRQ-07 / US13 | UAT Plan | Thêm TC cho "Nhập Công suất Thiết bị" |
+| 1 | MISSING_TC | BRQ-07 / US-CAP-013 | UAT Plan | Thêm TC cho "Nhập Công suất Thiết bị" |
 
 ### 🟡 Warnings
 | # | Gap Type | Item | Detail |
@@ -100,6 +100,23 @@ Mỗi BRQ-ID phải có **ít nhất 1 đường đi hoàn chỉnh**. NFR cũng 
 | Sau sinh xong **1 doc** | Tự động (partial) | Chạy Partial Validation cho doc đó |
 | User yêu cầu | Manual | `@ba-specialist kiểm tra truy vết toàn bộ dự án` |
 | Trước sign-off | Mandatory | Agent PHẢI chạy trước khi tuyên bố "hoàn tất" |
+
+### Lệnh script ưu tiên
+
+```powershell
+python .\scripts\traceability_scan.py <project-folder>
+python .\scripts\traceability_scan.py <project-folder> --output-md traceability-report.md --output-json traceability-report.json
+python .\scripts\traceability_scan.py <project-folder> --scheme legacy
+python .\scripts\traceability_scan.py <project-folder> --scheme canonical --strict
+```
+
+> Nếu tài liệu đang có drift về heading hoặc ID, chạy thêm:
+
+```powershell
+python .\scripts\reindex_markdown.py <project-folder>
+python .\scripts\reindex_markdown.py <project-folder> --apply
+python .\scripts\reindex_markdown.py <project-folder> --include-baseline --apply
+```
 
 ---
 
@@ -138,9 +155,9 @@ Khi phát hiện gap, agent đề xuất fix cụ thể:
 ```markdown
 | TC-ID | Linked US | US Status | Linked FR | FR Status | Linked BRQ | BRQ Status | Verdict |
 |---|---|:---:|---|:---:|---|:---:|:---:|
-| TC-01-A | US01 | ✅ Active | FR-F15-01 | ✅ Active | BRQ-01 | ✅ Active | ✅ Valid |
-| TC-05-B | US08 | ❌ Deleted | FR-STC-03 | ❌ Deleted | BRQ-04 | ❌ Removed | 🔴 Stale — Remove TC |
-| TC-11-A | US15 | ✅ Active | FR-CAP-02 | ⚠️ Changed | BRQ-07 | ⚠️ Updated | 🟡 Review TC |
+| TC-ORD-001 | US-ORD-001 | ✅ Active | FR-ORD-001 | ✅ Active | BRQ-01 | ✅ Active | ✅ Valid |
+| TC-STC-005 | US-STC-008 | ❌ Deleted | FR-STC-003 | ❌ Deleted | BRQ-04 | ❌ Removed | 🔴 Stale — Remove TC |
+| TC-CAP-011 | US-CAP-015 | ✅ Active | FR-CAP-002 | ⚠️ Changed | BRQ-07 | ⚠️ Updated | 🟡 Review TC |
 ```
 
 ---
