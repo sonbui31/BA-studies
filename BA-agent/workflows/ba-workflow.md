@@ -1,10 +1,10 @@
 ---
-description: Business Analysis Workflow 3.3.1 - Advanced Analysis & Writing Quality Engine + Industry Routing
+description: Business Analysis Workflow 3.4.0 - Advanced Analysis, Sequential Validation, and Industry Routing
 ---
 
-# BA Workflow Protocol 3.3.1
+# BA Workflow Protocol 3.4.0
 
-This workflow automates BA documentation using the full v3.3 skill suite (15 skills) with **mandatory gates** + **Requirement Quality Engine** + **Industry Routing** (Government / Healthcare / Fintech) to ensure "Think Deeper, Write Better" output across all project types.
+This workflow automates BA documentation using the full v3.4 skill suite (15 skills) with **mandatory gates** + **Requirement Quality Engine** + **Sequential Index Validation** + **Industry Routing** (Government / Healthcare / Fintech) to ensure "Think Deeper, Write Better" output across all project types.
 
 // turbo-all
 
@@ -47,6 +47,16 @@ This workflow automates BA documentation using the full v3.3 skill suite (15 ski
    - Xác định loại dự án → Chọn overlay → Load industry templates (nếu có)
    - Map features → success metrics → tracking events
    - Tạo thư mục project nếu chưa có
+   - Chọn supporting templates theo tín hiệu nghiệp vụ:
+     - Cần quyết định đầu tư / Go-No-Go → `../BA-document-rule/templates/business-case.md`
+     - Có assumption, issue, dependency mở → `../BA-document-rule/templates/raid-log.md`
+     - Có phân quyền theo vai trò / phạm vi dữ liệu → `../BA-document-rule/templates/rbac-matrix.md`
+     - Có báo cáo, dashboard, KPI, export → `../BA-document-rule/templates/reporting-specification.md`
+     - Có go-live, training, support, rollback → `../BA-document-rule/templates/operational-readiness-checklist.md`
+     - Cần SIT/regression/NFR coverage → `../BA-document-rule/templates/test-strategy.md`
+     - Có data owner, retention, data quality, CDE → `../BA-document-rule/templates/data-governance-plan.md`
+     - Product discovery / analytics → `../BA-document-rule/templates/user-research-plan.md`, `../BA-document-rule/templates/product-analytics-spec.md`
+     - Quy trình phức tạp cần chuẩn BPMN → `../BA-document-rule/templates/bpmn-modeling-standard.md`
 
    **📋 Project Type Routing Table:**
 
@@ -113,9 +123,11 @@ This workflow automates BA documentation using the full v3.3 skill suite (15 ski
 
 5. **Document Generation, Auto-Diagram & Visual Prototyping**
    - **⚡ PRE-FLIGHT:** Chạy `../BA-document-rule/core/pre-flight-checklist.md` TRƯỚC mỗi document
+   - **Automation:** Chạy `../scripts/preflight_check.py <project-folder>` trước khi draft hoặc approve artifact
      - Nếu FAIL ≥ 5 items → STOP, yêu cầu user bổ sung
      - Nếu FAIL 1-4 items → Cảnh báo, tự fill nếu được
    - Generate BRD → SRS → Feature Spec → Story Map → UAT Plan
+   - Generate supporting artifacts đã chọn ở Step 3, không ép mọi dự án phải có đủ 10 tài liệu mới
    - **Industry Documents (nếu Step 3.5 đã chạy):**
      - 🏛️ Gov → Tích hợp HSMT specs vào SRS phụ lục + Nghiệm thu protocol → UAT
      - 🏥 HC → Tích hợp Clinical Workflow vào Process Flow + PHI NFRs vào SRS + DDI specs
@@ -126,6 +138,7 @@ This workflow automates BA documentation using the full v3.3 skill suite (15 ski
      - Áp dụng 4 Decomposition Patterns (`writing-guide.md` §10)
      - Khám phá NFR qua 7 câu hỏi (`../BA-document-rule/core/nfr-discovery-guide.md`)
      - Phân rã quy trình L0→L3 (`../BA-document-rule/core/process-decomposition-guide.md`)
+     - **Automation:** Chạy `../scripts/quality_rubric.py <file-or-project-folder>` để score requirement thực tế
    - **LLM:** GPT-5 — technical SRS drafting | Claude 4.6 — User Stories & AC
    - **Inline Audit:** Sau mỗi section, tính điểm 5-point rubric + bắt 8 Smells + bắt 6 Conflict Patterns
 
@@ -153,9 +166,11 @@ This workflow automates BA documentation using the full v3.3 skill suite (15 ski
      - Nếu re-index thay đổi ID → CẬP NHẬT cross-references ở tất cả tài liệu liên quan
      - **Gate Rule:** 0 INDEX_SKIP + 0 INDEX_DUPLICATE + 0 HEADING_SKIP trước khi sang Step 6.7
      - Áp dụng quy tắc chi tiết: `../BA-document-rule/core/writing-guide.md` §1.1 rule 3
+     - **Automation:** Ưu tiên chạy `../scripts/reindex_markdown.py <project-folder>` ở chế độ dry-run trước. Nếu kết quả hợp lý mới chạy `--apply`.
 
 6.7. **Cross-Document Traceability Validation (NEW v3.0)**
      - Run `../BA-document-rule/core/traceability-validator.md`
+     - **Automation:** Chạy `../scripts/traceability_scan.py <project-folder>` để sinh report markdown/json trước khi kết luận thủ công
      - Scan: BRQ-ID → FR-ID → Feature-ID → US-ID → TC-ID
      - **Industry Traceability (nếu Gov/HC/FT):**
        - 🏛️ Gov: FR → Regulation (Luật/NĐ/TT) mapping validated
@@ -170,6 +185,7 @@ This workflow automates BA documentation using the full v3.3 skill suite (15 ski
    - Cross-file dependency scan (`../BA-document-rule/core/impact-analysis-guide.md`)
      - Dùng Impact Scoring Matrix + định tuyến Decision Flowchart
    - Persona roleplay stress-test (`../BA-document-rule/core/persona-simulation.md`)
+   - Nếu có stakeholder conflict, chạy `../BA-document-rule/core/stakeholder-conflict-resolution.md` để chốt decision owner, conflict log, và artifacts phải cập nhật
    - Cập nhật Risk Register nếu phát hiện risks mới
    - **Decision Analysis (NEW v3.3):** Dùng Weighted Scoring/Decision Tree nếu có 2+ options
 
@@ -177,9 +193,15 @@ This workflow automates BA documentation using the full v3.3 skill suite (15 ski
    - Đóng gói nội dung thành: Executive Summary / Tech Brief / Test Strategy
    - Template: `../BA-document-rule/references/communication-packaging.md`
 
+7.6 **Operational, Data, and Adoption Readiness (NEW)**
+   - Nếu có go-live hoặc bàn giao vận hành: verify `operational-readiness-checklist.md`
+   - Nếu có báo cáo/KPI/data migration: verify `reporting-specification.md` và `data-governance-plan.md`
+   - Nếu có role-sensitive workflow: verify `rbac-matrix.md` khớp SRS/API/UAT
+   - Nếu có scope lớn hoặc nhiều assumption: verify `raid-log.md` và đồng bộ Risk Register
+
 ### 📊 FINAL REPORT
 
-8. **Final v3.3.1 Report**
+8. **Final v3.4 Report**
    - Scorecard: Điểm Rubric trung bình + C-S-K-A
    - Auto-Generated Diagrams summary
    - Wireframe Links (StitchMCP)
@@ -188,6 +210,7 @@ This workflow automates BA documentation using the full v3.3 skill suite (15 ski
    - Traceability Validation Report (Full Chain + NFR Chain + Gaps)
    - Insight Cards từ Elicitation
    - As-Is → To-Be Gap Analysis summary
+   - Supporting Artifacts summary: Business Case / RAID / RBAC / Reporting / Ops / Test / Data Governance nếu có
    - **Communication Packages:** Links tới các bản đóng gói (CEO/Dev)
    - **Industry-Specific Section (nếu Gov/HC/FT):**
      - 🏛️ Gov: Regulatory Compliance Status + HSMT Readiness + ATTT Assessment + Nghiệm thu Plan
@@ -262,4 +285,3 @@ Step 2.5 FAIL (không có As-Is info)   → Quay lại Step 0 (hỏi KH về quy
 /ba-workflow eWallet "Phát triển ví điện tử thanh toán"              → Auto-route: Fintech
 /ba-workflow DVC-TinhX "Cổng dịch vụ công trực tuyến tỉnh X"       → Auto-route: Government
 ```
-

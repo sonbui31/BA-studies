@@ -1,7 +1,7 @@
-# HƯỚNG DẪN SỬ DỤNG BỘ KIT BA 3.3 (ADVANCED ANALYSIS & WRITING QUALITY ENGINE)
+# HƯỚNG DẪN SỬ DỤNG BỘ KIT BA 3.4 (ADVANCED ANALYSIS & WRITING QUALITY ENGINE)
 
-> **Chào mừng bạn đến với BA-Agent 3.3!**
-> Bộ kit "Layered OS" v3.3 — **"Think Deeper, Write Better"**: Advanced Analysis + Requirement Quality Engine.
+> **Chào mừng bạn đến với BA-Agent 3.4!**
+> Bộ kit "Layered OS" v3.4 — **"Think Deeper, Write Better"**: Advanced Analysis + Requirement Quality Engine.
 > Giữ Multi-LLM orchestration (Claude 4.6, o4, GPT-5, Gemini 3) với vai trò CỤ THỂ tại từng bước.
 
 ---
@@ -10,7 +10,7 @@
 
 **Lệnh chính:** `/ba-workflow [tên_dự_án] [mô_tả_ngắn]`
 
-**Quy trình 3.3 (13 bước):**
+**Quy trình 3.4 (13 bước):**
 
 ```
 🚪 GATES (bắt buộc)
@@ -102,7 +102,7 @@ BA-agent/
 │   │   ├── nfr-discovery-guide.md     ⭐ 7 câu hỏi + 5 kỹ thuật NFR (v3.3)
 │   │   ├── process-decomposition-guide.md ⭐ L0→L3 hierarchy (v3.3)
 │   │   └── ... (12 existing files)
-│   ├── templates/              ← 18 templates generic
+│   ├── templates/              ← 28 templates generic
 │   │   ├── post-implementation-review.md  ⭐ NEW v3.2: PIR + Benefits Realization
 │   │   ├── as-is-process.md           ⭐ As-Is documentation
 │   │   ├── risk-register.md           ⭐ Risk Register + Response Strategies
@@ -126,7 +126,7 @@ BA-agent/
 
 ---
 
-## 📈 5 Nguyên tắc cốt lõi v3.3
+## 📈 5 Nguyên tắc cốt lõi v3.4
 
 1. **Right First Time** — Pre-Flight + Inline Audit = giảm iterations từ 4+ → ≤ 2
 2. **Facts, not Theory** — Risk Register từ patterns thực tế, không predict từ "hàng ngàn mẫu"

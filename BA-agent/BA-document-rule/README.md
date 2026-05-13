@@ -1,7 +1,7 @@
 # BA-DOCUMENT-RULE
 ## Bộ quy tắc & Template tài liệu Business Analysis
 
-> **Phiên bản:** 3.3 | **Ngày:** 06/04/2026
+> **Phiên bản:** 3.4 | **Ngày:** 12/05/2026
 > **Kiến trúc:** Layered OS (Core + Templates + Overlays)
 > **Áp dụng:** Mọi loại dự án
 
@@ -42,7 +42,7 @@ BA-document-rule/
 ├── README.md                          ← Bạn đang đọc file này
 ├── QUICK-START.md                     ← 5 phút bắt đầu dự án mới
 │
-├── core/                              ← CORE LAYER — Quy tắc bất biến (19 files)
+├── core/                              ← CORE LAYER — Quy tắc bất biến (20 files)
 │   ├── 00-ba-process-framework.md     Quy trình BA 5 pha + BABOK mapping
 │   ├── principles.md                  BACCM, MoSCoW, Kano, INVEST, GWT, SWOT, 5W1H
 │   ├── writing-guide.md              Chuẩn viết, format, versioning, SMART req
@@ -52,6 +52,7 @@ BA-document-rule/
 │   ├── evaluation-protocol.md        C-S-K-A Matrix 3.3: inline audit + Multi-LLM phases
 │   ├── impact-analysis-guide.md      Phân tích ảnh hưởng: Scoring + Ripple Effect + Regression Map
 │   ├── persona-simulation.md         Mô phỏng stakeholder persona
+│   ├── stakeholder-conflict-resolution.md ⭐ Conflict protocol + decision ownership matrix (v3.4)
 │   ├── code-traceability-audit.md    Đối soát Requirement vs Code
 │   ├── predictive-ba-guide.md        Risk Management: pattern-based detection
 │   ├── customer-intelligence-guide.md Khai thác & phân tích thông tin KH
@@ -63,7 +64,7 @@ BA-document-rule/
 │   ├── nfr-discovery-guide.md        ⭐ 7 câu hỏi + 5 kỹ thuật phát hiện NFR (v3.3)
 │   └── process-decomposition-guide.md ⭐ Phân rã quy trình L0→L3 (v3.3)
 │
-├── templates/                         ← TEMPLATES — Mẫu tài liệu (18 files)
+├── templates/                         ← TEMPLATES — Mẫu tài liệu (28 files)
 │   ├── vision-scope.md               + Impact Mapping, Context Diagram
 │   ├── brd.md                        + SWOT, 5W1H, MoSCoW, Kano
 │   ├── stakeholder-map.md            + Power/Interest Grid, RACI
@@ -81,7 +82,17 @@ BA-document-rule/
 │   ├── data-migration-plan.md        ⭐ Migration: Source→Target + Rollback (v3.0)
 │   ├── screen-inventory.md           ⭐ Screen list + Navigation Map + Responsive (v3.0)
 │   ├── post-implementation-review.md ⭐ PIR: Benefits + Lessons + Tech Debt (v3.2)
-│   └── ai-feature-spec.md            ⭐ AI Behavior + Confidence Matrix + Fallbacks (v3.1)
+│   ├── ai-feature-spec.md            ⭐ AI Behavior + Confidence Matrix + Fallbacks (v3.1)
+│   ├── business-case.md              ⭐ Investment case, ROI, options, Go/No-Go
+│   ├── raid-log.md                   ⭐ Risks, Assumptions, Issues, Dependencies
+│   ├── rbac-matrix.md                ⭐ Role, permission, data scope, SoD controls
+│   ├── reporting-specification.md    ⭐ KPI, dashboard, report, data source mapping
+│   ├── operational-readiness-checklist.md ⭐ Go-live, support, training, rollback
+│   ├── test-strategy.md              ⭐ SIT/UAT/regression/NFR coverage strategy
+│   ├── user-research-plan.md         ⭐ Research objective, script, synthesis plan
+│   ├── product-analytics-spec.md     ⭐ Funnel, event taxonomy, experiment metrics
+│   ├── bpmn-modeling-standard.md     ⭐ BPMN/swimlane notation and review rules
+│   └── data-governance-plan.md       ⭐ Ownership, classification, quality, retention
 │
 ├── overlays/                          ← OVERLAYS — Tùy chỉnh theo loại dự án (7 loại)
 │   ├── inhouse/overlay-config.md      In-house: SRS Lite, flexible
@@ -121,6 +132,7 @@ BA-document-rule/
 2. Chọn **overlay** phù hợp → biết cần tạo tài liệu nào
 3. Copy **templates** cần thiết → điền thông tin dự án
 4. Dùng **`core/quality-checklist.md`** để review trước sign-off
+5. Nếu stakeholder mâu thuẫn nhau, chạy **`core/stakeholder-conflict-resolution.md`** trước khi khóa wording trong BRD/SRS/UAT
 
 ---
 
@@ -130,6 +142,9 @@ BA-document-rule/
 |---------|----------------|
 | **BA mới** | `core/principles.md` → `core/writing-guide.md` → `QUICK-START.md` |
 | **BA có kinh nghiệm** | `QUICK-START.md` → Chọn overlay → Copy templates |
-| **PM** | `core/00-ba-process-framework.md` → `references/raci-matrix.md` |
-| **Dev Lead** | `templates/srs.md` → `templates/data-model.md` → `templates/api-specification.md` |
+| **PM** | `core/00-ba-process-framework.md` → `references/raci-matrix.md` → `templates/raid-log.md` |
+| **Sponsor / PO** | `templates/business-case.md` → `templates/product-analytics-spec.md` |
+| **Dev Lead** | `templates/srs.md` → `templates/data-model.md` → `templates/api-specification.md` → `templates/rbac-matrix.md` |
+| **QC Lead** | `templates/test-strategy.md` → `templates/uat-plan.md` |
+| **Ops / Support** | `templates/operational-readiness-checklist.md` → `templates/handover-checklist.md` |
 | **Trainer** | `core/principles.md` (BACCM, models) → `core/quality-checklist.md` (DoR/DoD) |

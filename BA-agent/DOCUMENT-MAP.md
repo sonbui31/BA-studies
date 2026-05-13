@@ -1,7 +1,7 @@
-# HƯỚNG DẪN BỘ TÀI LIỆU BA (Document Map v3.3)
+# HƯỚNG DẪN BỘ TÀI LIỆU BA (Document Map v3.4)
 
 > **Mục đích:** Giải thích chức năng và nội dung từng file trong hệ thống BA-agent
-> **Cập nhật:** 03/04/2026 — v3.3 (thêm 4 core + 3 references mới — Advanced Analysis & Writing Quality Engine)
+> **Cập nhật:** 12/05/2026 — v3.4 (đóng gói skill + đồng bộ numbering/validation)
 
 ---
 
@@ -60,7 +60,7 @@
 | `README.md` | Tổng quan: cách hoạt động, cấu trúc thư mục, flow sử dụng |
 | `QUICK-START.md` | Hướng dẫn 5 phút: chọn overlay → copy template → viết tài liệu |
 
-### 📁 core/ — Nguyên tắc cốt lõi (19 files — áp dụng mọi dự án)
+### 📁 core/ — Nguyên tắc cốt lõi (20 files — áp dụng mọi dự án)
 
 | File | Mô tả | v3.0? |
 |------|-------|:---:|
@@ -73,6 +73,7 @@
 | `evaluation-protocol.md` | C-S-K-A Matrix 3.2: **inline audit** + Multi-LLM phases + Pre-Flight cross-check | ⬆ Updated |
 | `impact-analysis-guide.md` | Phân tích ảnh hưởng: cross-file dependency scan, downstream risk | |
 | `persona-simulation.md` | Mô phỏng stakeholder persona: đóng vai CFO, Architect, End-User để stress-test | |
+| `stakeholder-conflict-resolution.md` | ⭐ Protocol xử lý conflict requirement: decision owner, conflict log, update rules | ⭐ NEW v3.4 |
 | `code-traceability-audit.md` | Đối soát Requirement vs Code 3.0: **actionable output format** + full chain | ⬆ Updated |
 | `predictive-ba-guide.md` | Risk Management 3.0: **pattern-based detection** từ tài liệu thực tế | ⬆ Updated |
 | `customer-intelligence-guide.md` | Kỹ thuật khai thác & phân tích thông tin KH: probing, hidden needs, tâm lý stakeholder | |
@@ -84,7 +85,7 @@
 | `nfr-discovery-guide.md` | ⭐ 7 câu hỏi + 5 kỹ thuật phát hiện NFR specific cho từng dự án | ⭐ NEW v3.3 |
 | `process-decomposition-guide.md` | ⭐ Phân rã quy trình L0→L1→L2→L3 + rules khi nào dừng | ⭐ NEW v3.3 |
 
-### 📁 templates/ — 18 templates generic
+### 📁 templates/ — 28 templates generic
 
 | File | Mô tả | v3.0? |
 |------|-------|:---:|
@@ -106,6 +107,16 @@
 | `screen-inventory.md` | ⭐ Template Screen Inventory: Master screen list + Navigation Map + Responsive Matrix | ⭐ NEW |
 | `post-implementation-review.md` | ⭐ Template PIR: Benefits Realization + Lessons Learned + Tech Debt + User Adoption | ⭐ NEW v3.2 |
 | `ai-feature-spec.md` | ⭐ Template AI/ML Feature: AI Behavior + Confidence Matrix + Human-in-the-Loop + Fallbacks | ⭐ NEW v3.1 |
+| `business-case.md` | ⭐ Business Case: options, cost-benefit, ROI/NPV, feasibility, Go/No-Go | ⭐ NEW |
+| `raid-log.md` | ⭐ RAID Log: Risks, Assumptions, Issues, Dependencies + escalation | ⭐ NEW |
+| `rbac-matrix.md` | ⭐ RBAC Matrix: roles, permissions, data scope, segregation of duties | ⭐ NEW |
+| `reporting-specification.md` | ⭐ Reporting/BI Spec: KPI, report catalog, source mapping, DQ checks | ⭐ NEW |
+| `operational-readiness-checklist.md` | ⭐ Operational Readiness: go-live, cutover, support, monitoring, rollback | ⭐ NEW |
+| `test-strategy.md` | ⭐ Test Strategy: SIT/UAT/regression/NFR coverage + defect triage | ⭐ NEW |
+| `user-research-plan.md` | ⭐ User Research Plan: objective, script, participant plan, synthesis | ⭐ NEW |
+| `product-analytics-spec.md` | ⭐ Product Analytics: metrics, funnel, event taxonomy, experiments | ⭐ NEW |
+| `bpmn-modeling-standard.md` | ⭐ BPMN Modeling Standard: notation, gateway, exception, handoff rules | ⭐ NEW |
+| `data-governance-plan.md` | ⭐ Data Governance: owner, classification, CDE, data quality, retention | ⭐ NEW |
 
 ### 📁 overlays/ — Tùy chỉnh theo loại dự án
 
@@ -123,15 +134,15 @@
 
 | File | Ngành | Mô tả |
 |------|:-----:|-------|
-| `regulatory-compliance-matrix.md` | 🏛️🏥💰 | Feature → Regulation mapping + Gap Analysis + Audit Readiness |
+| `regulatory-compliance-matrix.md` | 🏛️🏥💰 | Feature → Regulation mapping + Gap Analysis + Audit Readiness + Evidence ownership |
 | `procurement-bidding-spec.md` | 🏛️ | Hồ sơ mời thầu (HSMT) + Ước lượng ngân sách (ROM) + Đào tạo CBCC |
 | `multi-level-acceptance.md` | 🏛️🏥 | Nghiệm thu sơ bộ → Vận hành thử → Nghiệm thu chính thức + Clinical Validation |
 | `clinical-workflow-map.md` | 🏥 | Clinical Pathway Maps (OPD/IPD/ER) + DDI Rules + HL7 FHIR Data Flow |
-| `data-privacy-consent.md` | 🏥💰 | Data Classification Matrix + Consent Lifecycle + Break-the-Glass Protocol |
+| `data-privacy-consent.md` | 🏥💰 | Data Classification Matrix + Consent Lifecycle + Break-the-Glass Protocol + rights evidence |
 | `industry-integration-spec.md` | 🏛️🏥💰 | Tích hợp ngành: LGSP/NGSP, HL7 FHIR, Open Banking + Error handling + Retry |
 | `transaction-recon-spec.md` | 💰 | Transaction State Machine + Double-entry Ledger + Idempotency + Reconciliation |
 | `aml-kyc-process.md` | 💰 | eKYC 4-tier + CDD Risk Scoring + AML Rules + SAR Filing |
-| `security-continuity-plan.md` | 🏛️🏥💰 | STRIDE Threat Model + DR/BCP + ATTT Assessment (NĐ 85/2016) |
+| `security-continuity-plan.md` | 🏛️🏥💰 | STRIDE Threat Model + DR/BCP + ATTT Assessment (NĐ 85/2016) + drill evidence |
 
 ### 📁 references/ — Tài liệu tham khảo
 
