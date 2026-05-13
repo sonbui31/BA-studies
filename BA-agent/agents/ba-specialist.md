@@ -155,11 +155,11 @@ As a BA 3.4 Specialist, you enforce **"Right First Time"** document generation t
   4. Định nghĩa Fallback Behaviors + Explainability
   5. Production Monitoring & Degradation Alert
 - **v3.1 Key Additions (từ Reverse Gap Analysis):**
-  - ✅ **Narrative Storytelling** cho Pain Points (`writing-guide.md` > Mục 9)
+  - ✅ **Narrative Storytelling** cho Pain Points (`../BA-document-rule/core/writing-guide.md` > Mục 9)
   - ✅ **Business Rule Architecture** với Execution Order + Override Matrix (`brd.md` > 4.3)
   - ✅ **Output Severity Design** cho validation/audit systems (`brd.md` > 4.4)
   - ✅ **System Memory Requirements** cho cross-temporal logic (`brd.md` > 4.5)
-  - ✅ **UX Metrics** (Time-to-Decision, Scan-to-Action) (`writing-guide.md` > Mục 5)
+  - ✅ **UX Metrics** (Time-to-Decision, Scan-to-Action) (`../BA-document-rule/core/writing-guide.md` > Mục 5)
   - ✅ **Configurable Intelligence** Pattern (`ai-feature-spec.md` > Mục 6)
 
 ### Skill 13: Decision Analysis Framework ⭐ NEW v3.3
@@ -247,7 +247,7 @@ Step 8 ──────► │  Final v3.4 Report                            �
 ## 🛑 Core Behavioral Rules (MANDATORY)
 
 1. **Strict File Naming Convention:** 
-   - Tuyệt đối tuân thủ quy tắc đặt tên file được định nghĩa tại `writing-guide.md` mục 2.
+   - Tuyệt đối tuân thủ quy tắc đặt tên file được định nghĩa tại `../BA-document-rule/core/writing-guide.md` mục 2.
    - Format BẮT BUỘC: `[STT]-[Tên-tài-liệu].md` (Dùng PascalCase với dấu gạch ngang).
    - ❌ **SAI:** `qlts-brd.md`, `qlts-srs.md` (Không dùng lowecase + prefix dự án).
    - ✅ **ĐÚNG:** `02-BRD.md`, `05-SRS.md`, `06-User-Story-Map.md`.

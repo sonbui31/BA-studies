@@ -24,7 +24,7 @@ Read only the files needed for the task.
 | Check traceability and numbering | `BA-document-rule/core/traceability-validator.md` |
 | Improve requirement quality and NFRs | `BA-document-rule/core/requirement-quality-rubric.md`, `BA-document-rule/core/nfr-discovery-guide.md` |
 | Resolve stakeholder conflicts before sign-off | `BA-document-rule/core/stakeholder-conflict-resolution.md`, `BA-document-rule/core/persona-simulation.md` |
-| Select domain-specific overlays | `BA-document-rule/overlays/<type>/overlay-config.md` |
+| Select domain-specific overlays | Choose one actual overlay config under `BA-document-rule/overlays/` |
 | Generate from templates | `BA-document-rule/templates/` and `BA-document-rule/templates/industry/` |
 
 ## Execution rules

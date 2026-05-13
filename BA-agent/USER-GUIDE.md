@@ -10,7 +10,7 @@
 
 **Lệnh chính:** `/ba-workflow [tên_dự_án] [mô_tả_ngắn]`
 
-**Quy trình 3.4 (13 bước):**
+**Quy trình 3.4 (gates + generation + validation):**
 
 ```
 🚪 GATES (bắt buộc)
@@ -21,6 +21,7 @@
 
 📝 GENERATION (có Pre-Flight)
   3. Template Selection — Chọn overlay + plan metrics
+  3.5 Industry Preparation — Gov/Healthcare/Fintech templates nếu cần
   4. Screen Inventory — Liệt kê screens + Navigation Map
   5. Document + Diagram + Wireframe — PRE-FLIGHT trước mỗi doc
      ↳ [NEW] Quality Engine: Decomposition + NFR Discovery + Quality Rubric
@@ -28,9 +29,11 @@
 ✅ VALIDATION (multi-layer)
   6. AI Quality Gate — Inline audit (Rubric + Smells + Conflicts)
   6.5 Pre-Flight Verify — Re-check sau khi viết
+  6.6 Sequential Index Validation — Heading/ID numbering không nhảy/lặp
   6.7 Traceability Validation — BRQ→FR→US→TC chain check (incl. NFR→TC)
   7. Impact + Persona Sim + Decision Analysis — Scan, stress-test, evaluate
   7.5 [NEW] Communication Packaging — Đóng gói theo audience (CEO/Dev)
+  7.6 [NEW] Operational/Data/Adoption Readiness — RBAC, RAID, Ops, Data Governance
   8. Final Report — Scorecard + Risk + Traceability + Diagrams
 ```
 
@@ -64,7 +67,7 @@ Step 5 FAIL (pre-flight trước doc) → Quay lại Step 0/2 (bổ sung input)
 
 ---
 
-## 🤖 Các kỹ năng (15 Skills)
+## 🤖 Các kỹ năng (20 Skills)
 
 | Kỹ năng | Lệnh tiêu biểu | Kết quả | LLM |
 |---|---|---|---|
@@ -83,6 +86,11 @@ Step 5 FAIL (pre-flight trước doc) → Quay lại Step 0/2 (bổ sung input)
 | **Decision Analysis** ⭐ | `@ba-specialist phân tích quyết định: A vs B` | Weighted Scoring / CBA / Decision Tree | — |
 | **NFR Discovery & Quality** ⭐ | `@ba-specialist khám phá NFR + chấm rubric` | NFR specifics + Quality Report (5-point) | o4 |
 | **Communication Packaging** ⭐ | `@ba-specialist tạo Executive Summary từ BRD` | 4 package types cho 4 audiences | Claude 4.6 |
+| **Business Case & Investment** ⭐ | `@ba-specialist tạo Business Case cho dự án X` | Options, ROI/NPV, feasibility, Go/No-Go | — |
+| **RAID/RBAC Governance** ⭐ | `@ba-specialist tạo RAID Log và RBAC Matrix` | RAID owner/escalation + Role/Permission/Data Scope | — |
+| **Reporting/Analytics/Data Governance** ⭐ | `@ba-specialist tạo Reporting Spec và Data Governance Plan` | KPI, event taxonomy, CDE, DQ rules, retention | — |
+| **Research & Product Discovery** ⭐ | `@ba-specialist lập User Research Plan` | Research objective, script, participant plan, synthesis | — |
+| **Test/BPMN/Ops Readiness** ⭐ | `@ba-specialist tạo Test Strategy và Operational Readiness` | SIT/regression/NFR coverage, BPMN, go-live checklist | — |
 
 ---
 
@@ -90,10 +98,10 @@ Step 5 FAIL (pre-flight trước doc) → Quay lại Step 0/2 (bổ sung input)
 
 ```
 BA-agent/
-├── agents/ba-specialist.md     ← Agent persona & 15 Skills (v3.3)
-├── workflows/ba-workflow.md    ← Slash command logic (12 bước với gates + rollback)
+├── agents/ba-specialist.md     ← Agent persona & 20 Skills (v3.4)
+├── workflows/ba-workflow.md    ← Slash command logic với gates + rollback
 ├── BA-document-rule/           ← "Hệ điều hành" (Core + Templates + Overlays)
-│   ├── core/                   ← 19 files: Principles, Guides, Pre-Flight, Validator...
+│   ├── core/                   ← 20 files: Principles, Guides, Pre-Flight, Validator...
 │   │   ├── pre-flight-checklist.md    ⭐ Check trước khi viết
 │   │   ├── traceability-validator.md  ⭐ Auto-scan gaps (incl. NFR)
 │   │   ├── screen-inventory-guide.md  ⭐ Screen & Wireframe guide
@@ -101,15 +109,25 @@ BA-agent/
 │   │   ├── decision-analysis-framework.md ⭐ Weighted Scoring, Pugh, CBA (v3.3)
 │   │   ├── nfr-discovery-guide.md     ⭐ 7 câu hỏi + 5 kỹ thuật NFR (v3.3)
 │   │   ├── process-decomposition-guide.md ⭐ L0→L3 hierarchy (v3.3)
-│   │   └── ... (12 existing files)
+│   │   └── ... (13 existing files)
 │   ├── templates/              ← 28 templates generic
 │   │   ├── post-implementation-review.md  ⭐ NEW v3.2: PIR + Benefits Realization
 │   │   ├── as-is-process.md           ⭐ As-Is documentation
 │   │   ├── risk-register.md           ⭐ Risk Register + Response Strategies
 │   │   ├── data-migration-plan.md     ⭐ Migration with rollback
 │   │   ├── screen-inventory.md        ⭐ Screen tracking
+│   │   ├── business-case.md           ⭐ ROI, options, Go/No-Go
+│   │   ├── raid-log.md                ⭐ Risks, Assumptions, Issues, Dependencies
+│   │   ├── rbac-matrix.md             ⭐ Role, Permission, Data Scope
+│   │   ├── reporting-specification.md ⭐ KPI/report/dashboard spec
+│   │   ├── operational-readiness-checklist.md ⭐ Go-live readiness
+│   │   ├── test-strategy.md           ⭐ SIT/UAT/regression/NFR strategy
+│   │   ├── user-research-plan.md      ⭐ Discovery and research planning
+│   │   ├── product-analytics-spec.md  ⭐ Funnel and event taxonomy
+│   │   ├── bpmn-modeling-standard.md  ⭐ BPMN/process modeling rules
+│   │   ├── data-governance-plan.md    ⭐ Data ownership, quality, retention
 │   │   ├── industry/                  ⭐ 9 templates ngành (Gov/HC/FT) — v3.3.1
-│   │   └── ... (12 existing templates)
+│   │   └── ... (generic templates khác)
 │   ├── overlays/               ← Config theo loại dự án (7 loại: 4 generic + 3 industry)
 │   └── references/             ← RACI, Estimation, Elicitation, Anti-Patterns (7 files)
 │       ├── anti-patterns.md           ⭐ Top 15 sai lầm BA (v3.2)

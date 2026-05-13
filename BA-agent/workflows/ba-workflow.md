@@ -4,7 +4,7 @@ description: Business Analysis Workflow 3.4.0 - Advanced Analysis, Sequential Va
 
 # BA Workflow Protocol 3.4.0
 
-This workflow automates BA documentation using the full v3.4 skill suite (15 skills) with **mandatory gates** + **Requirement Quality Engine** + **Sequential Index Validation** + **Industry Routing** (Government / Healthcare / Fintech) to ensure "Think Deeper, Write Better" output across all project types.
+This workflow automates BA documentation using the full v3.4 skill suite (20 skills) with **mandatory gates** + **Requirement Quality Engine** + **Sequential Index Validation** + **Industry Routing** (Government / Healthcare / Fintech) to ensure "Think Deeper, Write Better" output across all project types.
 
 // turbo-all
 
@@ -62,13 +62,13 @@ This workflow automates BA documentation using the full v3.4 skill suite (15 ski
 
    | Loại | Overlay | Industry Templates | Flow bổ sung |
    |------|---------|:------------------:|-------------|
-   | **In-house** | `overlays/inhouse/` | ❌ Không | Standard flow (Step 4→8) |
-   | **Outsource** | `overlays/outsource/` | ❌ Không | Standard + Phase 0 (Hợp đồng) |
-   | **Product** | `overlays/product/` | ❌ Không | Standard + OKR/A-B test |
-   | **Startup/MVP** | `overlays/startup-mvp/` | ❌ Không | Lean flow (skip SRS, chỉ 2-4 docs) |
-   | 🏛️ **Government** | `overlays/government/` | ✅ 5 templates | **→ Step 3.5G** (HSMT, ATTT, nghiệm thu) |
-   | 🏥 **Healthcare** | `overlays/healthcare/` | ✅ 6 templates | **→ Step 3.5H** (Clinical, PHI, consent) |
-   | 💰 **Fintech** | `overlays/fintech/` | ✅ 6 templates | **→ Step 3.5F** (Transaction, AML, recon) |
+   | **In-house** | `../BA-document-rule/overlays/inhouse/` | ❌ Không | Standard flow (Step 4→8) |
+   | **Outsource** | `../BA-document-rule/overlays/outsource/` | ❌ Không | Standard + Phase 0 (Hợp đồng) |
+   | **Product** | `../BA-document-rule/overlays/product/` | ❌ Không | Standard + OKR/A-B test |
+   | **Startup/MVP** | `../BA-document-rule/overlays/startup-mvp/` | ❌ Không | Lean flow (skip SRS, chỉ 2-4 docs) |
+   | 🏛️ **Government** | `../BA-document-rule/overlays/government/` | ✅ 5 templates | **→ Step 3.5G** (HSMT, ATTT, nghiệm thu) |
+   | 🏥 **Healthcare** | `../BA-document-rule/overlays/healthcare/` | ✅ 6 templates | **→ Step 3.5H** (Clinical, PHI, consent) |
+   | 💰 **Fintech** | `../BA-document-rule/overlays/fintech/` | ✅ 6 templates | **→ Step 3.5F** (Transaction, AML, recon) |
 
    **Routing Logic:**
    ```
@@ -89,29 +89,33 @@ This workflow automates BA documentation using the full v3.4 skill suite (15 ski
     **🏛️ Step 3.5G — Government Preparation:**
     | Thứ tự | Hành động | Template | Output |
     |:------:|----------|---------|--------|
-    | G1 | Lập Regulatory Compliance Matrix | `templates/industry/regulatory-compliance-matrix.md` | Feature → Luật ĐT / NĐ 85 / ATTT |
-    | G2 | Chuẩn bị HSMT (nếu đấu thầu) | `templates/industry/procurement-bidding-spec.md` | HSMT + ROM + Kế hoạch đào tạo |
-    | G3 | Spec tích hợp LGSP/NGSP | `templates/industry/industry-integration-spec.md` | Integration spec cho CSDL QG |
-    | G4 | Lập Security & BCP Plan | `templates/industry/security-continuity-plan.md` | ATTT assessment + DR/BCP |
+    | G1 | Lập Regulatory Compliance Matrix | `../BA-document-rule/templates/industry/regulatory-compliance-matrix.md` | Feature → Luật ĐT / NĐ 85 / ATTT |
+    | G2 | Chuẩn bị HSMT (nếu đấu thầu) | `../BA-document-rule/templates/industry/procurement-bidding-spec.md` | HSMT + ROM + Kế hoạch đào tạo |
+    | G3 | Spec tích hợp LGSP/NGSP | `../BA-document-rule/templates/industry/industry-integration-spec.md` | Integration spec cho CSDL QG |
+    | G4 | Lập Security & BCP Plan | `../BA-document-rule/templates/industry/security-continuity-plan.md` | ATTT assessment + DR/BCP |
+    | G5 | Lập Multi-level Acceptance Plan | `../BA-document-rule/templates/industry/multi-level-acceptance.md` | Nghiệm thu sơ bộ → vận hành thử → nghiệm thu chính thức |
     - **Gate Rule:** HSMT phải hoàn thành TRƯỚC khi bắt đầu Step 5 (vì SRS là phụ lục HSMT)
 
     **🏥 Step 3.5H — Healthcare Preparation:**
     | Thứ tự | Hành động | Template | Output |
     |:------:|----------|---------|--------|
-    | H1 | Document Clinical Workflow Maps | `templates/industry/clinical-workflow-map.md` | Pathway OPD/IPD/ER + DDI rules |
-    | H2 | Lập Data Classification Matrix | `templates/industry/data-privacy-consent.md` | PHI 5-level + Consent lifecycle |
-    | H3 | Spec tích hợp HL7 FHIR | `templates/industry/industry-integration-spec.md` | FHIR Resources mapping |
-    | H4 | Lập Regulatory Matrix | `templates/industry/regulatory-compliance-matrix.md` | Feature → NĐ 13/2023, TT BYT |
+    | H1 | Document Clinical Workflow Maps | `../BA-document-rule/templates/industry/clinical-workflow-map.md` | Pathway OPD/IPD/ER + DDI rules |
+    | H2 | Lập Data Classification Matrix | `../BA-document-rule/templates/industry/data-privacy-consent.md` | PHI 5-level + Consent lifecycle |
+    | H3 | Spec tích hợp HL7 FHIR | `../BA-document-rule/templates/industry/industry-integration-spec.md` | FHIR Resources mapping |
+    | H4 | Lập Regulatory Matrix | `../BA-document-rule/templates/industry/regulatory-compliance-matrix.md` | Feature → NĐ 13/2023, TT BYT |
+    | H5 | Lập Multi-level Acceptance / Clinical Validation | `../BA-document-rule/templates/industry/multi-level-acceptance.md` | Clinical validation + nghiệm thu nhiều cấp |
+    | H6 | Lập Security & BCP Plan | `../BA-document-rule/templates/industry/security-continuity-plan.md` | STRIDE + DR/BCP + drill evidence |
     - **Gate Rule:** Clinical Workflow Map phải được BS review TRƯỚC khi viết SRS
 
     **💰 Step 3.5F — Fintech Preparation:**
     | Thứ tự | Hành động | Template | Output |
     |:------:|----------|---------|--------|
-    | F1 | Design Transaction State Machine | `templates/industry/transaction-recon-spec.md` | State diagram + Ledger + Recon |
-    | F2 | Spec AML/KYC Process | `templates/industry/aml-kyc-process.md` | eKYC flow + AML rules + SAR |
-    | F3 | Lập Data Privacy & Consent | `templates/industry/data-privacy-consent.md` | PII classification + KYC consent |
-    | F4 | Lập Regulatory Matrix | `templates/industry/regulatory-compliance-matrix.md` | Feature → PCI-DSS, NHNN, AML |
-    | F5 | Lập Security & BCP Plan | `templates/industry/security-continuity-plan.md` | STRIDE + DR/BCP |
+    | F1 | Design Transaction State Machine | `../BA-document-rule/templates/industry/transaction-recon-spec.md` | State diagram + Ledger + Recon |
+    | F2 | Spec AML/KYC Process | `../BA-document-rule/templates/industry/aml-kyc-process.md` | eKYC flow + AML rules + SAR |
+    | F3 | Lập Data Privacy & Consent | `../BA-document-rule/templates/industry/data-privacy-consent.md` | PII classification + KYC consent |
+    | F4 | Spec tích hợp Open Banking / Payment Partner | `../BA-document-rule/templates/industry/industry-integration-spec.md` | Open Banking/payment API + error handling + retry |
+    | F5 | Lập Regulatory Matrix | `../BA-document-rule/templates/industry/regulatory-compliance-matrix.md` | Feature → PCI-DSS, NHNN, AML |
+    | F6 | Lập Security & BCP Plan | `../BA-document-rule/templates/industry/security-continuity-plan.md` | STRIDE + DR/BCP |
     - **Gate Rule:** Transaction State Machine + AML rules phải được Compliance approve TRƯỚC Step 5
 
 4. **Screen Inventory (NEW v3.0)**
@@ -135,7 +139,7 @@ This workflow automates BA documentation using the full v3.4 skill suite (15 ski
    - **Auto-Diagram:** Parse raw input → auto-select diagram type → generate Mermaid
    - **Wireframes:** Generate via `StitchMCP` hoặc Mermaid mockup cho screens trong Inventory
    - **Requirement Quality Engine (NEW v3.3):**
-     - Áp dụng 4 Decomposition Patterns (`writing-guide.md` §10)
+     - Áp dụng 4 Decomposition Patterns (`../BA-document-rule/core/writing-guide.md` §10)
      - Khám phá NFR qua 7 câu hỏi (`../BA-document-rule/core/nfr-discovery-guide.md`)
      - Phân rã quy trình L0→L3 (`../BA-document-rule/core/process-decomposition-guide.md`)
      - **Automation:** Chạy `../scripts/quality_rubric.py <file-or-project-folder>` để score requirement thực tế
