@@ -1,310 +1,405 @@
-# 📘 BA KIT v3.3.1 — Thư viện Prompt cho BA
+# BA-agent — Hướng dẫn sử dụng
 
-Copy bất kỳ dòng `👉` nào → dán vào chat → thay `[phần trong ngoặc]` bằng nội dung thật.
+`BA-agent` là bộ công cụ Business Analysis dùng để tạo, rà soát và quản trị tài liệu BA cho nhiều loại dự án: Product, In-house, Outsource, Startup/MVP, Government, Healthcare và Fintech.
 
-**Công thức:** `@ba-specialist + [Hành động] + [Đối tượng] + [Ràng buộc]`
+Bộ này không chỉ là tập template. Nó gồm workflow, agent rule, template, checklist và script kiểm tra để giúp BA đi từ khai thác yêu cầu đến BRD/SRS/User Story/UAT, traceability và báo cáo chất lượng.
 
 ---
 
-## ⚡ Lệnh nhanh — 1 dòng, AI làm hết
+## 1. Bắt đầu nhanh
 
-```
-/ba-workflow [Tên dự án] "[Mô tả]"
+Lệnh chính:
+
+```text
+/ba-workflow [Tên dự án] "[Mô tả ngắn]"
 ```
 
-**Ví dụ:**
-```
+Ví dụ:
+
+```text
 /ba-workflow QLTS "Hệ thống quản lý tài sản bệnh viện"
-/ba-workflow eWallet "Ví điện tử thanh toán"
+/ba-workflow eWallet "Ví điện tử thanh toán và đối soát giao dịch"
+/ba-workflow HRM-SaaS "Nền tảng quản lý nhân sự SaaS cho doanh nghiệp vừa"
 ```
 
-AI tự động: Phỏng vấn → Phân tích → Viết BRD, SRS, User Story, UAT → Kiểm tra → Báo cáo.
+Khi chạy `/ba-workflow`, agent sẽ đi theo luồng:
 
-## 🤖 Flow thực thi: ba-specialist + ba-workflow
-
-Khi bạn dùng lệnh nhanh, đây là cách bạn và AI tương tác trực tiếp với nhau:
-
-1. **Khởi tạo:** Bạn gọi `/ba-workflow` kèm mô tả tắt dự án.
-2. **Kích hoạt Agent:** AI tự động khoác lên vai trò chuyên gia `@ba-specialist` (nắm vững BA rule, template, workflow).
-3. **Phỏng vấn socratic (Step 0-2):** AI ngừng lại và hỏi bạn các câu hỏi trọng tâm để bóc tách vấn đề. Bạn trả lời (bằng gạch đầu dòng hoặc mô tả tự do).
-4. **Định tuyến thông minh (Step 3):** Dựa vào câu trả lời của bạn, AI tự phán đoán ngành nghề (Phổ thông, Government, Healthcare, Fintech) để load đúng loại tài liệu cần thiết.
-5. **Sinh tài liệu hàng loạt (Step 4-5):** AI bắt đầu tự viết tài liệu (BRD, SRS, Wireframe list). Cứ mỗi báo cáo xong, AI có thể xin phép bạn trước khi đi tiếp.
-6. **Tự audit & đóng gói (Step 6-8):** AI chạy quét Traceability, tự chấm điểm tài liệu và xuất ra danh sách các link/artifact hoàn chỉnh.
+1. Hỏi thêm để khai thác yêu cầu, pain point, stakeholder, ràng buộc.
+2. Xác định loại dự án và chọn overlay phù hợp.
+3. Gợi ý bộ tài liệu cần tạo.
+4. Viết tài liệu theo template.
+5. Kiểm tra chất lượng requirement, numbering và traceability.
+6. Xuất báo cáo cuối cùng: gaps, risks, traceability, readiness.
 
 ---
 
-## 🗺️ Cách sử dụng — Bạn muốn làm gì?
+## 2. Khi nào dùng BA-agent?
 
-```mermaid
-flowchart LR
-    A([🧑‍💼 Bắt đầu dự án mới]) --> B{Bạn muốn<br/>làm thế nào?}
-    
-    B -->|Làm tự động từ A-Z| C[⚡ Dùng lệnh: /ba-workflow]
-    B -->|Tự làm từng bước| D[📖 Dùng Prompt thư viện]
-    
-    C --> E[🤖 AI đóng vai @ba-specialist\nTự động: Phỏng vấn -> Phân tích -> Viết tài liệu]
-    D --> F[🧑‍💼 Bạn tự chọn prompt phù hợp\nViết và hoàn thiện theo cách thủ công]
+| Nhu cầu | Cách dùng |
+|---|---|
+| Bắt đầu dự án mới | Dùng `/ba-workflow [Tên] "[Mô tả]"` |
+| Viết một tài liệu cụ thể | Yêu cầu trực tiếp: "Viết BRD/SRS/UAT cho..." |
+| Audit bộ tài liệu hiện có | Yêu cầu: "Review bộ tài liệu BA trong thư mục..." |
+| Kiểm tra truy vết yêu cầu | Chạy `traceability_scan.py` hoặc yêu cầu agent scan |
+| Chuẩn hóa tài liệu outsource/product | Chọn overlay `outsource` hoặc `product` |
+| Dự án ngành đặc thù | Chọn overlay `government`, `healthcare`, `fintech` |
+| Cần quyết định đầu tư | Dùng `business-case.md` |
+| Cần quản trị issue/dependency | Dùng `raid-log.md` |
+| Cần phân quyền | Dùng `rbac-matrix.md` |
+| Cần KPI/report/dashboard | Dùng `reporting-specification.md` |
+| Chuẩn bị go-live | Dùng `operational-readiness-checklist.md` |
 
-    style A fill:#f59e0b,stroke:#d97706,color:#fff
-    style B fill:#334155,stroke:#1e293b,color:#fff
-    style C fill:#059669,stroke:#047857,color:#fff
-    style D fill:#2563eb,stroke:#1d4ed8,color:#fff
+---
+
+## 3. Cấu trúc chính
+
+```text
+BA-agent/
+├── SKILL.md                         # Entry point cho agent
+├── USER-GUIDE.md                    # Hướng dẫn chi tiết
+├── DOCUMENT-MAP.md                  # Bản đồ toàn bộ tài liệu
+├── BA-GAP-CHECKLIST.md              # Checklist gap đã bổ sung
+├── agents/
+│   └── ba-specialist.md             # Persona và skill suite của BA agent
+├── workflows/
+│   └── ba-workflow.md               # Quy trình /ba-workflow
+├── BA-document-rule/
+│   ├── core/                        # Rule, quality gate, validator, guide
+│   ├── templates/                   # 28 generic templates
+│   ├── templates/industry/          # 9 templates ngành
+│   ├── overlays/                    # Cấu hình theo loại dự án
+│   └── references/                  # Tài liệu tham khảo
+├── BA-Documents-Product/            # Bộ tài liệu mẫu cho Product
+├── BA-Documents-Outsource/          # Bộ tài liệu mẫu cho Outsource
+├── scripts/                         # Automation scripts
+└── tests/                           # Runtime script tests
 ```
 
-## 📊 Flow chi tiết — `/ba-workflow` chạy thế nào?
+Các file nên đọc đầu tiên:
+
+| Mục đích | File |
+|---|---|
+| Hiểu cách agent vận hành | `BA-agent/SKILL.md` |
+| Xem workflow đầy đủ | `BA-agent/workflows/ba-workflow.md` |
+| Xem vai trò và skill của agent | `BA-agent/agents/ba-specialist.md` |
+| Tìm đúng tài liệu cần dùng | `BA-agent/DOCUMENT-MAP.md` |
+| Xem checklist phần đã bổ sung | `BA-agent/BA-GAP-CHECKLIST.md` |
+
+---
+
+## 4. Workflow chuẩn
 
 ```mermaid
 flowchart TD
-    1(1. Khai thác thông tin & Đánh giá rủi ro) --> 2(2. Phân tích As-Is Process)
-    2 --> 3{3. Chọn loại Dự án}
-    
-    3 -->|Phổ thông| 4(4. Khảo sát danh sách màn hình)
-    3 -->|🏛️ Government| 3G(Dùng Template Chính phủ) --> 4
-    3 -->|🏥 Healthcare| 3H(Dùng Template Y tế) --> 4
-    3 -->|💰 Fintech| 3F(Dùng Template Tài chính) --> 4
-    
-    4 --> 5(5. Viết BRD, SRS, User Story, UAT)
-    5 --> 6(6. Quality Gate & Truy vết Traceability)
-    6 --> 7(7. Đánh giá tác động & Báo cáo kết quả)
-
-    style 3 fill:#f59e0b,stroke:#d97706,color:#fff
-    style 3G fill:#b45309,stroke:#92400e,color:#fff
-    style 3H fill:#059669,stroke:#047857,color:#fff
-    style 3F fill:#2563eb,stroke:#1d4ed8,color:#fff
-    style 5 fill:#7c3aed,stroke:#6d28d9,color:#fff
+    A[Raw input từ khách hàng] --> B[Elicitation Gate]
+    B --> C[As-Is Process hoặc xác nhận Greenfield]
+    C --> D[Chọn project overlay]
+    D --> E[Chọn template cần dùng]
+    E --> F[Viết BRD/SRS/Story/UAT]
+    F --> G[Quality Rubric + Pre-flight]
+    G --> H[Traceability Scan]
+    H --> I[Impact Analysis + Final Report]
 ```
 
-## 🚦 Industry Routing (Phân luồng đặc thù ngành)
+Quy tắc vận hành:
 
-```mermaid
-mindmap
-  root((Dự án))
-    Phổ thông
-      In-house
-      Outsource
-      Product
-      Startup/MVP
-    🏛️ Government
-      Regulatory Matrix
-      HSMT Procurement
-      Multi-level Acceptance
-      Integration
-      Security & ATTT
-    🏥 Healthcare
-      Clinical Workflow
-      Data Privacy
-      Multi-level Acceptance
-      Integration
-      Regulatory Matrix
-      Security BCP
-    💰 Fintech
-      Transaction & Recon
-      AML / KYC
-      Data Privacy
-      Regulatory Matrix
-      Integration
-      Security BCP
+1. Không viết BRD/SRS khi chưa có đủ input tối thiểu.
+2. Luôn xác định loại dự án trước khi chọn template.
+3. Với dự án có quy trình hiện hữu, phải ghi nhận As-Is trước To-Be.
+4. Mỗi requirement quan trọng phải trace được theo chuỗi:
+
+```text
+BRQ / BRD -> FR / NFR -> Feature -> User Story -> Test Case
 ```
 
-## 📁 Phân bổ 9 Industry Templates
-
-Dưới đây là bảng ma trận AI sẽ tự động kích hoạt các template bổ sung tùy thuộc vào ngành nghề của bạn. Nhờ vậy, tài liệu sẽ bao gồm và tuân thủ chặt chẽ các thông lệ tiêu chuẩn của từng ngành:
-
-| Tên Template | 🏛️ Government | 🏥 Healthcare | 💰 Fintech |
-|:---|:---:|:---:|:---:|
-| **📋 Regulatory Compliance Matrix** | ✅ | ✅ | ✅ |
-| **🔌 Industry Integration Spec** | ✅ | ✅ | ✅ |
-| **🔒 Security & Continuity Plan** | ✅ | ✅ | ✅ |
-| **✅ Multi-level Acceptance** | ✅ | ✅ | ❌ |
-| **🔐 Data Privacy & Consent** | ❌ | ✅ | ✅ |
-| **📑 Procurement & Bidding Spec** | ✅ | ❌ | ❌ |
-| **🏥 Clinical Workflow Map** | ❌ | ✅ | ❌ |
-| **💳 Transaction & Reconciliation** | ❌ | ❌ | ✅ |
-| **🔍 AML/KYC Process** | ❌ | ❌ | ✅ |
+5. Nếu có conflict stakeholder, xử lý bằng conflict-resolution protocol trước khi baseline tài liệu.
 
 ---
 
-## ❓ Dự án bạn thuộc loại nào?
+## 5. Chọn loại dự án
 
-Chọn 1 loại → AI tự điều chỉnh flow + template:
+| Loại dự án | Overlay | Khi nào dùng |
+|---|---|---|
+| In-house | `inhouse` | Dự án nội bộ, linh hoạt, ít sign-off formal |
+| Outsource | `outsource` | Dự án thuê ngoài, cần hợp đồng, baseline, sign-off |
+| Product | `product` | SaaS, platform, app, cần OKR/analytics/release |
+| Startup/MVP | `startup-mvp` | Cần ra MVP nhanh, ít tài liệu nhưng đủ quyết định |
+| Government | `government` | Dự án công, đấu thầu, ATTT, nghiệm thu nhiều cấp |
+| Healthcare | `healthcare` | HIS/EMR/LIS, PHI, clinical workflow, HL7/FHIR |
+| Fintech | `fintech` | Payment, wallet, AML/KYC, reconciliation, NHNN |
 
-### Loại phổ thông
+Ví dụ prompt:
 
-| Loại | Mô tả | Flow |
-|------|-------|------|
-| **In-house** | Dự án nội bộ công ty | Standard |
-| **Outsource** | Làm thuê cho khách hàng | Standard + Hợp đồng/NDA |
-| **Product** | Xây sản phẩm riêng (SaaS, app) | Standard + OKR |
-| **Startup/MVP** | Làm nhanh bản demo | Lean (2-4 docs) |
-
-### Loại đặc thù ngành *(AI load thêm template riêng)*
-
-| Loại | Mô tả | Flow bổ sung |
-|------|-------|-------------|
-| 🏛️ **Government** | Cơ quan nhà nước, đấu thầu | + HSMT, ATTT, nghiệm thu |
-| 🏥 **Healthcare** | Bệnh viện, HIS/EMR | + Clinical, PHI, HL7/FHIR |
-| 💰 **Fintech** | Thanh toán, ví điện tử | + Transaction, AML, Recon |
-
-**Ví dụ lệnh cho dự án đặc thù:**
-```
-/ba-workflow HIS-BV "Xây dựng HIS cho bệnh viện đa khoa"
-/ba-workflow DVC "Cổng dịch vụ công trực tuyến tỉnh X"
+```text
+@ba-specialist chọn overlay phù hợp cho dự án "Cổng dịch vụ công trực tuyến cấp tỉnh" và liệt kê tài liệu cần tạo.
 ```
 
 ---
 
-## 📖 Thư viện Prompt — Từng bước
+## 6. Bộ template chính
 
-> Nếu muốn tự gõ lệnh riêng thay vì chạy `/ba-workflow`.
+`BA-agent` hiện có 28 generic templates trong `BA-agent/BA-document-rule/templates/`.
 
-### Bước 1 · Khai thác thông tin từ khách hàng
+### Tài liệu BA nền tảng
 
-> **Dùng khi:** Vừa nhận dự án mới, cần hiểu KH muốn gì.
+| Template | Dùng khi |
+|---|---|
+| `vision-scope.md` | Xác định tầm nhìn, mục tiêu, phạm vi |
+| `brd.md` | Viết Business Requirements |
+| `stakeholder-map.md` | Phân tích stakeholder, RACI |
+| `as-is-process.md` | Ghi nhận quy trình hiện tại |
+| `process-flow.md` | Thiết kế As-Is/To-Be process |
+| `srs.md` | Đặc tả yêu cầu phần mềm |
+| `user-story-map.md` | Epic, Feature, User Story, AC |
+| `uat-plan.md` | Lập kế hoạch UAT |
 
-👉 `"Tạo 10 câu hỏi phỏng vấn để tìm nhu cầu ẩn cho tính năng [Tên]. Hỏi theo góc nhìn của [Giám đốc / Nhân viên / Người dùng cuối]."`
+### Tài liệu kỹ thuật/nghiệp vụ bổ trợ
 
-👉 `"Phân tích đoạn hội thoại này với KH và chỉ ra pain points, nhu cầu ẩn, ràng buộc: [Dán nội dung hội thoại]"`
+| Template | Dùng khi |
+|---|---|
+| `data-model.md` | ERD, data dictionary |
+| `api-specification.md` | API contract, auth, response, error |
+| `screen-inventory.md` | Danh sách màn hình, navigation, wireframe coverage |
+| `data-migration-plan.md` | Migration, mapping, rollback |
+| `ai-feature-spec.md` | Tính năng AI/ML, confidence, fallback |
+| `bpmn-modeling-standard.md` | Chuẩn hóa BPMN/process modeling |
 
-👉 `"Tạo Risk Register cho dự án [Tên]. Liệt kê rủi ro theo nhóm: Scope / Technology / Timeline."`
+### Tài liệu quản trị dự án và vận hành
 
-👉 `"Phân tích What-If: Nếu [điều kiện X xảy ra] thì ảnh hưởng gì?"`
+| Template | Dùng khi |
+|---|---|
+| `business-case.md` | ROI, feasibility, Go/No-Go, buy/build |
+| `risk-register.md` | Risk, heatmap, mitigation |
+| `raid-log.md` | Risks, Assumptions, Issues, Dependencies |
+| `change-log.md` | Change Request và impact |
+| `meeting-minutes.md` | MoM, decision, open items |
+| `handover-checklist.md` | Bàn giao dự án |
+| `operational-readiness-checklist.md` | Go-live, support, monitoring, rollback |
+| `post-implementation-review.md` | PIR, benefits realization, lessons learned |
 
----
+### Tài liệu product/data/testing
 
-### Bước 2 · Vẽ quy trình hiện tại (As-Is)
-
-> **Dùng khi:** Cần hiểu cách KH đang làm việc TRƯỚC khi đề xuất cải tiến.
-> **Bỏ qua nếu:** Dự án mới hoàn toàn (chưa có quy trình).
-
-👉 `"Viết tài liệu As-Is cho quy trình [Tên quy trình]. Chỉ ra pain points, tạo Gap Analysis, thiết lập baseline metrics."`
-
----
-
-### Bước 3 · Liệt kê màn hình + Wireframe
-
-> **Dùng khi:** Cần biết hệ thống có bao nhiêu màn hình và ai dùng.
-
-👉 `"Liệt kê tất cả màn hình cho Feature [Tên]. Ghi rõ: mục đích, ai sử dụng, loại màn hình."`
-
-👉 `"Tạo wireframe cho màn hình [Tên]. Chỉ ra layout, dữ liệu chính, nút action."`
-
----
-
-### Bước 4 · Viết tài liệu (BRD, SRS, User Story, UAT)
-
-> **Dùng khi:** Đã có đủ thông tin, sẵn sàng viết tài liệu chính thức.
-
-👉 `"Viết BRD cho dự án [Tên] dựa trên thông tin đã thu thập."`
-
-👉 `"Viết SRS cho dự án [Tên]. Bao gồm NFR và Data Model."`
-
-👉 `"Tạo User Story Map cho Feature [Tên Feature]."`
-
-👉 `"Tạo UAT Plan cho toàn bộ dự án."`
-
-> 💡 AI tự chạy Pre-Flight Check trước khi viết → đảm bảo không thiếu input.
-
----
-
-### Bước 5 · Vẽ sơ đồ
-
-> **Dùng khi:** Cần minh họa luồng nghiệp vụ bằng hình ảnh.
-
-**Vẽ tự động** (AI chọn loại phù hợp):
-
-👉 `"Vẽ sơ đồ cho quy trình: [Dán mô tả quy trình]"`
-
-**Vẽ chỉ định loại sơ đồ:**
-
-👉 `"Vẽ Sequence Diagram cho luồng [Tên luồng]."`
-
-👉 `"Vẽ ERD cho các bảng [Tên bảng 1], [Tên bảng 2]."`
-
-👉 `"Vẽ State Diagram cho vòng đời [Đối tượng]."`
-
-👉 `"Vẽ BPMN cho quy trình [Tên quy trình]."`
+| Template | Dùng khi |
+|---|---|
+| `user-research-plan.md` | Interview, observation, usability test |
+| `product-analytics-spec.md` | Metrics, funnel, event taxonomy, experiment |
+| `reporting-specification.md` | KPI, dashboard, report, source mapping |
+| `data-governance-plan.md` | Data owner, CDE, quality, retention |
+| `rbac-matrix.md` | Role, permission, data scope, SoD |
+| `test-strategy.md` | SIT, regression, NFR testing, defect triage |
 
 ---
 
-### Bước 6 · Kiểm tra chất lượng + Truy vết
+## 7. Template ngành
 
-> **Dùng khi:** Viết xong tài liệu, cần kiểm tra lỗi và độ liên kết.
+Các template ngành nằm ở:
 
-**Chấm điểm tài liệu:**
+```text
+BA-agent/BA-document-rule/templates/industry/
+```
 
-👉 `"Chấm điểm C-S-K-A cho file [Tên file]. Chỉ ra lỗi Critical cần sửa ngay."`
+| Template | Government | Healthcare | Fintech |
+|---|:---:|:---:|:---:|
+| `regulatory-compliance-matrix.md` | Yes | Yes | Yes |
+| `industry-integration-spec.md` | Yes | Yes | Yes |
+| `security-continuity-plan.md` | Yes | Yes | Yes |
+| `multi-level-acceptance.md` | Yes | Yes | No |
+| `data-privacy-consent.md` | No | Yes | Yes |
+| `procurement-bidding-spec.md` | Yes | No | No |
+| `clinical-workflow-map.md` | No | Yes | No |
+| `transaction-recon-spec.md` | No | No | Yes |
+| `aml-kyc-process.md` | No | No | Yes |
 
-**Kiểm tra liên kết** (Yêu cầu → Feature → User Story → Test Case):
+Ví dụ:
 
-👉 `"Chạy Traceability Validator cho toàn bộ tài liệu. Chỗ nào bị đứt chuỗi thì báo."`
-
-**Đánh giá ảnh hưởng khi đổi yêu cầu:**
-
-👉 `"KH muốn đổi [Yêu cầu A] thành [Yêu cầu B]. Dò quét thay đổi này ảnh hưởng đến những file nào?"`
-
-**Đối soát với code:**
-
-👉 `"Đối soát yêu cầu vs mã nguồn. Kiểm tra tính năng [Tên] trong SRS đã được code đúng Acceptance Criteria chưa?"`
-
-**Đóng gói cho các đối tượng khác nhau:**
-
-👉 `"Đóng gói nội dung thành 3 bản: tóm tắt cho Giám đốc, bản kỹ thuật cho Dev, bản test cho QC."`
-
----
-
-## 🏛️🏥💰 Prompt đặc thù ngành
-
-> ⚠️ Chỉ dùng khi dự án thuộc **Government / Healthcare / Fintech**.
-> Dự án thông thường → bỏ qua phần này.
-
-### 🏛️ Chính phủ
-
-> Dùng khi: Dự án CNTT dùng ngân sách nhà nước, cần đấu thầu.
-
-👉 `"Lập bảng đối chiếu: mỗi tính năng → tuân thủ quy định nào (Luật Đấu thầu 2023, NĐ 85 ATTT, NĐ 73). Chỉ ra gaps."`
-
-👉 `"Chuẩn bị phần kỹ thuật cho HSMT (Hồ sơ mời thầu). Bao gồm: ước lượng ngân sách, đào tạo cán bộ, tiến độ Gantt."`
-
-👉 `"Tạo quy trình nghiệm thu 3 bước: Nghiệm thu sơ bộ → Vận hành thử 30-90 ngày → Nghiệm thu chính thức. Gắn với mốc thanh toán."`
-
-👉 `"Spec tích hợp LGSP/NGSP cho chia sẻ dữ liệu liên cơ quan."`
+```text
+@ba-specialist tạo regulatory compliance matrix cho dự án ví điện tử, mapping từng feature với yêu cầu AML/KYC và bảo mật.
+```
 
 ---
 
-### 🏥 Y tế
+## 8. Prompt mẫu theo nhu cầu
 
-> Dùng khi: Phần mềm bệnh viện (HIS, EMR, LIS), telemedicine.
+### Khai thác yêu cầu
 
-👉 `"Vẽ luồng khám bệnh ngoại trú (OPD): đăng ký → khám → xét nghiệm → kê đơn → thanh toán. Đánh dấu chỗ nào có rủi ro y khoa."`
+```text
+@ba-specialist tạo bộ câu hỏi phỏng vấn cho dự án [Tên dự án], stakeholder gồm [vai trò].
+```
 
-👉 `"Phân loại dữ liệu bệnh nhân theo 5 cấp: PHI / PII / Clinical / Admin / Public. Spec mã hóa + quyền truy cập cho từng cấp."`
+```text
+@ba-specialist phân tích transcript sau, rút ra pain points, hidden needs, assumptions và constraints: [nội dung].
+```
 
-👉 `"Tạo Consent Management (quản lý đồng ý bệnh nhân) theo NĐ 13/2023. Bao gồm Break-the-Glass protocol cho cấp cứu."`
+### Viết tài liệu
 
-👉 `"Spec tích hợp HL7 FHIR R4 giữa HIS ↔ LIS. Mapping: Patient, DiagnosticReport, MedicationRequest."`
+```text
+@ba-specialist viết BRD cho dự án [Tên], dựa trên input sau: [nội dung].
+```
+
+```text
+@ba-specialist viết SRS cho module [Tên module], bao gồm FR, NFR, business rules, API và traceability.
+```
+
+```text
+@ba-specialist tạo User Story Map cho feature [Tên], acceptance criteria theo Given-When-Then.
+```
+
+### Tài liệu bổ sung
+
+```text
+@ba-specialist tạo Business Case cho dự án [Tên], so sánh Build vs Buy vs Do Nothing.
+```
+
+```text
+@ba-specialist tạo RBAC Matrix cho hệ thống [Tên], gồm role, permission, data scope và negative test cases.
+```
+
+```text
+@ba-specialist tạo Product Analytics Spec cho feature [Tên], gồm funnel, event taxonomy và guardrail metrics.
+```
+
+```text
+@ba-specialist tạo Operational Readiness Checklist cho go-live dự án [Tên].
+```
+
+### Kiểm tra chất lượng
+
+```text
+@ba-specialist review SRS này theo requirement-quality-rubric, chỉ ra requirement mơ hồ, thiếu actor, thiếu boundary.
+```
+
+```text
+@ba-specialist chạy traceability scan cho bộ tài liệu trong thư mục [folder].
+```
+
+```text
+@ba-specialist phân tích impact nếu thay đổi yêu cầu [ID/tên yêu cầu].
+```
 
 ---
 
-### 💰 Fintech
+## 9. Lệnh kiểm tra bằng script
 
-> Dùng khi: Ví điện tử, payment gateway, mobile banking, lending.
+Chạy các lệnh sau trong thư mục `BA-agent`:
 
-👉 `"Thiết kế vòng đời giao dịch: Khởi tạo → Xác thực → Xử lý → Quyết toán → Đối soát. Bao gồm idempotency + double-entry ledger."`
+```powershell
+cd BA-agent
+```
 
-👉 `"Spec quy trình AML/KYC: eKYC 4 cấp + 8 rules chống rửa tiền + mẫu SAR. Tuân thủ Luật 14/2022."`
+### Kiểm tra bundle
 
-👉 `"Tạo Reconciliation Spec (đối soát) 4 loại: Nội bộ, Đối tác T+1, Ngân hàng, Báo cáo NHNN."`
+```powershell
+python .\scripts\ba_bundle_audit.py
+```
 
-👉 `"Lập Security Architecture: STRIDE threat model + DR/BCP plan (RPO=0, RTO≤15 phút)."`
+Script này kiểm tra metadata, version marker, file bắt buộc và một số drift chính.
+
+### Pre-flight trước khi duyệt tài liệu
+
+```powershell
+python .\scripts\preflight_check.py <project-folder>
+```
+
+Dùng trước khi draft hoặc approve BRD, SRS, User Story Map, UAT.
+
+### Chấm chất lượng requirement
+
+```powershell
+python .\scripts\quality_rubric.py <project-folder-or-file>
+```
+
+Dùng để phát hiện requirement mơ hồ, thiếu actor, thiếu boundary, implementation bias, untestable NFR.
+
+### Scan traceability
+
+```powershell
+python .\scripts\traceability_scan.py <project-folder>
+```
+
+Xuất report markdown/json:
+
+```powershell
+python .\scripts\traceability_scan.py <project-folder> --output-md traceability-report.md --output-json traceability-report.json
+```
+
+Với bộ tài liệu dùng ID legacy:
+
+```powershell
+python .\scripts\traceability_scan.py <project-folder> --scheme legacy
+```
+
+Với bộ tài liệu dùng ID canonical:
+
+```powershell
+python .\scripts\traceability_scan.py <project-folder> --scheme canonical --strict
+```
+
+### Kiểm tra và sửa numbering
+
+Dry-run trước:
+
+```powershell
+python .\scripts\reindex_markdown.py <project-folder>
+```
+
+Chỉ apply sau khi đã xem kết quả:
+
+```powershell
+python .\scripts\reindex_markdown.py <project-folder> --apply
+```
 
 ---
 
-## 💡 3 mẹo quan trọng
+## 10. Quy tắc chất lượng khi dùng BA-agent
 
-1. **Mở file trước khi ra lệnh** — AI đọc file đang mở. Muốn phân tích BRD? Mở file BRD trước.
+1. Requirement phải cụ thể, đo được, có actor, có điều kiện và test được.
+2. Không dùng từ mơ hồ như "nhanh", "dễ dùng", "linh hoạt" nếu không có metric.
+3. Mỗi tài liệu quan trọng phải có owner, version, trạng thái và approval nếu cần.
+4. Mỗi thay đổi scope phải đi qua Change Log hoặc RAID/Risk update.
+5. Với dự án outsource, không baseline BRD/SRS nếu chưa có traceability và sign-off.
+6. Với dự án product, không chỉ viết feature; phải có metric, analytics hoặc hypothesis nếu feature ảnh hưởng outcome.
+7. Với dự án có dữ liệu nhạy cảm, phải có RBAC, Data Governance và Security/Privacy controls.
 
-2. **Càng cụ thể càng tốt**
-   - ❌ `"Viết SRS cho dự án"`
-   - ✅ `"Viết SRS cho dự án QLTS, module Kiểm kê + Thanh lý, user là Phòng Vật tư bệnh viện 500 giường"`
+---
 
-3. **Không cần nhớ hết** — Chỉ cần nhớ `/ba-workflow [tên] "[mô tả]"`. AI sẽ tự hỏi bạn những gì còn thiếu.
+## 11. Cách cập nhật BA-agent
+
+Khi thêm template mới:
+
+1. Tạo file trong `BA-agent/BA-document-rule/templates/`.
+2. Cập nhật `BA-agent/DOCUMENT-MAP.md`.
+3. Cập nhật `BA-agent/BA-document-rule/README.md`.
+4. Nếu agent cần tự chọn template đó, cập nhật `BA-agent/SKILL.md`.
+5. Nếu template ảnh hưởng workflow, cập nhật `BA-agent/workflows/ba-workflow.md`.
+6. Chạy:
+
+```powershell
+cd BA-agent
+python .\scripts\ba_bundle_audit.py
+```
+
+Nếu có test runtime:
+
+```powershell
+python -m unittest discover -s tests
+```
+
+---
+
+## 12. Khuyến nghị sử dụng thực tế
+
+Nếu bạn không chắc bắt đầu từ đâu, dùng một trong ba cách sau:
+
+```text
+/ba-workflow [Tên dự án] "[Mô tả ngắn]"
+```
+
+```text
+@ba-specialist đọc input sau và đề xuất bộ tài liệu BA cần tạo: [input]
+```
+
+```text
+@ba-specialist review thư mục tài liệu hiện tại, chấm score và liệt kê missing artifacts.
+```
+
+Nguyên tắc đơn giản: bắt đầu bằng workflow, để agent hỏi thiếu gì, rồi chỉ tạo thêm tài liệu khi có tín hiệu nghiệp vụ thật.
