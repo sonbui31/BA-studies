@@ -16,6 +16,7 @@
 | 2 | `02-BRD.md` | BRD cho Product: Problem Statement, Success Metrics, **MoSCoW + Kano**, Rollout Plan, RTM | Khi define feature/epic |
 | 3 | `03-User-Personas.md` | User Personas (journey, pain points, quotes), Persona Priority Matrix, Interview Plan | Khi research user |
 | 4 | `04-User-Flow.md` | Onboarding Flow, Core User Flow, Error/Edge Cases, Notification Flows, **Analytics tracking points** | Khi thiết kế luồng |
+| 4A | `04A-Feature-Map.md` | Feature layer map `BR -> FR -> Feature -> US -> Test`, dùng cho strict traceability | Khi cần sign-off traceability đầy đủ |
 | 5 | `05-SRS-Lite.md` | **Tùy chọn** — chỉ cho feature phức tạp: API Spec, NFR, Integration, RBAC | Khi cần spec kỹ thuật |
 | 6 | `06-User-Story-Map.md` | Stories + AC kèm **OKR mapping**, Traceability Matrix, Release Mapping | Khi viết stories |
 | 7 | `07-Data-Model.md` | SaaS schema (Accounts, Subscriptions, multi-tenancy) + **Analytics Data Model** | Khi thiết kế database |
@@ -38,6 +39,7 @@
 | 2 | `02-BRD.md` | BRD formal — cơ sở cho **hợp đồng + ước lượng**, KH phê duyệt bắt buộc | Phase 0-1: Tiền dự án |
 | 3 | `03-Stakeholder-Map.md` | Stakeholder **cả 2 bên** (KH + NCC), Communication Protocol, múi giờ, SLA phản hồi | Phase 1: Khởi động |
 | 4 | `04-Process-Flow.md` | As-Is / To-Be, workshop từ xa **(ghi hình bắt buộc)** | Phase 2: Khám phá |
+| 4A | `04A-Feature-Map.md` | Feature layer map `BRD/BR -> FR -> Feature -> US -> UAT`, dùng cho sign-off traceability | Phase 3: Chi tiết hóa |
 | 5 | `05-SRS.md` | SRS **đầy đủ** (15-25 trang) — Dev không ngồi cạnh nên phải rõ ràng tuyệt đối | Phase 3: Chi tiết hóa |
 | 6 | `06-User-Story-Map.md` | Stories + AC, **chốt phạm vi signed bởi KH** = scope agreement | Phase 3: Chi tiết hóa |
 | 7 | `07-Data-Model.md` | ERD + Data Dictionary + **Swagger/OpenAPI** formal | Phase 3: Chi tiết hóa |

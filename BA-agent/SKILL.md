@@ -80,5 +80,6 @@ Rules:
 - Run `traceability_scan.py` after drafting BRD, SRS, Story Map, or UAT artifacts.
 - Use `reindex_markdown.py` in dry-run mode first.
 - Only use `--apply` after reviewing the proposed renumbering, especially on outsource projects with signed baselines.
-- Use `--scheme legacy` for bundles using `BRD-101 / FR-101 / US-001 / UAT-001`.
-- Use `--scheme canonical --strict` for bundles using `BRQ-01 / FR-MOD-001 / US-MOD-001 / TC-MOD-001`.
+- Use `--scheme legacy` for bundles using `BRD-101 / FR-101 / US-001 / UAT-001`; do not add `--strict` unless the bundle also defines Feature links.
+- Use `--scheme canonical --strict` for bundles using `BRQ-01 / FR-MOD-001 / US-MOD-001 / TC-MOD-001`; strict mode requires the full `BRQ-* -> FR-* -> Feature -> US-* -> TC-*` chain.
+- If `--strict` reports `BROKEN_CHAIN`, either add Feature IDs/links or rerun without `--strict` for legacy bundles where Feature traceability is intentionally out of scope.

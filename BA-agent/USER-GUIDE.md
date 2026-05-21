@@ -2,7 +2,7 @@
 
 > **Chào mừng bạn đến với BA-Agent 3.4!**
 > Bộ kit "Layered OS" v3.4 — **"Think Deeper, Write Better"**: Advanced Analysis + Requirement Quality Engine.
-> Giữ Multi-LLM orchestration (Claude 4.6, o4, GPT-5, Gemini 3) với vai trò CỤ THỂ tại từng bước.
+> Multi-LLM là protocol phân vai reviewer/drafter khuyến nghị; repo này cung cấp tài liệu và runtime scripts, không tự gọi các model thay người dùng.
 
 ---
 
@@ -49,9 +49,9 @@ Step 5 FAIL (pre-flight trước doc) → Quay lại Step 0/2 (bổ sung input)
 
 ---
 
-## 🆕 Có gì mới trong v3.3?
+## 🆕 Có gì mới trong v3.4?
 
-| Feature | v3.2 | v3.3 |
+| Feature | v3.3 | v3.4 |
 |---------|------|------|
 | **Requirement Decomposition** | BA tự tách ad-hoc | ⭐ 4 patterns: CRUD/Lifecycle/Actor/Integration |
 | **AC Coverage** | 2 scenarios (Happy + Unhappy) | ⭐ 8 loại (thêm Boundary, Permission, Concurrency, Data Volume...) |
@@ -68,6 +68,8 @@ Step 5 FAIL (pre-flight trước doc) → Quay lại Step 0/2 (bổ sung input)
 ---
 
 ## 🤖 Các kỹ năng (20 Skills)
+
+> Cột LLM bên dưới là vai trò/model khuyến nghị khi người vận hành có môi trường multi-model; nếu không, dùng cùng một assistant và chạy scripts validation ở cuối.
 
 | Kỹ năng | Lệnh tiêu biểu | Kết quả | LLM |
 |---|---|---|---|
@@ -133,8 +135,8 @@ BA-agent/
 │       ├── anti-patterns.md           ⭐ Top 15 sai lầm BA (v3.2)
 │       ├── writing-examples.md        ⭐ Mẫu viết: Precondition/Exception/BR (v3.3)
 │       └── communication-packaging.md ⭐ 4 package types CEO/Dev/QC (v3.3)
-├── BA-Documents-Product/       ← 11 files mẫu cho Sản phẩm
-├── BA-Documents-Outsource/     ← 12 files mẫu cho Thuê ngoài
+├── BA-Documents-Product/       ← 12 files mẫu cho Sản phẩm
+├── BA-Documents-Outsource/     ← 13 files mẫu cho Thuê ngoài
 ├── DOCUMENT-MAP.md             ← Bản đồ chỉ đường cho mọi file
 ├── USER-GUIDE.md               ← Hướng dẫn sử dụng (file này)
 ├── CHANGELOG.md                ← Lịch sử thay đổi
@@ -149,7 +151,7 @@ BA-agent/
 1. **Right First Time** — Pre-Flight + Inline Audit = giảm iterations từ 4+ → ≤ 2
 2. **Facts, not Theory** — Risk Register từ patterns thực tế, không predict từ "hàng ngàn mẫu"
 3. **Visual First** — Screen Inventory + Wireframe TRƯỚC khi code. Diagram tốt hơn 1000 chữ
-4. **Multi-LLM Precision** — Claude viết, o4 nghĩ, Gemini đọc, GPT-5 draft specs
+4. **Reviewer-role Precision** — phân vai drafter/reviewer theo loại việc; chỉ dùng nhiều LLM khi workflow thực tế có công cụ/model tương ứng
 5. **Complete Traceability** — BRQ→FR→US→TC + NFR→NFR-TC — không gì bị orphan
 
 ---
@@ -163,6 +165,28 @@ BA-agent/
 - **Thêm overlay mới:** Tạo folder trong `BA-document-rule/overlays/`
 - **Xem anti-patterns:** `BA-document-rule/references/anti-patterns.md`
 - **Xem changelog:** `CHANGELOG.md`
+
+---
+
+## ✅ Runtime validation scripts
+
+Chạy các script này trước khi kết luận bundle đã đạt chất lượng:
+
+```powershell
+python .\scripts\preflight_check.py <project-folder>
+python .\scripts\quality_rubric.py <project-folder-or-file>
+python .\scripts\traceability_scan.py <project-folder> --scheme legacy
+python .\scripts\traceability_scan.py <project-folder> --scheme canonical --strict
+python .\scripts\reindex_markdown.py <project-folder>
+```
+
+**Legacy bundle** dùng ID như `BRD-101 / FR-101 / US-001 / UAT-001`. Với dạng này, chạy `--scheme legacy` là mặc định an toàn. Chỉ thêm `--strict` nếu tài liệu cũng có Feature ID và mapping Feature.
+
+**Canonical bundle** dùng ID như `BRQ-01 / FR-MOD-001 / US-MOD-001 / TC-MOD-001`. Với dạng này, chạy `--scheme canonical --strict`; strict mode yêu cầu chain đầy đủ `BRQ -> FR -> Feature -> US -> TC`.
+
+Nếu `--strict` báo `BROKEN_CHAIN`, có hai hướng xử lý:
+- Bổ sung Feature ID và mapping vào BRD/SRS/Story/UAT nếu dự án yêu cầu traceability đầy đủ.
+- Bỏ `--strict` nếu đang kiểm tra legacy/outsource bundle mà Feature traceability được chủ đích loại khỏi phạm vi.
 
 ---
 

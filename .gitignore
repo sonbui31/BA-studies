@@ -1,3 +1,6 @@
 /.agent/
 /QLTS/
 /nâng cấp.md
+
+__pycache__/
+*.py[cod]
