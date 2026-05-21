@@ -48,11 +48,25 @@ NA = "⚠️ N/A"
 PASS_CODE = "PASS"
 FAIL_CODE = "FAIL"
 NA_CODE = "N/A"
+PLACEHOLDER_PATTERN = re.compile(r"(\[[^\]\n]{1,80}\]|\{\{[^}\n]{0,80}\}\}|\$\[_+\])")
 
 
 def has_any(text: str, *tokens: str) -> bool:
     lowered = text.lower()
     return any(token.lower() in lowered for token in tokens)
+
+
+def count_placeholders(text: str) -> int:
+    ignored = {"[x]", "[ ]"}
+    count = 0
+    for _, line in iter_non_fenced_lines(text):
+        if line.lstrip().startswith(("- [ ]", "- [x]", "- [X]")):
+            continue
+        for match in PLACEHOLDER_PATTERN.findall(line):
+            if match.lower() in ignored:
+                continue
+            count += 1
+    return count
 
 
 def count_table_rows(text: str, anchors: Tuple[str, ...]) -> int:
@@ -145,6 +159,7 @@ def make_na(name: str, detail: str) -> Dict[str, str]:
 
 def brd_checks(text: str, ctx: Dict[str, str]) -> List[Dict[str, str]]:
     checks: List[Dict[str, str]] = []
+    placeholder_count = count_placeholders(text)
     stakeholder_rows = max(
         count_table_rows(text, ("stakeholder", "bên liên quan")),
         count_table_rows(text, ("đối tượng đọc",)),
@@ -158,6 +173,7 @@ def brd_checks(text: str, ctx: Dict[str, str]) -> List[Dict[str, str]]:
         len(re.findall(r"\b(QT|BR)-\d+", text)),
     )
 
+    checks.append(make_check("Open Placeholders", placeholder_count == 0, f"{placeholder_count} placeholder marker(s)"))
     checks.append(make_check("Glossary", has_any(text, "thuật ngữ", "glossary"), "glossary markers"))
     checks.append(make_check("Problem Statement", pain_rows >= 2 or text.count("Rủi ro #") >= 2, f"{pain_rows} problem rows"))
     checks.append(make_check("Stakeholder Map", stakeholder_rows >= 3, f"{stakeholder_rows} stakeholder rows"))
@@ -191,12 +207,14 @@ def brd_checks(text: str, ctx: Dict[str, str]) -> List[Dict[str, str]]:
 
 def srs_checks(text: str, ctx: Dict[str, str]) -> List[Dict[str, str]]:
     checks: List[Dict[str, str]] = []
+    placeholder_count = count_placeholders(text)
     nfr_count = count_ids(text, ("NFR",))
     fr_count = count_ids(text, ("FR",))
     actor_rows = count_table_rows(text, ("actors", "đối tượng đọc", "actor"))
     mermaid_count = text.count("```mermaid")
     rubric = evaluate_text(text)
 
+    checks.append(make_check("Open Placeholders", placeholder_count == 0, f"{placeholder_count} placeholder marker(s)"))
     checks.append(make_check("BRD Completed", any("brd" in name.lower() for name in ctx), "BRD file present in bundle"))
     checks.append(make_check("Architecture Diagram", mermaid_count >= 1 and has_any(text, "kiến trúc", "architecture"), f"{mermaid_count} mermaid block(s)"))
     checks.append(make_check("ER Diagram / Data Model", has_any(text, "erd", "entity", "data dictionary", "data model"), "data model markers"))
@@ -218,10 +236,12 @@ def srs_checks(text: str, ctx: Dict[str, str]) -> List[Dict[str, str]]:
 
 def story_checks(text: str, ctx: Dict[str, str]) -> List[Dict[str, str]]:
     checks: List[Dict[str, str]] = []
+    placeholder_count = count_placeholders(text)
     story_count = count_ids(text, ("US",))
     br_count = sum(count_ids(content, ("BRQ", "BRD", "BR-")) for name, content in ctx.items() if "brd" in name.lower())
     gwt_count = len(re.findall(r"\b(Given|When|Then)\b", text, re.IGNORECASE))
 
+    checks.append(make_check("Open Placeholders", placeholder_count == 0, f"{placeholder_count} placeholder marker(s)"))
     checks.append(make_check("BRQ Coverage", story_count >= 1 and br_count >= 1, f"{story_count} stories vs {br_count} business IDs"))
     checks.append(make_check("INVEST Format", has_any(text, "As a", "I want", "So that"), "story sentence markers"))
     checks.append(make_check("BDD Acceptance Criteria", gwt_count >= 3, f"{gwt_count} GWT marker(s)"))
@@ -236,10 +256,12 @@ def story_checks(text: str, ctx: Dict[str, str]) -> List[Dict[str, str]]:
 
 def uat_checks(text: str, ctx: Dict[str, str]) -> List[Dict[str, str]]:
     checks: List[Dict[str, str]] = []
+    placeholder_count = count_placeholders(text)
     tc_count = count_ids(text, ("TC", "UAT"))
     business_refs = len(re.findall(r"\b(BR-|BRD-\d{3}|FR-\d{3}|FR-[A-Z]{2,10}-\d{3})\b", text))
     signoff_rows = count_table_rows(text, ("điều kiện kết thúc", "sign-off", "biên bản nghiệm thu"))
 
+    checks.append(make_check("Open Placeholders", placeholder_count == 0, f"{placeholder_count} placeholder marker(s)"))
     checks.append(make_check("Story Coverage", tc_count >= 1 and any("story" in name.lower() for name in ctx), f"{tc_count} test-case IDs"))
     checks.append(make_check("Test Data Spec", has_any(text, "test data", "dữ liệu kiểm thử", "test accounts"), "test-data markers"))
     checks.append(make_check("Pre-requisites", has_any(text, "điều kiện bắt đầu", "pre-requisite", "môi trường", "environment"), "pre-req markers"))

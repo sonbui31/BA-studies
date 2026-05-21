@@ -116,11 +116,11 @@
 
 | Mã KT | Yêu cầu phi chức năng | Phương pháp | Tiêu chí chấp nhận | Kết quả | Đ/K |
 |-------|-----|-----------|---------------------|---------|-----|
-| UAT-NFR-01 | NFR-001: Hiệu năng dashboard (≤ 3 giây) | Kiểm tra Lighthouse / synthetic | Điểm ≥ 80, tải ≤ 3 giây | — | ☐ |
-| UAT-NFR-02 | NFR-003: Người dùng đồng thời (≥ 250) | Load test (K6/JMeter) | 250 người, p95 < 500ms | — | ☐ |
-| UAT-NFR-03 | NFR-009: Bảo mật (OWASP Top 10) | Quét OWASP ZAP | Không có Nghiêm trọng/Cao | — | ☐ |
-| UAT-NFR-04 | Đa trình duyệt | Kiểm thử thủ công | Chrome, Safari, Edge OK | — | ☐ |
-| UAT-NFR-05 | NFR-11: Responsive | Kiểm thử di động/tablet | Bố cục không vỡ | — | ☐ |
+| UAT-NFR-01 | NFR-001, NFR-002, NFR-003: Hiệu năng dashboard/API/tải đồng thời | Kiểm tra Lighthouse, synthetic, K6/JMeter | Dashboard ≤ 3 giây; API p95 ≤ 500ms; 250 người dùng đồng thời | — | ☐ |
+| UAT-NFR-02 | NFR-004, NFR-013, NFR-014: Khả dụng, sao lưu, phục hồi | Monitoring, backup restore test, DR drill | Uptime ≥ 99.5%; backup hằng ngày; RTO ≤ 4 giờ; RPO ≤ 1 giờ | — | ☐ |
+| UAT-NFR-03 | NFR-006, NFR-007, NFR-008, NFR-009, NFR-010, NFR-017: Bảo mật, phân quyền, audit, tuân thủ | MFA/RBAC test, encryption review, OWASP ZAP, audit log review | Không có lỗi Critical/High; role trái quyền bị chặn; log lưu đúng retention | — | ☐ |
+| UAT-NFR-04 | NFR-011, NFR-012: Responsive và đa trình duyệt | Kiểm thử thủ công trên mobile/tablet/desktop | Chrome, Safari, Firefox, Edge OK; bố cục không vỡ | — | ☐ |
+| UAT-NFR-05 | NFR-005, NFR-015, NFR-016: Mở rộng và bảo trì | Benchmark dữ liệu lớn, SonarQube, CI coverage report | Tra cứu ≤ 3 giây ở 150.000 tài sản; Quality Gate đạt; unit test ≥ 80% | — | ☐ |
 
 ---
 

@@ -30,7 +30,7 @@ Dự án này xây dựng một hệ thống quản lý tài sản tập trung �
 Đề xuất đầu tư nhằm đạt ba kết quả kinh doanh: giảm ít nhất 70% thời gian kiểm kê tháng, giảm tối thiểu 80% sai lệch giữa sổ theo dõi và tài sản thực tế, và tạo được báo cáo tức thời về tài sản theo khoa, trạng thái, và lịch bảo trì để hỗ trợ quyết định ngân sách.
 
 ### 1.2. Mục đích tài liệu
-Tài liệu này mô tả **yêu cầu kinh doanh** cho dự án [Tên], phục vụ:
+Tài liệu này mô tả **yêu cầu kinh doanh** cho dự án Quản lý Tài sản Bệnh viện, phục vụ:
 - Làm cơ sở cho việc **phê duyệt đầu tư** từ Ban lãnh đạo
 - Làm baseline cho **hợp đồng outsource** giữa Khách hàng và Nhà cung cấp
 - Làm đầu vào cho **SRS** (đặc tả yêu cầu phần mềm chi tiết)
@@ -336,21 +336,21 @@ _(Chi tiết: xem `05-SRS.md` Mục 3)_
 
 | Giai đoạn | Thời lượng | Sản phẩm chính | Mốc |
 |-----------|-----------|----------------|-----|
-| Khám phá & Thiết kế | [X] tuần | Đặc tả yêu cầu (SRS), Giao diện phác thảo | M1: Phê duyệt đặc tả |
-| Phát triển Giai đoạn 1 (Bản cơ bản - MVP) | [X] tuần | Phần mềm hoạt động được | M2: Nghiệm thu GĐ1 |
-| Phát triển Giai đoạn 2 | [X] tuần | Đầy đủ tính năng | M3: Nghiệm thu GĐ2 |
-| Vận hành + Bảo hành | [X] tuần | Hệ thống chính thức | M4: Kết thúc bảo hành |
-| **Tổng** | **[X] tuần** | | |
+| Khám phá & Thiết kế | 2 tuần | Đặc tả yêu cầu (SRS), Giao diện phác thảo | M1: Phê duyệt đặc tả |
+| Phát triển Giai đoạn 1 (Bản cơ bản - MVP) | 6 tuần | Phần mềm hoạt động được | M2: Nghiệm thu GĐ1 |
+| Phát triển Giai đoạn 2 | 4 tuần | Đầy đủ tính năng | M3: Nghiệm thu GĐ2 |
+| Vận hành + Bảo hành | 2 tuần | Hệ thống chính thức | M4: Kết thúc bảo hành |
+| **Tổng** | **14 tuần** | | |
 
 ### 9.2. Tóm tắt ngân sách
 
 | Hạng mục | Số tiền |
 |----------|---------|
-| Phát triển phần mềm (NCC) | $[___] |
-| Hạ tầng/Hosting (Năm 1) | $[___] |
-| Đào tạo + Quản lý thay đổi | $[___] |
-| Dự phòng (10-15%) | $[___] |
-| **TỔNG** | **$[___]** |
+| Phát triển phần mềm (NCC) | 420.000.000 VND |
+| Hạ tầng/Hosting (Năm 1) | 60.000.000 VND |
+| Đào tạo + Quản lý thay đổi | 40.000.000 VND |
+| Dự phòng (10-15%) | 60.000.000 VND |
+| **TỔNG** | **580.000.000 VND** |
 
 ---
 

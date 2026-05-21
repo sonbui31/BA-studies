@@ -11,8 +11,8 @@ from ba_id_utils import (
     classify_file,
     collect_markdown_files,
     detect_id_meta,
-    extract_headings,
-    extract_ids,
+    extract_ids_from_line,
+    iter_non_fenced_lines,
     replace_exact_tokens,
     read_text,
 )
@@ -71,13 +71,67 @@ def build_heading_replacements(text: str) -> Tuple[str, List[str]]:
     return "\n".join(new_lines) + ("\n" if text.endswith("\n") else ""), updates
 
 
+def definition_ids_for_role(text: str, role: str) -> List[str]:
+    ids: List[str] = []
+
+    def first_cell(line: str) -> str:
+        return line.strip().strip("|").split("|")[0].strip()
+
+    def add_tokens(value: str) -> None:
+        for token in extract_ids_from_line(value):
+            meta = detect_id_meta(token, 0)
+            if not meta:
+                continue
+            if role == "brd" and meta.family not in {"BRQ", "BRD", "BR"}:
+                continue
+            if role == "srs" and meta.family not in {"FR", "NFR"}:
+                continue
+            if role == "story" and meta.family != "US":
+                continue
+            if role == "uat" and meta.family not in {"TC", "UAT"}:
+                continue
+            if role == "feature" and meta.family != "F":
+                continue
+            if token not in ids:
+                ids.append(token)
+
+    for _, line in iter_non_fenced_lines(text):
+        stripped = line.lstrip()
+        if role == "brd":
+            if stripped.startswith("| BRQ-") or stripped.startswith("| BRD-") or stripped.startswith("| BR-"):
+                add_tokens(first_cell(stripped))
+            elif stripped.startswith("- BRQ-") or stripped.startswith("- BR-"):
+                add_tokens(stripped)
+        elif role == "srs":
+            if stripped.startswith("| FR-") or stripped.startswith("| NFR-"):
+                cells = [cell.strip() for cell in stripped.strip().strip("|").split("|")]
+                if cells and cells[0].startswith("NFR-") and len(cells) < 5:
+                    continue
+                add_tokens(cells[0] if cells else "")
+        elif role == "story":
+            if stripped.startswith("| US-") or stripped.startswith("| US"):
+                add_tokens(first_cell(stripped))
+        elif role == "uat":
+            if stripped.startswith("| UAT-") or stripped.startswith("| TC-"):
+                add_tokens(first_cell(stripped))
+        elif role == "feature":
+            if stripped.startswith("| F"):
+                add_tokens(first_cell(stripped))
+
+    return ids
+
+
 def build_id_replacements(files: List[Path]) -> Dict[str, str]:
     grouped: Dict[Tuple[str, str], List[str]] = defaultdict(list)
     token_order: List[str] = []
 
     for path in files:
         text = read_text(path)
-        for item in extract_ids(text):
+        role = "uat" if "beta" in path.name.lower() else classify_file(path)
+        for value in definition_ids_for_role(text, role):
+            item = detect_id_meta(value, 0)
+            if not item:
+                continue
             if "." in item.value and item.family == "BRQ":
                 continue
             key = (item.family, item.group)
@@ -96,6 +150,11 @@ def build_id_replacements(files: List[Path]) -> Dict[str, str]:
             elif meta.family in {"BRD", "BR", "FR", "NFR", "US", "TC", "UAT"}:
                 if "-" in group and group != meta.family:
                     prefix, bucket = group.rsplit("-", 1)
+                    if not bucket.isdigit():
+                        new = old
+                        if new != old:
+                            replacements[old] = new
+                        continue
                     bucket_value = int(bucket)
                     if meta.family in {"BRD", "BR", "FR", "NFR"}:
                         sequence = bucket_value * 100 + index

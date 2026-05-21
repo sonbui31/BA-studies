@@ -6,7 +6,7 @@ import sys
 from collections import defaultdict, deque
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, List, Set, Tuple
+from typing import Dict, Iterable, List, Set, Tuple
 
 from ba_id_utils import (
     MarkdownId,
@@ -40,7 +40,7 @@ def normalize_kind(raw: str) -> str:
         return "story"
     if raw.startswith(("TC-", "UAT-")):
         return "test"
-    if raw.startswith("F") and raw[1:].isdigit():
+    if (raw.startswith("F") and raw[1:].isdigit()) or re.match(r"^F-\d{3}$", raw):
         return "feature"
     return "other"
 
@@ -60,7 +60,7 @@ CANONICAL_PATTERNS = {
     "nonfunctional": re.compile(r"^NFR-[A-Z]{2,10}-\d{3}$"),
     "story": re.compile(r"^US-[A-Z]{2,10}-\d{3}$"),
     "test": re.compile(r"^TC-[A-Z]{2,10}-\d{3}$"),
-    "feature": re.compile(r"^F\d{2}$"),
+    "feature": re.compile(r"^(?:F\d{2}|F-\d{3})$"),
 }
 
 LEGACY_PATTERNS = {
@@ -69,7 +69,7 @@ LEGACY_PATTERNS = {
     "nonfunctional": re.compile(r"^NFR-\d{2,3}$"),
     "story": re.compile(r"^(?:US-\d{3}|US\d{2,3})$"),
     "test": re.compile(r"^(?:UAT(?:-[A-Z]+)?-\d{2,3}|TC-\d{3}|TC-\d{2}-[A-Z])$"),
-    "feature": re.compile(r"^F\d{2}$"),
+    "feature": re.compile(r"^(?:F\d{2}|F-\d{3})$"),
 }
 
 
@@ -83,6 +83,13 @@ def bfs(graph: Dict[str, Set[str]], start: str) -> Set[str]:
         visited.add(current)
         queue.extend(neighbor for neighbor in graph.get(current, set()) if neighbor not in visited)
     return visited
+
+
+def tokens_by_kind(tokens: Iterable[str]) -> Dict[str, Set[str]]:
+    grouped: Dict[str, Set[str]] = defaultdict(set)
+    for token in tokens:
+        grouped[normalize_kind(token)].add(token)
+    return grouped
 
 
 def add_test_alias_edges(graph: Dict[str, Set[str]], tokens: Set[str]) -> None:
@@ -114,8 +121,11 @@ def token_allowed(token: str, scheme: str) -> bool:
 
 
 def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tuple[dict, int]:
+    if not target.exists():
+        raise FileNotFoundError(f"Target does not exist: {target}")
     files = collect_markdown_files(target)
     graph: Dict[str, Set[str]] = defaultdict(set)
+    reverse_graph: Dict[str, Set[str]] = defaultdict(set)
     definitions: Dict[str, Set[str]] = defaultdict(set)
     references: Dict[str, Set[str]] = defaultdict(set)
     file_roles: Dict[Path, str] = {}
@@ -123,6 +133,61 @@ def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tu
     headings_report: List[str] = []
     index_duplicates: List[str] = []
     index_skips: List[str] = []
+
+    def add_edge(left: str, right: str) -> None:
+        if left == right:
+            return
+        graph[left].add(right)
+        reverse_graph[right].add(left)
+
+    def add_edges(lefts: Iterable[str], rights: Iterable[str]) -> None:
+        for left in lefts:
+            for right in rights:
+                add_edge(left, right)
+
+    def add_trace_edges(role: str, tokens: List[str], feature_definition_row: bool = False) -> None:
+        grouped = tokens_by_kind(tokens)
+        business = grouped["business"]
+        functional = grouped["functional"]
+        nonfunctional = grouped["nonfunctional"]
+        requirements = functional | nonfunctional
+        features = grouped["feature"]
+        stories = grouped["story"]
+        tests = grouped["test"]
+
+        if role == "srs":
+            add_edges(business, requirements)
+            add_edges(requirements, features | tests)
+            return
+        if role == "feature":
+            feature_map_row = feature_definition_row or bool(tokens and normalize_kind(tokens[0]) == "feature")
+            if len(business) <= 1 or feature_map_row:
+                add_edges(business, requirements)
+            add_edges(business, features)
+            add_edges(requirements, features | stories | tests)
+            add_edges(features, stories | tests)
+            add_edges(stories, tests)
+            return
+        if role == "story":
+            add_edges(business | requirements | features, stories)
+            add_edges(requirements, features)
+            add_edges(stories, tests)
+            return
+        if role == "uat":
+            add_edges(business | requirements | features | stories, tests)
+            return
+        if role == "brd":
+            if len(business) <= 1:
+                add_edges(business, requirements)
+            add_edges(business, features | stories | tests)
+            add_edges(requirements, features | stories | tests)
+            add_edges(features, stories | tests)
+            add_edges(stories, tests)
+            return
+        add_edges(business, requirements | features)
+        add_edges(requirements, features | stories | tests)
+        add_edges(features, stories | tests)
+        add_edges(stories, tests)
 
     def normalize_role(path: Path) -> str:
         name = path.name.lower()
@@ -177,6 +242,13 @@ def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tu
                 elif re.match(r"^(UAT-\d{3}|TC-\d{3}|TC-\d{2}-[A-Z])\b", stripped):
                     first_token = stripped.split()[0]
                     ids.extend(ids_from_cell(first_token, line_no))
+            elif role == "feature":
+                if stripped.startswith("| F"):
+                    first_cell = stripped.strip().strip("|").split("|")[0].strip()
+                    ids.extend(ids_from_cell(first_cell, line_no))
+                elif re.match(r"^(?:F\d{2}|F-\d{3})\b", stripped):
+                    first_token = stripped.split()[0]
+                    ids.extend(ids_from_cell(first_token, line_no))
         return ids
 
     for path in files:
@@ -193,11 +265,7 @@ def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tu
             ids = [token for token in extract_ids_from_line(line) if token_allowed(token, scheme)]
             if not ids:
                 continue
-            for left in ids:
-                for right in ids:
-                    if left == right:
-                        continue
-                    graph[left].add(right)
+            add_trace_edges(role, ids, feature_definition_row=line.lstrip().startswith("| F"))
             if role == "uat":
                 for token in ids:
                     if normalize_kind(token) in {"story", "functional", "nonfunctional", "business"}:
@@ -214,6 +282,9 @@ def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tu
             definitions[normalize_kind(token.value)].add(token.value)
 
     add_test_alias_edges(graph, set(graph.keys()) | {token for values in definitions.values() for token in values})
+    for left, rights in graph.items():
+        for right in rights:
+            reverse_graph[right].add(left)
 
     business_ids = sorted(definitions["business"])
     story_ids = definitions["story"]
@@ -264,10 +335,16 @@ def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tu
         )
 
     for fr_id in sorted(functional_ids):
-        reverse = bfs(graph, fr_id)
+        reverse = bfs(reverse_graph, fr_id)
         if not any(item in business_ids for item in reverse):
             critical_count += 1
             gaps.append({"type": "ORPHAN_FR", "item": fr_id, "detail": "No business requirement linked"})
+
+    for nfr_id in sorted(nonfunctional_ids):
+        forward = bfs(graph, nfr_id)
+        if not any(item in test_ids for item in forward):
+            critical_count += 1
+            gaps.append({"type": "ORPHAN_NFR", "item": nfr_id, "detail": "No NFR test linked"})
 
     if story_ids:
         stale_story_refs = sorted(references["uat"] & {token for token in references["uat"] if normalize_kind(token) == "story"} - story_ids)

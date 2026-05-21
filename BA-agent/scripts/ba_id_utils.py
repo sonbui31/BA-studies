@@ -11,7 +11,7 @@ ID_PATTERNS = {
     "nonfunctional": re.compile(r"\bNFR(?:-[A-Z]{2,10})?-\d{1,3}\b"),
     "story": re.compile(r"\b(?:US(?:-[A-Z]{2,10})?-\d{3}|US\d{2,3})\b"),
     "test": re.compile(r"\b(?:TC(?:-[A-Z]{2,10})?-\d{3}|TC-\d{2}-[A-Z]|UAT(?:-[A-Z]+)?-\d{2,3})\b"),
-    "feature": re.compile(r"\bF\d{2}\b"),
+    "feature": re.compile(r"\b(?:F\d{2}|F-\d{3})\b"),
 }
 
 HEADING_PATTERN = re.compile(r"^(#{1,6})\s+((\d+(?:\.\d+)*)\.?\s+)(.+?)\s*$")
@@ -21,6 +21,9 @@ MODULED_PATTERN = re.compile(r"^(FR|NFR|US|TC)-([A-Z]{2,10})-(\d{3})$")
 SIMPLE_HUNDREDS_PATTERN = re.compile(r"^(BRD|BR|FR|NFR|US|TC|UAT)-(\d{3})$")
 LEGACY_US_PATTERN = re.compile(r"^US(\d{2,3})$")
 LEGACY_TC_ALPHA_PATTERN = re.compile(r"^TC-(\d{2})-([A-Z])$")
+UAT_MODULED_PATTERN = re.compile(r"^UAT-([A-Z]{2,10})-(\d{2,3})$")
+FEATURE_PATTERN = re.compile(r"^F(\d{2})$")
+LEGACY_FEATURE_PATTERN = re.compile(r"^F-(\d{3})$")
 
 
 @dataclass(frozen=True)
@@ -45,6 +48,8 @@ def read_text(path: Path) -> str:
 
 
 def collect_markdown_files(target: Path) -> List[Path]:
+    if not target.exists():
+        raise FileNotFoundError(f"Target does not exist: {target}")
     if target.is_file():
         return [target]
     return sorted(path for path in target.rglob("*.md") if path.is_file())
@@ -104,6 +109,14 @@ def detect_id_meta(value: str, line_no: int) -> Optional[MarkdownId]:
     if match := LEGACY_TC_ALPHA_PATTERN.match(value):
         base, suffix = match.groups()
         return MarkdownId(value=value, family="TC", group=f"TC-{base}", sequence=ord(suffix) - 64, line_no=line_no)
+    if match := UAT_MODULED_PATTERN.match(value):
+        module, seq = match.groups()
+        return MarkdownId(value=value, family="UAT", group=f"UAT-{module}", sequence=int(seq), line_no=line_no)
+    if match := FEATURE_PATTERN.match(value):
+        return MarkdownId(value=value, family="F", group="F", sequence=int(match.group(1)), line_no=line_no)
+    if match := LEGACY_FEATURE_PATTERN.match(value):
+        numeric = int(match.group(1))
+        return MarkdownId(value=value, family="F", group=f"F-{numeric // 100}", sequence=numeric, line_no=line_no)
     return None
 
 

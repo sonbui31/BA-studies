@@ -1,4 +1,5 @@
 import json
+import subprocess
 import sys
 import tempfile
 import unittest
@@ -8,6 +9,7 @@ from pathlib import Path
 SCRIPT_DIR = Path(__file__).resolve().parents[1] / "scripts"
 if str(SCRIPT_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPT_DIR))
+FIXTURE_DIR = Path(__file__).resolve().parent / "fixtures"
 
 import preflight_check
 import quality_rubric
@@ -26,6 +28,12 @@ class RuntimeScriptTests(unittest.TestCase):
         text = "BRD-101 | FR-101 | US-001 | TC-001 | ☐"
         result = quality_rubric.evaluate_text(text)
         self.assertEqual(result["requirements"], [])
+
+    def test_quality_rubric_scores_nfr_with_metric_columns(self):
+        text = "| NFR-001 | Performance | API phải phản hồi trong thời gian ngắn | ≤ 500ms p95 | Load test |\n"
+        result = quality_rubric.evaluate_text(text)
+        self.assertTrue(result["passed"])
+        self.assertIn("≤ 500ms p95", result["requirements"][0]["text"])
 
     def test_traceability_scan_reports_duplicate_ids(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -48,6 +56,37 @@ class RuntimeScriptTests(unittest.TestCase):
             self.assertIn("BROKEN_CHAIN", gap_types)
             self.assertGreater(critical_count, 0)
 
+    def test_traceability_scan_reports_orphan_nfr_without_dedicated_test(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "02-BRD.md").write_text("| BRD-101 | Need |\n", encoding="utf-8")
+            (root / "05-SRS.md").write_text(
+                "| FR-101 | BRD-101 | Requirement |\n"
+                "| NFR-001 | BRD-101 | Availability | 99.9% uptime | Monthly report |\n",
+                encoding="utf-8",
+            )
+            (root / "06-User-Story-Map.md").write_text("| US-001 | FR-101 | Story |\n", encoding="utf-8")
+            (root / "08-UAT-Plan.md").write_text("| UAT-001 | US-001 | Test |\n", encoding="utf-8")
+            report, critical_count = traceability_scan.build_report(root, scheme="legacy")
+            gap_types = {gap["type"] for gap in report["gaps"]}
+            self.assertIn("ORPHAN_NFR", gap_types)
+            self.assertGreater(critical_count, 0)
+
+    def test_traceability_scan_does_not_overconnect_business_ids_in_same_matrix_row(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "02-BRD.md").write_text("| BR-001 | A |\n| BR-002 | B |\n", encoding="utf-8")
+            (root / "05-SRS.md").write_text("| FR-101 | BR-001 | Requirement |\n", encoding="utf-8")
+            (root / "04A-Feature-Map.md").write_text(
+                "| BR-001, BR-002 | FR-101 | F-001 | US-001 | UAT-001 |\n",
+                encoding="utf-8",
+            )
+            (root / "06-User-Story-Map.md").write_text("| US-001 | FR-101 | Story |\n", encoding="utf-8")
+            (root / "08-UAT-Plan.md").write_text("| UAT-001 | US-001 | Test |\n", encoding="utf-8")
+            report, _ = traceability_scan.build_report(root, scheme="legacy")
+            br2 = next(chain for chain in report["chains"] if chain["business_id"] == "BR-002")
+            self.assertEqual(br2["functional_ids"], [])
+
     def test_traceability_scan_detects_canonical_brq_definitions(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
@@ -56,6 +95,37 @@ class RuntimeScriptTests(unittest.TestCase):
             report, _ = traceability_scan.build_report(root, scheme="canonical")
             self.assertEqual(report["metrics"]["business_total"], 1)
             self.assertEqual(report["chains"][0]["business_id"], "BRQ-01")
+
+    def test_traceability_scan_canonical_fixture_passes_strict(self):
+        report, critical_count = traceability_scan.build_report(
+            FIXTURE_DIR / "canonical_bundle", scheme="canonical", strict=True
+        )
+        self.assertEqual(critical_count, 0)
+        self.assertEqual(report["metrics"]["business_total"], 1)
+        self.assertEqual(report["metrics"]["full_chain_total"], 1)
+        self.assertEqual(report["gaps"], [])
+
+    def test_traceability_scan_cli_exit_codes_for_strict_mode(self):
+        script = SCRIPT_DIR / "traceability_scan.py"
+        passed = subprocess.run(
+            [sys.executable, str(script), str(FIXTURE_DIR / "canonical_bundle"), "--scheme", "canonical", "--strict"],
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(passed.returncode, 0, passed.stdout + passed.stderr)
+
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "02-BRD.md").write_text("| BRD-101 | Need |\n", encoding="utf-8")
+            (root / "05-SRS.md").write_text("| FR-101 | BRD-101 | Requirement |\n", encoding="utf-8")
+            (root / "06-User-Story-Map.md").write_text("| US-001 | FR-101 | Story |\n", encoding="utf-8")
+            (root / "08-UAT-Plan.md").write_text("| UAT-001 | US-001 | Test |\n", encoding="utf-8")
+            failed = subprocess.run(
+                [sys.executable, str(script), str(root), "--scheme", "legacy", "--strict"],
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(failed.returncode, 1)
 
     def test_reindex_skips_baseline_docs_by_default(self):
         text = "## 1. Scope\n> **Trạng thái:** Draft\n> **Đã phê duyệt — Chốt phạm vi**\n"
@@ -66,6 +136,20 @@ class RuntimeScriptTests(unittest.TestCase):
         rewritten, updates = reindex_markdown.build_heading_replacements(text)
         self.assertIn("## 9. Example", rewritten)
         self.assertEqual(updates, [])
+
+    def test_reindex_uses_definition_ids_not_references(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            brd = root / "02-BRD.md"
+            srs = root / "05-SRS.md"
+            brd.write_text("| BR-001 | Need | FR-101 |\n", encoding="utf-8")
+            srs.write_text("| FR-101 | BR-001 | Requirement |\n| FR-103 | BR-001 | Requirement |\n", encoding="utf-8")
+            replacements = reindex_markdown.build_id_replacements([brd, srs])
+            self.assertEqual(replacements, {"FR-103": "FR-102"})
+
+    def test_preflight_raises_for_missing_target(self):
+        with self.assertRaises(FileNotFoundError):
+            preflight_check.evaluate_path(Path("missing-target-for-preflight"))
 
     def test_preflight_flags_missing_stakeholders(self):
         with tempfile.TemporaryDirectory() as tmp:

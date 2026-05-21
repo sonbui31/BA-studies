@@ -86,7 +86,7 @@ Internal testing -> Closed beta (5% workspace) -> Open beta (20% workspace) -> G
 | UAT-003 | PM merge duplicate feedback without losing vote/history | BR-002 | FR-201, FR-202 | US-003, US-004 | ☐ |
 | UAT-004 | Subscriber gets notification when feedback status changes | BR-003 | FR-301, FR-302 | US-005 | ☐ |
 | UAT-005 | Release note only publishes linked Released feedback | BR-004, BR-005 | FR-303 | US-006 | ☐ |
-| UAT-NFR-001 | Core analytics events fire for submit, upvote, merge, publish | BR-005 | NFR-007 | US-001 to US-006 | ☐ |
+| UAT-NFR-001 | NFR-001, NFR-002, NFR-003, NFR-004, NFR-005, NFR-006, NFR-007, NFR-008, NFR-009: Beta NFR coverage for performance, availability, security, audit, eventing, data, and unsubscribe | BR-001, BR-002, BR-003, BR-004, BR-005 | NFR-001, NFR-002, NFR-003, NFR-004, NFR-005, NFR-006, NFR-007, NFR-008, NFR-009 | US-001 to US-006 | ☐ |
 
 ---
 

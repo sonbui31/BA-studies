@@ -11,7 +11,7 @@
 ## 1. Tổng quan
 
 ### 1.1. Mục đích
-Đặc tả yêu cầu phần mềm chi tiết cho dự án **[Tên dự án]** — đủ để đội phát triển NCC phát triển mà **giảm thiểu cần giao tiếp thời gian thực** với KH (đặc điểm gia công).
+Đặc tả yêu cầu phần mềm chi tiết cho dự án **Quản lý Tài sản Bệnh viện** — đủ để đội phát triển NCC phát triển mà **giảm thiểu cần giao tiếp thời gian thực** với KH (đặc điểm gia công).
 
 ### 1.2. Đối tượng đọc
 
@@ -277,8 +277,8 @@ stateDiagram-v2
 | Tính năng | QT tối cao | Quản trị | Quản lý | Nhân viên | Người xem | Khách hàng |
 |-----------|-----------|----------|---------|-----------|-----------|-----------|
 | Quản lý người dùng | CRUD | CRUD | R | — | — | — |
-| [Module 1] | CRUD | CRUD | CRUD | CRUD | R | R (riêng) |
-| [Module 2] | CRUD | CRUD | CRU | CR | R | — |
+| Tài sản và danh mục | CRUD | CRUD | CRUD | CRUD | R | R (riêng) |
+| Điều chuyển và kiểm kê | CRUD | CRUD | CRU | CR | R | — |
 | Báo cáo | Toàn bộ | Toàn bộ | Phòng mình | Cá nhân | — | — |
 | Cài đặt | Toàn bộ | Toàn bộ | — | — | — | — |
 | Audit Log | R | R | — | — | — | — |
@@ -304,8 +304,8 @@ stateDiagram-v2
 | # | Nhóm Endpoint | Mô tả | Người sử dụng |
 |---|-------------|-------|---------------|
 | API-01 | /api/v1/auth/* | Xác thực & phân quyền | Frontend, Di động |
-| API-02 | /api/v1/[module1]/* | [Module 1] CRUD | Frontend |
-| API-03 | /api/v1/[module2]/* | [Module 2] CRUD | Frontend |
+| API-02 | /api/v1/assets/* | Tài sản và danh mục CRUD | Frontend |
+| API-03 | /api/v1/transfers-inventories/* | Điều chuyển và kiểm kê CRUD | Frontend |
 | API-04 | /api/v1/reports/* | Tạo báo cáo | Frontend, Bộ lập lịch |
 | API-05 | /api/v1/webhooks/* | Nhận webhook | Bên thứ 3 |
 
@@ -320,9 +320,9 @@ stateDiagram-v2
 
 | Hạng mục | Đặc tả | Tham chiếu |
 |----------|--------|-----------|
-| Màu chính | [Mã Hex / Quy chuẩn thương hiệu] | Tài liệu thương hiệu |
-| Kiểu chữ | [Tên font], kích thước theo thành phần | Hệ thống thiết kế |
-| Bộ biểu tượng | [Material Icons / FontAwesome / Tùy chỉnh] | — |
+| Màu chính | #0F766E theo quy chuẩn thương hiệu bệnh viện | Tài liệu thương hiệu |
+| Kiểu chữ | Inter, kích thước theo thành phần | Hệ thống thiết kế |
+| Bộ biểu tượng | Material Icons | — |
 | Điểm ngắt responsive | Di động: ≤768px, Máy tính bảng: 769-1024px, Máy tính: ≥1025px | — |
 
 ### 6.2. Màn hình chính (Ref Wireframe)
@@ -378,4 +378,4 @@ stateDiagram-v2
 | 0.1 | | Draft đầu tiên | — | BA |
 | 0.2 | | Cập nhật theo phản hồi KH | — | BA |
 | 1.0 | | **Đã phê duyệt — Chốt phạm vi** | — | BA |
-| 1.1 | | [Cập nhật theo CR-001] | CR-001 | BA |
+| 1.1 | | Bổ sung kiểm thử NFR đầy đủ cho hiệu năng, bảo mật, phục hồi và bảo trì | CR-001 | BA |

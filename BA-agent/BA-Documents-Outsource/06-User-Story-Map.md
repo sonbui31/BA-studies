@@ -42,7 +42,7 @@ Nháp → Phân tích xong → KH duyệt → Trong Sprint → Dev xong → QC �
 | US-003 | As a **Nhân viên Vật tư**, I want **phân loại tài sản theo nhóm** so that **hệ thống áp dụng đúng quy tắc bảo trì và báo cáo** | **Happy:** Given danh mục nhóm tài sản hợp lệ<br>**When** tôi chọn nhóm thiết bị<br>**Then** hệ thống hiển thị đúng trường nghiệp vụ bắt buộc<br><br>**Permission:** Given nhóm tài sản bị vô hiệu hóa<br>**When** tôi chọn nhóm đó<br>**Then** hệ thống không cho lưu | BRD-103 | FR-103 | P1 | 3 | S1 | Figma/AP-002 |
 
 **Ghi chú cho đội phát triển:**
-- [Ghi chú kỹ thuật hoặc nghiệp vụ mà Dev cần biết]
+- Ghi chú kỹ thuật/nghiệp vụ: tuân thủ role matrix, audit log và test data UAT đã nêu trong SRS.
 - Barcode phải theo format `BVAP-<group>-<running number>`.
 - Không cho sửa `asset_code` sau khi đã có kiểm kê hoặc điều chuyển phát sinh.
 
