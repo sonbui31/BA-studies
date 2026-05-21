@@ -40,8 +40,18 @@ def build_heading_replacements(text: str) -> Tuple[str, List[str]]:
     counters: Dict[int, int] = {}
     updates: List[str] = []
     new_lines: List[str] = []
+    in_fence = False
 
     for line_no, line in enumerate(text.splitlines(), start=1):
+        stripped = line.strip()
+        if stripped.startswith("```"):
+            in_fence = not in_fence
+            new_lines.append(line)
+            continue
+        if in_fence:
+            new_lines.append(line)
+            continue
+
         match = HEADING_PATTERN.match(line)
         if not match:
             new_lines.append(line)

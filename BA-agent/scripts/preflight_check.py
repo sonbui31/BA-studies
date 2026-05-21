@@ -11,6 +11,7 @@ try:
     from ba_id_utils import (
         classify_file,
         collect_markdown_files,
+        detect_id_meta,
         extract_headings,
         extract_ids,
         extract_ids_from_line,
@@ -24,6 +25,7 @@ except ImportError:
     from ba_id_utils import (
         classify_file,
         collect_markdown_files,
+        detect_id_meta,
         extract_headings,
         extract_ids,
         extract_ids_from_line,
@@ -76,12 +78,23 @@ def count_ids(text: str, prefixes: Tuple[str, ...]) -> int:
 
 def definition_ids_for_role(text: str, role: str):
     ids = []
+
+    def ids_from_text(value: str, line_no: int):
+        found = []
+        for token in extract_ids_from_line(value):
+            meta = detect_id_meta(token, line_no)
+            if meta:
+                found.append(meta)
+        return found
+
     for line_no, line in iter_non_fenced_lines(text):
         stripped = line.lstrip()
         if role == "brd":
-            if stripped.startswith("| BRD-") or stripped.startswith("| BR-"):
+            if stripped.startswith("| BRQ-") or stripped.startswith("| BRD-") or stripped.startswith("| BR-"):
                 first_cell = stripped.strip().strip("|").split("|")[0].strip()
-                ids.extend(item for item in extract_ids(first_cell) if item.family in {"BRD", "BR"})
+                ids.extend(item for item in ids_from_text(first_cell, line_no) if item.family in {"BRQ", "BRD", "BR"})
+            elif stripped.startswith("- BRQ-"):
+                ids.extend(item for item in ids_from_text(line, line_no) if item.family == "BRQ")
             elif stripped.startswith("- BR-"):
                 ids.extend(item for item in extract_ids(line) if item.family == "BR")
         elif role == "srs":
@@ -195,7 +208,7 @@ def srs_checks(text: str, ctx: Dict[str, str]) -> List[Dict[str, str]]:
     checks.append(make_check("NFR Coverage", nfr_count >= 5, f"{nfr_count} NFR IDs"))
     checks.append(make_check("Sequence Diagram", has_any(text, "sequence", "sequenceDiagram", "luồng chính"), "sequence markers"))
     checks.append(make_check("Decomposition Pattern", has_any(text, "module", "tính năng", "feature"), f"{fr_count} FR IDs"))
-    checks.append(make_check("Requirement Quality Gate", rubric.get("avg_score", 0) >= 3.0, f"avg score {rubric.get('avg_score', 0)}"))
+    checks.append(make_check("Requirement Quality Gate", bool(rubric.get("passed")), f"avg score {rubric.get('avg_score', 0)}"))
     conflict_hits = sum(1 for req in rubric.get("requirements", []) if "Compound Requirement" in req["smells"])
     checks.append(make_check("Conflict Scan", conflict_hits == 0, f"{conflict_hits} compound/conflict smell(s)"))
     ok, detail = numbering_status(text, "srs")

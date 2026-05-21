@@ -143,12 +143,12 @@ def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tu
         for line_no, line in iter_non_fenced_lines(text):
             stripped = line.lstrip()
             if role == "brd":
-                if stripped.startswith("| BRD-") or stripped.startswith("| BR-"):
+                if stripped.startswith("| BRQ-") or stripped.startswith("| BRD-") or stripped.startswith("| BR-"):
                     first_cell = stripped.strip().strip("|").split("|")[0].strip()
                     ids.extend(ids_from_cell(first_cell, line_no))
-                elif stripped.startswith("- BR-"):
+                elif stripped.startswith("- BRQ-") or stripped.startswith("- BR-"):
                     ids.extend(ids_from_cell(line, line_no))
-                elif re.match(r"^(BRD-\d{3}|BR-\d{3})\b", stripped):
+                elif re.match(r"^(BRQ-\d+(?:\.\d+)?|BRD-\d{3}|BR-\d{3})\b", stripped):
                     first_token = stripped.split()[0]
                     ids.extend(ids_from_cell(first_token, line_no))
             elif role == "srs":
@@ -248,6 +248,7 @@ def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tu
             gaps.append({"type": "MISSING_TC", "item": business_id, "detail": "Story/NFR exists but no test linked"})
         elif (strict or feature_ids) and frs and stories and not features:
             status = "BROKEN_CHAIN"
+            critical_count += 1
             gaps.append({"type": "BROKEN_CHAIN", "item": business_id, "detail": "Feature link missing"})
 
         chains.append(
@@ -265,11 +266,13 @@ def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tu
     for fr_id in sorted(functional_ids):
         reverse = bfs(graph, fr_id)
         if not any(item in business_ids for item in reverse):
+            critical_count += 1
             gaps.append({"type": "ORPHAN_FR", "item": fr_id, "detail": "No business requirement linked"})
 
     if story_ids:
         stale_story_refs = sorted(references["uat"] & {token for token in references["uat"] if normalize_kind(token) == "story"} - story_ids)
         for story_ref in stale_story_refs:
+            critical_count += 1
             gaps.append({"type": "STALE_REF", "item": story_ref, "detail": "Referenced in UAT but not defined in story docs"})
 
     for item in index_duplicates:
