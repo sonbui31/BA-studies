@@ -157,3 +157,18 @@
 | `anti-patterns.md` | ⭐ **15 sai lầm BA thường gặp** + Root Cause + Cách tránh + Self-check | v3.2 |
 | `writing-examples.md` | ⭐ Bộ mẫu viết: Precondition, Exception, Business Rule, NFR, Integration Spec, Test Case | ⭐ NEW v3.3 |
 | `communication-packaging.md` | ⭐ 4 package types đóng gói thông tin: Executive Summary, Technical Brief, Test Strategy, Quick Start | ⭐ NEW v3.3 |
+| `ba-knowledge-base.md` | Knowledge base BA tự chứa, chắt lọc từ kho `BA/`, dùng được ngay cả khi xoá folder nguồn | ⭐ NEW |
+| `ba-knowledge-cards.json` | Retrieval cards có cấu trúc cho các chủ đề BRD/SRS/UAT/RTM/modeling/data/product/AI/domain | ⭐ NEW |
+
+### 📁 knowledge-index/ — Self-contained source index
+
+| File | Mô tả |
+|------|-------|
+| `manifest.json` | Metadata build index, số docs/chunks, xác nhận không phụ thuộc folder nguồn lúc runtime |
+| `chunks.jsonl` | Chunk nội dung/metadata đã extract từ tài liệu BA, search bằng `scripts/knowledge_index_search.py` |
+
+### 📄 Index rebuild dependencies
+
+| File | Mô tả |
+|------|-------|
+| `requirements-knowledge-index.txt` | Optional dependencies để rebuild PDF full-text index bằng `pypdf` và `pdfminer.six` |

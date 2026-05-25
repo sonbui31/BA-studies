@@ -12,12 +12,51 @@ if str(SCRIPT_DIR) not in sys.path:
 FIXTURE_DIR = Path(__file__).resolve().parent / "fixtures"
 
 import preflight_check
+import knowledge_search
+import knowledge_index_search
 import quality_rubric
 import reindex_markdown
 import traceability_scan
 
 
 class RuntimeScriptTests(unittest.TestCase):
+    def test_knowledge_search_returns_relevant_uat_card(self):
+        results = knowledge_search.search_cards("UAT traceability sign-off", limit=2)
+        self.assertGreaterEqual(len(results), 1)
+        self.assertEqual(results[0]["id"], "KB-UAT-RTM-001")
+
+    def test_knowledge_search_returns_ai_card(self):
+        results = knowledge_search.search_cards("AI prediction model confidence fallback", limit=3)
+        ids = {item["id"] for item in results}
+        self.assertIn("KB-AI-ML-001", ids)
+
+    def test_knowledge_search_cli_markdown(self):
+        script = SCRIPT_DIR / "knowledge_search.py"
+        result = subprocess.run(
+            [sys.executable, str(script), "process modeling BPMN exception", "--format", "markdown"],
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("KB-MODELING-001", result.stdout)
+
+    def test_knowledge_index_bm25_search(self):
+        chunks = [
+            {"id": "1", "text": "UAT scenario must map to traceability matrix and sign-off evidence.", "tags": ["uat"]},
+            {"id": "2", "text": "Wireframe prototype includes loading empty and error states.", "tags": ["ux"]},
+        ]
+        results = knowledge_index_search.bm25_search("UAT traceability sign-off", chunks, limit=1)
+        self.assertEqual(results[0]["id"], "1")
+
+    def test_knowledge_index_cli_missing_index(self):
+        script = SCRIPT_DIR / "knowledge_index_search.py"
+        result = subprocess.run(
+            [sys.executable, str(script), "anything", "--index", str(FIXTURE_DIR / "missing-index.jsonl")],
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(result.returncode, 2)
+
     def test_quality_rubric_detects_weak_requirement(self):
         text = "FR-001 | Hệ thống quản lý tài sản nhanh và linh hoạt"
         result = quality_rubric.evaluate_text(text)

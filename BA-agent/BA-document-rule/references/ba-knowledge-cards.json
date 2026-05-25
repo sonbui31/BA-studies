@@ -1,0 +1,146 @@
+{
+  "version": "3.4.1",
+  "purpose": "Self-contained retrieval cards distilled from the BA learning repository. Use these cards before drafting or reviewing BA artifacts.",
+  "cards": [
+    {
+      "id": "KB-ELICITATION-001",
+      "title": "Elicitation and Stakeholder Discovery",
+      "aliases": ["elicitation", "interview", "workshop", "stakeholder", "khơi gợi yêu cầu", "thu thập yêu cầu"],
+      "tags": ["elicitation", "stakeholder", "discovery", "interview"],
+      "summary": "Use elicitation to turn stakeholder statements into pain points, needs, constraints, assumptions, business rules, and candidate requirements.",
+      "use_when": ["Raw input is vague", "Stakeholders disagree", "As-Is process is unknown", "A BRD/SRS is requested without enough context"],
+      "questions": [
+        "What business problem triggered this change?",
+        "Who owns the decision and who is affected by the change?",
+        "What happens today, step by step, including exceptions?",
+        "What pain is measurable: time, cost, error rate, risk, revenue, compliance?",
+        "What constraints are fixed: budget, deadline, policy, system, data, vendor?"
+      ],
+      "output": ["Insight Cards", "Pain Point Map", "Stakeholder Map", "Open Questions", "Assumption Log"],
+      "quality_checks": ["Every pain point has an affected stakeholder", "Every assumption has a validation owner", "Every decision has an owner and date"]
+    },
+    {
+      "id": "KB-BRD-001",
+      "title": "Business Requirements Document",
+      "aliases": ["brd", "business requirement", "business requirements document", "yêu cầu kinh doanh"],
+      "tags": ["brd", "scope", "business", "sign-off"],
+      "summary": "BRD captures why the business needs change, what value is expected, and which business requirements are in scope before solution details are frozen.",
+      "use_when": ["Project scope needs sign-off", "Outsource estimation is needed", "Business goals and success metrics must be aligned"],
+      "sections": ["Problem Statement", "Objectives", "In/Out Scope", "Stakeholders", "Business Requirements", "Assumptions", "Constraints", "Risks", "Success Metrics", "Approval"],
+      "quality_checks": ["No feature without business need", "Every BRQ is testable at business level", "Scope boundary is explicit", "Success metric has baseline and target when possible"],
+      "traceability": "BRQ-* must map to FR-* or an explicit deferred/out-of-scope decision."
+    },
+    {
+      "id": "KB-SRS-001",
+      "title": "Software Requirements Specification",
+      "aliases": ["srs", "frs", "functional requirements", "non functional requirements", "đặc tả yêu cầu"],
+      "tags": ["srs", "fr", "nfr", "business-rules", "integration"],
+      "summary": "SRS turns business requirements into implementable and testable functional/NFR/data/integration specifications.",
+      "use_when": ["Development team needs build-ready requirements", "Outsource team is remote", "Integration, data, and edge cases matter"],
+      "sections": ["Functional Requirements", "Non-Functional Requirements", "Business Rules", "Data Requirements", "Integration Requirements", "UI Behavior", "Error Handling", "Acceptance Mapping"],
+      "quality_checks": ["Requirement is atomic", "Actor and trigger are clear", "Expected result is observable", "NFR has measurable metric", "Exception flow is covered"],
+      "traceability": "FR-* and NFR-* must map back to BRQ-* and forward to Feature/US/TC coverage."
+    },
+    {
+      "id": "KB-STORY-001",
+      "title": "User Story and Acceptance Criteria",
+      "aliases": ["user story", "acceptance criteria", "given when then", "gherkin", "invest", "backlog"],
+      "tags": ["agile", "story", "acceptance", "backlog"],
+      "summary": "User stories express value in role-goal-benefit form and must include acceptance criteria that QC/UAT can execute.",
+      "use_when": ["Backlog refinement", "Sprint-ready requirements", "Product or Agile project"],
+      "pattern": "As a [role], I want [goal], so that [benefit].",
+      "acceptance_patterns": ["Happy path", "Negative path", "Boundary", "Permission", "State transition", "Integration", "Data volume", "Audit/logging"],
+      "quality_checks": ["INVEST is satisfied", "AC uses Given-When-Then", "Story is small enough for one sprint", "Business value is explicit"],
+      "traceability": "US-* must map to Feature and FR-*; every US-* needs one or more TC/UAT scenarios."
+    },
+    {
+      "id": "KB-UAT-RTM-001",
+      "title": "UAT Plan and Requirements Traceability Matrix",
+      "aliases": ["uat", "rtm", "test case", "traceability", "acceptance testing", "ma trận truy vết"],
+      "tags": ["uat", "testing", "traceability", "sign-off"],
+      "summary": "UAT validates business acceptance, while RTM proves every requirement is covered through story and test evidence.",
+      "use_when": ["Preparing acceptance", "Checking coverage", "Outsource milestone sign-off", "Audit or handover"],
+      "sections": ["Entry Criteria", "Exit Criteria", "Test Scenarios", "Test Data", "Evidence", "Defect Triage", "Sign-off", "RTM"],
+      "quality_checks": ["No orphan BRQ/FR/NFR", "Every UAT scenario has expected result", "NFR has test strategy or evidence", "Sign-off owner is named"],
+      "traceability": "BRQ-* -> FR-* -> Feature -> US-* -> TC-* is the preferred full chain."
+    },
+    {
+      "id": "KB-MODELING-001",
+      "title": "Process and Requirement Modeling",
+      "aliases": ["bpmn", "uml", "dfd", "erd", "activity diagram", "sequence diagram", "use case diagram", "modeling"],
+      "tags": ["diagram", "bpmn", "uml", "process", "data"],
+      "summary": "Choose diagrams by the question being answered, not by decoration. Text and diagram must share actors, rules, IDs, and exceptions.",
+      "diagram_selector": {
+        "who_interacts": "Use Case Diagram or Context Diagram",
+        "how_process_runs": "BPMN, Activity Diagram, or Swimlane",
+        "where_data_moves": "DFD or Integration Context",
+        "how_data_is_stored": "ERD and Data Dictionary",
+        "call_sequence": "Sequence Diagram",
+        "state_changes": "State Diagram",
+        "screen_navigation": "User Flow and Screen Inventory"
+      },
+      "quality_checks": ["As-Is is separated from To-Be", "Gateway rules are explicit", "Exception flow is represented", "Diagram IDs match document IDs"]
+    },
+    {
+      "id": "KB-DATA-TECH-001",
+      "title": "Data, API, Reporting, and Technical BA",
+      "aliases": ["data dictionary", "api", "reporting", "dashboard", "sql", "bi", "technical ba", "nfr"],
+      "tags": ["data", "api", "reporting", "technical", "nfr"],
+      "summary": "Technical BA work clarifies data ownership, integration contracts, reporting definitions, and measurable NFRs.",
+      "use_when": ["System has APIs", "Reports or dashboards are required", "Data migration or governance is in scope", "NFRs are vague"],
+      "data_dictionary_fields": ["Field name", "Type", "Required", "Validation rule", "Source", "Owner", "Sensitivity", "Retention"],
+      "api_fields": ["Endpoint", "Method", "Request", "Response", "Auth", "Validation", "Error codes", "Idempotency", "Rate limits"],
+      "reporting_fields": ["Metric definition", "Formula", "Source table/API", "Refresh", "Filters", "Export", "Reconciliation", "Access"],
+      "quality_checks": ["Every metric has formula", "Every API error path is specified", "Every sensitive data field has classification", "NFR has measurable threshold"]
+    },
+    {
+      "id": "KB-PRODUCT-UX-001",
+      "title": "Product, UX, Wireframe, and Analytics",
+      "aliases": ["product", "ux", "wireframe", "prototype", "analytics", "persona", "user flow"],
+      "tags": ["product", "ux", "analytics", "prototype"],
+      "summary": "Product BA connects persona, pain point, journey, hypothesis, flow, screen behavior, and success metrics.",
+      "use_when": ["SaaS/App/Product project", "Feature discovery", "UX flow or prototype requested", "Analytics funnel is needed"],
+      "outputs": ["Persona", "Journey Map", "User Flow", "Screen Inventory", "Wireframe Notes", "Analytics Events", "Beta/Rollout Plan"],
+      "quality_checks": ["Every feature has target user and value", "Every screen has behavior, validation, and empty/error/loading states", "Events map to funnel or success metric", "Rollout and feedback loop are defined"]
+    },
+    {
+      "id": "KB-AI-ML-001",
+      "title": "AI/ML Feature Specification",
+      "aliases": ["ai", "ml", "machine learning", "prediction", "model", "confidence", "human in the loop"],
+      "tags": ["ai", "ml", "prediction", "model-risk"],
+      "summary": "AI/ML BA work must describe model purpose, inputs, outputs, metrics, acceptable error, fallback, monitoring, and human review.",
+      "use_when": ["AI-generated content", "Prediction or scoring", "Recommendation engine", "Automated quiz/exam generation"],
+      "sections": ["Business Objective", "Input Features", "Target/Output", "Metric", "Acceptable Error", "Confidence Threshold", "Fallback", "Human Review", "Bias/Risk", "Monitoring"],
+      "quality_checks": ["Metric is stakeholder-readable", "Low confidence behavior is defined", "Training/source data ownership is clear", "Human override is available for high-risk decisions"]
+    },
+    {
+      "id": "KB-OUTSOURCE-001",
+      "title": "Outsource BA and Sign-off Discipline",
+      "aliases": ["outsource", "sign-off", "vendor", "scope baseline", "change request", "handover"],
+      "tags": ["outsource", "contract", "baseline", "handover"],
+      "summary": "Outsource BA requires formal scope, baseline, decision log, change control, acceptance evidence, and handover discipline.",
+      "use_when": ["Client/vendor delivery", "Remote team", "Contract or milestone payment", "Scope creep risk"],
+      "quality_checks": ["Scope baseline is approved", "Every CR has cost/schedule/scope impact", "Meeting minutes capture decisions and owners", "UAT sign-off maps to milestone", "Handover checklist includes source, docs, env, KT, warranty"]
+    },
+    {
+      "id": "KB-DOMAIN-FIN-INS-001",
+      "title": "Finance, Banking, Insurance, and Transaction Domains",
+      "aliases": ["banking", "finance", "fintech", "insurance", "payment", "claim", "policy", "reconciliation"],
+      "tags": ["domain", "finance", "insurance", "transaction"],
+      "summary": "Financial and insurance domains require lifecycle/state control, reconciliation, audit, privacy, approval, and exception handling.",
+      "use_when": ["Payment, wallet, banking, lending, insurance, claim, policy, premium"],
+      "focus_areas": ["Transaction state", "Double-entry/reconciliation", "AML/KYC where applicable", "Audit trail", "Policy/claim lifecycle", "Underwriting rules", "Refund/reversal", "Role-based approval"],
+      "quality_checks": ["No transaction without state machine", "No money movement without reconciliation", "No claim/policy flow without exception path", "Approval and audit owner are named"]
+    },
+    {
+      "id": "KB-DOMAIN-HC-GOV-001",
+      "title": "Healthcare and Government Domains",
+      "aliases": ["healthcare", "hospital", "government", "public sector", "compliance", "procurement"],
+      "tags": ["domain", "healthcare", "government", "compliance"],
+      "summary": "Healthcare and public-sector projects require workflow validation, privacy, consent, compliance mapping, multi-level acceptance, and operational readiness.",
+      "use_when": ["HIS/EMR/LIS", "public service portal", "procurement", "regulated acceptance"],
+      "focus_areas": ["Clinical workflow", "PHI/PII classification", "Consent", "Integration standards", "Procurement/bidding", "Regulatory matrix", "Security continuity", "Multi-level acceptance"],
+      "quality_checks": ["Clinical workflow is reviewed by SME", "Regulation maps to features", "Acceptance has levels and evidence", "Security and continuity requirements are measurable"]
+    }
+  ]
+}

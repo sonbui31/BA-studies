@@ -27,6 +27,14 @@ REQUIRED_FILES = [
     ROOT / "scripts" / "quality_rubric.py",
     ROOT / "scripts" / "traceability_scan.py",
     ROOT / "scripts" / "reindex_markdown.py",
+    ROOT / "scripts" / "knowledge_search.py",
+    ROOT / "scripts" / "build_knowledge_index.py",
+    ROOT / "scripts" / "knowledge_index_search.py",
+    ROOT / "BA-document-rule" / "references" / "ba-knowledge-base.md",
+    ROOT / "BA-document-rule" / "references" / "ba-knowledge-cards.json",
+    ROOT / "knowledge-index" / "manifest.json",
+    ROOT / "knowledge-index" / "chunks.jsonl",
+    ROOT / "requirements-knowledge-index.txt",
 ]
 
 

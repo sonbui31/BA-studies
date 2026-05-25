@@ -64,6 +64,10 @@ BA-document-rule/
 │   ├── nfr-discovery-guide.md        ⭐ 7 câu hỏi + 5 kỹ thuật phát hiện NFR (v3.3)
 │   └── process-decomposition-guide.md ⭐ Phân rã quy trình L0→L3 (v3.3)
 │
+├── knowledge-index/                    ← SELF-CONTAINED SOURCE INDEX — Chunked BA source knowledge
+│   ├── manifest.json                   Metadata, build stats, no runtime source dependency
+│   └── chunks.jsonl                    Chunk records searchable by `scripts/knowledge_index_search.py`
+│
 ├── templates/                         ← TEMPLATES — Mẫu tài liệu (28 files)
 │   ├── vision-scope.md               + Impact Mapping, Context Diagram
 │   ├── brd.md                        + SWOT, 5W1H, MoSCoW, Kano
@@ -114,14 +118,16 @@ BA-document-rule/
 │   ├── aml-kyc-process.md              💰 eKYC Tiering + AML Rules + SAR
 │   └── security-continuity-plan.md     🏛️🏥💰 STRIDE Threat Model + DR/BCP + ATTT
 │
-└── references/                        ← REFERENCES — Tài liệu tham khảo (7 files)
+└── references/                        ← REFERENCES — Tài liệu tham khảo (9 files)
     ├── elicitation-techniques.md      Kỹ thuật thu thập yêu cầu
     ├── estimation-guide.md            Ước lượng: T-Shirt, Planning Poker, 3-Point
     ├── raci-matrix.md                 Hướng dẫn RACI
     ├── tools-recommendation.md        Công cụ khuyến nghị
     ├── anti-patterns.md               ⭐ 15 sai lầm BA + Root Cause + Self-check (v3.2)
     ├── writing-examples.md            ⭐ Mẫu viết: Precondition/Exception/BR/NFR/TC (v3.3)
-    └── communication-packaging.md     ⭐ 4 package types: CEO/Dev/QC/End-User (v3.3)
+    ├── communication-packaging.md     ⭐ 4 package types: CEO/Dev/QC/End-User (v3.3)
+    ├── ba-knowledge-base.md           Knowledge base BA đã chắt lọc, dùng độc lập không cần folder nguồn
+    └── ba-knowledge-cards.json        Retrieval cards cho search offline theo chủ đề BA
 ```
 
 ---
@@ -148,3 +154,5 @@ BA-document-rule/
 | **QC Lead** | `templates/test-strategy.md` → `templates/uat-plan.md` |
 | **Ops / Support** | `templates/operational-readiness-checklist.md` → `templates/handover-checklist.md` |
 | **Trainer** | `core/principles.md` (BACCM, models) → `core/quality-checklist.md` (DoR/DoD) |
+| **BA knowledge curator** | `references/ba-knowledge-base.md` |
+| **Agent/runtime retrieval** | `references/ba-knowledge-cards.json` qua `scripts/knowledge_search.py` |
