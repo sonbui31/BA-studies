@@ -93,6 +93,9 @@ Các script BA-agent có thể tự chọn:
 | Cần chấm requirement rõ/testable không | `quality_rubric.py` |
 | Cần kiểm tra traceability | `traceability_scan.py` |
 | Cần kiểm tra/sửa numbering, ID | `reindex_markdown.py` |
+| Cần đánh giá câu trả lời/tài liệu đã đủ control theo loại dự án chưa | `ba_response_eval.py` |
+| Cần chạy bộ test hành vi BA chuẩn | `eval_golden_cases.py` |
+| Cần semantic search bằng embedding thật | `build_semantic_index.py`, `semantic_index_search.py` |
 | Cần kiểm tra toàn bộ BA-agent | `ba_bundle_audit.py` |
 
 ---

@@ -58,20 +58,24 @@ def run_pandoc(path: Path) -> str:
     return completed.stdout
 
 
-def extract_pdf_text_pypdf(path: Path, max_pages: int = 0) -> str:
+def extract_pdf_pages_pypdf(path: Path, max_pages: int = 0) -> List[str]:
     try:
         from pypdf import PdfReader  # type: ignore
     except Exception:
-        return ""
+        return []
     try:
         reader = PdfReader(str(path))
-        texts = []
         pages = reader.pages[:max_pages] if max_pages else reader.pages
+        texts = []
         for page in pages:
             texts.append(page.extract_text() or "")
-        return "\n".join(texts)
+        return texts
     except Exception:
-        return ""
+        return []
+
+
+def extract_pdf_text_pypdf(path: Path, max_pages: int = 0) -> str:
+    return "\n".join(extract_pdf_pages_pypdf(path, max_pages=max_pages))
 
 
 def extract_pdf_text_pdfminer(path: Path, max_pages: int = 0) -> str:
@@ -86,15 +90,16 @@ def extract_pdf_text_pdfminer(path: Path, max_pages: int = 0) -> str:
         return ""
 
 
-def extract_pdf_text(path: Path, max_pages: int = 0) -> tuple[str, str]:
+def extract_pdf_text(path: Path, max_pages: int = 0) -> tuple[str, str, List[str]]:
     # Optional dependency support. If unavailable, caller will fall back to metadata.
-    text = extract_pdf_text_pypdf(path, max_pages=max_pages)
+    pages = extract_pdf_pages_pypdf(path, max_pages=max_pages)
+    text = "\n".join(pages)
     if text.strip():
-        return text, "pdf-pypdf"
+        return text, "pdf-pypdf", pages
     text = extract_pdf_text_pdfminer(path, max_pages=max_pages)
     if text.strip():
-        return text, "pdf-pdfminer"
-    return "", "pdf-metadata"
+        return text, "pdf-pdfminer", []
+    return "", "pdf-metadata", []
 
 
 def normalize_text(text: str) -> str:
@@ -153,6 +158,17 @@ def chunk_text(text: str, max_words: int = 280, overlap: int = 45) -> List[str]:
     return chunks
 
 
+def chunk_pages(pages: List[str], max_words: int = 280, overlap: int = 45) -> List[Dict[str, object]]:
+    chunks = []
+    for page_number, page_text in enumerate(pages, start=1):
+        normalized = normalize_text(page_text)
+        if not normalized:
+            continue
+        for chunk in chunk_text(normalized, max_words=max_words, overlap=overlap):
+            chunks.append({"text": chunk, "page_start": page_number, "page_end": page_number})
+    return chunks
+
+
 def extract_document(path: Path, source_root: Path, include_pdf_metadata: bool, pdf_max_pages: int = 0) -> Optional[Dict[str, object]]:
     ext = path.suffix.lower()
     text = ""
@@ -164,13 +180,14 @@ def extract_document(path: Path, source_root: Path, include_pdf_metadata: bool, 
         text = run_pandoc(path)
         extraction = "pandoc"
     elif ext in PDF_EXTENSIONS:
-        text, extraction = extract_pdf_text(path, max_pages=pdf_max_pages)
+        text, extraction, pages = extract_pdf_text(path, max_pages=pdf_max_pages)
         if not text and include_pdf_metadata:
             try:
                 rel_path = path.relative_to(source_root).as_posix()
             except ValueError:
                 rel_path = path.name
             text = f"{path.stem}. Source file: {rel_path}"
+            pages = []
     else:
         return None
 
@@ -185,6 +202,7 @@ def extract_document(path: Path, source_root: Path, include_pdf_metadata: bool, 
         "extension": ext,
         "extraction": extraction,
         "text": text,
+        "pages": [normalize_text(page) for page in pages] if ext in PDF_EXTENSIONS else [],
         "tags": infer_tags(path, text),
     }
 
@@ -231,7 +249,10 @@ def build_index(
             extraction = str(doc["extraction"])
             stats["by_extension"][ext] = stats["by_extension"].get(ext, 0) + 1
             stats["by_extraction"][extraction] = stats["by_extraction"].get(extraction, 0) + 1
-            for idx, chunk in enumerate(chunk_text(str(doc["text"]))):
+            page_chunks = chunk_pages(doc.get("pages", [])) if doc.get("pages") else []
+            chunk_records = page_chunks or [{"text": chunk} for chunk in chunk_text(str(doc["text"]))]
+            for idx, chunk_record in enumerate(chunk_records):
+                chunk = str(chunk_record["text"])
                 chunk_id = stable_id(f"{doc['source_path']}:{idx}:{chunk[:80]}")
                 record = {
                     "id": chunk_id,
@@ -241,6 +262,8 @@ def build_index(
                     "extension": doc["extension"],
                     "extraction": doc["extraction"],
                     "chunk_index": idx,
+                    "page_start": chunk_record.get("page_start"),
+                    "page_end": chunk_record.get("page_end"),
                     "tags": doc["tags"],
                     "text": chunk,
                 }
@@ -254,6 +277,7 @@ def build_index(
         "self_contained": True,
         "runtime_source_dependency": False,
         "chunks_file": "chunks.jsonl",
+        "citation_granularity": "page-level for PDF documents extracted by pypdf during rebuild",
         "stats": stats,
     }
     manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False), encoding="utf-8")

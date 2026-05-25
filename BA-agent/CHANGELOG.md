@@ -13,11 +13,17 @@
 - `scripts/knowledge_search.py` — Search offline các BA knowledge cards theo query, xuất JSON hoặc Markdown.
 - `scripts/build_knowledge_index.py` — Build self-contained `knowledge-index/` từ folder nguồn BA, có chunking và metadata.
 - `scripts/knowledge_index_search.py` — BM25 search trên `knowledge-index/chunks.jsonl` mà không đọc lại folder nguồn.
+- `scripts/ba_response_eval.py` — Quality gate cho câu trả lời/tài liệu BA theo scenario `outsource`, `product`, và `fintech`.
+- `scripts/eval_golden_cases.py` và `tests/golden/ba_response_cases.jsonl` — Golden evaluation suite cho các control coverage quan trọng.
+- `scripts/build_semantic_index.py`, `scripts/semantic_index_search.py`, và `requirements-semantic-index.txt` — Optional semantic embedding retrieval bằng SentenceTransformers, hỗ trợ FAISS khi có.
+- `knowledge-source/source-manifest.json` và `knowledge-source/download-instructions.md` — Ghi metadata nguồn ngoài git, phục vụ rebuild mà không cần track folder `BA/`.
 - `requirements-knowledge-index.txt` — Optional dependencies để rebuild full-text PDF index.
 
 ### Changed
 - Nối `SKILL.md`, `DOCUMENT-MAP.md`, và `BA-document-rule/README.md` với knowledge base + retrieval cards để agent dùng kiến thức BA đã chắt lọc mà không phụ thuộc runtime vào folder `BA/`.
 - Runtime retrieval có 2 tầng: curated cards (`knowledge_search.py`) và source-derived chunks (`knowledge_index_search.py`).
+- `knowledge_index_search.py` chuyển sang default hybrid retrieval: BM25-style scoring, query expansion Việt/Anh cho thuật ngữ BA, vector-style cosine scoring, citation fields, và excerpt sạch hơn.
+- `build_knowledge_index.py` hỗ trợ page-level citation (`page_start/page_end`) cho PDF được extract bằng `pypdf` trong các lần rebuild tiếp theo.
 - Rebuilt `knowledge-index/` with PDF full-text extraction: 35,479 chunks from 992 documents, with 833 PDFs extracted by `pypdf`, 3 by `pdfminer`, and 9 fallback metadata chunks.
 
 ---

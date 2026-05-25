@@ -19,13 +19,17 @@ Read only the files needed for the task.
 | Pick required artifacts by project type | `DOCUMENT-MAP.md` |
 | Use the distilled BA knowledge base | `BA-document-rule/references/ba-knowledge-base.md` |
 | Retrieve specific BA knowledge cards | `BA-document-rule/references/ba-knowledge-cards.json` via `scripts/knowledge_search.py` |
-| Search the built self-contained BA source index | `knowledge-index/chunks.jsonl` via `scripts/knowledge_index_search.py` |
+| Search the built self-contained BA source index | `knowledge-index/chunks.jsonl` via hybrid search in `scripts/knowledge_index_search.py` |
+| Build/search optional semantic embeddings | `scripts/build_semantic_index.py`, `scripts/semantic_index_search.py` |
+| Check source/rebuild metadata | `knowledge-source/source-manifest.json` |
 | Build investment/adoption/data/reporting artifacts | `BA-document-rule/templates/business-case.md`, `raid-log.md`, `rbac-matrix.md`, `reporting-specification.md`, `operational-readiness-checklist.md`, `test-strategy.md`, `data-governance-plan.md` |
 | Run product discovery and analytics planning | `BA-document-rule/templates/user-research-plan.md`, `product-analytics-spec.md` |
 | Standardize process modeling | `BA-document-rule/templates/bpmn-modeling-standard.md`, `BA-document-rule/core/process-decomposition-guide.md` |
 | Run document gates before drafting | `BA-document-rule/core/pre-flight-checklist.md` |
 | Check traceability and numbering | `BA-document-rule/core/traceability-validator.md` |
 | Improve requirement quality and NFRs | `BA-document-rule/core/requirement-quality-rubric.md`, `BA-document-rule/core/nfr-discovery-guide.md` |
+| Evaluate scenario coverage in a BA answer/artifact | `scripts/ba_response_eval.py` |
+| Run golden BA behavior checks | `scripts/eval_golden_cases.py` |
 | Resolve stakeholder conflicts before sign-off | `BA-document-rule/core/stakeholder-conflict-resolution.md`, `BA-document-rule/core/persona-simulation.md` |
 | Select domain-specific overlays | Choose one actual overlay config under `BA-document-rule/overlays/` |
 | Generate from templates | `BA-document-rule/templates/` and `BA-document-rule/templates/industry/` |
@@ -78,19 +82,30 @@ python .\scripts\traceability_scan.py <project-folder> --scheme canonical --stri
 python .\scripts\reindex_markdown.py <project-folder>
 python .\scripts\reindex_markdown.py <project-folder> --apply
 python .\scripts\reindex_markdown.py <project-folder> --include-baseline --apply
+python .\scripts\ba_response_eval.py <file-or-> --scenario outsource --format markdown
+python .\scripts\eval_golden_cases.py --format markdown
 python .\scripts\knowledge_search.py "UAT traceability" --format markdown
 python .\scripts\knowledge_index_search.py "BRD stakeholder assumptions" --format markdown
+python .\scripts\knowledge_index_search.py "nghiệm thu nhà thầu" --mode hybrid --format markdown
+python .\scripts\knowledge_index_search.py "UAT sign-off evidence" --mode vector --format json
+python .\scripts\build_semantic_index.py --chunks .\knowledge-index\chunks.jsonl --output .\knowledge-index\semantic
+python .\scripts\semantic_index_search.py "how to control vendor acceptance sign-off" --format markdown
 ```
 
 Rules:
 - Run `preflight_check.py` before drafting or approving BRD, SRS, Story Map, and UAT artifacts.
 - Run `quality_rubric.py` on SRS or BRD files before claiming requirement quality is acceptable.
 - Run `traceability_scan.py` after drafting BRD, SRS, Story Map, or UAT artifacts.
+- Run `ba_response_eval.py` for important outsource, product, or fintech outputs before claiming the answer covers the scenario-specific BA controls.
+- Run `eval_golden_cases.py` before releases to catch regressions in BA control coverage.
 - Use `reindex_markdown.py` in dry-run mode first.
 - Only use `--apply` after reviewing the proposed renumbering, especially on outsource projects with signed baselines.
 - Use `--scheme legacy` for bundles using `BRD-101 / FR-101 / US-001 / UAT-001`; do not add `--strict` unless the bundle also defines Feature links.
 - Use `--scheme canonical --strict` for bundles using `BRQ-01 / FR-MOD-001 / US-MOD-001 / TC-MOD-001`; strict mode requires the full `BRQ-* -> FR-* -> Feature -> US-* -> TC-*` chain.
 - If `--strict` reports `BROKEN_CHAIN`, either add Feature IDs/links or rerun without `--strict` for legacy bundles where Feature traceability is intentionally out of scope.
 - Use `knowledge_search.py` as the first retrieval layer for self-contained BA knowledge; do not require the old source folder for normal BA work.
+- Use `knowledge_index_search.py` in default hybrid mode for deeper recall. It combines lexical BM25-style scoring, query expansion for BA Vietnamese/English terms, vector-style cosine scoring, and source citation fields.
+- Use `--mode bm25` only when exact keyword matching is preferred; use `--mode vector` when the query is conceptual or phrased differently from the source documents.
+- Use `build_semantic_index.py` only when optional dependencies in `requirements-semantic-index.txt` are installed. `semantic_index_search.py` uses real sentence-transformer embeddings and FAISS when available; it is an enhancement layer, not required for normal runtime.
 - Use `build_knowledge_index.py --source <BA-folder>` only when rebuilding the self-contained index from source documents. Runtime BA work should use `knowledge_index_search.py`, not the old source folder.
-- Rebuilding the PDF full-text index requires `requirements-knowledge-index.txt`; runtime search over an already-built `knowledge-index/` uses only the Python standard library.
+- Rebuilding the PDF full-text index requires `requirements-knowledge-index.txt`; PDF chunks rebuilt through `pypdf` include `page_start/page_end` citation fields. Runtime search over an already-built `knowledge-index/` uses only the Python standard library.

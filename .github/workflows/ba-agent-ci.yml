@@ -1,0 +1,38 @@
+name: BA Agent CI
+
+on:
+  push:
+    paths:
+      - "BA-agent/**"
+      - "README.md"
+      - ".github/workflows/ba-agent-ci.yml"
+  pull_request:
+    paths:
+      - "BA-agent/**"
+      - "README.md"
+      - ".github/workflows/ba-agent-ci.yml"
+
+jobs:
+  audit-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run bundle audit
+        run: python BA-agent/scripts/ba_bundle_audit.py
+
+      - name: Run runtime unit tests
+        run: python -m unittest BA-agent.tests.test_runtime_scripts
+
+      - name: Run golden BA evaluation
+        run: python BA-agent/scripts/eval_golden_cases.py --format markdown
+
+      - name: Smoke test packaged knowledge search
+        run: python BA-agent/scripts/knowledge_index_search.py "UAT traceability sign-off" --limit 1 --format json

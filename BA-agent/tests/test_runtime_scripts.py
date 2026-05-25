@@ -14,6 +14,9 @@ FIXTURE_DIR = Path(__file__).resolve().parent / "fixtures"
 import preflight_check
 import knowledge_search
 import knowledge_index_search
+import ba_response_eval
+import build_knowledge_index
+import eval_golden_cases
 import quality_rubric
 import reindex_markdown
 import traceability_scan
@@ -48,6 +51,45 @@ class RuntimeScriptTests(unittest.TestCase):
         results = knowledge_index_search.bm25_search("UAT traceability sign-off", chunks, limit=1)
         self.assertEqual(results[0]["id"], "1")
 
+    def test_knowledge_index_hybrid_expands_vietnamese_ba_terms(self):
+        chunks = [
+            {
+                "id": "1",
+                "source_path": "sample/uat.md",
+                "source_name": "uat.md",
+                "chunk_index": 0,
+                "text": "UAT acceptance sign-off evidence must map to contractor handover and traceability.",
+                "tags": ["uat", "rtm"],
+            },
+            {
+                "id": "2",
+                "source_path": "sample/ui.md",
+                "source_name": "ui.md",
+                "chunk_index": 0,
+                "text": "Prototype layout defines empty state and responsive UI behavior.",
+                "tags": ["ux"],
+            },
+        ]
+        results = knowledge_index_search.search("nghiệm thu nhà thầu", chunks, limit=1, mode="hybrid")
+        self.assertEqual(results[0]["id"], "1")
+        self.assertEqual(results[0]["retrieval_mode"], "hybrid")
+
+    def test_knowledge_index_compact_includes_citation_fields(self):
+        record = {
+            "id": "1",
+            "score": 0.9,
+            "source_path": "docs/brd.pdf",
+            "source_name": "brd.pdf",
+            "chunk_index": 7,
+            "text": "A " * 500,
+            "tags": ["brd"],
+            "extraction": "pdf-pypdf",
+        }
+        payload = knowledge_index_search.compact(record, max_chars=40)
+        self.assertEqual(payload["source_ref"], "docs/brd.pdf#chunk-7")
+        self.assertIn("excerpt", payload)
+        self.assertLessEqual(len(payload["excerpt"]), 40)
+
     def test_knowledge_index_cli_missing_index(self):
         script = SCRIPT_DIR / "knowledge_index_search.py"
         result = subprocess.run(
@@ -56,6 +98,35 @@ class RuntimeScriptTests(unittest.TestCase):
             text=True,
         )
         self.assertEqual(result.returncode, 2)
+
+    def test_ba_response_eval_passes_outsource_control_coverage(self):
+        text = (
+            "Stakeholder/RACI owner and approver are named. Scope includes in scope and out of scope. "
+            "Assumption and constraint are listed. Change Request and change control are defined. "
+            "UAT acceptance sign-off maps to RTM traceability from BRQ to FR to US to TC. "
+            "Handover includes KT and warranty."
+        )
+        payload = ba_response_eval.evaluate_text(text, "outsource")
+        self.assertTrue(payload["passed"])
+
+    def test_ba_response_eval_fails_missing_product_metrics(self):
+        text = "The product has user stories and a backlog."
+        payload = ba_response_eval.evaluate_text(text, "product")
+        self.assertFalse(payload["passed"])
+
+    def test_golden_cases_pass(self):
+        payload = eval_golden_cases.evaluate_cases(Path(__file__).resolve().parent / "golden" / "ba_response_cases.jsonl")
+        self.assertEqual(payload["failed"], 0)
+
+    def test_build_index_chunks_pages_with_page_metadata(self):
+        pages = [
+            " ".join(["first"] * 40),
+            " ".join(["second"] * 40),
+        ]
+        chunks = build_knowledge_index.chunk_pages(pages, max_words=30, overlap=5)
+        self.assertGreaterEqual(len(chunks), 2)
+        self.assertEqual(chunks[0]["page_start"], 1)
+        self.assertEqual(chunks[-1]["page_start"], 2)
 
     def test_quality_rubric_detects_weak_requirement(self):
         text = "FR-001 | Hệ thống quản lý tài sản nhanh và linh hoạt"

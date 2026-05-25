@@ -30,11 +30,19 @@ REQUIRED_FILES = [
     ROOT / "scripts" / "knowledge_search.py",
     ROOT / "scripts" / "build_knowledge_index.py",
     ROOT / "scripts" / "knowledge_index_search.py",
+    ROOT / "scripts" / "build_semantic_index.py",
+    ROOT / "scripts" / "semantic_index_search.py",
+    ROOT / "scripts" / "ba_response_eval.py",
+    ROOT / "scripts" / "eval_golden_cases.py",
     ROOT / "BA-document-rule" / "references" / "ba-knowledge-base.md",
     ROOT / "BA-document-rule" / "references" / "ba-knowledge-cards.json",
     ROOT / "knowledge-index" / "manifest.json",
     ROOT / "knowledge-index" / "chunks.jsonl",
+    ROOT / "knowledge-source" / "source-manifest.json",
+    ROOT / "knowledge-source" / "download-instructions.md",
     ROOT / "requirements-knowledge-index.txt",
+    ROOT / "requirements-semantic-index.txt",
+    ROOT / "tests" / "golden" / "ba_response_cases.jsonl",
 ]
 
 
