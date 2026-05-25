@@ -1,0 +1,20 @@
+{
+  "source_name": "BA-source-2026-05-25",
+  "source_location": "external",
+  "source_required_for": "rebuild only",
+  "runtime_requires_source": false,
+  "indexed_at": "2026-05-25",
+  "indexed_documents": 992,
+  "indexed_chunks": 35479,
+  "source_root_name": "BA",
+  "index_files": [
+    "BA-agent/knowledge-index/chunks.jsonl",
+    "BA-agent/knowledge-index/manifest.json"
+  ],
+  "rebuild_command": "python .\\BA-agent\\scripts\\build_knowledge_index.py --source <path-to-BA-folder>",
+  "notes": [
+    "The original BA folder is intentionally not tracked in git.",
+    "Cloned repositories can search the packaged knowledge index without the source folder.",
+    "Only machines that have the external BA source folder can rebuild the full index."
+  ]
+}
