@@ -5,6 +5,23 @@
 
 ---
 
+## [3.4.1] — 2026-05-25
+
+### Added
+- `BA-document-rule/references/ba-knowledge-base.md` — Knowledge base BA tự chứa, chắt lọc từ kho học liệu `BA/` để agent dùng được ngay cả khi xoá folder nguồn.
+- `BA-document-rule/references/ba-knowledge-cards.json` — Bộ retrieval cards có cấu trúc cho BRD/SRS/UAT/RTM/modeling/data/product/AI/domain.
+- `scripts/knowledge_search.py` — Search offline các BA knowledge cards theo query, xuất JSON hoặc Markdown.
+- `scripts/build_knowledge_index.py` — Build self-contained `knowledge-index/` từ folder nguồn BA, có chunking và metadata.
+- `scripts/knowledge_index_search.py` — BM25 search trên `knowledge-index/chunks.jsonl` mà không đọc lại folder nguồn.
+- `requirements-knowledge-index.txt` — Optional dependencies để rebuild full-text PDF index.
+
+### Changed
+- Nối `SKILL.md`, `DOCUMENT-MAP.md`, và `BA-document-rule/README.md` với knowledge base + retrieval cards để agent dùng kiến thức BA đã chắt lọc mà không phụ thuộc runtime vào folder `BA/`.
+- Runtime retrieval có 2 tầng: curated cards (`knowledge_search.py`) và source-derived chunks (`knowledge_index_search.py`).
+- Rebuilt `knowledge-index/` with PDF full-text extraction: 35,479 chunks from 992 documents, with 833 PDFs extracted by `pypdf`, 3 by `pdfminer`, and 9 fallback metadata chunks.
+
+---
+
 ## [3.4.0] — 2026-05-12
 
 ### Added

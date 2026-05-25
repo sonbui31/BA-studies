@@ -17,6 +17,9 @@ Read only the files needed for the task.
 | Apply the BA persona and execution rules | `agents/ba-specialist.md` |
 | Understand repository structure | `BA-document-rule/README.md` |
 | Pick required artifacts by project type | `DOCUMENT-MAP.md` |
+| Use the distilled BA knowledge base | `BA-document-rule/references/ba-knowledge-base.md` |
+| Retrieve specific BA knowledge cards | `BA-document-rule/references/ba-knowledge-cards.json` via `scripts/knowledge_search.py` |
+| Search the built self-contained BA source index | `knowledge-index/chunks.jsonl` via `scripts/knowledge_index_search.py` |
 | Build investment/adoption/data/reporting artifacts | `BA-document-rule/templates/business-case.md`, `raid-log.md`, `rbac-matrix.md`, `reporting-specification.md`, `operational-readiness-checklist.md`, `test-strategy.md`, `data-governance-plan.md` |
 | Run product discovery and analytics planning | `BA-document-rule/templates/user-research-plan.md`, `product-analytics-spec.md` |
 | Standardize process modeling | `BA-document-rule/templates/bpmn-modeling-standard.md`, `BA-document-rule/core/process-decomposition-guide.md` |
@@ -47,6 +50,9 @@ Read only the files needed for the task.
    `BRQ-* -> FR-* -> Feature -> US-* -> TC-*`.
 6. If stakeholders disagree on scope, controls, workflow, budget, or ownership, stop drafting and run the conflict-resolution protocol before freezing BRD/SRS/UAT wording.
 7. Use the bundle validator before claiming the skill package is internally consistent.
+8. When the user asks to apply general BA knowledge gathered from the old `BA/` folder, read `BA-document-rule/references/ba-knowledge-base.md`; it is self-contained and must not require the original `BA/` folder to exist.
+9. Before drafting a complex artifact, run or consult `scripts/knowledge_search.py "<topic>"` to retrieve the closest BA knowledge cards, especially for UAT/RTM, AI/ML, data/API/reporting, process modeling, and regulated domains.
+10. If deeper source-derived recall is needed, search `knowledge-index/chunks.jsonl` with `scripts/knowledge_index_search.py "<query>"`; this index is self-contained and must not read the original `BA/` folder at runtime.
 
 ## Validation
 
@@ -72,6 +78,8 @@ python .\scripts\traceability_scan.py <project-folder> --scheme canonical --stri
 python .\scripts\reindex_markdown.py <project-folder>
 python .\scripts\reindex_markdown.py <project-folder> --apply
 python .\scripts\reindex_markdown.py <project-folder> --include-baseline --apply
+python .\scripts\knowledge_search.py "UAT traceability" --format markdown
+python .\scripts\knowledge_index_search.py "BRD stakeholder assumptions" --format markdown
 ```
 
 Rules:
@@ -83,3 +91,6 @@ Rules:
 - Use `--scheme legacy` for bundles using `BRD-101 / FR-101 / US-001 / UAT-001`; do not add `--strict` unless the bundle also defines Feature links.
 - Use `--scheme canonical --strict` for bundles using `BRQ-01 / FR-MOD-001 / US-MOD-001 / TC-MOD-001`; strict mode requires the full `BRQ-* -> FR-* -> Feature -> US-* -> TC-*` chain.
 - If `--strict` reports `BROKEN_CHAIN`, either add Feature IDs/links or rerun without `--strict` for legacy bundles where Feature traceability is intentionally out of scope.
+- Use `knowledge_search.py` as the first retrieval layer for self-contained BA knowledge; do not require the old source folder for normal BA work.
+- Use `build_knowledge_index.py --source <BA-folder>` only when rebuilding the self-contained index from source documents. Runtime BA work should use `knowledge_index_search.py`, not the old source folder.
+- Rebuilding the PDF full-text index requires `requirements-knowledge-index.txt`; runtime search over an already-built `knowledge-index/` uses only the Python standard library.

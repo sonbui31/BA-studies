@@ -1,0 +1,27 @@
+{
+  "version": "1.0",
+  "created_at": "2026-05-25T07:46:01.496311+00:00",
+  "source_root_name": "BA",
+  "self_contained": true,
+  "runtime_source_dependency": false,
+  "chunks_file": "chunks.jsonl",
+  "stats": {
+    "documents_seen": 992,
+    "documents_indexed": 992,
+    "chunks": 35479,
+    "by_extension": {
+      ".pdf": 845,
+      ".docx": 129,
+      ".md": 1,
+      ".pptx": 14,
+      ".txt": 3
+    },
+    "by_extraction": {
+      "pdf-pypdf": 833,
+      "pandoc": 143,
+      "pdf-metadata": 9,
+      "text": 4,
+      "pdf-pdfminer": 3
+    }
+  }
+}
