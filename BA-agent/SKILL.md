@@ -17,6 +17,7 @@ Read only the files needed for the task.
 | Apply the BA persona and execution rules | `agents/ba-specialist.md` |
 | Understand repository structure | `BA-document-rule/README.md` |
 | Pick required artifacts by project type | `DOCUMENT-MAP.md` |
+| Classify project before recommending documents | `BA-document-rule/core/project-classification-gate.md` |
 | Use the distilled BA knowledge base | `BA-document-rule/references/ba-knowledge-base.md` |
 | Retrieve specific BA knowledge cards | `BA-document-rule/references/ba-knowledge-cards.json` via `scripts/knowledge_search.py` |
 | Search the built self-contained BA source index | `knowledge-index/chunks.jsonl` via hybrid search in `scripts/knowledge_index_search.py` |
@@ -37,10 +38,12 @@ Read only the files needed for the task.
 ## Execution rules
 
 1. Start from `workflows/ba-workflow.md` unless the user asks for one narrow artifact only.
-2. Run elicitation and As-Is gates before writing BRD or SRS, unless the user explicitly confirms a greenfield project.
-3. Pick one overlay before drafting:
+2. Before recommending a document set or drafting anything broad, run `BA-document-rule/core/project-classification-gate.md` and state the classification assumptions.
+3. If the project is a new product, platform, SaaS/app, commercializable MVP, or B2B offering, Product Vision Document is mandatory and must be listed before Project Charter and BRD. Do not treat BRD or Project Charter as a substitute for Product Vision.
+4. Run elicitation and As-Is gates before writing BRD or SRS, unless the user explicitly confirms a greenfield project.
+5. Pick one overlay before drafting:
    `inhouse`, `outsource`, `product`, `startup-mvp`, `government`, `healthcare`, or `fintech`.
-4. Add supporting artifacts when risk signals appear:
+6. Add supporting artifacts when risk signals appear:
    - Investment or Go/No-Go decision → `business-case.md`.
    - Open assumptions/issues/dependencies → `raid-log.md`.
    - Role-sensitive access → `rbac-matrix.md`.
@@ -50,13 +53,13 @@ Read only the files needed for the task.
    - Data ownership/retention/quality → `data-governance-plan.md`.
    - Product discovery or event tracking → `user-research-plan.md`, `product-analytics-spec.md`.
    - Formal process notation → `bpmn-modeling-standard.md`.
-5. Keep traceability explicit:
+7. Keep traceability explicit:
    `BRQ-* -> FR-* -> Feature -> US-* -> TC-*`.
-6. If stakeholders disagree on scope, controls, workflow, budget, or ownership, stop drafting and run the conflict-resolution protocol before freezing BRD/SRS/UAT wording.
-7. Use the bundle validator before claiming the skill package is internally consistent.
-8. When the user asks to apply general BA knowledge gathered from the old `BA/` folder, read `BA-document-rule/references/ba-knowledge-base.md`; it is self-contained and must not require the original `BA/` folder to exist.
-9. Before drafting a complex artifact, run or consult `scripts/knowledge_search.py "<topic>"` to retrieve the closest BA knowledge cards, especially for UAT/RTM, AI/ML, data/API/reporting, process modeling, and regulated domains.
-10. If deeper source-derived recall is needed, search `knowledge-index/chunks.jsonl` with `scripts/knowledge_index_search.py "<query>"`; this index is self-contained and must not read the original `BA/` folder at runtime.
+8. If stakeholders disagree on scope, controls, workflow, budget, or ownership, stop drafting and run the conflict-resolution protocol before freezing BRD/SRS/UAT wording.
+9. Use the bundle validator before claiming the skill package is internally consistent.
+10. When the user asks to apply general BA knowledge gathered from the old `BA/` folder, read `BA-document-rule/references/ba-knowledge-base.md`; it is self-contained and must not require the original `BA/` folder to exist.
+11. Before drafting a complex artifact, run or consult `scripts/knowledge_search.py "<topic>"` to retrieve the closest BA knowledge cards, especially for product vision, UAT/RTM, AI/ML, data/API/reporting, process modeling, and regulated domains.
+12. If deeper source-derived recall is needed, search `knowledge-index/chunks.jsonl` with `scripts/knowledge_index_search.py "<query>"`; this index is self-contained and must not read the original `BA/` folder at runtime.
 
 ## Validation
 

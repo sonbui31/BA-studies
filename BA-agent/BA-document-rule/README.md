@@ -13,6 +13,7 @@ Bộ **BA-document-rule** cung cấp:
 - **Quy tắc chung** cho mọi tài liệu BA (chuẩn viết, quality check, models)
 - **Template** cho từng loại tài liệu (Vision & Scope, BRD, SRS, Story Map...)
 - **Overlay** tùy chỉnh theo loại dự án (In-house, Outsource, Product, Startup)
+- **Project Classification Gate** để chọn đúng lớp tài liệu trước khi draft, đặc biệt không bỏ qua Product Vision cho product/platform/SaaS/app/B2B.
 
 ---
 
@@ -42,7 +43,7 @@ BA-document-rule/
 ├── README.md                          ← Bạn đang đọc file này
 ├── QUICK-START.md                     ← 5 phút bắt đầu dự án mới
 │
-├── core/                              ← CORE LAYER — Quy tắc bất biến (20 files)
+├── core/                              ← CORE LAYER — Quy tắc bất biến (21 files)
 │   ├── 00-ba-process-framework.md     Quy trình BA 5 pha + BABOK mapping
 │   ├── principles.md                  BACCM, MoSCoW, Kano, INVEST, GWT, SWOT, 5W1H
 │   ├── writing-guide.md              Chuẩn viết, format, versioning, SMART req
@@ -56,6 +57,7 @@ BA-document-rule/
 │   ├── code-traceability-audit.md    Đối soát Requirement vs Code
 │   ├── predictive-ba-guide.md        Risk Management: pattern-based detection
 │   ├── customer-intelligence-guide.md Khai thác & phân tích thông tin KH
+│   ├── project-classification-gate.md ⭐ Phân loại dự án + bắt buộc Product Vision cho product/B2B
 │   ├── pre-flight-checklist.md       ⭐ Pre-Flight Engine: checklist per document type (v3.0)
 │   ├── traceability-validator.md     ⭐ Auto-scan cross-doc: BRQ→FR→US→TC + NFR chain (v3.2)
 │   ├── screen-inventory-guide.md     ⭐ Screen Inventory & Wireframe enforcement (v3.0)
@@ -135,10 +137,12 @@ BA-document-rule/
 ## 🚀 Bắt đầu nhanh
 
 1. Đọc **`QUICK-START.md`** — hướng dẫn 5 phút
-2. Chọn **overlay** phù hợp → biết cần tạo tài liệu nào
-3. Copy **templates** cần thiết → điền thông tin dự án
-4. Dùng **`core/quality-checklist.md`** để review trước sign-off
-5. Nếu stakeholder mâu thuẫn nhau, chạy **`core/stakeholder-conflict-resolution.md`** trước khi khóa wording trong BRD/SRS/UAT
+2. Chạy **`core/project-classification-gate.md`** để phân loại dự án và add-ons
+3. Chọn **overlay** phù hợp → biết cần tạo tài liệu nào
+4. Nếu là product/platform/SaaS/app/B2B/commercializable MVP, tạo **Product Vision Document** trước Project Charter/BRD
+5. Copy **templates** cần thiết → điền thông tin dự án
+6. Dùng **`core/quality-checklist.md`** để review trước sign-off
+7. Nếu stakeholder mâu thuẫn nhau, chạy **`core/stakeholder-conflict-resolution.md`** trước khi khóa wording trong BRD/SRS/UAT
 
 ---
 

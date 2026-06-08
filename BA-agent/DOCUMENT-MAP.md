@@ -54,6 +54,7 @@
 
 > **Đặc thù:** Không dùng trực tiếp — đây là "hệ điều hành" sinh ra 2 bộ tài liệu trên.
 > **Cách dùng:** Chọn overlay (product/outsource/inhouse/startup) → áp lên template → tạo ra bộ tài liệu phù hợp.
+> **Bắt buộc:** Trước khi đề xuất bộ tài liệu, chạy `core/project-classification-gate.md`. Nếu dự án là product/platform/SaaS/app/B2B/commercializable MVP, Product Vision Document phải đứng trước Project Charter và BRD.
 
 ### 📄 Root
 
@@ -62,7 +63,7 @@
 | `README.md` | Tổng quan: cách hoạt động, cấu trúc thư mục, flow sử dụng |
 | `QUICK-START.md` | Hướng dẫn 5 phút: chọn overlay → copy template → viết tài liệu |
 
-### 📁 core/ — Nguyên tắc cốt lõi (20 files — áp dụng mọi dự án)
+### 📁 core/ — Nguyên tắc cốt lõi (21 files — áp dụng mọi dự án)
 
 | File | Mô tả | v3.0? |
 |------|-------|:---:|
@@ -79,6 +80,7 @@
 | `code-traceability-audit.md` | Đối soát Requirement vs Code 3.0: **actionable output format** + full chain | ⬆ Updated |
 | `predictive-ba-guide.md` | Risk Management 3.0: **pattern-based detection** từ tài liệu thực tế | ⬆ Updated |
 | `customer-intelligence-guide.md` | Kỹ thuật khai thác & phân tích thông tin KH: probing, hidden needs, tâm lý stakeholder | |
+| `project-classification-gate.md` | ⭐ Gate phân loại dự án trước khi chọn tài liệu; bắt buộc Product Vision cho product/B2B/commercializable MVP | ⭐ NEW |
 | `pre-flight-checklist.md` | ⭐ Pre-Flight Engine: checklist per document type — PASS mới được viết | ⭐ NEW |
 | `traceability-validator.md` | ⭐ Auto-scan cross-doc traceability: BRQ→FR→Feature→US→TC + **NFR→NFR-TC chain** + Bi-directional + Impact Chain | ⬆ v3.2 |
 | `screen-inventory-guide.md` | ⭐ Screen Inventory & Wireframe enforcement: mỗi Feature ≥ 1 screen | v3.0 |
