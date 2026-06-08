@@ -3,13 +3,16 @@
 > **Áp dụng:** Startup giai đoạn đầu, MVP, proof of concept
 > **Đặc điểm:** Lean, nhanh, tối thiểu tài liệu, validate giả thuyết
 
+> **Guardrail:** Nếu MVP có tín hiệu product/platform/SaaS/app/B2B/commercialization, không được bỏ qua Vision. Khi đó dùng Product overlay hoặc bổ sung Product Vision Statement trước Lean Canvas.
+
 ---
 
 ## 1. Tài liệu — Chỉ giữ những gì CẦN THIẾT
 
 | # | Tài liệu | Bắt buộc? | Ghi chú |
 |---|----------|----------|---------|
-| 1 | **Lean Canvas** | ✅ Bắt buộc | **Thay Vision & Scope + BRD** (1 trang) |
+| 0 | **Product Vision Statement** | ✅ Bắt buộc nếu có định hướng product/B2B | 5-10 dòng: target user, problem, differentiator, product direction |
+| 1 | **Lean Canvas** | ✅ Bắt buộc | Có thể thay BRD cho PoC nhỏ; không thay Product Vision nếu có commercialization signal |
 | 2 | User Story Map | ✅ Bắt buộc | **Chỉ MVP slice** — tối đa 10-15 stories |
 | 3 | Process Flow | ⚠️ Khuyến nghị | Chỉ core flow (1-2 diagram) |
 | 4 | Data Model | ⚠️ Khuyến nghị | ERD cơ bản, 3-5 entities |
@@ -18,7 +21,7 @@
 | — | Change Log, Meeting Minutes | ❌ **Bỏ** | Team nhỏ, talk > doc |
 | — | Handover Checklist | ❌ **Bỏ** | Chưa cần |
 
-> **Tổng: 2-4 tài liệu** thay vì 12.
+> **Tổng: 2-5 tài liệu** thay vì 12.
 
 ---
 
@@ -99,6 +102,7 @@
 
 | Signal | Hành động |
 |--------|----------|
+| Có định hướng bán B2B/SaaS/platform hoặc product roadmap > 1 release | Chuyển sang Product overlay; Product Vision Document bắt buộc |
 | Product-market fit confirmed (retention > 40%) | Chuyển sang Product overlay |
 | Team > 5 người | Cần SRS Lite + Process Flow |
 | Funding round | Cần BRD/PRD cho investors |

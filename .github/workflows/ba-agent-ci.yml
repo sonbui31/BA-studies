@@ -2,19 +2,27 @@ name: BA Agent CI
 
 on:
   push:
+    branches:
+      - main
     paths:
       - "BA-agent/**"
       - "README.md"
       - ".github/workflows/ba-agent-ci.yml"
   pull_request:
+    branches:
+      - main
     paths:
       - "BA-agent/**"
       - "README.md"
       - ".github/workflows/ba-agent-ci.yml"
+  workflow_dispatch:
 
 jobs:
   audit-test:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
 
     steps:
       - name: Checkout
@@ -29,10 +37,16 @@ jobs:
         run: python BA-agent/scripts/ba_bundle_audit.py
 
       - name: Run runtime unit tests
-        run: python -m unittest BA-agent.tests.test_runtime_scripts
+        run: python BA-agent/tests/test_runtime_scripts.py
 
       - name: Run golden BA evaluation
         run: python BA-agent/scripts/eval_golden_cases.py --format markdown
 
       - name: Smoke test packaged knowledge search
         run: python BA-agent/scripts/knowledge_index_search.py "UAT traceability sign-off" --limit 1 --format json
+
+      - name: Smoke test Product Vision routing
+        run: |
+          output="$(python BA-agent/scripts/knowledge_search.py "B2B SaaS MVP product vision documents")"
+          echo "$output"
+          grep -q "KB-PRODUCT-VISION-001" <<< "$output"

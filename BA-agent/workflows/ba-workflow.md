@@ -12,7 +12,12 @@ This workflow automates BA documentation using the full v3.4 skill suite (20 ski
 
 ### 🚪 MANDATORY GATES (Không bỏ qua)
 
-0. **Stakeholder Elicitation Gate (MANDATORY)**
+0. **Project Classification & Stakeholder Elicitation Gate (MANDATORY)**
+   - Run `../BA-document-rule/core/project-classification-gate.md` before recommending a document set
+   - Classify initiative: Product / In-house / Outsource / Startup-MVP / Government / Healthcare / Fintech, plus add-ons such as AI/ML, reporting, RBAC, data governance
+   - Detect commercialization signals: product, platform, SaaS, app, B2B, sell to external companies, paid offering, subscription, marketplace
+   - **Non-negotiable Vision Rule:** If the initiative is a new product, platform, SaaS/app, commercializable MVP, or B2B offering, list **Product Vision Document** before Project Charter and BRD. BRD/Charter must not replace Vision.
+   - **Output:** Project Classification Summary + Required Document Layers + Assumptions to Validate
    - Nhận raw input (file PDF/DOC/text/transcript)
    - Sinh Interview Questionnaire theo stakeholder roles (sử dụng `../BA-document-rule/core/customer-intelligence-guide.md`)
    - Yêu cầu user trả lời hoặc cung cấp transcript phỏng vấn
@@ -22,6 +27,9 @@ This workflow automates BA documentation using the full v3.4 skill suite (20 ski
    - **LLM:** Claude 4.6 — sinh câu hỏi sắc bén, empathetic
 
 1. **Strategic Vision & Risk Register**
+   - Create or update the strategic vision layer before BRD/SRS planning
+   - For Product/B2B/commercializable MVP: draft or request Product Vision inputs (target users, differentiator, product goals, positioning, future direction)
+   - For non-product internal delivery: capture Vision & Scope at project level
    - Identify goals, stakeholders, OKRs
    - **Risk Scan (o4):** Phân tích input → phát hiện patterns rủi ro → sinh Risk Register skeleton
    - Template: `../BA-document-rule/templates/risk-register.md`
@@ -45,6 +53,15 @@ This workflow automates BA documentation using the full v3.4 skill suite (20 ski
 
 3. **Initialize Workspace & Project Type Routing**
    - Xác định loại dự án → Chọn overlay → Load industry templates (nếu có)
+   - Reconfirm the Project Classification Summary before choosing templates:
+     ```text
+     Project classification: <type> + <add-ons>
+     Commercialization signal: <yes/no/unknown>
+     Required first artifact: <Product Vision Document | Vision & Scope | Project Charter>
+     Selected overlay: <overlay>
+     Supporting add-ons: <AI/RBAC/Reporting/Data Governance/etc.>
+     Assumptions to validate: <list>
+     ```
    - Map features → success metrics → tracking events
    - Tạo thư mục project nếu chưa có
    - Chọn supporting templates theo tín hiệu nghiệp vụ:
@@ -57,6 +74,7 @@ This workflow automates BA documentation using the full v3.4 skill suite (20 ski
      - Có data owner, retention, data quality, CDE → `../BA-document-rule/templates/data-governance-plan.md`
      - Product discovery / analytics → `../BA-document-rule/templates/user-research-plan.md`, `../BA-document-rule/templates/product-analytics-spec.md`
      - Quy trình phức tạp cần chuẩn BPMN → `../BA-document-rule/templates/bpmn-modeling-standard.md`
+     - New product/platform/SaaS/app/B2B/commercializable MVP → `../BA-document-rule/templates/vision-scope.md` as Product Vision Document, before BRD/Charter/SRS planning
 
    **📋 Project Type Routing Table:**
 
@@ -72,6 +90,11 @@ This workflow automates BA documentation using the full v3.4 skill suite (20 ski
 
    **Routing Logic:**
    ```
+   IF product/platform/SaaS/app/B2B/commercializable MVP signal exists
+     → Product Vision Document is mandatory
+     → Prefer Product overlay unless user explicitly chooses Lean Canvas-only validation
+   END
+
    IF loại dự án ∈ {Government, Healthcare, Fintech}
      → Load overlay-config.md
      → Load industry templates (templates/industry/)

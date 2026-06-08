@@ -24,7 +24,7 @@ Như vậy bạn vẫn chat 1-1, còn các lệnh như search knowledge, preflig
 - Vẽ/đề xuất process flow, BPMN, use case, ERD, user flow.
 - Kiểm tra requirement có rõ, testable, traceable không.
 - Phân tích impact khi đổi yêu cầu.
-- Chọn bộ tài liệu phù hợp cho từng loại dự án.
+- Phân loại dự án trước khi chọn tài liệu, để không bỏ qua Product Vision với product/SaaS/B2B/MVP thương mại hóa.
 - Tra cứu kiến thức BA đã được index sẵn từ folder tài liệu cũ.
 
 Bạn có thể dùng BA-agent như một **BA senior ngồi cùng bàn**, hỏi gì trả lời đó, nhưng vẫn đi theo quy trình chuẩn.
@@ -66,12 +66,13 @@ Bạn không cần tự chạy workflow. Chỉ cần yêu cầu BA-agent đi the
 ```text
 1. Hỏi để hiểu bài toán
 2. Tóm tắt lại context
-3. Xác định loại dự án
-4. Đề xuất bộ tài liệu cần làm
-5. Làm từng tài liệu một
-6. Review gap sau mỗi tài liệu
-7. Kiểm tra traceability giữa các tài liệu
-8. Chốt bản hoàn chỉnh
+3. Xác định loại dự án và add-ons: product/in-house/outsource/startup MVP/AI/reporting/RBAC/data governance
+4. Nếu là product/platform/SaaS/app/B2B/commercializable MVP, chốt Product Vision trước Project Charter/BRD
+5. Đề xuất bộ tài liệu cần làm theo từng lớp: Product, Business, Process, Requirement, UX, AI/Data, Technical, QA/UAT, Delivery
+6. Làm từng tài liệu một
+7. Review gap sau mỗi tài liệu
+8. Kiểm tra traceability giữa các tài liệu
+9. Chốt bản hoàn chỉnh
 ```
 
 Prompt:
@@ -106,7 +107,9 @@ Nếu bạn chưa biết dự án thuộc loại nào, hỏi:
 
 ```text
 Dựa trên mô tả dự án của tôi, hãy xác định dự án thuộc loại nào: in-house, outsource, product, startup MVP, fintech, healthcare hay government.
-Giải thích ngắn vì sao và đề xuất bộ tài liệu phù hợp.
+Đồng thời xác định các add-ons nếu có: AI/ML, reporting/dashboard, RBAC/phân quyền, data governance/audit.
+Nếu có tín hiệu product/platform/SaaS/app/B2B/commercialization, hãy đưa Product Vision Document lên trước Project Charter và BRD.
+Giải thích ngắn vì sao và đề xuất bộ tài liệu phù hợp theo từng lớp.
 ```
 
 Bảng tham khảo:
@@ -120,6 +123,14 @@ Bảng tham khảo:
 | `fintech` | Ví điện tử, payment, banking, reconciliation |
 | `healthcare` | HIS/EMR/LIS, bệnh viện, clinical workflow |
 | `government` | Dự án nhà nước, đấu thầu, nghiệm thu nhiều cấp |
+
+Rule quan trọng:
+
+```text
+Product Vision không được thay bằng BRD hoặc Project Charter.
+Nếu dự án là product/platform/SaaS/app/B2B hoặc MVP có khả năng thương mại hóa,
+tài liệu đầu tiên phải là Product Vision Document.
+```
 
 ---
 
@@ -445,21 +456,24 @@ Hãy áp dụng tư duy Product BA.
 
 Nếu cần, hãy tự tra knowledge về product discovery, persona, user flow, analytics và beta testing.
 Hãy giúp tôi xác định:
-1. Persona
-2. Pain points
-3. Product hypothesis
-4. Success metrics
-5. User flow
-6. Analytics events
-7. MVP scope
-8. Release plan
-9. Feedback loop
+1. Product Vision
+2. Target users và buyer nếu khác nhau
+3. Persona
+4. Pain points
+5. Product hypothesis
+6. Differentiator / value proposition
+7. Success metrics
+8. User flow
+9. Analytics events
+10. MVP scope
+11. Release plan
+12. Feedback loop
 ```
 
 Bộ tài liệu thường dùng:
 
 ```text
-Vision & Scope
+Product Vision Document / Vision & Scope
 BRD nhẹ
 User Personas
 User Flow
@@ -469,6 +483,17 @@ User Story Map
 Data Model
 Beta Testing Plan
 Release Notes
+```
+
+Nếu product/SaaS có hướng bán B2B hoặc thương mại hóa, thứ tự tối thiểu nên là:
+
+```text
+1. Product Vision Document
+2. Product Strategy/Roadmap nếu cần
+3. Project Charter
+4. BRD nhẹ
+5. Scope In/Out
+6. User Story Map + Product Backlog
 ```
 
 ---
@@ -686,7 +711,7 @@ Dùng BA-agent để dẫn tôi làm BA cho dự án này từ đầu đến cu�
 Quy trình nhớ nhanh:
 
 ```text
-Hỏi -> Hiểu problem -> Chọn loại dự án -> Chốt scope -> Viết tài liệu -> Review gap -> Traceability -> Sign-off
+Hỏi -> Hiểu problem -> Phân loại dự án -> Chốt Vision nếu là product -> Chốt scope -> Viết tài liệu -> Review gap -> Traceability -> Sign-off
 ```
 
 Nguyên tắc quan trọng nhất:

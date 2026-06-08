@@ -20,6 +20,23 @@
       "quality_checks": ["Every pain point has an affected stakeholder", "Every assumption has a validation owner", "Every decision has an owner and date"]
     },
     {
+      "id": "KB-PRODUCT-VISION-001",
+      "title": "Product Vision and Project Classification",
+      "aliases": ["vision", "product vision", "vision document", "product strategy", "platform", "saas", "b2b", "commercialization", "mvp plan", "tầm nhìn sản phẩm"],
+      "tags": ["product", "vision", "classification", "strategy", "scope"],
+      "summary": "Before recommending BRD/SRS/backlog documents, classify the initiative. New products, platforms, SaaS/apps, B2B offerings, and commercializable MVPs require Product Vision before Project Charter and BRD.",
+      "use_when": ["New product or platform", "SaaS/App/Product project", "B2B sale is planned", "MVP has a future product roadmap", "User asks what documents are needed"],
+      "questions": [
+        "Is this an internal project only, or will it become a commercial product?",
+        "Who is the buyer and who is the daily user?",
+        "What problem should the product own better than current alternatives?",
+        "What is the 1-3 year direction beyond the first MVP?",
+        "Which document layer is needed first: Product, Business, Process, Requirement, UX, AI/Data, Technical, QA/UAT, or Delivery?"
+      ],
+      "outputs": ["Project Classification Summary", "Product Vision Document", "Product Strategy/Roadmap", "Document Recommendation Matrix", "Scope Guardrails"],
+      "quality_checks": ["Product Vision is not replaced by BRD or Project Charter", "Commercialization signal is explicitly checked", "Target user and buyer are separated when different", "Differentiator and success metrics are stated"]
+    },
+    {
       "id": "KB-BRD-001",
       "title": "Business Requirements Document",
       "aliases": ["brd", "business requirement", "business requirements document", "yêu cầu kinh doanh"],

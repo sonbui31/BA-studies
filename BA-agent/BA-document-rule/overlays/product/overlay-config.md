@@ -7,6 +7,8 @@
 
 ## 1. Tài liệu bắt buộc vs Tùy chọn
 
+> **Product Vision Rule:** Với sản phẩm mới, platform, SaaS/app, B2B offering, hoặc MVP có khả năng thương mại hóa, **Vision & Scope / Product Vision Document là artifact đầu tiên**. BRD và Project Charter không được dùng để thay Vision.
+
 | # | Tài liệu | Bắt buộc? | Thay đổi so với Generic |
 |---|----------|----------|------------------------|
 | 1 | Vision & Scope | ✅ Bắt buộc | **Thêm: Product Vision Board, OKRs** |
