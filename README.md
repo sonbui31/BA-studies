@@ -4,6 +4,11 @@ Tài liệu này dành cho cách dùng đơn giản nhất: **bạn chat trực 
 
 Bạn chỉ cần nói rõ mục tiêu, cung cấp thông tin đang có, rồi để BA-agent hỏi tiếp, phân tích, tạo tài liệu, review và chỉ ra gap.
 
+Hai quy tắc mặc định hiện tại:
+
+- **Tài liệu tiếng Việt phải có dấu**. BA-agent không được sinh nội dung kiểu `tieng Viet khong dau`, trừ ID, tên file, code, API path, database field, command, URL.
+- Khi viết **BRD, SRS, User Story, Acceptance Criteria**, BA-agent phải tham chiếu `BA-agent/Curated templates/` trước để bám format/ví dụ thực chiến, rồi chuẩn hóa output theo markdown templates và overlay của repo.
+
 Khi bạn muốn BA-agent tự kiểm tra bằng terminal, hãy nói rõ:
 
 ```text
@@ -21,6 +26,7 @@ Như vậy bạn vẫn chat 1-1, còn các lệnh như search knowledge, preflig
 - Khai thác yêu cầu từ ý tưởng mơ hồ.
 - Xác định stakeholder, pain point, scope, assumption, constraint.
 - Viết hoặc review Vision & Scope, BRD, SRS, User Story, UAT, RTM.
+- Áp dụng curated templates dạng DOCX/PDF cho BRD, SRS, User Story và Acceptance Criteria.
 - Vẽ/đề xuất process flow, BPMN, use case, ERD, user flow.
 - Kiểm tra requirement có rõ, testable, traceable không.
 - Phân tích impact khi đổi yêu cầu.
@@ -43,6 +49,8 @@ Hãy làm việc với tôi theo kiểu hỏi đáp 1-1.
 Đầu tiên hãy hỏi tôi các câu cần thiết để hiểu problem, stakeholder, scope, quy trình hiện tại và mục tiêu.
 Sau khi đủ thông tin, hãy đề xuất bộ tài liệu BA cần tạo.
 Nếu cần tra cứu kiến thức hoặc kiểm tra tài liệu bằng script, hãy tự chạy lệnh phù hợp và tóm tắt kết quả cho tôi.
+Khi viết BRD/SRS/User Story/AC, hãy áp dụng Curated templates trước rồi mới chuẩn hóa theo markdown templates.
+Tất cả nội dung tiếng Việt phải viết có dấu.
 ```
 
 Ví dụ:
@@ -55,6 +63,8 @@ Hãy làm việc với tôi theo kiểu hỏi đáp 1-1.
 Đầu tiên hãy hỏi tôi các câu cần thiết để hiểu problem, stakeholder, scope, quy trình hiện tại và mục tiêu.
 Sau khi đủ thông tin, hãy đề xuất bộ tài liệu BA cần tạo.
 Nếu cần tra cứu kiến thức hoặc kiểm tra tài liệu bằng script, hãy tự chạy lệnh phù hợp và tóm tắt kết quả cho tôi.
+Khi viết BRD/SRS/User Story/AC, hãy áp dụng Curated templates trước rồi mới chuẩn hóa theo markdown templates.
+Tất cả nội dung tiếng Việt phải viết có dấu.
 ```
 
 ---
@@ -68,11 +78,12 @@ Bạn không cần tự chạy workflow. Chỉ cần yêu cầu BA-agent đi the
 2. Tóm tắt lại context
 3. Xác định loại dự án và add-ons: product/in-house/outsource/startup MVP/AI/reporting/RBAC/data governance
 4. Nếu là product/platform/SaaS/app/B2B/commercializable MVP, chốt Product Vision trước Project Charter/BRD
-5. Đề xuất bộ tài liệu cần làm theo từng lớp: Product, Business, Process, Requirement, UX, AI/Data, Technical, QA/UAT, Delivery
-6. Làm từng tài liệu một
-7. Review gap sau mỗi tài liệu
-8. Kiểm tra traceability giữa các tài liệu
-9. Chốt bản hoàn chỉnh
+5. Chọn overlay và curated/markdown templates phù hợp
+6. Đề xuất bộ tài liệu cần làm theo từng lớp: Product, Business, Process, Requirement, UX, AI/Data, Technical, QA/UAT, Delivery
+7. Làm từng tài liệu một
+8. Review gap sau mỗi tài liệu
+9. Kiểm tra traceability giữa các tài liệu
+10. Chốt bản hoàn chỉnh
 ```
 
 Prompt:
@@ -87,7 +98,7 @@ Khi cần search knowledge, review chất lượng hoặc kiểm tra traceabilit
 Các script BA-agent có thể tự chọn:
 
 | Khi nào | Script phù hợp |
----|---|
+|---|---|
 | Cần tra cứu nhanh kiến thức BA | `knowledge_search.py` |
 | Cần tra cứu sâu trong knowledge index | `knowledge_index_search.py` |
 | Cần kiểm tra tài liệu đủ input chưa | `preflight_check.py` |
@@ -115,7 +126,7 @@ Giải thích ngắn vì sao và đề xuất bộ tài liệu phù hợp theo t
 Bảng tham khảo:
 
 | Loại | Khi dùng |
----|---|
+|---|---|
 | `in-house` | Dự án nội bộ công ty |
 | `outsource` | Làm cho client, cần sign-off, hợp đồng, nghiệm thu |
 | `product` | SaaS/app/platform, có roadmap, metric, release |
@@ -134,7 +145,35 @@ tài liệu đầu tiên phải là Product Vision Document.
 
 ---
 
-## 5. Nếu Bạn Chỉ Có Ý Tưởng Mơ Hồ
+## 5. Curated Templates Được Dùng Thế Nào?
+
+Folder `BA-agent/Curated templates/` là lớp template thực chiến cho các tài liệu BA lõi:
+
+| File | Vai trò |
+|---|---|
+| `Template-tai-lieu-BA-BRD-SRS-UserStory-AC.docx` | Baseline format, bảng, wording style và ví dụ cho BRD, SRS, User Story, Acceptance Criteria |
+| `SRS.pdf` | Reference để đối chiếu độ đầy đủ khi sinh hoặc review SRS |
+
+Khi bạn muốn BA-agent dùng đúng folder này, nói rõ:
+
+```text
+Hãy viết tài liệu theo BA-agent và áp dụng Curated templates trước.
+Output cuối cùng vẫn là markdown, tuân thủ overlay, numbering, traceability và quality gates của repo.
+Tất cả nội dung tiếng Việt phải có dấu.
+```
+
+Curated templates không thay thế `BA-document-rule/templates/`. Cách dùng đúng là:
+
+```text
+Curated templates -> lấy format/ví dụ/mức chi tiết
+BA-document-rule/templates -> chuẩn hóa cấu trúc markdown và checklist
+BA-document-rule/overlays -> điều chỉnh theo loại dự án
+scripts/* -> kiểm tra chất lượng, numbering, traceability
+```
+
+---
+
+## 6. Nếu Bạn Chỉ Có Ý Tưởng Mơ Hồ
 
 Dùng prompt:
 
@@ -169,7 +208,7 @@ BA-agent nên trả về:
 
 ---
 
-## 6. Nếu Bạn Muốn Viết BRD
+## 7. Nếu Bạn Muốn Viết BRD
 
 Prompt:
 
@@ -180,6 +219,8 @@ Dùng BA-agent để viết BRD cho dự án sau:
 Trước khi viết BRD, hãy kiểm tra thông tin đã đủ chưa.
 Nếu thiếu, hãy hỏi tôi trước.
 Nếu cần, hãy tự chạy knowledge_search.py hoặc knowledge_index_search.py với chủ đề BRD/scope/stakeholder/assumption.
+Hãy áp dụng Curated templates cho BRD trước, sau đó chuẩn hóa theo template markdown và overlay phù hợp.
+Viết tiếng Việt có dấu đầy đủ.
 Khi đủ rồi, hãy viết BRD theo cấu trúc:
 1. Executive Summary
 2. Background / Problem
@@ -212,7 +253,7 @@ Chỉ ra:
 
 ---
 
-## 7. Nếu Bạn Muốn Viết SRS
+## 8. Nếu Bạn Muốn Viết SRS
 
 Prompt:
 
@@ -224,6 +265,8 @@ Input hiện có:
 [BRD hoặc mô tả]
 
 Nếu cần, hãy tự chạy knowledge_search.py hoặc knowledge_index_search.py về SRS/FR/NFR/API/data/error handling trước khi viết.
+Hãy đối chiếu Curated templates/SRS.pdf và template SRS markdown trước khi viết.
+Viết tiếng Việt có dấu đầy đủ.
 Hãy hỏi thêm nếu thiếu, sau đó viết SRS gồm:
 1. Scope
 2. Actors / Roles
@@ -246,7 +289,7 @@ Không dùng từ mơ hồ như "nhanh", "dễ dùng", "linh hoạt" nếu khôn
 
 ---
 
-## 8. Nếu Bạn Muốn Viết User Story
+## 9. Nếu Bạn Muốn Viết User Story
 
 Prompt:
 
@@ -255,6 +298,8 @@ Dựa trên feature sau:
 [mô tả feature]
 
 Nếu cần, hãy tự tra knowledge về User Story/Acceptance Criteria/INVEST trước khi viết.
+Hãy áp dụng Curated templates cho User Story/Acceptance Criteria trước khi sinh output.
+Viết tiếng Việt có dấu đầy đủ.
 Hãy tạo User Story Map gồm:
 1. Activities
 2. Tasks
@@ -273,7 +318,7 @@ Acceptance Criteria phải có happy path, negative path, boundary case và perm
 
 ---
 
-## 9. Nếu Bạn Muốn Làm UAT Và RTM
+## 10. Nếu Bạn Muốn Làm UAT Và RTM
 
 Prompt:
 
@@ -306,7 +351,7 @@ Chỉ ra requirement nào chưa có FR, story nào chưa có test case, NFR nào
 
 ---
 
-## 10. Nếu Bạn Muốn Vẽ Quy Trình / Diagram
+## 11. Nếu Bạn Muốn Vẽ Quy Trình / Diagram
 
 Prompt:
 
@@ -334,7 +379,7 @@ Dùng swimlane nếu có nhiều actor/phòng ban.
 Chọn diagram:
 
 | Cần hiểu gì | Diagram phù hợp |
----|---|
+|---|---|
 | Ai dùng hệ thống | Use Case / Context Diagram |
 | Quy trình chạy thế nào | BPMN / Activity / Swimlane |
 | Dữ liệu đi đâu | DFD |
@@ -345,7 +390,7 @@ Chọn diagram:
 
 ---
 
-## 11. Nếu Dự Án Có AI / ML
+## 12. Nếu Dự Án Có AI / ML
 
 Prompt:
 
@@ -376,7 +421,7 @@ Tính năng: AI tự tạo bài học, quiz và bài thi từ tài liệu nội 
 
 ---
 
-## 12. Nếu Dự Án Có Data / Report / Dashboard
+## 13. Nếu Dự Án Có Data / Report / Dashboard
 
 Prompt:
 
@@ -409,7 +454,7 @@ field name, type, required, validation rule, source, owner, sensitivity.
 
 ---
 
-## 13. Nếu Dự Án Là Outsource
+## 14. Nếu Dự Án Là Outsource
 
 Prompt:
 
@@ -446,7 +491,7 @@ Handover Checklist
 
 ---
 
-## 14. Nếu Dự Án Là Product / SaaS
+## 15. Nếu Dự Án Là Product / SaaS
 
 Prompt:
 
@@ -498,7 +543,7 @@ Nếu product/SaaS có hướng bán B2B hoặc thương mại hóa, thứ tự 
 
 ---
 
-## 15. Nếu Dự Án Thuộc Domain Đặc Thù
+## 16. Nếu Dự Án Thuộc Domain Đặc Thù
 
 ### Fintech / Banking / Payment
 
@@ -528,7 +573,7 @@ procurement, regulatory compliance, multi-level acceptance, security classificat
 
 ---
 
-## 16. Cách Yêu Cầu BA-agent Review
+## 17. Cách Yêu Cầu BA-agent Review
 
 Prompt review chung:
 
@@ -567,7 +612,7 @@ Chỉ ra orphan, missing link và cách sửa.
 
 ---
 
-## 17. Cách Làm Việc Từng Bước Với BA-agent
+## 18. Cách Làm Việc Từng Bước Với BA-agent
 
 Nếu muốn BA-agent không viết quá nhanh, dùng prompt:
 
@@ -589,7 +634,7 @@ thiếu gì, và bước tiếp theo nên làm gì.
 
 ---
 
-## 18. Khi Nào Mới Cần Chạy Script?
+## 19. Khi Nào Mới Cần Chạy Script?
 
 Bạn **không bắt buộc tự chạy script** nếu chỉ muốn chat 1-1.
 
@@ -651,7 +696,7 @@ Quy tắc trao đổi:
 
 ---
 
-## 19. Câu Lệnh Chat Mẫu Hay Dùng Nhất
+## 20. Câu Lệnh Chat Mẫu Hay Dùng Nhất
 
 ### Bắt đầu dự án
 
@@ -671,6 +716,7 @@ Dựa trên mô tả này, hãy đề xuất bộ tài liệu BA cần tạo, th
 ```text
 Hãy viết [BRD/SRS/UAT/User Story Map] cho nội dung sau.
 Nếu thiếu thông tin, hỏi tôi trước.
+Nếu là BRD/SRS/User Story/AC, hãy áp dụng Curated templates và viết tiếng Việt có dấu.
 ```
 
 ### Review tài liệu
@@ -700,7 +746,7 @@ Hãy tóm tắt những gì đã biết, những gì còn thiếu, và đề xu�
 
 ---
 
-## 20. Ghi Nhớ Ngắn Gọn
+## 21. Ghi Nhớ Ngắn Gọn
 
 Bạn có thể dùng BA-agent chỉ bằng một câu:
 
@@ -711,7 +757,7 @@ Dùng BA-agent để dẫn tôi làm BA cho dự án này từ đầu đến cu�
 Quy trình nhớ nhanh:
 
 ```text
-Hỏi -> Hiểu problem -> Phân loại dự án -> Chốt Vision nếu là product -> Chốt scope -> Viết tài liệu -> Review gap -> Traceability -> Sign-off
+Hỏi -> Hiểu problem -> Phân loại dự án -> Chọn overlay/template -> Chốt Vision nếu là product -> Chốt scope -> Viết tài liệu có dấu -> Review gap -> Traceability -> Sign-off
 ```
 
 Nguyên tắc quan trọng nhất:

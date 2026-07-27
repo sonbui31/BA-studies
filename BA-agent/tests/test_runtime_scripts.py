@@ -275,6 +275,22 @@ class RuntimeScriptTests(unittest.TestCase):
             stakeholder = next(item for item in brd["checks"] if item["item"] == "Stakeholder Map")
             self.assertEqual(stakeholder["status_code"], "FAIL")
 
+    def test_preflight_flags_unaccented_vietnamese_body_text(self):
+        text = (
+            "He thong phai hien thi danh sach don hang va cho phep nguoi dung kiem tra thong tin khach hang. "
+            "Tai lieu yeu cau chuc nang quan ly du lieu dau vao dau ra."
+        )
+        passed, detail = preflight_check.vietnamese_diacritics_status(text)
+        self.assertFalse(passed, detail)
+
+    def test_preflight_allows_accented_vietnamese_body_text(self):
+        text = (
+            "Hệ thống phải hiển thị danh sách đơn hàng và cho phép người dùng kiểm tra thông tin khách hàng. "
+            "Tài liệu yêu cầu chức năng quản lý dữ liệu đầu vào đầu ra."
+        )
+        passed, detail = preflight_check.vietnamese_diacritics_status(text)
+        self.assertTrue(passed, detail)
+
     def test_preflight_quality_gate_uses_rubric_pass_flag(self):
         text = "\n".join(
             [
