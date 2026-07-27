@@ -33,7 +33,9 @@ Read only the files needed for the task.
 | Run golden BA behavior checks | `scripts/eval_golden_cases.py` |
 | Resolve stakeholder conflicts before sign-off | `BA-document-rule/core/stakeholder-conflict-resolution.md`, `BA-document-rule/core/persona-simulation.md` |
 | Select domain-specific overlays | Choose one actual overlay config under `BA-document-rule/overlays/` |
-| Generate from templates | `BA-document-rule/templates/` and `BA-document-rule/templates/industry/` |
+| Generate BRD/SRS/User Story/AC with curated layout and examples | `Curated templates/Template-tai-lieu-BA-BRD-SRS-UserStory-AC.docx`; use alongside `BA-document-rule/templates/brd.md`, `srs.md`, and `user-story-map.md` |
+| Generate or review full SRS structure | `Curated templates/SRS.pdf`; use as SRS reference alongside `BA-document-rule/templates/srs.md` |
+| Generate from markdown templates | `BA-document-rule/templates/` and `BA-document-rule/templates/industry/` |
 
 ## Execution rules
 
@@ -43,7 +45,11 @@ Read only the files needed for the task.
 4. Run elicitation and As-Is gates before writing BRD or SRS, unless the user explicitly confirms a greenfield project.
 5. Pick one overlay before drafting:
    `inhouse`, `outsource`, `product`, `startup-mvp`, `government`, `healthcare`, or `fintech`.
-6. Add supporting artifacts when risk signals appear:
+6. Before drafting BRD, SRS, User Story Map, or Acceptance Criteria, consult the matching curated template first:
+   - `Curated templates/Template-tai-lieu-BA-BRD-SRS-UserStory-AC.docx` for structure, wording style, examples, and expected level of detail.
+   - `Curated templates/SRS.pdf` when generating/reviewing SRS completeness.
+   Then normalize the final output into repository markdown conventions and the selected overlay.
+7. Add supporting artifacts when risk signals appear:
    - Investment or Go/No-Go decision → `business-case.md`.
    - Open assumptions/issues/dependencies → `raid-log.md`.
    - Role-sensitive access → `rbac-matrix.md`.
@@ -53,13 +59,14 @@ Read only the files needed for the task.
    - Data ownership/retention/quality → `data-governance-plan.md`.
    - Product discovery or event tracking → `user-research-plan.md`, `product-analytics-spec.md`.
    - Formal process notation → `bpmn-modeling-standard.md`.
-7. Keep traceability explicit:
+8. Keep traceability explicit:
    `BRQ-* -> FR-* -> Feature -> US-* -> TC-*`.
-8. If stakeholders disagree on scope, controls, workflow, budget, or ownership, stop drafting and run the conflict-resolution protocol before freezing BRD/SRS/UAT wording.
-9. Use the bundle validator before claiming the skill package is internally consistent.
-10. When the user asks to apply general BA knowledge gathered from the old `BA/` folder, read `BA-document-rule/references/ba-knowledge-base.md`; it is self-contained and must not require the original `BA/` folder to exist.
-11. Before drafting a complex artifact, run or consult `scripts/knowledge_search.py "<topic>"` to retrieve the closest BA knowledge cards, especially for product vision, UAT/RTM, AI/ML, data/API/reporting, process modeling, and regulated domains.
-12. If deeper source-derived recall is needed, search `knowledge-index/chunks.jsonl` with `scripts/knowledge_index_search.py "<query>"`; this index is self-contained and must not read the original `BA/` folder at runtime.
+9. Generate Vietnamese-facing BA content in **Vietnamese with full diacritics**. Do not write body text as "tieng Viet khong dau". Keep ASCII/no-diacritic text only for filenames, IDs, code identifiers, API paths, database fields, commands, URLs, and source-controlled technical tokens.
+10. If stakeholders disagree on scope, controls, workflow, budget, or ownership, stop drafting and run the conflict-resolution protocol before freezing BRD/SRS/UAT wording.
+11. Use the bundle validator before claiming the skill package is internally consistent.
+12. When the user asks to apply general BA knowledge gathered from the old `BA/` folder, read `BA-document-rule/references/ba-knowledge-base.md`; it is self-contained and must not require the original `BA/` folder to exist.
+13. Before drafting a complex artifact, run or consult `scripts/knowledge_search.py "<topic>"` to retrieve the closest BA knowledge cards, especially for product vision, UAT/RTM, AI/ML, data/API/reporting, process modeling, and regulated domains.
+14. If deeper source-derived recall is needed, search `knowledge-index/chunks.jsonl` with `scripts/knowledge_index_search.py "<query>"`; this index is self-contained and must not read the original `BA/` folder at runtime.
 
 ## Validation
 

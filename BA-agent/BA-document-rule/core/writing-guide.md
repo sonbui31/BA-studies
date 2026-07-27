@@ -48,11 +48,12 @@ Mọi tài liệu BA phải có:
 
 ## 1.1. Quy tắc Trình bày & Chính tả (Presentation & Spelling Rules) ⭐ NEW v3.3
 
-Để đảm bảo tài liệu đầu ra luôn đạt chuẩn chuyên nghiệp (Production-Ready), yêu cầu áp dụng nghiêm ngặt 5 nguyên tắc sau:
+Để đảm bảo tài liệu đầu ra luôn đạt chuẩn chuyên nghiệp (Production-Ready), yêu cầu áp dụng nghiêm ngặt 6 nguyên tắc sau:
 
 1. **Chính tả & Ngữ pháp (Zero-Tolerance):** Tuyệt đối không sai chính tả, không dùng sai dấu câu, sai quy tắc viết hoa/viết thường. Sử dụng đúng thuật ngữ chuyên ngành đã định nghĩa.
-2. **Trật tự Logic (Structured Layout):** Các phần (sections), phần phụ (sub-sections), bảng biểu phải được sắp xếp vị trí hợp lý, liền mạch theo Template. **KHÔNG ĐƯỢC** trình bày lộn xộn, thiếu tính gắn kết hoặc đặt sai phân mục.
-3. **Đánh Số Chỉ Mục (Sequential Numbering — ZERO-TOLERANCE):** Mọi danh sách, điều khoản, headings, và ID phải được đánh số đúng và giữ trình tự chặt chẽ. **Tuyệt đối không** nhảy cóc, không lặp số, không đảo lộn thứ tự. Quy tắc này áp dụng cho **3 loại đánh số**:
+2. **Tiếng Việt có dấu (Vietnamese Diacritics — ZERO-TOLERANCE):** Mọi nội dung hướng đến người đọc tiếng Việt PHẢI dùng tiếng Việt có dấu chuẩn Unicode. Tuyệt đối không viết thân tài liệu dạng "tieng Viet khong dau". Ngoại lệ hợp lệ: tên file, mã requirement/test (`BRQ-01`, `FR-ORD-001`), biến/code, endpoint/API path, database field, command, URL, và thuật ngữ kỹ thuật bắt buộc ASCII.
+3. **Trật tự Logic (Structured Layout):** Các phần (sections), phần phụ (sub-sections), bảng biểu phải được sắp xếp vị trí hợp lý, liền mạch theo Template. **KHÔNG ĐƯỢC** trình bày lộn xộn, thiếu tính gắn kết hoặc đặt sai phân mục.
+4. **Đánh Số Chỉ Mục (Sequential Numbering — ZERO-TOLERANCE):** Mọi danh sách, điều khoản, headings, và ID phải được đánh số đúng và giữ trình tự chặt chẽ. **Tuyệt đối không** nhảy cóc, không lặp số, không đảo lộn thứ tự. Quy tắc này áp dụng cho **3 loại đánh số**:
 
    **3a. Heading Numbering (Số thứ tự mục):**
    - ✅ Đúng: `1.` → `1.1` → `1.2` → `2.` → `2.1` → `2.1.1`
@@ -73,11 +74,11 @@ Mọi tài liệu BA phải có:
    - Khi **di chuyển** item → cập nhật số cả vị trí cũ lẫn mới.
    - **Cross-document:** Nếu thay đổi ID trong 1 tài liệu (VD: đổi `BRQ-05` thành `BRQ-04`) → CẬP NHẬT tất cả tài liệu khác đang tham chiếu ID đó (SRS, Feature Spec, Story Map, UAT Plan).
    - **Trước khi hoàn tất:** Agent PHẢI quét toàn bộ tài liệu vừa sinh/sửa để xác nhận: (1) Không nhảy cóc, (2) Không lặp, (3) Không đảo thứ tự.
-4. **Nhất quán & Liệu cơm gắp mắm Thuật ngữ (Audience-Aware Terminology):** 
+5. **Nhất quán & Liệu cơm gắp mắm Thuật ngữ (Audience-Aware Terminology):** 
    - **Tài liệu Kinh doanh (BRD, Vision):** Dùng từ ngữ phổ thông, dễ hiểu cho người ngoài ngành, tránh nhồi nhét thuật ngữ kỹ thuật (VD: dùng "Khách hàng", "Hệ thống lưu trữ lịch sử").
    - **Tài liệu Kỹ thuật (SRS, API Spec, US):** Được phép/Nên dùng thuật ngữ chuyên ngành Tech để Dev/QC hiểu chính xác (VD: dùng "End-User", "Audit Log", "Cronjob").
    - **Tuy nhiên:** Phải duy trì sự nhất quán tuyệt đối *trong cùng một phân lớp tài liệu*. (VD: Trong tài liệu kỹ thuật, nếu đã thống nhất dùng "End-User" thì không đoạn khác lại tự đổi thành "Customer". Tương tự ở BRD, dùng "Khách hàng" thì 100% dùng "Khách hàng").
-5. **Văn phong Chỉn chu & Chuyên nghiệp (Polished Professionalism):** Mọi câu từ phải được trau chuốt kỹ lưỡng. Sử dụng giọng văn trang trọng (formal), khách quan. Không dùng văn nói, tiếng lóng, từ cảm thán hoặc cách hành văn lủng củng. Câu cú phải gọn gàng, súc tích, đi thẳng vào trọng tâm.
+6. **Văn phong Chỉn chu & Chuyên nghiệp (Polished Professionalism):** Mọi câu từ phải được trau chuốt kỹ lưỡng. Sử dụng giọng văn trang trọng (formal), khách quan. Không dùng văn nói, tiếng lóng, từ cảm thán hoặc cách hành văn lủng củng. Câu cú phải gọn gàng, súc tích, đi thẳng vào trọng tâm.
 
 ---
 
@@ -128,6 +129,12 @@ Mọi tài liệu BA phải có:
 ---
 
 ## 4. Ngôn ngữ & Giọng văn
+
+### Quy tắc tiếng Việt có dấu
+
+- Tài liệu BA viết cho khách hàng, PO, Sponsor, Dev/QC Việt Nam phải dùng tiếng Việt có dấu đầy đủ.
+- Không sinh các câu như "He thong phai hien thi danh sach don hang"; phải viết "Hệ thống phải hiển thị danh sách đơn hàng".
+- Chỉ dùng không dấu/ASCII khi ngữ cảnh kỹ thuật yêu cầu: `02-BRD.md`, `FR-ORD-001`, `POST /orders`, `order_id`, `npm run test`, URL, biến, bảng database, hoặc code block.
 
 ### Ngôn ngữ theo đối tượng đọc
 
@@ -508,4 +515,3 @@ Identified → Documented → Assigned Owner → Validated → Confirmed / Rejec
 | ASM-03 | API HIS available | ❌ Rejected | Dev Lead | Sprint 1 | Expert | API chưa có | Delay F04 |
 
 > **Quy tắc:** Mọi assumption với Impact = High **PHẢI** validate trước Sprint 2. Assumption chưa validate → Risk Register.
-

@@ -22,6 +22,8 @@
 
 ## Bước 2: Tạo folder dự án (1 phút)
 
+> Với BRD/SRS/User Story/Acceptance Criteria, xem `../Curated templates/` trước để lấy format, bảng và ví dụ thực chiến; sau đó mới copy template markdown bên dưới vào project.
+
 ```
 {{Tên-dự-án}}/
 ├── 00-BA-Process-Framework.md    ← Copy từ core/ (nếu cần customize)
