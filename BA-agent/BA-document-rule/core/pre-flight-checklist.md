@@ -43,6 +43,7 @@ INPUT nhận được → Chọn document type → Chạy Pre-Flight Checklist t
 | 14 | **AI Feature Spec** | Nếu có AI/ML features: có `ai-feature-spec.md` hoặc reference | Hướng dẫn user tạo `ai-feature-spec.md` theo template |
 | 15 | **Assumption Validation** ⭐ v3.3 | Assumptions có Impact=High phải có Owner + Validate method | Chuyển sang Assumption Register (`writing-guide.md` §13) |
 | 16 | **Sequential Numbering** ⭐ v3.4 | BRQ-ID tuần tự không nhảy cóc, không lặp. Sub-ID (BRQ-XX.Y) tuần tự trong nhóm cha. Heading numbering (§1, §2...) liên tục. | Quét toàn bộ → re-index theo `writing-guide.md` §1.1 rule 3 |
+| 17 | **Vietnamese Diacritics** | Nội dung tiếng Việt dùng dấu chuẩn Unicode; không viết thân tài liệu kiểu "tieng Viet khong dau". | Rewrite các câu/đoạn tiếng Việt không dấu thành tiếng Việt có dấu; giữ nguyên ID/code/API/URL/tên file |
 
 ### 📋 PFC-SRS: Pre-Flight cho Software Requirements Specification
 
@@ -62,6 +63,7 @@ INPUT nhận được → Chọn document type → Chạy Pre-Flight Checklist t
 | 12 | **Requirement Quality Gate** ⭐ v3.3 | Mọi FR/NFR đạt Rubric ≥ 3/5 (Smell Detector PASS) | Chạy `requirement-quality-rubric.md` → fix smells |
 | 13 | **Conflict Scan** ⭐ v3.3 | 0 Contradictory + 0 Overlapping conflicts detected | Chạy 6 Conflict Detection patterns (`writing-guide.md` §12) |
 | 14 | **Sequential Numbering** ⭐ v3.4 | FR-ID tuần tự trong mỗi phân hệ. Heading numbering (§1, §2, §2.1...) liên tục. NFR-ID tuần tự. | Quét toàn bộ FR/NFR/heading → re-index |
+| 15 | **Vietnamese Diacritics** | Nội dung tiếng Việt dùng dấu chuẩn Unicode; không viết thân tài liệu kiểu "tieng Viet khong dau". | Rewrite các câu/đoạn tiếng Việt không dấu thành tiếng Việt có dấu; giữ nguyên ID/code/API/URL/tên file |
 
 ### 📋 PFC-USM: Pre-Flight cho User Story Map
 
@@ -75,6 +77,7 @@ INPUT nhận được → Chọn document type → Chạy Pre-Flight Checklist t
 | 6 | **Traceability Table** | US → BRQ → FR → TC mapping table | Sinh traceability table |
 | 7 | **AC Coverage ≥ 4 Types** ⭐ v3.3 | Must stories có ≥ 4 loại AC (Happy/Negative/Boundary/Permission) | Áp dụng AC Pattern Library (`writing-guide.md` §11) |
 | 8 | **Sequential Numbering** ⭐ v3.4 | US-ID tuần tự (US-ORD-001→US-ORD-002→US-ORD-003), EPIC numbering liên tục, AC numbering tuần tự trong mỗi US | Quét toàn bộ US/EPIC → re-index |
+| 9 | **Vietnamese Diacritics** | Nội dung tiếng Việt dùng dấu chuẩn Unicode; không viết thân tài liệu kiểu "tieng Viet khong dau". | Rewrite các câu/đoạn tiếng Việt không dấu thành tiếng Việt có dấu; giữ nguyên ID/code/API/URL/tên file |
 
 ### 📋 PFC-UAT: Pre-Flight cho UAT Plan
 
@@ -86,6 +89,7 @@ INPUT nhận được → Chọn document type → Chạy Pre-Flight Checklist t
 | 4 | **Sign-off Criteria** | Có ≥ 5 sign-off criteria cụ thể | Sinh sign-off criteria |
 | 5 | **Business Rule TCs** | Mỗi Business Rule (Rule-1, Rule-2...) có ≥ 1 TC | Map Rules → TCs |
 | 6 | **Sequential Numbering** ⭐ v3.4 | Test Group numbering tuần tự (2.1→2.2→2.3). TC-ID tuần tự trong mỗi group (TC-01-A→TC-01-B). Bảng Sign-off criteria đánh số liên tục. | Quét toàn bộ TG/TC → re-index |
+| 7 | **Vietnamese Diacritics** | Nội dung tiếng Việt dùng dấu chuẩn Unicode; không viết thân tài liệu kiểu "tieng Viet khong dau". | Rewrite các câu/đoạn tiếng Việt không dấu thành tiếng Việt có dấu; giữ nguyên ID/code/API/URL/tên file |
 
 ### 📋 PFC-AI: Pre-Flight cho AI/ML Feature Specification ⭐ NEW v3.1
 

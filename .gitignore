@@ -4,6 +4,7 @@
 /SaaS-HRM-Platform/
 /BA/
 /BA-agent/knowledge-index/semantic/
+/diagrams
 
 __pycache__/
 *.py[cod]

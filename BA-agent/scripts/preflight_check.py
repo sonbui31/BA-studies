@@ -49,6 +49,15 @@ PASS_CODE = "PASS"
 FAIL_CODE = "FAIL"
 NA_CODE = "N/A"
 PLACEHOLDER_PATTERN = re.compile(r"(\[[^\]\n]{1,80}\]|\{\{[^}\n]{0,80}\}\}|\$\[_+\])")
+VIETNAMESE_DIACRITIC_PATTERN = re.compile(r"[àáảãạăằắẳẵặâầấẩẫậèéẻẽẹêềếểễệìíỉĩịòóỏõọôồốổỗộơờớởỡợùúủũụưừứửữựỳýỷỹỵđ]", re.IGNORECASE)
+UNACCENTED_VIETNAMESE_HINT_PATTERN = re.compile(
+    r"\b("
+    r"nguoi|khach|hang|yeu|cau|chuc|nang|thong|tin|he|thong|phai|khong|duoc|"
+    r"quy|trinh|du|lieu|bao|cao|quan|ly|dang|nhap|hien|thi|danh|sach|don|"
+    r"hang|kiem|tra|nghiem|thu|tai|lieu|nguon|vao|dau|ra|xu|ly|luu|tru"
+    r")\b",
+    re.IGNORECASE,
+)
 
 
 def has_any(text: str, *tokens: str) -> bool:
@@ -67,6 +76,24 @@ def count_placeholders(text: str) -> int:
                 continue
             count += 1
     return count
+
+
+def vietnamese_diacritics_status(text: str) -> Tuple[bool, str]:
+    prose_lines = []
+    for _, line in iter_non_fenced_lines(text):
+        stripped = line.strip()
+        if not stripped or stripped.startswith("|---"):
+            continue
+        if re.search(r"`[^`]+`|https?://|/[A-Za-z0-9_/-]+|[A-Z]{2,10}-[A-Z0-9-]*\d+", stripped):
+            stripped = re.sub(r"`[^`]+`|https?://\S+|/[A-Za-z0-9_/-]+|[A-Z]{2,10}-[A-Z0-9-]*\d+", " ", stripped)
+        prose_lines.append(stripped)
+
+    prose = "\n".join(prose_lines)
+    hint_count = len(UNACCENTED_VIETNAMESE_HINT_PATTERN.findall(prose))
+    diacritic_count = len(VIETNAMESE_DIACRITIC_PATTERN.findall(prose))
+    if hint_count >= 12 and diacritic_count < max(8, hint_count // 3):
+        return False, f"likely unaccented Vietnamese ({hint_count} unaccented hints / {diacritic_count} diacritic chars)"
+    return True, f"diacritics aligned ({hint_count} unaccented hints / {diacritic_count} diacritic chars)"
 
 
 def count_table_rows(text: str, anchors: Tuple[str, ...]) -> int:
@@ -174,6 +201,8 @@ def brd_checks(text: str, ctx: Dict[str, str]) -> List[Dict[str, str]]:
     )
 
     checks.append(make_check("Open Placeholders", placeholder_count == 0, f"{placeholder_count} placeholder marker(s)"))
+    ok, detail = vietnamese_diacritics_status(text)
+    checks.append(make_check("Vietnamese Diacritics", ok, detail))
     checks.append(make_check("Glossary", has_any(text, "thuật ngữ", "glossary"), "glossary markers"))
     checks.append(make_check("Problem Statement", pain_rows >= 2 or text.count("Rủi ro #") >= 2, f"{pain_rows} problem rows"))
     checks.append(make_check("Stakeholder Map", stakeholder_rows >= 3, f"{stakeholder_rows} stakeholder rows"))
@@ -215,6 +244,8 @@ def srs_checks(text: str, ctx: Dict[str, str]) -> List[Dict[str, str]]:
     rubric = evaluate_text(text)
 
     checks.append(make_check("Open Placeholders", placeholder_count == 0, f"{placeholder_count} placeholder marker(s)"))
+    ok, detail = vietnamese_diacritics_status(text)
+    checks.append(make_check("Vietnamese Diacritics", ok, detail))
     checks.append(make_check("BRD Completed", any("brd" in name.lower() for name in ctx), "BRD file present in bundle"))
     checks.append(make_check("Architecture Diagram", mermaid_count >= 1 and has_any(text, "kiến trúc", "architecture"), f"{mermaid_count} mermaid block(s)"))
     checks.append(make_check("ER Diagram / Data Model", has_any(text, "erd", "entity", "data dictionary", "data model"), "data model markers"))
@@ -242,6 +273,8 @@ def story_checks(text: str, ctx: Dict[str, str]) -> List[Dict[str, str]]:
     gwt_count = len(re.findall(r"\b(Given|When|Then)\b", text, re.IGNORECASE))
 
     checks.append(make_check("Open Placeholders", placeholder_count == 0, f"{placeholder_count} placeholder marker(s)"))
+    ok, detail = vietnamese_diacritics_status(text)
+    checks.append(make_check("Vietnamese Diacritics", ok, detail))
     checks.append(make_check("BRQ Coverage", story_count >= 1 and br_count >= 1, f"{story_count} stories vs {br_count} business IDs"))
     checks.append(make_check("INVEST Format", has_any(text, "As a", "I want", "So that"), "story sentence markers"))
     checks.append(make_check("BDD Acceptance Criteria", gwt_count >= 3, f"{gwt_count} GWT marker(s)"))
@@ -262,6 +295,8 @@ def uat_checks(text: str, ctx: Dict[str, str]) -> List[Dict[str, str]]:
     signoff_rows = count_table_rows(text, ("điều kiện kết thúc", "sign-off", "biên bản nghiệm thu"))
 
     checks.append(make_check("Open Placeholders", placeholder_count == 0, f"{placeholder_count} placeholder marker(s)"))
+    ok, detail = vietnamese_diacritics_status(text)
+    checks.append(make_check("Vietnamese Diacritics", ok, detail))
     checks.append(make_check("Story Coverage", tc_count >= 1 and any("story" in name.lower() for name in ctx), f"{tc_count} test-case IDs"))
     checks.append(make_check("Test Data Spec", has_any(text, "test data", "dữ liệu kiểm thử", "test accounts"), "test-data markers"))
     checks.append(make_check("Pre-requisites", has_any(text, "điều kiện bắt đầu", "pre-requisite", "môi trường", "environment"), "pre-req markers"))

@@ -4,7 +4,7 @@ description: Business Analysis Workflow 3.4.0 - Advanced Analysis, Sequential Va
 
 # BA Workflow Protocol 3.4.0
 
-This workflow automates BA documentation using the full v3.4 skill suite (20 skills) with **mandatory gates** + **Requirement Quality Engine** + **Sequential Index Validation** + **Industry Routing** (Government / Healthcare / Fintech) to ensure "Think Deeper, Write Better" output across all project types.
+This workflow automates BA documentation using the full v3.4 skill suite (21 skills) with **mandatory gates** + **Requirement Quality Engine** + **Sequential Index Validation** + **Industry Routing** (Government / Healthcare / Fintech) to ensure "Think Deeper, Write Better" output across all project types.
 
 // turbo-all
 
@@ -53,6 +53,10 @@ This workflow automates BA documentation using the full v3.4 skill suite (20 ski
 
 3. **Initialize Workspace & Project Type Routing**
    - Xác định loại dự án → Chọn overlay → Load industry templates (nếu có)
+   - Load curated templates khi tài liệu cần sinh thuộc BRD/SRS/User Story/Acceptance Criteria:
+     - `../Curated templates/Template-tai-lieu-BA-BRD-SRS-UserStory-AC.docx` → baseline cấu trúc, bảng, ví dụ, wording style.
+     - `../Curated templates/SRS.pdf` → reference kiểm tra độ đầy đủ của SRS.
+   - Curated templates định hướng format và quality; markdown templates trong `../BA-document-rule/templates/` vẫn là nguồn canonical để xuất file `.md` theo repo.
    - Reconfirm the Project Classification Summary before choosing templates:
      ```text
      Project classification: <type> + <add-ons>
@@ -150,6 +154,8 @@ This workflow automates BA documentation using the full v3.4 skill suite (20 ski
 
 5. **Document Generation, Auto-Diagram & Visual Prototyping**
    - **⚡ PRE-FLIGHT:** Chạy `../BA-document-rule/core/pre-flight-checklist.md` TRƯỚC mỗi document
+   - **Language Rule:** Nội dung tài liệu tiếng Việt phải được viết bằng tiếng Việt có dấu chuẩn Unicode. Không viết thân tài liệu kiểu "tieng Viet khong dau"; chỉ giữ ASCII/không dấu cho ID, tên file, code/API/database tokens, URL, command.
+   - **Curated Template Rule:** Với BRD/SRS/User Story/AC, draft phải bám curated template tương ứng về mục lục, bảng bắt buộc, ví dụ thực chiến và mức chi tiết; sau đó map về ID scheme và traceability chain của repo.
    - **Automation:** Chạy `../scripts/preflight_check.py <project-folder>` trước khi draft hoặc approve artifact
      - Nếu FAIL ≥ 5 items → STOP, yêu cầu user bổ sung
      - Nếu FAIL 1-4 items → Cảnh báo, tự fill nếu được

@@ -140,7 +140,7 @@ BA-document-rule/
 2. Chạy **`core/project-classification-gate.md`** để phân loại dự án và add-ons
 3. Chọn **overlay** phù hợp → biết cần tạo tài liệu nào
 4. Nếu là product/platform/SaaS/app/B2B/commercializable MVP, tạo **Product Vision Document** trước Project Charter/BRD
-5. Copy **templates** cần thiết → điền thông tin dự án
+5. Với BRD/SRS/User Story/AC, tham chiếu `../Curated templates/` trước để lấy format/ví dụ thực chiến, rồi copy **templates** markdown cần thiết → điền thông tin dự án
 6. Dùng **`core/quality-checklist.md`** để review trước sign-off
 7. Nếu stakeholder mâu thuẫn nhau, chạy **`core/stakeholder-conflict-resolution.md`** trước khi khóa wording trong BRD/SRS/UAT
 
