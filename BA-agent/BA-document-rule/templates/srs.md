@@ -29,6 +29,9 @@
 
 Tài liệu này đặc tả chi tiết yêu cầu chức năng và phi chức năng cho hệ thống {{Tên hệ thống}}, là cơ sở cho Dev team triển khai và QC team kiểm thử.
 
+> [!IMPORTANT]
+> **Quy tắc ngôn ngữ cho SRS:** SRS được viết cho Tech Lead, Software Engineers và QA/QC. Bắt buộc sử dụng **ngôn ngữ kỹ thuật chính xác (Technical / Engineering Language)**: kiểu dữ liệu, ràng buộc validation, API endpoint, mã trạng thái HTTP, logic xử lý thuật toán, và NFR đo lường được. CẤM sử dụng từ ngữ định tính, mơ hồ ("nhanh", "dễ dùng", "bảo mật cao") mà phải quy ra SLA/metric kiểm thử được.
+
 ### 1.2 Phạm vi hệ thống
 
 > Trích từ Vision & Scope (chỉ liệt kê modules trong scope)

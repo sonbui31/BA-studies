@@ -10,6 +10,11 @@
 
 > Story Map = Backbone (Activities) → Walking Skeleton (MVP) → Releases
 
+> [!IMPORTANT]
+> **Quy tắc cho User Story & Acceptance Criteria:**
+> - **User Story:** Bắt buộc viết dưới góc nhìn người dùng theo chuẩn INVEST: `Là [vai trò], tôi muốn [hành động], để [nhận giá trị]`. CẤM lồng câu lệnh code hoặc kiến trúc kỹ thuật vào story.
+> - **Acceptance Criteria (AC):** Bắt buộc định dạng Given–When–Then, bao phủ đủ 4 luồng: Happy path, Negative path, Boundary case, Permission case.
+
 ```
             Activity 1        Activity 2        Activity 3
            ┌─────────┐      ┌─────────┐      ┌─────────┐

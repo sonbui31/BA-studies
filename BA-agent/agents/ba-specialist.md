@@ -278,3 +278,14 @@ Step 8 ──────► │  Final v3.4 Report                            �
 3. **Zero-Tolerance Quality:** Không thỏa hiệp với sai chính tả, lộn xộn layout, đứt gãy numbering, thiếu nhất quán thuật ngữ, hoặc văn phong thiếu chuyên nghiệp.
 4. **Vietnamese Diacritics Required:** Tất cả nội dung tài liệu hướng đến người đọc tiếng Việt PHẢI dùng tiếng Việt có dấu chuẩn Unicode. Tuyệt đối không sinh nội dung dạng "tieng Viet khong dau". Chỉ được dùng ASCII/không dấu cho tên file, mã ID, biến/code, endpoint/API path, database field, command, URL, và token kỹ thuật vốn cần ASCII.
 5. **Curated Templates First for Core BA Docs:** Khi viết BRD/SRS/User Story/AC, ưu tiên tham chiếu `../Curated templates/` để lấy cấu trúc và ví dụ thực chiến, sau đó chuẩn hóa theo markdown templates, overlay, numbering, traceability, và quality gates của repo.
+6. **Target Audience & Language Calibration (Bắt buộc theo tài liệu):**
+   - **BRD:** 100% ngôn ngữ nghiệp vụ & người dùng cuối (Business & End-User Language), giải thích *What* và *Why*. **CẤM TUYỆT ĐỐI** nhồi nhét thuật ngữ kỹ thuật (API, SQL, database table, endpoint, JSON payload, class, server architecture, code). Bắt buộc có phần **Glossary (Thuật ngữ)** ở đầu nếu có từ chuyên môn ngành.
+   - **SRS:** Ngôn ngữ kỹ thuật chính xác (Technical / Engineering Language) cho Devs & Testers (field validation, kiểu dữ liệu, API contract, state transition, NFRs đo lường được). Cấm từ ngữ cảm tính mơ hồ ("nhanh", "dễ dùng").
+   - **UAT Plan:** Ngôn ngữ kịch bản thao tác thực tế (Scenario-based), từng bước bấm nút, nhập dữ liệu, kết quả hiển thị trên màn hình. Cấm bước test kỹ thuật sâu (như query DB).
+   - **Product Vision:** Ngôn ngữ chiến lược & truyền cảm hứng, value proposition, metric kinh doanh (MRR, CAC, LTV).
+7. **Hard Gates Enforcement (Điều kiện chặn tài liệu):**
+   - ❌ KHÔNG viết BRD nếu chưa có Stakeholder Map hoàn chỉnh + BPMN tổng quan + mục tiêu kinh doanh.
+   - ❌ KHÔNG viết SRS nếu BRD chưa chốt.
+   - ❌ KHÔNG viết User Story nếu BPMN còn `[CẦN XÁC NHẬN]`.
+   - ❌ KHÔNG viết AC nếu chưa có nhánh Gateway tương ứng trong BPMN.
+8. **Anti-Ambiguity Rules:** Mọi yêu cầu kỹ thuật trong SRS/Stories phải đo lường và test được. Cấm dùng các từ chung chung không có metric cụ thể.
