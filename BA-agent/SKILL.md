@@ -323,7 +323,35 @@ AI **CẤM** sử dụng các tính từ cảm tính không có khả năng ki�
 
 ---
 
+## 🧪 BỘ AUDIT SCRIPTS & QUY TRÌNH KIỂM SOÁT CHẤT LƯỢNG TỰ ĐỘNG
+
+> 🔴 **CƠ CHẾ AUDIT TỰ ĐỘNG:** Để đảm bảo tài liệu BA đạt tiêu chuẩn "Right First Time", AI phải chủ động vận hành hoặc hướng dẫn người dùng chạy các script audit chuyên dụng nằm trong thư mục `BA-agent/scripts/`:
+
+### 1. Danh mục các Script Audit & Phạm vi Kiểm thử
+
+| Script | Lệnh thực thi | Mục tiêu & Tiêu chí Audit | Khi nào chạy |
+|---|---|---|---|
+| **1. Pre-Flight Check** | `python BA-agent/scripts/preflight_check.py <target-folder>` | **Kiểm tra tính đầy đủ trước & sau khi viết:**<br>• Quét placeholder còn sót `{{...}}`<br>• Kiểm tra tiếng Việt có dấu chuẩn Unicode<br>• Kiểm tra bắt buộc có: Glossary, Problem Statement, Stakeholder Map, OKRs, MoSCoW, Business Rules, Assumptions & Constraints, As-Is process, Sequential numbering. | Chạy ngay sau khi draft xong một tài liệu (BRD/SRS/Story Map/UAT) |
+| **2. Requirement Quality Rubric** | `python BA-agent/scripts/quality_rubric.py <file-or-folder>` | **Chấm điểm chất lượng từng câu yêu cầu (Score 1-5):**<br>• Bắt 8 Smells: Mơ hồ (Ambiguity), Thiếu actor, Thiếu trigger, Không test được, Yêu cầu gộp (Compound)<br>• Bắt 6 Conflict patterns<br>• Tiêu chuẩn pass: Điểm trung bình >= 3.0, 0 Critical Smells. | Chạy khi viết xong FR/NFR trong SRS hoặc User Story |
+| **3. Traceability Scan** | `python BA-agent/scripts/traceability_scan.py <target-folder>` | **Kiểm tra chuỗi truy vết xuyên suốt:**<br>• Scan: `BRQ-* -> FR-* -> Feature -> US-* -> TC-*`<br>• Phát hiện Orphan Requirements (yêu cầu mồ côi không có test case hoặc không có nguồn gốc từ BRQ)<br>• Phát hiện gãy liên kết ID. | Chạy ở Bước 4 (Validation) và trước khi bàn giao (Bước 6) |
+| **4. Sequential Re-Index** | `python BA-agent/scripts/reindex_markdown.py <target-folder>` | **Audit & tự động sửa thứ tự đánh số:**<br>• Quét Heading: §1 → §2 → §3 (không nhảy cóc, không lặp)<br>• Quét ID: BRQ, FR, NFR, US, TC tuần tự<br>• Tự động re-index nếu phát hiện `INDEX_SKIP` hoặc `INDEX_DUPLICATE`. | Chạy khi tài liệu có nhiều lần chỉnh sửa, thêm/bớt mục |
+| **5. BA Response Evaluation** | `python BA-agent/scripts/ba_response_eval.py <project-dir>` | **Đánh giá mức độ bao phủ control:**<br>• Kiểm tra tài liệu đã thỏa mãn đầy đủ các controls đặc thù theo loại dự án (Outsource cần sign-off/CR; Product cần Vision/OKR; Fintech cần audit trail/reconciliation). | Chạy đánh giá tổng thể dự án trước khi nghiệm thu |
+| **6. BA Bundle Audit** | `python BA-agent/scripts/ba_bundle_audit.py` | **Audit toàn vẹn hệ thống BA-agent:**<br>• Kiểm tra phiên bản đồng bộ giữa CHANGELOG, workflows, agents, rules, scripts.<br>• Quét các mã legacy hoặc file bị thiếu. | Chạy khi bảo trì, cấu hình hoặc nâng cấp skill |
+
+### 2. Quy tắc Báo cáo Kết quả Audit cho Người dùng
+Khi AI tự chạy hoặc được yêu cầu audit:
+1. **Không xả raw log terminal dài dòng.**
+2. **Tổng hợp theo bảng báo cáo 4 cột:**
+   `| Hạng mục kiểm tra | Trạng thái (PASS/FAIL/WARNING) | Chi tiết phát hiện | Đề xuất khắc phục |`
+3. **Phân loại lỗi theo độ nghiêm trọng:**
+   - 🔴 **Critical (Chặn bàn giao):** Thiếu stakeholder, gãy traceability, trùng/nhảy ID, requirement mơ hồ không thể test, tiếng Việt không dấu.
+   - 🟡 **Major (Cần sửa):** Thiếu kịch bản ngoại lệ trong AC, thiếu SLA định lượng trong NFR.
+   - 🟢 **Minor (Khuyến nghị):** Cải thiện câu từ, bổ sung ví dụ minh họa.
+
+---
+
 ## 🚪 HARD GATES — ĐIỀU KIỆN CHẶN XUẤT TÀI LIỆU
+
 
 ```
 Stakeholder Map + BPMN (tổng quan)
