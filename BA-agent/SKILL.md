@@ -15,6 +15,10 @@ description: Master Business Analysis (BA) skill. Chạy quy trình BA chuẩn h
 2. **Không tự quyết định nghiệp vụ:** Nếu thiếu dữ kiện (actor, business rule, boundary case), phải **HỎI**, tuyệt đối không tự bịa số liệu hay tự chọn nhánh nghiệp vụ.
 3. **Tiếng Việt chuẩn có dấu 100%:** Toàn bộ nội dung phân tích và tài liệu phải viết bằng tiếng Việt chuẩn có dấu (trừ ID, API path, database schema, code tokens).
 4. **CHỈ DÙNG DUY NHẤT TEMPLATE TRONG `BA-agent/Curated templates/`:** Đối với các tài liệu cốt lõi (BRD, SRS, User Story, Acceptance Criteria), AI **BẮT BUỘC CHỈ SỬ DỤNG DUY NHẤT** các template trong thư mục `BA-agent/Curated templates/` (`01-BRD-Template.md`, `02-SRS-Template.md`, `03-User-Story-Template.md`, `04-Acceptance-Criteria-Template.md`). **TUYỆT ĐỐI KHÔNG** dùng các template BRD/SRS/Story khác ở ngoài thư mục này.
+5. **Xử lý khi user muốn bỏ qua bước (Skip Gate):** Nếu user yêu cầu bỏ qua một bước (VD: *"Bỏ Stakeholder Map, viết BRD luôn"*), AI **KHÔNG từ chối thẳng** mà phải:
+   - (a) Giải thích ngắn gọn 1-2 câu **TẠI SAO** bước đó quan trọng cho chất lượng tài liệu phía sau.
+   - (b) **Đề xuất phiên bản rút gọn (Lite)** thay vì bỏ hoàn toàn. VD: *"Thay vì bỏ, tôi có thể tạo Quick Stakeholder Map 3 cột (Stakeholder, Vai trò, Nhu cầu chính) trong 2 phút — vừa nhanh vừa đủ input cho BRD."*
+   - (c) Nếu user vẫn kiên quyết bỏ → ghi nhãn `[ĐÃ BỎ QUA THEO YÊU CẦU USER]` vào tài liệu + cảnh báo rủi ro cụ thể.
 
 ---
 
@@ -187,14 +191,20 @@ AI **CẤM** sử dụng các tính từ cảm tính không có khả năng ki�
 ### 🟢 BƯỚC 4: Kiểm Tra & Đối Chiếu Chéo (Validation)
 - Kiểm tra tính nhất quán 3 bên: `Stakeholder Map (Actor)` ⟷ `BPMN (Lane)` ⟷ `User Story (Role)`.
 - Liệt kê toàn bộ giả định với nhãn `[GIẢ ĐỊNH - CẦN USER XÁC NHẬN]`.
+- **🔍 Audit tự động:** Chạy `python BA-agent/scripts/traceability_scan.py <project-folder>` để kiểm tra chuỗi `BRQ→FR→Feature→US→TC`. Nếu phát hiện Orphan Requirements hoặc gãy ID → sửa trước khi sang Bước 5.
 
 ### 🟢 BƯỚC 5: Tài Liệu Hóa (Documentation)
 - Áp dụng Ma trận Độc giả & Ngôn ngữ (BRD ngôn ngữ kinh doanh không kỹ thuật; SRS ngôn ngữ kỹ thuật chính xác).
 - **CHỈ DÙNG DUY NHẤT** template trong `BA-agent/Curated templates/` để sinh 4 tài liệu độc lập: `02-BRD.md`, `05-SRS.md`, `06-User-Story.md`, `07-Acceptance-Criteria.md`.
+- **🔍 Audit tự động sau mỗi tài liệu:**
+  - Chạy `python BA-agent/scripts/preflight_check.py <project-folder>` → kiểm tra placeholder, tiếng Việt có dấu, sections bắt buộc.
+  - Chạy `python BA-agent/scripts/quality_rubric.py <file>` → chấm điểm quality 1-5, bắt 8 Smells. Tiêu chuẩn pass: avg ≥ 3.0, 0 Critical Smells.
+  - Nếu FAIL → sửa inline ngay trước khi sinh tài liệu tiếp theo.
 
 ### 🟢 BƯỚC 6: Bàn Giao & Vòng Lặp Phản Hồi (Handoff & Feedback Loop)
 - Tóm tắt kết quả, nêu câu hỏi mở còn lại.
 - Cập nhật Change Log khi có phản hồi mới từ người dùng.
+- **🔍 Audit cuối cùng:** Chạy lại `traceability_scan.py` + `preflight_check.py` lần cuối trước khi bàn giao → đảm bảo mọi thay đổi phản hồi không gây gãy traceability hoặc regression.
 
 ---
 
