@@ -183,3 +183,17 @@
 | File | Mô tả |
 |------|-------|
 | `requirements-knowledge-index.txt` | Optional dependencies để rebuild PDF full-text index bằng `pypdf` và `pdfminer.six` |
+
+### 📁 user-manual-generator/ — Tạo User Manual tiếng Việt (Docusaurus 3.10)
+
+> **Đặc thù:** Tạo tài liệu hướng dẫn sử dụng tiếng Việt cho web app, desktop app, mobile app hoặc hệ thống nội bộ. Output là Docusaurus site có screenshot, phân quyền, và trang Home giới thiệu sản phẩm.
+
+| File | Mô tả | Khi nào dùng |
+|------|-------|-------------|
+| `SKILL.md` | Rule chính để agent tạo manual: workflow, evidence rules, structure, quality bar | Khi cần tạo/cập nhật user manual |
+| `README.md` | Hướng dẫn tổng quan, nguyên tắc, cách chạy audit | Đọc overview |
+| `references/writing-guide.md` | Quy chuẩn viết tiếng Việt: tone, format, thuật ngữ | Khi viết nội dung manual |
+| `references/docusaurus.md` | Hướng dẫn tạo và deploy Docusaurus 3.10 + GitHub Pages | Khi setup/deploy site |
+| `references/capture-guide.md` | Hướng dẫn chụp screenshot và log bằng chứng | Khi thu thập hình ảnh |
+| `references/handoff-template.md` | Template cho thông tin chưa xác minh (handoff-notes.md) | Khi có assumptions/open questions |
+| `scripts/audit-docs.js` | Kiểm tra link, image, placeholder, privacy, cú pháp trước khi bàn giao | Trước khi delivery manual |

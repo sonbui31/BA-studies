@@ -5,6 +5,23 @@
 
 ---
 
+## [3.4.2] — 2026-09-03
+
+### Added
+- `user-manual-generator/` — Bộ skill tạo tài liệu hướng dẫn sử dụng tiếng Việt (Docusaurus 3.10) cho web app, desktop app, mobile app, hệ thống nội bộ.
+  - `SKILL.md` — Rule chính: workflow, evidence rules, structure, quality bar.
+  - `references/writing-guide.md` — Quy chuẩn viết tiếng Việt.
+  - `references/docusaurus.md` — Hướng dẫn setup/deploy Docusaurus + GitHub Pages.
+  - `references/capture-guide.md` — Hướng dẫn chụp screenshot.
+  - `references/handoff-template.md` — Template cho thông tin chưa xác minh.
+  - `scripts/audit-docs.js` — Script kiểm tra chất lượng tài liệu trước bàn giao.
+
+### Changed
+- `SKILL.md` — Thêm routing cho user-manual-generator vào bảng "Read selectively".
+- `DOCUMENT-MAP.md` — Thêm section mô tả file và cách dùng user-manual-generator.
+
+---
+
 ## [3.4.1] — 2026-05-25
 
 ### Added
