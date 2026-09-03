@@ -14,7 +14,7 @@ description: Master Business Analysis (BA) skill. Chạy quy trình BA chuẩn h
 1. **Socratic Gate (Không vội viết tài liệu):** Mỗi lần hỏi tối đa 3-5 câu hỏi trọng tâm. Lắng nghe người dùng, tóm tắt lại những gì đã hiểu trước khi sang bước tiếp theo.
 2. **Không tự quyết định nghiệp vụ:** Nếu thiếu dữ kiện (actor, business rule, boundary case), phải **HỎI**, tuyệt đối không tự bịa số liệu hay tự chọn nhánh nghiệp vụ.
 3. **Tiếng Việt chuẩn có dấu 100%:** Toàn bộ nội dung phân tích và tài liệu phải viết bằng tiếng Việt chuẩn có dấu (trừ ID, API path, database schema, code tokens).
-4. **Áp dụng Curated Templates trước:** Khi sinh BRD, SRS, User Story, Acceptance Criteria, bắt buộc bám sát wording, format bảng, và độ sâu từ `BA-agent/Curated templates/` trước khi xuất định dạng markdown.
+4. **CHỈ DÙNG DUY NHẤT TEMPLATE TRONG `BA-agent/Curated templates/`:** Đối với các tài liệu cốt lõi (BRD, SRS, User Story, Acceptance Criteria), AI **BẮT BUỘC CHỈ SỬ DỤNG DUY NHẤT** các template trong thư mục `BA-agent/Curated templates/` (`01-BRD-Template.md`, `02-SRS-Template.md`, `03-User-Story-Template.md`, `04-Acceptance-Criteria-Template.md`). **TUYỆT ĐỐI KHÔNG** dùng các template BRD/SRS/Story khác ở ngoài thư mục này.
 
 ---
 
@@ -51,143 +51,18 @@ description: Master Business Analysis (BA) skill. Chạy quy trình BA chuẩn h
 - **Quy tắc Lane = Stakeholder:** Mỗi Lane phải khớp chính xác 100% với một Stakeholder đã định nghĩa ở Stakeholder Map.
 - **Nhánh rẽ chưa rõ:** Đánh dấu nhãn `[CẦN XÁC NHẬN]` trực tiếp trên Gateway, tuyệt đối không tự bịa điều kiện rẽ nhánh.
 
-## 📋 BỘ TEMPLATE MẪU BẮT BUỘC (THEO CHUẨN Template-tai-lieu-BA-BRD-SRS-UserStory-AC_done)
+## 📋 ĐIỀU PHỐI 4 TÀI LIỆU CỐT LÕI (ROUTING TỚI TỪNG TEMPLATE)
 
-> 🔴 **CHỈ THỊ BẮT BUỘC:** Mọi tài liệu BRD, SRS, User Story, Acceptance Criteria khi sinh ra **BẮT BUỘC** tuân thủ 100% cấu trúc mục, bảng biểu và format chuẩn từ file `BA-agent/Curated templates/Template-tai-lieu-BA-BRD-SRS-UserStory-AC_done.docx` như sau:
+> 🔴 **CHỈ THỊ BẮT BUỘC:** Khi sinh tài liệu dự án, AI **BẮT BUỘC xuất thành 4 file độc lập** (không gộp chung) và đọc có chọn lọc đúng file template tương ứng trong thư mục `BA-agent/Curated templates/`:
 
----
+| STT | Tài liệu đầu ra | File Template tham chiếu bắt buộc | Ngôn ngữ & Đối tượng đọc | Mục đích & Trọng tâm |
+|:---:|---|---|---|---|
+| **1** | `02-BRD.md` | `BA-agent/Curated templates/01-BRD-Template.md` | **100% Nghiệp vụ & End-User**<br>*(Khách hàng, Sponsor, PO)* | Chuẩn 11 mục nghiệp vụ: Thông tin, Bối cảnh, Scope In/Out, Stakeholders, Business Requirements `BR-xxx`, Business Rules `BRULE-xx`, As-Is/To-Be, Rủi ro, KPI. CẤM thuật ngữ IT/Code. |
+| **2** | `05-SRS.md` | `BA-agent/Curated templates/02-SRS-Template.md`<br>*(Reference bổ trợ: `SRS.pdf`)* | **Kỹ thuật Chính xác & Đo lường**<br>*(Dev Leads, Devs, QA/QC)* | Chuẩn 9 mục kỹ thuật: Giới thiệu, Bối cảnh, Phân rã Use Case ➔ `FR-xxx` (Input/Validation, Logic, Output, Main/Exception Flow, Sequence Diagram, Error Codes), NFR, ERD, API Spec, Wireframe, Traceability. |
+| **3** | `06-User-Story.md`<br>*(hoặc Story Map)* | `BA-agent/Curated templates/03-User-Story-Template.md` | **Góc nhìn Người dùng (INVEST)**<br>*(Scrum Team, PO, Dev, QA)* | Cấu trúc: *Là [ai], tôi muốn [làm gì], để [nhận giá trị gì]*, Độ ưu tiên, Mức độ phức tạp (*Đơn giản / TB / Phức tạp*), Sprint, Dependencies, Liên kết AC, Checklist Definition of Done (DoD) 5 tiêu chí. |
+| **4** | `07-Acceptance-Criteria.md`<br>*(hoặc trong UAT)* | `BA-agent/Curated templates/04-Acceptance-Criteria-Template.md` | **Given–When–Then (BDD)**<br>*(QA/QC, Testers, Devs)* | Bắt buộc bao phủ đủ **4 Kịch bản (Scenarios)**:<br>• *Scenario 1:* Happy Path (Luồng chuẩn)<br>• *Scenario 2:* Race Condition (Tranh chấp đồng thời)<br>• *Scenario 3:* Boundary Case (Chạm ranh giới)<br>• *Scenario 4:* Negative Case (Vi phạm luật `BRULE-xx`) |
 
-### PHẦN 1: CẤU TRÚC CHUẨN CHO BRD (Business Requirements Document)
-*Dành cho Khách hàng & Stakeholders — 100% ngôn ngữ nghiệp vụ, CẤM thuật ngữ kỹ thuật.*
-
-- **1.1 Thông tin chung:**
-  - Tên dự án, Business Owner, BA phụ trách, Ngày/Phiên bản
-  - Bảng lịch sử phiên bản: `| Phiên bản | Ngày | Người thực hiện | Mô tả thay đổi |`
-- **1.2 Bối cảnh & Mục tiêu kinh doanh:**
-  - Bối cảnh (Background / Pain points)
-  - Mục tiêu kinh doanh (Business Objectives & Metrics cụ thể)
-- **1.3 Phạm vi (Scope):**
-  - In-scope: Danh sách các tính năng/nghiệp vụ nằm trong phạm vi
-  - Out-of-scope: Danh sách các hạng mục không làm hoặc để giai đoạn sau
-- **1.4 Stakeholders:**
-  - Bảng 3 cột tối thiểu (hoặc bảng 6 cột chi tiết): `| Vai trò | Tên / Bộ phận | Trách nhiệm |`
-- **1.5 Yêu cầu nghiệp vụ (Business Requirements):**
-  - Bảng: `| Mã YC (BR-xxx) | Mô tả yêu cầu | Độ ưu tiên (Must/Should/Could) | Ghi chú |`
-- **1.6 Luật nghiệp vụ (Business Rules):**
-  - *Tách riêng với BR để không lẫn với chức năng hệ thống.*
-  - Bảng: `| Mã Rule (BRULE-xx) | Nội dung luật vận hành / ràng buộc nghiệp vụ |`
-- **1.7 Quy trình nghiệp vụ (As-Is / To-Be):**
-  - As-Is: Mô tả luồng vận hành hiện tại (thủ công, điểm nghẽn)
-  - To-Be: Mô tả luồng đề xuất qua sơ đồ BPMN (Pool/Lane, Gateways)
-- **1.8 Ràng buộc & Giả định:**
-  - Ràng buộc: Ngân sách, thời hạn, pháp lý, nhân sự
-  - Giả định: Các điều kiện ngầm định cần user xác nhận
-- **1.9 Rủi ro & Giải pháp:**
-  - Bảng: `| Rủi ro | Mức độ ảnh hưởng (Cao/TB/Thấp) | Giải pháp giảm thiểu |`
-- **1.10 Tiêu chí thành công (KPI):**
-  - Các chỉ số đo lường hiệu quả sau go-live
-- **1.11 Phê duyệt (Sign-off):**
-  - Bảng: `| Vai trò | Tên người ký | Ngày ký duyệt | Trạng thái |`
-
----
-
-### PHẦN 2: CẤU TRÚC CHUẨN CHO SRS (Software Requirements Specification)
-*Dành cho Dev & QA — Ngôn ngữ kỹ thuật chính xác, chi tiết.*
-
-- **2.1 Giới thiệu:**
-  - 1.1 Mục đích tài liệu
-  - 1.2 Phạm vi hệ thống (Modules trong scope)
-  - 1.3 Định nghĩa, thuật ngữ viết tắt (Glossary: OTP, Slot, API, etc.)
-  - 1.4 Tài liệu tham chiếu (BRD version, quy trình nội bộ)
-- **2.2 Mô tả tổng quan:**
-  - 2.1 Bối cảnh sản phẩm
-  - 2.2 Chức năng chính
-  - 2.3 Đối tượng người dùng (Actors)
-  - 2.4 Môi trường vận hành (Web/App/Cloud)
-  - 2.5 Use Case Diagram tổng quan (Actor, Use Case chính, quan hệ `<<include>>`, `<<extend>>`)
-- **2.3 Yêu cầu chức năng (Functional Requirements — FR):**
-  - **Phân rã Use Case (Decomposition):** Bẻ nhỏ UC lớn thành UC con (`UC-00` ├─ `UC-01`, `UC-02`...)
-  - **Ánh xạ Use Case → FR:** Bảng `| Use Case | FR tương ứng |`
-  - **Chi tiết cho TỪNG Yêu cầu chức năng (`FR-xxx`):**
-    1. *Actor & Mô tả:* Ai dùng, mục đích làm gì
-    2. *Bảng Input & Validation:* `| Field | Kiểu dữ liệu | Ràng buộc Validation |`
-    3. *Bảng Logic Xử lý (Processing Logic):* Các bước hệ thống xử lý (real-time check, lock slot, transaction)
-    4. *Output:* Dữ liệu trả về (mã ID, status, object)
-    5. *Luồng chính & Luồng ngoại lệ:*
-       - Main Flow (Từng bước 1, 2, 3...)
-       - Exception Flow (3a, 3b... khi lỗi mạng, trùng lịch, vượt giới hạn)
-    6. *Pre-condition & Post-condition*
-    7. *Minh họa Sequence Diagram (Mermaid text):* Tương tác giữa Client ↔ App ↔ Backend ↔ Database ↔ External Services
-    8. *Bảng Mã lỗi & Thông báo (Error Codes):* `| Mã lỗi | HTTP Status | Message hiển thị người dùng |`
-- **2.4 Yêu cầu phi chức năng (NFR):**
-  - Bảng 2 cột: `| Phân loại (Hiệu năng / Bảo mật / Mở rộng / Tin cậy) | Yêu cầu đo lường được (Metric/SLA cụ thể) |`
-- **2.5 Mô hình dữ liệu (Data Model / ERD):**
-  - Vẽ sơ đồ quan hệ thực thể ERD (1-1, 1-n, n-n) và cardinality
-- **2.6 Đặc tả API (API Specification):**
-  - Template cho endpoint: Method, Endpoint URL, Headers, Request Body, Response 2xx, Response 4xx/5xx
-- **2.7 Giao diện người dùng (UI / Wireframe):**
-  - Mô tả bố cục màn hình, trạng thái element (selected, disabled/locked), flow điều hướng
-- **2.8 Ma trận truy xuất (Traceability Matrix):**
-  - Bảng: `| Mã BR | Mã FR (SRS) | Mã User Story | Test Case / AC | Trạng thái |`
-- **2.9 Phụ lục:**
-  - Package/Module Use Case Diagram (nếu hệ thống đa phân hệ)
-
----
-
-### PHẦN 3: CẤU TRÚC CHUẨN CHO USER STORY
-*Dành cho Agile/Scrum Team.*
-
-Mỗi User Story bắt buộc đủ các trường:
-```text
-Mã User Story: US-[MODULE]-[XXX]
-Tiêu đề: [Tiêu đề ngắn gọn]
-Là một [role / actor],
-Tôi muốn [hành động],
-Để [giá trị nghiệp vụ].
-Độ ưu tiên: [Must / High / Medium / Low]
-Mức độ phức tạp: [Đơn giản | Trung bình | Phức tạp]
-  - Đơn giản: View-only, ít logic
-  - Trung bình: Có validate, xử lý ngoại lệ, thông báo
-  - Phức tạp: Tích hợp hệ thống ngoài, xử lý bất đồng bộ, nhiều nhánh rẽ
-Sprint: [Sprint X]
-Dependencies: [US liên quan]
-Liên kết Acceptance Criteria: [AC-xxx]
-Definition of Done (DoD):
-  - [ ] Code đã merge vào branch chính, pass code review
-  - [ ] Unit test + Integration test đạt coverage >= 80%
-  - [ ] Toàn bộ Acceptance Criteria pass trên môi trường Staging
-  - [ ] API cập nhật Swagger / Postman
-  - [ ] QA sign-off, không còn bug Critical/Major
-```
-
----
-
-### PHẦN 4: CẤU TRÚC CHUẨN CHO ACCEPTANCE CRITERIA (AC)
-*Dành cho QC/Tester & Developers.*
-
-Bắt buộc định dạng **Given–When–Then (Gherkin)** và bao phủ tối thiểu **4 kịch bản (Scenarios)**:
-```text
-Scenario 1: [Tên kịch bản - Happy Path]
-  Given [tiền điều kiện ban đầu hợp lệ]
-  When [người dùng thực hiện hành động chính]
-  Then [hệ thống xử lý thành công, hiển thị kết quả mong đợi]
-
-Scenario 2: [Tranh chấp dữ liệu - Race Condition / Concurrency]
-  Given [hai người dùng cùng thao tác trên một tài nguyên đồng thời]
-  When [người A bấm xác nhận trước 1 giây so với người B]
-  Then [người A thành công, người B nhận mã lỗi phù hợp (VD: HTTP 409 Conflict) và hệ thống cập nhật lại]
-
-Scenario 3: [Giá trị biên - Boundary / Edge Case]
-  Given [hôm nay là ngày X]
-  When [người dùng chọn giá trị chạm đúng ranh giới hạn mức (VD: đúng +30 ngày hoặc đúng ký tự tối đa)]
-  Then [hệ thống cho phép thực hiện bình thường]
-
-Scenario 4: [Ngoại lệ / Vi phạm luật - Negative / Rule Violation (BRULE-xx)]
-  Given [người dùng đã chạm ngưỡng giới hạn (theo luật BRULE-xx)]
-  When [cố tình thực hiện thêm hành động vượt ngưỡng]
-  Then [hệ thống từ chối, trả về mã lỗi thích hợp (VD: HTTP 422) và không tạo bản ghi mới]
-
-```
+> 💡 **Quy tắc đọc có chọn lọc (Selective Reading):** AI chỉ đọc file template nào mà user yêu cầu sinh trong phiên chat đó, không đọc đồng thời cả 4 file nếu không cần thiết.
 
 ---
 
@@ -284,8 +159,8 @@ AI **CẤM** sử dụng các tính từ cảm tính không có khả năng ki�
 | **Định tuyến quy trình chi tiết** | `BA-agent/workflows/ba-workflow.md` |
 | **Phân loại dự án & kiểm tra tính thương mại** | `BA-agent/BA-document-rule/core/project-classification-gate.md` |
 | **Tra cứu tri thức BA nhanh / sâu** | `BA-agent/BA-document-rule/references/ba-knowledge-base.md`<br>Script: `python BA-agent/scripts/knowledge_search.py "<topic>"`<br>Script: `python BA-agent/scripts/knowledge_index_search.py "<query>"` |
-| **Curated Templates thực chiến (Baseline)** | `BA-agent/Curated templates/Template-tai-lieu-BA-BRD-SRS-UserStory-AC_done.docx`<br>`BA-agent/Curated templates/SRS.pdf` |
-| **Markdown Templates chuẩn** | `BA-agent/BA-document-rule/templates/` (brd.md, srs.md, user-story-map.md, etc.) |
+| **Curated Templates Cốt Lõi (DUY NHẤT cho BRD, SRS, Story, AC)** | `BA-agent/Curated templates/` (Bắt buộc dùng folder này):<br>• `01-BRD-Template.md`<br>• `02-SRS-Template.md`<br>• `03-User-Story-Template.md`<br>• `04-Acceptance-Criteria-Template.md`<br>• File gốc Word: `Template-tai-lieu-BA-BRD-SRS-UserStory-AC_done.docx`<br>• File PDF: `SRS.pdf` |
+| **Supporting Templates bổ trợ (Chỉ dùng khi có nhu cầu phụ)** | `BA-agent/BA-document-rule/templates/` (Chỉ dùng cho các tài liệu phụ như: `risk-register.md`, `rbac-matrix.md`, `raid-log.md`, `business-case.md`. KHÔNG dùng cho BRD/SRS/Story/AC) |
 | **Overlays theo ngành/mô hình** | `BA-agent/BA-document-rule/overlays/` (`inhouse`, `outsource`, `product`, `startup-mvp`, `fintech`, `healthcare`, `government`) |
 | **Kiểm tra chất lượng & Preflight** | Script: `python BA-agent/scripts/preflight_check.py <folder>`<br>Script: `python BA-agent/scripts/quality_rubric.py <file-or-folder>` |
 | **Quản lý Traceability** | `BA-agent/BA-document-rule/core/traceability-validator.md`<br>Script: `python BA-agent/scripts/traceability_scan.py <folder>` |
@@ -315,7 +190,7 @@ AI **CẤM** sử dụng các tính từ cảm tính không có khả năng ki�
 
 ### 🟢 BƯỚC 5: Tài Liệu Hóa (Documentation)
 - Áp dụng Ma trận Độc giả & Ngôn ngữ (BRD ngôn ngữ kinh doanh không kỹ thuật; SRS ngôn ngữ kỹ thuật chính xác).
-- Tham chiếu Curated Templates và Overlay ngành tương ứng.
+- **CHỈ DÙNG DUY NHẤT** template trong `BA-agent/Curated templates/` để sinh 4 tài liệu độc lập: `02-BRD.md`, `05-SRS.md`, `06-User-Story.md`, `07-Acceptance-Criteria.md`.
 
 ### 🟢 BƯỚC 6: Bàn Giao & Vòng Lặp Phản Hồi (Handoff & Feedback Loop)
 - Tóm tắt kết quả, nêu câu hỏi mở còn lại.

@@ -13,5 +13,9 @@ Folder này chứa các template thực chiến dạng DOCX/PDF để BA-agent d
 
 | File | Vai trò |
 |---|---|
-| `Template-tai-lieu-BA-BRD-SRS-UserStory-AC_done` | Mẫu tổng hợp có cấu trúc BRD, SRS, User Story, Acceptance Criteria và ví dụ minh họa |
-| `SRS.pdf` | Reference SRS đầy đủ để kiểm tra completeness |
+| `01-BRD-Template.md` | Template BRD chuẩn 11 phần cho Business / Khách hàng |
+| `02-SRS-Template.md` | Template SRS chuẩn kỹ thuật 9 phần cho Dev / QA |
+| `03-User-Story-Template.md` | Template User Story chuẩn INVEST & DoD cho Scrum Team |
+| `04-Acceptance-Criteria-Template.md` | Template Acceptance Criteria chuẩn Given-When-Then 4 Scenarios |
+| `Template-tai-lieu-BA-BRD-SRS-UserStory-AC_done.docx` | Mẫu gốc Word tổng hợp (kèm ví dụ thực chiến Đặt lịch khám) |
+| `SRS.pdf` | Reference SRS đầy đủ chuẩn IEEE để kiểm tra completeness |
