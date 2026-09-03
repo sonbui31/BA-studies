@@ -38,6 +38,9 @@ Tài liệu này mô tả **yêu cầu kinh doanh** cho dự án {{Tên dự án
 | Chuyên viên phân tích (BA) | Cơ sở để viết đặc tả chi tiết (SRS) |
 | Trưởng nhóm Kỹ thuật | Đánh giá tính khả thi kỹ thuật |
 
+> [!IMPORTANT]
+> **Quy tắc ngôn ngữ cho BRD:** BRD được viết cho Ban lãnh đạo, Khách hàng và Người dùng cuối. **CẤM TUYỆT ĐỐI** sử dụng thuật ngữ kỹ thuật (API, SQL query, database table, endpoint, JSON payload, class code, architecture server). Toàn bộ yêu cầu phải được diễn giải bằng **100% ngôn ngữ nghiệp vụ & người dùng cuối (Business & End-User Language)** đời thường, trực quan, tập trung vào giá trị kinh doanh (*Why*) và quy trình giải quyết vấn đề (*What*). Nếu có thuật ngữ chuyên môn ngành, bắt buộc đưa vào bảng **Glossary (Thuật ngữ)** ở mục 1.4 để giải thích cặn kẽ.
+
 ### 1.3 Tham chiếu
 
 | Tài liệu | Mô tả |

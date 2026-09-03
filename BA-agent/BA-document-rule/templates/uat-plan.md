@@ -15,6 +15,9 @@
 | **Thời gian** | {{Ngày bắt đầu}} — {{Ngày kết thúc}} |
 | **Môi trường** | {{Staging / UAT environment URL}} |
 | **Người thực hiện** | {{Tên end-users + BA support}} |
+ 
+> [!IMPORTANT]
+> **Quy tắc ngôn ngữ cho UAT Plan & Test Scenarios:** Viết bằng **ngôn ngữ kịch bản thao tác thực tế (Scenario-Based)** từ góc nhìn người dùng: từng bước bấm nút gì, nhập dữ liệu gì, và kết quả trực quan nhìn thấy trên màn hình. **CẤM** viết các bước kiểm tra mang tính kỹ thuật nội bộ (như kiểm tra log server, query database bằng lệnh SQL terminal).
 
 ---
 

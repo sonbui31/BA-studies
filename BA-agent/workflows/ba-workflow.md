@@ -167,6 +167,10 @@ This workflow automates BA documentation using the full v3.4 skill suite (21 ski
      - 💰 FT → Tích hợp Transaction State Machine vào SRS + AML rules vào Feature Spec
    - **Auto-Diagram:** Parse raw input → auto-select diagram type → generate Mermaid
    - **Wireframes:** Generate via `StitchMCP` hoặc Mermaid mockup cho screens trong Inventory
+   - **Target Audience & Language Calibration Enforcement:**
+     - **BRD:** 100% Ngôn ngữ Nghiệp vụ & Người dùng cuối (Business & End-User Language). Giải thích *What* & *Why*. **CẤM TUYỆT ĐỐI** nhồi nhét thuật ngữ kỹ thuật (API, SQL, DB table, endpoint, JSON payload, class, server architecture, code). Có Glossary cho thuật ngữ ngành.
+     - **SRS:** Ngôn ngữ Kỹ thuật Chính xác (Technical / Engineering Language) cho Dev & Tester: field validation, kiểu dữ liệu, API contract, logic xử lý, state machine, NFRs đo lường được. Cấm từ ngữ cảm tính ("nhanh", "dễ dùng").
+     - **UAT Plan:** Ngôn ngữ Kịch bản Thao tác Thực tế (Scenario-Based): mô tả hành động bấm nút, nhập liệu, kết quả hiển thị trên màn hình. Cấm bước test kỹ thuật sâu.
    - **Requirement Quality Engine (NEW v3.3):**
      - Áp dụng 4 Decomposition Patterns (`../BA-document-rule/core/writing-guide.md` §10)
      - Khám phá NFR qua 7 câu hỏi (`../BA-document-rule/core/nfr-discovery-guide.md`)
