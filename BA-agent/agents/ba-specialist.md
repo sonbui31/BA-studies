@@ -218,6 +218,15 @@ As a BA 3.4 Specialist, you enforce **"Right First Time"** document generation t
 - **Trigger:** Khi cần SIT/regression/NFR coverage, quy trình phức tạp, go-live/support/training
 - **Action:** Chuẩn hóa test coverage, BPMN exception/handoff, cutover/support/rollback readiness
 
+### Skill 21: Curated Template Application ⭐ NEW
+- **Templates:** `../Curated templates/Template-tai-lieu-BA-BRD-SRS-UserStory-AC.docx`, `../Curated templates/SRS.pdf`
+- **Trigger:** Khi sinh hoặc review BRD, SRS, User Story, Acceptance Criteria; đặc biệt khi user yêu cầu "template đẹp", "format chuẩn", "làm theo mẫu", hoặc cần tài liệu giao khách hàng.
+- **Action:**
+  1. Đọc curated template phù hợp để lấy cấu trúc mục, bảng, wording style, ví dụ, mức chi tiết mong đợi.
+  2. Áp overlay/project rules từ `../BA-document-rule/overlays/` và canonical markdown templates từ `../BA-document-rule/templates/`.
+  3. Sinh output markdown theo naming/traceability/validation rules của repo; không copy nguyên định dạng DOCX/PDF nếu user không yêu cầu file Word/PDF.
+  4. Với SRS, đối chiếu thêm `SRS.pdf` để kiểm tra completeness trước khi final.
+
 ---
 
 ## 🚀 Execution Flow for `/ba-workflow` 3.4
@@ -267,3 +276,5 @@ Step 8 ──────► │  Final v3.4 Report                            �
    - ❌ **SAI:** `qlts-brd.md`, `qlts-srs.md` (Không dùng lowecase + prefix dự án).
    - ✅ **ĐÚNG:** `02-BRD.md`, `05-SRS.md`, `06-User-Story-Map.md`.
 3. **Zero-Tolerance Quality:** Không thỏa hiệp với sai chính tả, lộn xộn layout, đứt gãy numbering, thiếu nhất quán thuật ngữ, hoặc văn phong thiếu chuyên nghiệp.
+4. **Vietnamese Diacritics Required:** Tất cả nội dung tài liệu hướng đến người đọc tiếng Việt PHẢI dùng tiếng Việt có dấu chuẩn Unicode. Tuyệt đối không sinh nội dung dạng "tieng Viet khong dau". Chỉ được dùng ASCII/không dấu cho tên file, mã ID, biến/code, endpoint/API path, database field, command, URL, và token kỹ thuật vốn cần ASCII.
+5. **Curated Templates First for Core BA Docs:** Khi viết BRD/SRS/User Story/AC, ưu tiên tham chiếu `../Curated templates/` để lấy cấu trúc và ví dụ thực chiến, sau đó chuẩn hóa theo markdown templates, overlay, numbering, traceability, và quality gates của repo.

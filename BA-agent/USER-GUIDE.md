@@ -67,7 +67,7 @@ Step 5 FAIL (pre-flight trước doc) → Quay lại Step 0/2 (bổ sung input)
 
 ---
 
-## 🤖 Các kỹ năng (20 Skills)
+## 🤖 Các kỹ năng (21 Skills)
 
 > Cột LLM bên dưới là vai trò/model khuyến nghị khi người vận hành có môi trường multi-model; nếu không, dùng cùng một assistant và chạy scripts validation ở cuối.
 
@@ -93,6 +93,7 @@ Step 5 FAIL (pre-flight trước doc) → Quay lại Step 0/2 (bổ sung input)
 | **Reporting/Analytics/Data Governance** ⭐ | `@ba-specialist tạo Reporting Spec và Data Governance Plan` | KPI, event taxonomy, CDE, DQ rules, retention | — |
 | **Research & Product Discovery** ⭐ | `@ba-specialist lập User Research Plan` | Research objective, script, participant plan, synthesis | — |
 | **Test/BPMN/Ops Readiness** ⭐ | `@ba-specialist tạo Test Strategy và Operational Readiness` | SIT/regression/NFR coverage, BPMN, go-live checklist | — |
+| **Curated Template Application** ⭐ | `@ba-specialist tạo BRD/SRS theo curated template` | BRD/SRS/User Story/AC bám mẫu DOCX/PDF đã curate | — |
 
 ---
 
@@ -100,8 +101,9 @@ Step 5 FAIL (pre-flight trước doc) → Quay lại Step 0/2 (bổ sung input)
 
 ```
 BA-agent/
-├── agents/ba-specialist.md     ← Agent persona & 20 Skills (v3.4)
+├── agents/ba-specialist.md     ← Agent persona & 21 Skills (v3.4)
 ├── workflows/ba-workflow.md    ← Slash command logic với gates + rollback
+├── Curated templates/          ← DOCX/PDF mẫu thực chiến cho BRD/SRS/User Story/AC
 ├── BA-document-rule/           ← "Hệ điều hành" (Core + Templates + Overlays)
 │   ├── core/                   ← 20 files: Principles, Guides, Pre-Flight, Validator...
 │   │   ├── pre-flight-checklist.md    ⭐ Check trước khi viết
@@ -160,6 +162,7 @@ BA-agent/
 
 - **Sửa nguyên tắc:** `BA-document-rule/core/principles.md`
 - **Sửa template:** `BA-document-rule/templates/*.md`
+- **Sửa curated template:** `Curated templates/*` — dùng làm mẫu tham chiếu khi sinh BRD/SRS/User Story/AC
 - **Sửa Pre-Flight items:** `BA-document-rule/core/pre-flight-checklist.md`
 - **Sửa traceability rules:** `BA-document-rule/core/traceability-validator.md`
 - **Thêm overlay mới:** Tạo folder trong `BA-document-rule/overlays/`

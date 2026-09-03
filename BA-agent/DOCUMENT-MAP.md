@@ -63,6 +63,15 @@
 | `README.md` | Tổng quan: cách hoạt động, cấu trúc thư mục, flow sử dụng |
 | `QUICK-START.md` | Hướng dẫn 5 phút: chọn overlay → copy template → viết tài liệu |
 
+### 📁 Curated templates/ — Template thực chiến dạng DOCX/PDF
+
+> **Cách dùng:** Đây là lớp template tham chiếu ưu tiên cho BRD/SRS/User Story/AC. Agent đọc curated template để lấy cấu trúc, bảng, ví dụ và mức chi tiết, sau đó xuất tài liệu theo markdown template + overlay của repo.
+
+| File | Mô tả | Khi nào dùng |
+|------|-------|-------------|
+| `Template-tai-lieu-BA-BRD-SRS-UserStory-AC.docx` | Template tổng hợp BRD, SRS, User Story, Acceptance Criteria; có ví dụ đặt lịch khám bệnh online | Trước khi sinh/review BRD, SRS, User Story Map hoặc AC |
+| `SRS.pdf` | Mẫu/reference SRS đầy đủ dạng PDF | Khi sinh hoặc audit SRS để đối chiếu completeness |
+
 ### 📁 core/ — Nguyên tắc cốt lõi (21 files — áp dụng mọi dự án)
 
 | File | Mô tả | v3.0? |
