@@ -32,6 +32,7 @@ Như vậy bạn vẫn chat 1-1, còn các lệnh như search knowledge, preflig
 - Phân tích impact khi đổi yêu cầu.
 - Phân loại dự án trước khi chọn tài liệu, để không bỏ qua Product Vision với product/SaaS/B2B/MVP thương mại hóa.
 - Tra cứu kiến thức BA đã được index sẵn từ folder tài liệu cũ.
+- Tạo user manual / hướng dẫn sử dụng tiếng Việt dạng Docusaurus 3.10 cho web app, desktop app, mobile app.
 
 Bạn có thể dùng BA-agent như một **BA senior ngồi cùng bàn**, hỏi gì trả lời đó, nhưng vẫn đi theo quy trình chuẩn.
 
@@ -108,6 +109,7 @@ Các script BA-agent có thể tự chọn:
 | Cần đánh giá câu trả lời/tài liệu đã đủ control theo loại dự án chưa | `ba_response_eval.py` |
 | Cần chạy bộ test hành vi BA chuẩn | `eval_golden_cases.py` |
 | Cần semantic search bằng embedding thật | `build_semantic_index.py`, `semantic_index_search.py` |
+| Cần audit user manual Docusaurus trước bàn giao | `user-manual-generator/scripts/audit-docs.js` |
 | Cần kiểm tra toàn bộ BA-agent | `ba_bundle_audit.py` |
 
 ---
@@ -746,7 +748,57 @@ Hãy tóm tắt những gì đã biết, những gì còn thiếu, và đề xu�
 
 ---
 
-## 21. Ghi Nhớ Ngắn Gọn
+## 21. Tạo User Manual / Hướng Dẫn Sử Dụng
+
+BA-agent có thể tạo bộ tài liệu hướng dẫn sử dụng tiếng Việt cho ứng dụng thật, xuất ra Docusaurus 3.10 site có screenshot, phân quyền, trang Home giới thiệu sản phẩm và audit chất lượng trước bàn giao.
+
+Skill này nằm ở `BA-agent/user-manual-generator/`.
+
+### Bắt đầu tạo manual
+
+```text
+Dùng BA-agent để tạo user manual tiếng Việt cho ứng dụng sau:
+[tên app, URL hoặc mô tả]
+
+Hãy khám phá app, chụp screenshot, map role/permission,
+rồi tạo Docusaurus site có sidebar, search và trang Home giới thiệu sản phẩm.
+Tất cả nội dung tiếng Việt phải có dấu.
+```
+
+### Chuyển tài liệu cũ sang Docusaurus
+
+```text
+Tôi có tài liệu hướng dẫn sử dụng cũ ở:
+[đường dẫn hoặc dán nội dung]
+
+Hãy chuyển sang Docusaurus 3.10 với sidebar, screenshot, phân quyền và trang Home.
+Deploy lên GitHub Pages repo: [owner/repo].
+```
+
+### Audit manual trước bàn giao
+
+```text
+Hãy chạy audit cho bộ manual ở folder [đường dẫn].
+Kiểm tra link hỏng, ảnh thiếu, placeholder chưa thay, dữ liệu nhạy cảm, cú pháp admonition và baseUrl.
+```
+
+Hoặc chạy trực tiếp:
+
+```powershell
+node BA-agent\user-manual-generator\scripts\audit-docs.js .\manual
+```
+
+### Nguyên tắc quan trọng
+
+- Nội dung user-facing phải dựa trên bằng chứng đã xác minh (UI, screenshot, source, permission config).
+- Không tự bịa role, workflow, permission, menu item, email tự động.
+- Những điểm chưa xác minh để trong `handoff-notes.md`, không đưa vào tài liệu chính.
+- Không expose dữ liệu nhạy cảm hoặc permission code kỹ thuật.
+- Trang Home phải là trang giới thiệu sản phẩm thật, không redirect sang `/docs/intro`.
+
+---
+
+## 22. Ghi Nhớ Ngắn Gọn
 
 Bạn có thể dùng BA-agent chỉ bằng một câu:
 

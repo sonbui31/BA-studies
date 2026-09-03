@@ -36,6 +36,7 @@ Read only the files needed for the task.
 | Generate BRD/SRS/User Story/AC with curated layout and examples | `Curated templates/Template-tai-lieu-BA-BRD-SRS-UserStory-AC.docx`; use alongside `BA-document-rule/templates/brd.md`, `srs.md`, and `user-story-map.md` |
 | Generate or review full SRS structure | `Curated templates/SRS.pdf`; use as SRS reference alongside `BA-document-rule/templates/srs.md` |
 | Generate from markdown templates | `BA-document-rule/templates/` and `BA-document-rule/templates/industry/` |
+| Generate Vietnamese Docusaurus user manual for an app | `user-manual-generator/SKILL.md`; references in `user-manual-generator/references/`; audit with `user-manual-generator/scripts/audit-docs.js` |
 
 ## Execution rules
 
