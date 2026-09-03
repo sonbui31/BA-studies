@@ -63,14 +63,19 @@
 | `README.md` | Tổng quan: cách hoạt động, cấu trúc thư mục, flow sử dụng |
 | `QUICK-START.md` | Hướng dẫn 5 phút: chọn overlay → copy template → viết tài liệu |
 
-### 📁 Curated templates/ — Template thực chiến dạng DOCX/PDF
+### 📁 Curated templates/ — NGUỒN TEMPLATE DUY NHẤT cho BRD, SRS, User Story, AC
 
-> **Cách dùng:** Đây là lớp template tham chiếu ưu tiên cho BRD/SRS/User Story/AC. Agent đọc curated template để lấy cấu trúc, bảng, ví dụ và mức chi tiết, sau đó xuất tài liệu theo markdown template + overlay của repo.
+> **🔴 Quy tắc Exclusive:** Đây là thư mục template **DUY NHẤT** cho 4 tài liệu cốt lõi (BRD, SRS, User Story, Acceptance Criteria). AI **BẮT BUỘC CHỈ SỬ DỤNG** các template trong folder này. **TUYỆT ĐỐI KHÔNG** dùng `BA-document-rule/templates/brd.md`, `srs.md`, `user-story-map.md` cho mục đích sinh tài liệu cốt lõi.
 
 | File | Mô tả | Khi nào dùng |
 |------|-------|-------------|
-| `Template-tai-lieu-BA-BRD-SRS-UserStory-AC.docx` | Template tổng hợp BRD, SRS, User Story, Acceptance Criteria; có ví dụ đặt lịch khám bệnh online | Trước khi sinh/review BRD, SRS, User Story Map hoặc AC |
-| `SRS.pdf` | Mẫu/reference SRS đầy đủ dạng PDF | Khi sinh hoặc audit SRS để đối chiếu completeness |
+| `01-BRD-Template.md` | Template BRD chuẩn 11 phần — 100% ngôn ngữ nghiệp vụ, cấm thuật ngữ IT | Khi sinh BRD dự án |
+| `02-SRS-Template.md` | Template SRS chuẩn 9 phần kỹ thuật — FR Decomposition, NFR, ERD, API, Traceability | Khi sinh SRS dự án |
+| `03-User-Story-Template.md` | Template User Story chuẩn INVEST + DoD 5 tiêu chí | Khi sinh User Story dự án |
+| `04-Acceptance-Criteria-Template.md` | Template AC chuẩn Given-When-Then — 4 Scenarios bắt buộc | Khi sinh Acceptance Criteria dự án |
+| `Template-tai-lieu-BA-BRD-SRS-UserStory-AC_done.docx` | File gốc Word tổng hợp — có ví dụ thực chiến Đặt lịch khám bệnh | Reference kiểm tra format, bảng biểu |
+| `Template-tai-lieu-BA-BRD-SRS-UserStory-AC_done.md` | Bản Markdown extraction của file Word trên | AI đọc trực tiếp khi cần tra cứu nhanh |
+| `SRS.pdf` | Mẫu/reference SRS đầy đủ chuẩn IEEE dạng PDF | Khi audit SRS để đối chiếu completeness |
 
 ### 📁 core/ — Nguyên tắc cốt lõi (21 files — áp dụng mọi dự án)
 
@@ -170,6 +175,25 @@
 | `communication-packaging.md` | ⭐ 4 package types đóng gói thông tin: Executive Summary, Technical Brief, Test Strategy, Quick Start | ⭐ NEW v3.3 |
 | `ba-knowledge-base.md` | Knowledge base BA tự chứa, chắt lọc từ kho `BA/`, dùng được ngay cả khi xoá folder nguồn | ⭐ NEW |
 | `ba-knowledge-cards.json` | Retrieval cards có cấu trúc cho các chủ đề BRD/SRS/UAT/RTM/modeling/data/product/AI/domain | ⭐ NEW |
+
+### 📁 scripts/ — Audit Scripts & Công cụ Tự động hóa (14 files)
+
+| File | Mô tả | Khi nào dùng |
+|------|-------|-------------|
+| `preflight_check.py` | Kiểm tra tính đầy đủ tài liệu: placeholder `{{...}}`, tiếng Việt có dấu, Glossary, Stakeholder Map, Business Rules, numbering | Sau khi draft xong BRD/SRS/Story/UAT |
+| `quality_rubric.py` | Chấm điểm chất lượng yêu cầu 1-5, bắt 8 Smells + 6 Conflict patterns | Sau khi viết FR/NFR hoặc User Story |
+| `traceability_scan.py` | Quét chuỗi `BRQ→FR→Feature→US→TC`, phát hiện Orphan Requirements & gãy ID | Bước 4 (Validation) và trước bàn giao |
+| `reindex_markdown.py` | Audit & tự sửa thứ tự heading §1→§2→§3 và ID tuần tự | Khi tài liệu có nhiều lần sửa |
+| `ba_response_eval.py` | Đánh giá bao phủ controls theo loại dự án (Outsource/Product/Fintech) | Trước khi nghiệm thu |
+| `ba_bundle_audit.py` | Audit toàn vẹn phiên bản hệ thống BA-agent | Khi bảo trì/nâng cấp skill |
+| `knowledge_search.py` | Tìm kiếm tri thức BA từ knowledge cards | Khi cần tra cứu kiến thức |
+| `knowledge_index_search.py` | BM25 + Hybrid search trên knowledge index | Khi cần search sâu |
+| `build_knowledge_index.py` | Rebuild knowledge index từ sources | Khi cập nhật knowledge |
+| `build_semantic_index.py` | Build semantic search index | Khi cập nhật knowledge |
+| `semantic_index_search.py` | Semantic search trên index | Khi cần search ngữ nghĩa |
+| `ba_id_utils.py` | Tiện ích xử lý BA ID (parse, validate, generate) | Dùng nội bộ bởi scripts khác |
+| `eval_golden_cases.py` | Chạy golden test cases cho quality assurance | Khi kiểm tra regression |
+| `docx_to_md.py` | Chuyển đổi file DOCX sang Markdown | Khi cần convert tài liệu |
 
 ### 📁 knowledge-index/ — Self-contained source index
 

@@ -1,4 +1,15 @@
-# Quy trình xây dựng BA Agent (Business Analyst AI Agent)
+# 📚 Quy trình xây dựng BA Agent — Onboarding Guide
+
+> **Loại tài liệu:** Hướng dẫn Onboarding / Tài liệu học tập
+> **Mục đích:** Giúp người mới hiểu *cách nghĩ* và *nguyên lý* khi xây dựng BA Agent từ đầu.
+> **Cập nhật:** 03/09/2026
+
+> [!IMPORTANT]
+> **Đây là tài liệu học tập, KHÔNG PHẢI rule thực thi cho AI.** Quy trình thực thi đầy đủ (có audit scripts, templates, overlays, diagram standards) nằm tại:
+> - **Master Skill:** `BA-agent/SKILL.md` — Quy trình 6 bước + Ma trận Độc giả + Hard Gates + Audit Scripts
+> - **Workflow thực thi:** `BA-agent/workflows/ba-workflow.md` — 8+ steps với gates + rollback + industry routing
+> - **Agent persona:** `BA-agent/agents/ba-specialist.md` — 21 skills chuyên biệt + Multi-LLM
+> - **Curated Templates:** `BA-agent/Curated templates/` — 4 template cốt lõi (BRD, SRS, User Story, AC)
 
 Tài liệu này mô tả quy trình chi tiết để bạn định nghĩa một "BA Agent" — một AI agent đóng vai trò Business Analyst — và cách chuyển quy trình đó thành **rule (system prompt)** cho AI. Bao gồm cả ví dụ điền mẫu (worked example) để bạn dễ hình dung output thực tế.
 
@@ -107,6 +118,8 @@ Quy tắc cho AI:
 ### Bước 5 — Tài liệu hóa (Documentation)
 - Xuất ra định dạng yêu cầu (bảng, markdown, docx, BPMN diagram...).
 - Gắn version/ngày cập nhật nếu là tài liệu sống.
+- **Áp dụng Ma trận Độc giả & Ngôn ngữ** — mỗi loại tài liệu có đối tượng đọc khác nhau, cần chuyển đổi giọng điệu phù hợp (xem §2.5 bên dưới).
+- **Dùng đúng template** cho từng loại tài liệu, tách thành file độc lập (không gộp chung).
 
 ### Bước 6 — Bàn giao & vòng lặp phản hồi (Handoff & Feedback loop)
 - Tóm tắt lại để người dùng xác nhận trước khi "chốt".
@@ -114,19 +127,58 @@ Quy tắc cho AI:
 
 > Rule tương ứng: phần **Process / Steps** trong system prompt — nên viết dưới dạng danh sách bước có thứ tự để AI theo sát.
 
+### 📌 Bổ sung quan trọng: Ma trận Độc giả & Ngôn ngữ (Audience Calibration)
+
+> **Nguyên tắc cốt lõi:** *"Biết mình đang viết cho ai đọc."* Mỗi tài liệu BA có đối tượng đọc riêng biệt — AI phải chuyển đổi giọng điệu (tone of voice) và từ vựng phù hợp.
+
+| Tài liệu | Độc giả mục tiêu | Phong cách ngôn ngữ | ❌ Cấm kỵ | ✅ Ví dụ chuẩn |
+|---|---|---|---|---|
+| **BRD** | Khách hàng, Sponsor, Business Owners | **100% Nghiệp vụ & End-User.** Giải thích *Cái gì* và *Tại sao*. Từ ngữ đời thường, tập trung giá trị kinh doanh. | CẤM thuật ngữ kỹ thuật (API, SQL, database, endpoint, JSON, server) | ❌ *"Gọi API GET /customers"* → ✅ *"Hiển thị thông tin khách hàng ngay khi đăng nhập"* |
+| **SRS** | Dev, QA, Tech Lead | **Kỹ thuật chính xác.** Giải thích *Như thế nào*. Logic, validation, API, state machine, NFR đo lường được. | Cấm viết mơ hồ, cảm tính | ❌ *"Tìm kiếm nhanh"* → ✅ *"Phản hồi < 300ms với 100.000 bản ghi"* |
+| **User Story** | PO, Scrum Team, Dev, QA | **Góc nhìn người dùng.** *"Là [ai], tôi muốn [gì], để [giá trị]"*. | Cấm lồng kiến trúc code | ❌ *"Là dev tôi muốn tạo bảng SQL"* → ✅ *"Là nhân viên, tôi muốn xem lịch sử mua"* |
+| **AC** | QA, Tester, Dev | **Given–When–Then chuẩn BDD.** Bao phủ 4 kịch bản: Happy, Negative, Boundary, Permission. | Cấm viết chung chung không test được | |
+| **UAT** | End-Users, Khách hàng kiểm thử | **Kịch bản thao tác thực tế.** Từng bước bấm chuột, nhập liệu, kết quả hiển thị. | Cấm thuật ngữ kỹ thuật sâu (log server, query DB) | ❌ *"Query DB kiểm tra status=1"* → ✅ *"Màn hình hiển thị 'Thanh toán thành công'"* |
+
+> 💡 *Bảng đầy đủ với 7 loại tài liệu: xem `BA-agent/SKILL.md` §MA TRẬN ĐỘC GIẢ.*
+
+### 📌 Bổ sung quan trọng: Bộ lọc Chặn Từ Ngữ Mơ Hồ (Anti-Ambiguity Filter)
+
+AI **CẤM** sử dụng tính từ cảm tính không test được trong tài liệu kỹ thuật:
+
+| ❌ Sai | ✅ Đúng (đo lường, test được) |
+|---|---|
+| *"Hệ thống phải chạy nhanh"* | *"Thời gian phản hồi API < 500ms cho 95% request với 1.000 CCU"* |
+| *"Giao diện đẹp, dễ dùng"* | *"Người dùng mới hoàn tất đặt hàng trong tối đa 3 bước/click"* |
+| *"Bảo mật dữ liệu tuyệt đối"* | *"Mã hóa mật khẩu bcrypt (cost 12); truyền tải HTTPS/TLS 1.3"* |
+
+### 📌 Bổ sung quan trọng: Quy ước Đặt Mã ID (Naming Conventions)
+
+| Loại | Format | Ví dụ |
+|---|---|---|
+| Yêu cầu kinh doanh | `BRQ-01`, `BRQ-02` | `BRQ-01: Giảm thời gian xử lý đơn hàng` |
+| Yêu cầu chức năng | `FR-[MODULE]-001` | `FR-AUTH-001: Đăng nhập bằng SSO` |
+| Yêu cầu phi chức năng | `NFR-[LOẠI]-001` | `NFR-PERF-001: Thời gian phản hồi < 500ms` |
+| Business Rule | `BR-01`, `BR-02` | `BR-01: Đơn hàng > 10 triệu cần phê duyệt cấp 2` |
+| User Story | `US-[MODULE]-001` | `US-AUTH-001: Đăng nhập bằng email` |
+| Test Case | `TC-[MODULE]-001` | `TC-AUTH-001: Kiểm tra đăng nhập thành công` |
+
 ---
 
 ## 3. Cấu trúc một bộ Rule (System Prompt) cho BA Agent
 
-| Khối | Nội dung |
-|---|---|
-| **Role** | "Bạn là một Business Analyst AI, chuyên thu thập và phân tích yêu cầu nghiệp vụ..." |
-| **Context** | Ngành nghề, hệ thống, thuật ngữ nội bộ, tài liệu tham chiếu |
-| **Process** | 6 bước ở mục 2, viết thành checklist AI phải theo, có sub-step cho Stakeholder Map & BPMN |
-| **Output format** | Template cụ thể cho từng artifact (Stakeholder Map, BPMN, User Story...) |
-| **Constraints** | Không tự bịa dữ liệu, không quyết định nghiệp vụ thay stakeholder, luôn hỏi khi thiếu info |
-| **Tone** | Chuyên nghiệp, súc tích, không dùng thuật ngữ mơ hồ |
-| **Escalation** | Khi nào agent nên dừng lại và hỏi con người thay vì tự xử lý |
+| Khối | Nội dung | Ví dụ triển khai trong BA-agent v3.4 |
+|---|---|---|
+| **Role** | "Bạn là một Business Analyst AI, chuyên thu thập và phân tích yêu cầu nghiệp vụ..." | `ba-specialist.md` — Role + 21 Skills |
+| **Context** | Ngành nghề, hệ thống, thuật ngữ nội bộ, tài liệu tham chiếu | `BA-document-rule/overlays/` — 7 overlays theo ngành |
+| **Process** | 6 bước ở mục 2, viết thành checklist AI phải theo, có sub-step cho Stakeholder Map & BPMN | `SKILL.md` — Quy trình 6 bước + Hard Gates |
+| **Output format** | Template cụ thể cho từng artifact (Stakeholder Map, BPMN, User Story...) | `Curated templates/` — 4 template cốt lõi độc lập |
+| **Audience Calibration** | Ma trận ngôn ngữ theo đối tượng đọc (BRD → nghiệp vụ, SRS → kỹ thuật) | `SKILL.md` §MA TRẬN ĐỘC GIẢ — 7 loại tài liệu |
+| **Constraints** | Không tự bịa dữ liệu, không quyết định nghiệp vụ thay stakeholder, luôn hỏi khi thiếu info | `SKILL.md` §NGUYÊN TẮC BẤT DI BẤT DỊCH |
+| **Anti-Ambiguity** | Bộ lọc chặn từ ngữ mơ hồ không test được ("nhanh", "dễ dùng", "bảo mật") | `SKILL.md` §BỘ LỌC CHẶN TỪ NGỮ MƠ HỒ |
+| **ID Convention** | Quy ước đặt mã ID tuần tự: BRQ, FR, NFR, US, TC | `SKILL.md` §QUY ƯỚC ĐẶT MÃ ID |
+| **Tone** | Chuyên nghiệp, súc tích, tiếng Việt chuẩn có dấu 100% | `SKILL.md` §QUY TẮC NGÔN NGỮ |
+| **Escalation** | Khi nào agent nên dừng lại và hỏi con người thay vì tự xử lý | `SKILL.md` §SOCRATIC GATE |
+| **Quality Audit** | Scripts tự động kiểm tra chất lượng tài liệu | `BA-agent/scripts/` — 6 audit scripts |
 
 ---
 
@@ -195,7 +247,15 @@ RÀNG BUỘC:
 - Không bịa số liệu, không tự thêm nghiệp vụ chưa được xác nhận.
 - Không tạo actor/Lane không có trong Stakeholder Map.
 - Nếu thông tin mâu thuẫn với tài liệu cũ, phải nêu rõ mâu thuẫn thay vì tự chọn.
-- Ngôn ngữ: [tiếng Việt / tiếng Anh], văn phong chuyên nghiệp, ngắn gọn.
+- Ngôn ngữ: tiếng Việt chuẩn có dấu 100% (trừ ID, API path, code tokens). Văn phong chuyên nghiệp.
+- Cấm sử dụng tính từ cảm tính không test được ("nhanh", "đẹp", "dễ dùng") trong tài liệu kỹ thuật.
+
+QUY TẮC NGÔN NGỮ THEO ĐỐI TƯỢNG ĐỌC:
+- BRD → Viết cho khách hàng/Sponsor: 100% ngôn ngữ nghiệp vụ, CẤM thuật ngữ IT (API, SQL, database, endpoint).
+- SRS → Viết cho Dev/QA: ngôn ngữ kỹ thuật chính xác, mọi yêu cầu phải đo lường hoặc test được.
+- User Story → Viết góc nhìn người dùng: "Là [ai], tôi muốn [gì], để [giá trị]". Cấm lồng code.
+- AC → Viết chuẩn Given–When–Then. Bao phủ đủ 4 kịch bản: Happy, Negative, Boundary, Permission.
+- UAT → Viết kịch bản thao tác thực tế (bấm nút, nhập liệu, xem kết quả). Cấm thuật ngữ kỹ thuật sâu.
 
 KHI NÀO DỪNG LẠI HỎI NGƯỜI DÙNG:
 - Thiếu actor hoặc mục tiêu chính.
@@ -259,16 +319,26 @@ Câu hỏi mở: Có cần thêm tiêu chí duyệt dựa trên khối lượng 
 
 ## 6. Checklist chất lượng trước khi "chốt" rule
 
+### Cấu trúc & Quy trình
 - [ ] Rule có định nghĩa rõ **role** và **scope** không?
 - [ ] Quy trình có **thứ tự bước rõ ràng**, AI có thể theo tuần tự không?
 - [ ] Có **template output cụ thể** cho từng artifact (Stakeholder Map, BPMN, User Story) không?
 - [ ] Có quy định **khi nào AI phải hỏi lại** thay vì tự đoán không?
 - [ ] Có giới hạn rõ **AI không được làm gì** (tránh AI tự quyết nghiệp vụ)?
 - [ ] Có ví dụ mẫu (few-shot) để AI bắt đúng format không?
+
+### Stakeholder & BPMN
 - [ ] Stakeholder Map có đủ mọi bên liên quan, kể cả bên gián tiếp (compliance, vận hành, IT support...) không?
 - [ ] BPMN có dùng đúng ký hiệu chuẩn (Pool/Lane, Gateway, Event) và khớp với Stakeholder Map không?
 - [ ] Đã đối chiếu chéo Stakeholder Map ↔ BPMN ↔ User Story để đảm bảo actor nhất quán chưa?
 - [ ] Các nhánh Gateway chưa rõ đã được đánh dấu [CẦN XÁC NHẬN] thay vì tự chọn chưa?
+
+### Ngôn ngữ & Chất lượng (mới bổ sung)
+- [ ] Có **Ma trận Độc giả** — quy định ngôn ngữ khác nhau cho BRD (nghiệp vụ) vs SRS (kỹ thuật) vs UAT (end-user)?
+- [ ] Có **Bộ lọc Anti-Ambiguity** — cấm tính từ mơ hồ không test được ("nhanh", "đẹp", "dễ dùng")?
+- [ ] Có **Quy ước ID** — naming convention cho BRQ, FR, NFR, US, TC?
+- [ ] Có quy định **tiếng Việt chuẩn có dấu** 100% (trừ ID, code tokens)?
+- [ ] Có **Hard Gates** — điều kiện chặn cứng không cho viết SRS khi BRD chưa chốt?
 
 ---
 
@@ -281,6 +351,9 @@ Câu hỏi mở: Có cần thêm tiêu chí duyệt dựa trên khối lượng 
 | BPMN và Stakeholder Map không khớp actor | Tài liệu mâu thuẫn nội bộ | Bắt buộc bước đối chiếu chéo ở Bước 6 |
 | Không có few-shot example | AI hiểu sai format mong muốn | Thêm ví dụ điền mẫu như mục 5 |
 | Rule quá dài dòng, không có thứ tự | AI bỏ sót bước | Viết dạng numbered list, càng tường minh càng tốt |
+| **Không phân biệt ngôn ngữ theo đối tượng đọc** | **BRD lẫn thuật ngữ kỹ thuật (API, SQL) → khách hàng không hiểu** | **Thêm Ma trận Độc giả: BRD = nghiệp vụ, SRS = kỹ thuật** |
+| **Dùng từ ngữ mơ hồ trong SRS/NFR** | **"Nhanh", "dễ dùng" → không test được, dev hiểu mỗi người một kiểu** | **Thêm Anti-Ambiguity Filter: mọi NFR phải có số liệu đo lường** |
+| **ID đặt tùy tiện, không nhất quán** | **Gãy traceability, script audit không nhận diện được** | **Dùng quy ước chuẩn: BRQ-01, FR-AUTH-001, US-AUTH-001** |
 
 ---
 
@@ -321,6 +394,28 @@ Stakeholder Map + BPMN (tổng quan)
   KHÔNG được viết SRS nếu BRD chưa được người dùng xác nhận "đã chốt".
   KHÔNG được viết User Story nếu đoạn BPMN liên quan còn mục [CẦN XÁC NHẬN] chưa xử lý.
   KHÔNG được viết AC nếu chưa xác định được nhánh Gateway tương ứng trong BPMN.
-  ```
+   ```
 
 ---
+
+## 9. 🗺️ Bản đồ Cross-Reference: Từ Guide này → Hệ thống BA-agent v3.4
+
+> File này dạy bạn *cách nghĩ*. Hệ thống BA-agent v3.4 là *bộ máy thực thi* đã hiện thực hóa mọi nguyên lý trong guide này, bổ sung thêm ~15 tính năng nâng cao.
+
+| Khái niệm trong Guide này | File thực thi trong BA-agent v3.4 | Ghi chú |
+|---|---|---|
+| §1 — Mục tiêu & Phạm vi | `agents/ba-specialist.md` (Role + 21 Skills) | Mở rộng từ 4 mục tiêu → 21 skills chuyên biệt |
+| §2 — Quy trình 6 bước | `SKILL.md` (§QUY TRÌNH BA 6 BƯỚC) | Cùng 6 bước + Hard Gates + Socratic Gate |
+| §2 — Stakeholder Map 6 cột | `SKILL.md` (§1 Stakeholder Map) | Khớp 100% |
+| §2 — BPMN as-is/to-be | `SKILL.md` (§2 BPMN) + `so_do.md` | Mở rộng: Level 0-3, Mermaid syntax, 10 Golden Rules |
+| §3 — Cấu trúc Rule | `SKILL.md` (toàn bộ) | Đã hiện thực hóa đầy đủ |
+| §4 — Bộ Rule mẫu | `SKILL.md` + `ba-workflow.md` | Rule thực thi có gates + rollback + industry routing |
+| §8 — Hard Gates | `SKILL.md` (§HARD GATES) | 5 điều kiện chặn + Product Vision Gate |
+| *Chưa có trong Guide* | `SKILL.md` (§MA TRẬN ĐỘC GIẢ) | **MỚI:** 7 loại tài liệu × ngôn ngữ riêng |
+| *Chưa có trong Guide* | `Curated templates/` (4 file cốt lõi) | **MỚI:** 01-BRD, 02-SRS, 03-User-Story, 04-AC |
+| *Chưa có trong Guide* | `BA-document-rule/overlays/` (7 overlays) | **MỚI:** product, outsource, gov, healthcare, fintech... |
+| *Chưa có trong Guide* | `scripts/` (6 audit scripts + 29 tests) | **MỚI:** preflight, quality rubric, traceability scan |
+| *Chưa có trong Guide* | `so_do.md` + `SKILL.md` §SƠ ĐỒ | **MỚI:** Diagram Level 0-3, Mermaid shapes, 10 Golden Rules |
+| *Chưa có trong Guide* | `SKILL.md` §ANTI-AMBIGUITY + §ID | **MỚI:** Bộ lọc từ mơ hồ + ID naming convention |
+
+> 💡 **Để bắt đầu dự án BA thực tế:** Dùng `@ba-agent` hoặc `@BA-agent/SKILL.md` — hệ thống sẽ tự động kích hoạt quy trình đầy đủ với templates, audit scripts và hard gates.

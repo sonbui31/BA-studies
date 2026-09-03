@@ -53,10 +53,12 @@ This workflow automates BA documentation using the full v3.4 skill suite (21 ski
 
 3. **Initialize Workspace & Project Type Routing**
    - Xác định loại dự án → Chọn overlay → Load industry templates (nếu có)
-   - Load curated templates khi tài liệu cần sinh thuộc BRD/SRS/User Story/Acceptance Criteria:
-     - `../Curated templates/Template-tai-lieu-BA-BRD-SRS-UserStory-AC.docx` → baseline cấu trúc, bảng, ví dụ, wording style.
-     - `../Curated templates/SRS.pdf` → reference kiểm tra độ đầy đủ của SRS.
-   - Curated templates định hướng format và quality; markdown templates trong `../BA-document-rule/templates/` vẫn là nguồn canonical để xuất file `.md` theo repo.
+   - Load Curated templates (DUY NHẤT cho BRD/SRS/User Story/AC) từ `../Curated templates/`:
+     - `01-BRD-Template.md` → sinh BRD dự án.
+     - `02-SRS-Template.md` → sinh SRS dự án. Reference bổ trợ: `SRS.pdf`.
+     - `03-User-Story-Template.md` → sinh User Story dự án.
+     - `04-Acceptance-Criteria-Template.md` → sinh AC dự án.
+   - **TUYỆT ĐỐI KHÔNG** dùng `../BA-document-rule/templates/brd.md`, `srs.md`, `user-story-map.md` để sinh 4 tài liệu cốt lõi. Các template trong `BA-document-rule/templates/` chỉ dùng cho tài liệu phụ trợ (risk-register, rbac-matrix, raid-log, business-case, v.v.).
    - Reconfirm the Project Classification Summary before choosing templates:
      ```text
      Project classification: <type> + <add-ons>
@@ -155,7 +157,7 @@ This workflow automates BA documentation using the full v3.4 skill suite (21 ski
 5. **Document Generation, Auto-Diagram & Visual Prototyping**
    - **⚡ PRE-FLIGHT:** Chạy `../BA-document-rule/core/pre-flight-checklist.md` TRƯỚC mỗi document
    - **Language Rule:** Nội dung tài liệu tiếng Việt phải được viết bằng tiếng Việt có dấu chuẩn Unicode. Không viết thân tài liệu kiểu "tieng Viet khong dau"; chỉ giữ ASCII/không dấu cho ID, tên file, code/API/database tokens, URL, command.
-   - **Curated Template Rule:** Với BRD/SRS/User Story/AC, draft phải bám curated template tương ứng về mục lục, bảng bắt buộc, ví dụ thực chiến và mức chi tiết; sau đó map về ID scheme và traceability chain của repo.
+   - **Exclusive Curated Template Rule:** Với BRD/SRS/User Story/AC, draft **BẮT BUỘC CHỈ DÙNG DUY NHẤT** template tương ứng từ `../Curated templates/` (`01-BRD-Template.md`, `02-SRS-Template.md`, `03-User-Story-Template.md`, `04-Acceptance-Criteria-Template.md`) về mục lục, bảng bắt buộc, ví dụ thực chiến và mức chi tiết; sau đó map về ID scheme và traceability chain của repo.
    - **Automation:** Chạy `../scripts/preflight_check.py <project-folder>` trước khi draft hoặc approve artifact
      - Nếu FAIL ≥ 5 items → STOP, yêu cầu user bổ sung
      - Nếu FAIL 1-4 items → Cảnh báo, tự fill nếu được
