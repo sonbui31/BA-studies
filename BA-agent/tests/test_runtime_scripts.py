@@ -17,8 +17,11 @@ import knowledge_index_search
 import ba_response_eval
 import build_knowledge_index
 import eval_golden_cases
+import ba_id_utils
+import media_audit
 import quality_rubric
 import reindex_markdown
+import template_schema_check
 import traceability_scan
 
 
@@ -214,6 +217,70 @@ class RuntimeScriptTests(unittest.TestCase):
         self.assertEqual(report["metrics"]["business_total"], 1)
         self.assertEqual(report["metrics"]["full_chain_total"], 1)
         self.assertEqual(report["gaps"], [])
+
+    def test_traceability_scan_canonical_full_fixture_passes_strict(self):
+        report, critical_count = traceability_scan.build_report(
+            FIXTURE_DIR / "canonical_full_bundle", scheme="canonical", strict=True
+        )
+        self.assertEqual(critical_count, 0)
+        self.assertEqual(report["metrics"]["business_total"], 3)
+        self.assertEqual(report["metrics"]["full_chain_total"], 3)
+        self.assertEqual(report["gaps"], [])
+
+    def test_template_schema_check_passes_curated_core_templates(self):
+        report = template_schema_check.evaluate_templates(Path(__file__).resolve().parents[1] / "Curated templates")
+        self.assertEqual(report["summary"]["fail"], 0)
+        self.assertEqual(report["summary"]["pass"], 4)
+
+    def test_media_audit_passes_curated_media_inventory(self):
+        report = media_audit.evaluate_media(Path(__file__).resolve().parents[1] / "Curated templates")
+        self.assertEqual(report["metrics"]["gap_total"], 0)
+        self.assertEqual(report["metrics"]["media_total"], 13)
+        self.assertEqual(report["metrics"]["embedded_total"], 6)
+
+    def test_acceptance_criteria_file_is_treated_as_uat_artifact(self):
+        self.assertEqual(ba_id_utils.classify_file(Path("07-Acceptance-Criteria.md")), "uat")
+        meta = ba_id_utils.detect_id_meta("AC-AST-001", 1)
+        self.assertIsNotNone(meta)
+        self.assertEqual(meta.family, "AC")
+
+    def test_traceability_scan_accepts_canonical_ac_chain(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "02-BRD.md").write_text("| BRQ-01 | Need |\n", encoding="utf-8")
+            (root / "03-Feature-Map.md").write_text("| F01 | Feature | BRQ-01, FR-AST-001, US-AST-001, AC-AST-001 |\n", encoding="utf-8")
+            (root / "05-SRS.md").write_text("| FR-AST-001 | Requirement | BRQ-01, F01 |\n", encoding="utf-8")
+            (root / "06-User-Story.md").write_text("| US-AST-001 | Story | FR-AST-001, F01 |\n", encoding="utf-8")
+            (root / "07-Acceptance-Criteria.md").write_text(
+                "| AC-AST-001 | Given valid input, when saved, then success. | US-AST-001, FR-AST-001 |\n",
+                encoding="utf-8",
+            )
+            report, critical_count = traceability_scan.build_report(root, scheme="canonical", strict=True)
+            self.assertEqual(critical_count, 0)
+            self.assertEqual(report["metrics"]["full_chain_total"], 1)
+
+    def test_traceability_scan_canonical_strict_rejects_multiple_us_per_fr(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "02-BRD.md").write_text("| BRQ-01 | Need |\n", encoding="utf-8")
+            (root / "03-Feature-Map.md").write_text(
+                "| F01 | Feature | BRQ-01, FR-AST-001, US-AST-001, US-AST-002, AC-AST-001 |\n",
+                encoding="utf-8",
+            )
+            (root / "05-SRS.md").write_text("| FR-AST-001 | Requirement | BRQ-01, F01 |\n", encoding="utf-8")
+            (root / "06-User-Story.md").write_text(
+                "| US-AST-001 | Story | FR-AST-001, F01 |\n"
+                "| US-AST-002 | Story | FR-AST-001, F01 |\n",
+                encoding="utf-8",
+            )
+            (root / "07-Acceptance-Criteria.md").write_text(
+                "| AC-AST-001 | Given valid input, when saved, then success. | US-AST-001 |\n",
+                encoding="utf-8",
+            )
+            report, critical_count = traceability_scan.build_report(root, scheme="canonical", strict=True)
+            gap_types = {gap["type"] for gap in report["gaps"]}
+            self.assertIn("MULTIPLE_US_FOR_FR", gap_types)
+            self.assertGreater(critical_count, 0)
 
     def test_traceability_scan_cli_exit_codes_for_strict_mode(self):
         script = SCRIPT_DIR / "traceability_scan.py"

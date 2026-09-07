@@ -26,10 +26,10 @@
 
 | Mã FR (SRS) | Mã US | Mã AC | Số kịch bản | Trạng thái AC |
 |---|---|---|---|---|
-| `FR-A01` | US-01 | AC-01 | 4 | ✅ Done |
-| `FR-A02` | US-02 | AC-02 | 4 | ✅ Done |
-| `FR-B01` | US-03 | AC-03 | 5 | 🔄 In Progress |
-| `FR-CC-01` | US-04 | AC-04 | 6 | ⬜ To Do |
+| `FR-AUTH-001` | US-AUTH-001 | AC-AUTH-001 | 4 | ✅ Done |
+| `FR-AUTH-002` | US-AUTH-002 | AC-AUTH-002 | 4 | ✅ Done |
+| `FR-MODA-001` | US-MODA-001 | AC-MODA-001 | 5 | 🔄 In Progress |
+| `FR-CC-001` | US-CC-001 | AC-CC-001 | 6 | ⬜ To Do |
 
 > **Quy tắc:** Mỗi AC **tối thiểu 4 kịch bản** (Happy Path, Race Condition, Boundary, Negative). Story phức tạp có thể cần 5-8 kịch bản.
 
@@ -38,8 +38,8 @@
 ## 4.2 Template Chuẩn — Tối thiểu 4 Kịch bản Bắt buộc
 
 ```text
-Mã Acceptance Criteria: AC-[XXX]
-Thuộc User Story: US-[XXX]
+Mã Acceptance Criteria: AC-[MODULE]-001
+Thuộc User Story: US-[MODULE]-001
 
 ===================================================================
 KỊCH BẢN 1: [Tên kịch bản - Happy Path / Luồng chuẩn thành công]
@@ -63,9 +63,9 @@ When [người dùng chọn giá trị chạm đúng ranh giới hạn mức (VD
 Then [hệ thống cho phép thực hiện bình thường]
 
 ===================================================================
-KỊCH BẢN 4: [Ngoại lệ & Vi phạm luật - Negative / Rule Violation (BRULE-xx)]
+KỊCH BẢN 4: [Ngoại lệ & Vi phạm luật - Negative / Rule Violation (BR-xxx)]
 ===================================================================
-Given [người dùng đã chạm ngưỡng giới hạn (theo quy định BRULE-xx)]
+Given [người dùng đã chạm ngưỡng giới hạn (theo quy định BR-xxx)]
 When [cố tình thực hiện thêm hành động vượt ngưỡng cho phép]
 Then [hệ thống từ chối, trả về mã lỗi thích hợp (VD: HTTP 422) và không tạo bản ghi mới]
 ```
@@ -147,7 +147,7 @@ Given hôm nay là 07/07/2026
 When khách hàng chọn ngày khám 06/08/2026 (đúng ranh giới +30 ngày)
 Then hệ thống cho phép đặt lịch bình thường
 
-Scenario 4: Vượt giới hạn số lịch hẹn đang chờ (BRULE-04)
+Scenario 4: Vượt giới hạn số lịch hẹn đang chờ (BR-004)
 Given khách hàng đã có 3 lịch hẹn ở trạng thái "Chờ khám"
 When khách hàng cố đặt thêm lịch hẹn thứ 4
 Then hệ thống báo lỗi ERR_LIMIT_REACHED (HTTP 422) và không tạo lịch hẹn mới

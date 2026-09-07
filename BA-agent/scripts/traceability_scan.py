@@ -38,7 +38,7 @@ def normalize_kind(raw: str) -> str:
         return "nonfunctional"
     if raw.startswith("US"):
         return "story"
-    if raw.startswith(("TC-", "UAT-")):
+    if raw.startswith(("AC-", "TC-", "UAT-")):
         return "test"
     if (raw.startswith("F") and raw[1:].isdigit()) or re.match(r"^F-\d{3}$", raw):
         return "feature"
@@ -55,11 +55,11 @@ ROLE_DEFINITION_KINDS = {
 
 
 CANONICAL_PATTERNS = {
-    "business": re.compile(r"^BRQ-\d+(?:\.\d+)?$"),
+    "business": re.compile(r"^(?:BRQ-\d+(?:\.\d+)?|BR-\d{3})$"),
     "functional": re.compile(r"^FR-[A-Z]{2,10}-\d{3}$"),
     "nonfunctional": re.compile(r"^NFR-[A-Z]{2,10}-\d{3}$"),
     "story": re.compile(r"^US-[A-Z]{2,10}-\d{3}$"),
-    "test": re.compile(r"^TC-[A-Z]{2,10}-\d{3}$"),
+    "test": re.compile(r"^(?:AC|TC)-[A-Z]{2,10}-\d{3}$"),
     "feature": re.compile(r"^(?:F\d{2}|F-\d{3})$"),
 }
 
@@ -68,7 +68,7 @@ LEGACY_PATTERNS = {
     "functional": re.compile(r"^FR-\d{3}$"),
     "nonfunctional": re.compile(r"^NFR-\d{2,3}$"),
     "story": re.compile(r"^(?:US-\d{3}|US\d{2,3})$"),
-    "test": re.compile(r"^(?:UAT(?:-[A-Z]+)?-\d{2,3}|TC-\d{3}|TC-\d{2}-[A-Z])$"),
+    "test": re.compile(r"^(?:AC-\d{2,3}|UAT(?:-[A-Z]+)?-\d{2,3}|TC-\d{3}|TC-\d{2}-[A-Z])$"),
     "feature": re.compile(r"^(?:F\d{2}|F-\d{3})$"),
 }
 
@@ -93,20 +93,27 @@ def tokens_by_kind(tokens: Iterable[str]) -> Dict[str, Set[str]]:
 
 
 def add_test_alias_edges(graph: Dict[str, Set[str]], tokens: Set[str]) -> None:
+    simple_ac = re.compile(r"^AC-(\d{2,3})$")
     simple_tc = re.compile(r"^TC-(\d{3})$")
     simple_uat = re.compile(r"^UAT-(\d{3})$")
     suffixes = set()
     for token in tokens:
+        if match := simple_ac.match(token):
+            suffixes.add(match.group(1).zfill(3))
         if match := simple_tc.match(token):
             suffixes.add(match.group(1))
         if match := simple_uat.match(token):
             suffixes.add(match.group(1))
     for suffix in suffixes:
+        ac_token = f"AC-{suffix}"
+        short_ac_token = f"AC-{int(suffix):02d}"
         tc_token = f"TC-{suffix}"
         uat_token = f"UAT-{suffix}"
-        if tc_token in tokens or uat_token in tokens:
-            graph[tc_token].add(uat_token)
-            graph[uat_token].add(tc_token)
+        aliases = [token for token in (ac_token, short_ac_token, tc_token, uat_token) if token in tokens]
+        for left in aliases:
+            for right in aliases:
+                if left != right:
+                    graph[left].add(right)
 
 
 def token_allowed(token: str, scheme: str) -> bool:
@@ -236,10 +243,10 @@ def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tu
                     first_token = stripped.split()[0]
                     ids.extend(ids_from_cell(first_token, line_no))
             elif role == "uat":
-                if stripped.startswith("| UAT-") or stripped.startswith("| TC-") or stripped.startswith("| IT-"):
+                if stripped.startswith("| AC-") or stripped.startswith("| UAT-") or stripped.startswith("| TC-") or stripped.startswith("| IT-"):
                     first_cell = stripped.strip().strip("|").split("|")[0].strip()
                     ids.extend(ids_from_cell(first_cell, line_no))
-                elif re.match(r"^(UAT-\d{3}|TC-\d{3}|TC-\d{2}-[A-Z])\b", stripped):
+                elif re.match(r"^(AC-\d{2,3}|UAT-\d{3}|TC-\d{3}|TC-\d{2}-[A-Z])\b", stripped):
                     first_token = stripped.split()[0]
                     ids.extend(ids_from_cell(first_token, line_no))
             elif role == "feature":
@@ -339,6 +346,36 @@ def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tu
         if not any(item in business_ids for item in reverse):
             critical_count += 1
             gaps.append({"type": "ORPHAN_FR", "item": fr_id, "detail": "No business requirement linked"})
+        if strict and scheme == "canonical":
+            linked_stories = sorted(graph.get(fr_id, set()) & story_ids)
+            if not linked_stories:
+                critical_count += 1
+                gaps.append({"type": "MISSING_US_FOR_FR", "item": fr_id, "detail": "FR has no direct US link"})
+            elif len(linked_stories) > 1:
+                critical_count += 1
+                gaps.append(
+                    {
+                        "type": "MULTIPLE_US_FOR_FR",
+                        "item": fr_id,
+                        "detail": "FR links to multiple US: " + ", ".join(linked_stories),
+                    }
+                )
+
+    if strict and scheme == "canonical":
+        for story_id in sorted(story_ids):
+            linked_tests = sorted(graph.get(story_id, set()) & test_ids)
+            if not linked_tests:
+                critical_count += 1
+                gaps.append({"type": "MISSING_AC_FOR_US", "item": story_id, "detail": "US has no direct AC/TC link"})
+            elif len(linked_tests) > 1:
+                critical_count += 1
+                gaps.append(
+                    {
+                        "type": "MULTIPLE_AC_FOR_US",
+                        "item": story_id,
+                        "detail": "US links to multiple AC/TC: " + ", ".join(linked_tests),
+                    }
+                )
 
     for nfr_id in sorted(nonfunctional_ids):
         forward = bfs(graph, nfr_id)

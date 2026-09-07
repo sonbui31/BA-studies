@@ -69,10 +69,10 @@
 
 | File | Mô tả | Khi nào dùng |
 |------|-------|-------------|
-| `01-BRD-Template.md` | Template BRD chuẩn 14 phần — SR (BABOK), RACI, BRULE Mapping, Traceability BR↔SR, Từ điển thuật ngữ. CẤM thuật ngữ IT | Khi sinh BRD dự án |
-| `02-SRS-Template.md` | Template SRS chuẩn 11 phần kỹ thuật — FR-CC, BRULE→FR Enforcement, External Interface, Mermaid diagrams, Traceability SR→FR | Khi sinh SRS dự án |
-| `03-User-Story-Template.md` | Template User Story chuẩn INVEST + Sprint Roadmap + Story Points + Nguồn gốc FR + BRULE áp dụng + DoD bổ sung | Khi sinh User Story dự án |
-| `04-Acceptance-Criteria-Template.md` | Template AC chuẩn Given-When-Then — 4+4 Scenarios + Traceability FR→US→AC + Checklist 8 điểm | Khi sinh Acceptance Criteria dự án |
+| `01-BRD-Template.md` | Template BRD chuẩn 14 phần — BRQ, BR business rules, RACI, BR→FR enforcement, Traceability BRQ↔FR, Từ điển thuật ngữ. CẤM thuật ngữ IT | Khi sinh BRD dự án |
+| `02-SRS-Template.md` | Template SRS chuẩn 11 phần kỹ thuật — FR/NFR, FR-CC, BR→FR Enforcement, External Interface, Mermaid diagrams, Traceability BRQ→FR | Khi sinh SRS dự án |
+| `03-User-Story-Template.md` | Template User Story chuẩn INVEST + Sprint Roadmap + Story Points + Nguồn gốc FR + BR áp dụng + DoD bổ sung | Khi sinh User Story dự án |
+| `04-Acceptance-Criteria-Template.md` | Template AC chuẩn Given-When-Then — 4+4 Scenarios + Traceability FR→US→AC/TC + Checklist 8 điểm | Khi sinh Acceptance Criteria dự án |
 | `Template-tai-lieu-BA-BRD-SRS-UserStory-AC_done.docx` | File gốc Word tổng hợp — có ví dụ thực chiến Đặt lịch khám bệnh | Reference kiểm tra format, bảng biểu |
 | `Template-tai-lieu-BA-BRD-SRS-UserStory-AC_done.md` | Bản Markdown extraction của file Word trên | AI đọc trực tiếp khi cần tra cứu nhanh |
 | `SRS.pdf` | Mẫu/reference SRS đầy đủ chuẩn IEEE dạng PDF | Khi audit SRS để đối chiếu completeness |
@@ -96,7 +96,7 @@
 | `customer-intelligence-guide.md` | Kỹ thuật khai thác & phân tích thông tin KH: probing, hidden needs, tâm lý stakeholder | |
 | `project-classification-gate.md` | ⭐ Gate phân loại dự án trước khi chọn tài liệu; bắt buộc Product Vision cho product/B2B/commercializable MVP | ⭐ NEW |
 | `pre-flight-checklist.md` | ⭐ Pre-Flight Engine: checklist per document type — PASS mới được viết | ⭐ NEW |
-| `traceability-validator.md` | ⭐ Auto-scan cross-doc traceability: BRQ→FR→Feature→US→TC + **NFR→NFR-TC chain** + Bi-directional + Impact Chain | ⬆ v3.2 |
+| `traceability-validator.md` | ⭐ Auto-scan cross-doc traceability: BRQ→FR/NFR→Feature→US→AC/TC + bi-directional + impact chain | ⬆ v3.4.3 |
 | `screen-inventory-guide.md` | ⭐ Screen Inventory & Wireframe enforcement: mỗi Feature ≥ 1 screen | v3.0 |
 | `requirement-quality-rubric.md` | ⭐ Rubric 5 bậc chấm điểm từng câu requirement + 8 Smell Detector patterns | ⭐ NEW v3.3 |
 | `decision-analysis-framework.md` | ⭐ 4 công cụ ra quyết định: Weighted Scoring, Pugh, CBA, Decision Tree | ⭐ NEW v3.3 |
@@ -176,14 +176,16 @@
 | `ba-knowledge-base.md` | Knowledge base BA tự chứa, chắt lọc từ kho `BA/`, dùng được ngay cả khi xoá folder nguồn | ⭐ NEW |
 | `ba-knowledge-cards.json` | Retrieval cards có cấu trúc cho các chủ đề BRD/SRS/UAT/RTM/modeling/data/product/AI/domain | ⭐ NEW |
 
-### 📁 scripts/ — Audit Scripts & Công cụ Tự động hóa (14 files)
+### 📁 scripts/ — Audit Scripts & Công cụ Tự động hóa (16 files)
 
 | File | Mô tả | Khi nào dùng |
 |------|-------|-------------|
 | `preflight_check.py` | Kiểm tra tính đầy đủ tài liệu: placeholder `{{...}}`, tiếng Việt có dấu, Glossary, Stakeholder Map, Business Rules, numbering | Sau khi draft xong BRD/SRS/Story/UAT |
 | `quality_rubric.py` | Chấm điểm chất lượng yêu cầu 1-5, bắt 8 Smells + 6 Conflict patterns | Sau khi viết FR/NFR hoặc User Story |
-| `traceability_scan.py` | Quét chuỗi `BRQ→FR→Feature→US→TC`, phát hiện Orphan Requirements & gãy ID | Bước 4 (Validation) và trước bàn giao |
+| `traceability_scan.py` | Quét chuỗi `BRQ→FR/NFR→Feature→US→AC/TC`, phát hiện orphan, gãy ID và cardinality mismatch trong canonical strict mode | Bước 4 (Validation) và trước bàn giao |
 | `reindex_markdown.py` | Audit & tự sửa thứ tự heading §1→§2→§3 và ID tuần tự | Khi tài liệu có nhiều lần sửa |
+| `template_schema_check.py` | Kiểm tra 4 curated templates cốt lõi: section bắt buộc, marker canonical, legacy marker, bảng Markdown lệch cột | Khi chỉnh BRD/SRS/Story/AC template |
+| `media_audit.py` | Kiểm tra `Curated templates/media`: broken image links, file chưa khai báo, khai báo stale, reference-only images | Khi thêm/sửa/xóa hình minh họa |
 | `ba_response_eval.py` | Đánh giá bao phủ controls theo loại dự án (Outsource/Product/Fintech) | Trước khi nghiệm thu |
 | `ba_bundle_audit.py` | Audit toàn vẹn phiên bản hệ thống BA-agent | Khi bảo trì/nâng cấp skill |
 | `knowledge_search.py` | Tìm kiếm tri thức BA từ knowledge cards | Khi cần tra cứu kiến thức |
