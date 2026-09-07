@@ -8,14 +8,16 @@
 | Mục | Chi tiết |
 |---|---|
 | **Tên dự án** | [Tên dự án] |
+| **Loại tài liệu** | Business Requirements Document (BRD) |
+| **Phiên bản** | [x.x] Draft |
+| **Tác giả** | [Tên chuyên viên BA] |
 | **Business Owner** | [Tên & chức vụ người chủ quản nghiệp vụ] |
-| **BA phụ trách** | [Tên chuyên viên BA] |
-| **Ngày / Phiên bản** | [DD/MM/YYYY] — v1.0 |
+| **Ngày tạo** | [DD-MM-YYYY] |
 
-### Lịch sử phiên bản
-| Phiên bản | Ngày | Người thực hiện | Mô tả thay đổi |
+### Nhật ký thay đổi (Change Log)
+| Version | Ngày | Nội dung thay đổi | Người sửa |
 |---|---|---|---|
-| v1.0 | [DD/MM/YYYY] | [Tên BA] | Khởi tạo tài liệu |
+| 0.1 | [DD-MM-YYYY] | Bản BRD draft ban đầu | [Tên BA] |
 
 ---
 
@@ -48,9 +50,31 @@
 | **End-User Representative** | [Tên/Nhóm] | Góp ý trải nghiệm thực tế |
 | **Tech Lead / PM** | [Tên] | Đánh giá tính khả thi và kế hoạch |
 
+### Ma trận RACI — Vận hành nghiệp vụ
+*Phân quyền trách nhiệm cho các hoạt động nghiệp vụ hàng ngày.*
+
+| Hoạt động nghiệp vụ | Sponsor | Business Owner | End-User | Tech Lead |
+|---|---|---|---|---|
+| [Hoạt động 1: VD Tiếp nhận yêu cầu] | I | A | R | C |
+| [Hoạt động 2: VD Phê duyệt quy trình] | A | R | I | C |
+| [Hoạt động 3: VD Vận hành hàng ngày] | I | C | R | I |
+
+### Ma trận RACI — Hoạt động dự án
+*Phân quyền trách nhiệm cho các hoạt động triển khai dự án.*
+
+| Hoạt động dự án | Sponsor | Business Owner | BA | Dev Lead | QA Lead |
+|---|---|---|---|---|---|
+| Phê duyệt BRD / SRS | A | R | R | C | I |
+| Thiết kế UI/UX | I | C | R | C | I |
+| Phát triển & Code review | I | I | C | A/R | C |
+| UAT & Nghiệm thu | A | R | R | C | R |
+| Go-live & Deployment | A | I | I | R | R |
+
+> **Chú thích:** R = Responsible (Thực hiện) · A = Accountable (Chịu trách nhiệm) · C = Consulted (Tham vấn) · I = Informed (Được thông báo)
+
 ---
 
-## 1.5 Yêu cầu nghiệp vụ (Business Requirements)
+## 1.5 Yêu cầu nghiệp vụ (Business Requirements — BR)
 
 | Mã YC | Mô tả yêu cầu nghiệp vụ | Độ ưu tiên (MoSCoW) | Ghi chú |
 |---|---|---|---|
@@ -61,8 +85,20 @@
 
 ---
 
-## 1.6 Luật nghiệp vụ (Business Rules)
-*Tách riêng với BR để không lẫn với chức năng hệ thống.*
+## 1.6 Yêu cầu các bên liên quan (Stakeholder Requirements — SR)
+*Phân tầng theo chuẩn BABOK: BR (mục tiêu kinh doanh) → SR (nhu cầu cụ thể từ từng nhóm stakeholder).*
+
+| Mã SR | Stakeholder | Nhu cầu (viết theo giọng "Cần…" / "Muốn…") | MoSCoW | BR liên quan |
+|---|---|---|---|---|
+| **SR-01** | [Nhóm stakeholder 1] | Cần [nhu cầu cụ thể] | Must | BR-001 |
+| **SR-02** | [Nhóm stakeholder 1] | Muốn [nhu cầu cụ thể] | Should | BR-001 |
+| **SR-03** | [Nhóm stakeholder 2] | Cần [nhu cầu cụ thể] | Must | BR-002 |
+| **SR-04** | [Nhóm stakeholder 2] | Muốn [nhu cầu cụ thể] | Could | BR-003 |
+
+---
+
+## 1.7 Luật nghiệp vụ (Business Rules)
+*Tách riêng với BR/SR để không lẫn với chức năng hệ thống.*
 
 | Mã Rule | Nội dung luật vận hành / Ràng buộc chính sách |
 |---|---|
@@ -73,7 +109,7 @@
 
 ---
 
-## 1.7 Quy trình nghiệp vụ (As-Is / To-Be)
+## 1.8 Quy trình nghiệp vụ (As-Is / To-Be)
 
 ### As-Is (Hiện tại)
 - [Mô tả quy trình thủ công hiện tại và các điểm nghẽn]
@@ -84,14 +120,14 @@
 
 ---
 
-## 1.8 Ràng buộc & Giả định
+## 1.9 Ràng buộc & Giả định
 
 - **Ràng buộc:** [Ngân sách, thời hạn hoàn thành, quy định pháp lý]
 - **Giả định:** [Các điều kiện giả định cần các bên xác nhận]
 
 ---
 
-## 1.9 Rủi ro & Giải pháp
+## 1.10 Rủi ro & Giải pháp
 
 | Rủi ro | Mức độ ảnh hưởng (Cao / TB / Thấp) | Giải pháp giảm thiểu |
 |---|---|---|
@@ -100,14 +136,36 @@
 
 ---
 
-## 1.10 Tiêu chí thành công (KPI)
+## 1.11 Tiêu chí thành công (KPI)
 
 - [Chỉ số 1: Giảm 50% thời gian xử lý thủ công]
 - [Chỉ số 2: Tăng 20% mức độ hài lòng của khách hàng]
 
 ---
 
-## 1.11 Phê duyệt (Sign-off)
+## 1.12 Ma trận vây vết (BR ↔ SR Traceability)
+*Đảm bảo mỗi BR được phủ bởi ít nhất 1 SR, và mỗi SR đều truy ngược về BR.*
+
+| Mã BR | Mã SR liên quan | Trạng thái phủ |
+|---|---|---|
+| **BR-001** | SR-01, SR-02 | ✅ Đã phủ |
+| **BR-002** | SR-03 | ✅ Đã phủ |
+| **BR-003** | SR-04 | ✅ Đã phủ |
+| **BR-004** | *(chưa có SR)* | ⚠️ Cần bổ sung |
+
+---
+
+## 1.13 Từ điển thuật ngữ nghiệp vụ
+*Giải thích các thuật ngữ chuyên ngành (domain-specific) — KHÔNG phải thuật ngữ kỹ thuật.*
+
+| Thuật ngữ | Giải thích |
+|---|---|
+| [Thuật ngữ 1] | [Định nghĩa rõ ràng trong ngữ cảnh dự án] |
+| [Thuật ngữ 2] | [Định nghĩa rõ ràng trong ngữ cảnh dự án] |
+
+---
+
+## 1.14 Phê duyệt (Sign-off)
 
 | Vai trò | Người phê duyệt | Ngày duyệt | Trạng thái |
 |---|---|---|---|

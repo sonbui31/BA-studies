@@ -61,12 +61,61 @@ description: Master Business Analysis (BA) skill. Chạy quy trình BA chuẩn h
 
 | STT | Tài liệu đầu ra | File Template tham chiếu bắt buộc | Ngôn ngữ & Đối tượng đọc | Mục đích & Trọng tâm |
 |:---:|---|---|---|---|
-| **1** | `02-BRD.md` | `BA-agent/Curated templates/01-BRD-Template.md` | **100% Nghiệp vụ & End-User**<br>*(Khách hàng, Sponsor, PO)* | Chuẩn 11 mục nghiệp vụ: Thông tin, Bối cảnh, Scope In/Out, Stakeholders, Business Requirements `BR-xxx`, Business Rules `BRULE-xx`, As-Is/To-Be, Rủi ro, KPI. CẤM thuật ngữ IT/Code. |
-| **2** | `05-SRS.md` | `BA-agent/Curated templates/02-SRS-Template.md`<br>*(Reference bổ trợ: `SRS.pdf`)* | **Kỹ thuật Chính xác & Đo lường**<br>*(Dev Leads, Devs, QA/QC)* | Chuẩn 9 mục kỹ thuật: Giới thiệu, Bối cảnh, Phân rã Use Case ➔ `FR-xxx` (Input/Validation, Logic, Output, Main/Exception Flow, Sequence Diagram, Error Codes), NFR, ERD, API Spec, Wireframe, Traceability. |
-| **3** | `06-User-Story.md`<br>*(hoặc Story Map)* | `BA-agent/Curated templates/03-User-Story-Template.md` | **Góc nhìn Người dùng (INVEST)**<br>*(Scrum Team, PO, Dev, QA)* | Cấu trúc: *Là [ai], tôi muốn [làm gì], để [nhận giá trị gì]*, Độ ưu tiên, Mức độ phức tạp (*Đơn giản / TB / Phức tạp*), Sprint, Dependencies, Liên kết AC, Checklist Definition of Done (DoD) 5 tiêu chí. |
-| **4** | `07-Acceptance-Criteria.md`<br>*(hoặc trong UAT)* | `BA-agent/Curated templates/04-Acceptance-Criteria-Template.md` | **Given–When–Then (BDD)**<br>*(QA/QC, Testers, Devs)* | Bắt buộc bao phủ đủ **4 Kịch bản (Scenarios)**:<br>• *Scenario 1:* Happy Path (Luồng chuẩn)<br>• *Scenario 2:* Race Condition (Tranh chấp đồng thời)<br>• *Scenario 3:* Boundary Case (Chạm ranh giới)<br>• *Scenario 4:* Negative Case (Vi phạm luật `BRULE-xx`) |
+| **1** | `02-BRD.md` | `BA-agent/Curated templates/01-BRD-Template.md` | **100% Nghiệp vụ & End-User**<br>*(Khách hàng, Sponsor, PO)* | Chuẩn 14 mục nghiệp vụ: Thông tin chung + Change Log, Bối cảnh, Scope, Stakeholders + RACI (2 bảng), BR, SR (BABOK), BRULE + BRULE Mapping, As-Is/To-Be, Ràng buộc, Rủi ro, KPI, Traceability BR↔SR, Từ điển thuật ngữ, Phê duyệt. CẤM thuật ngữ IT/Code. |
+| **2** | `05-SRS.md` | `BA-agent/Curated templates/02-SRS-Template.md`<br>*(Reference bổ trợ: `SRS.pdf`)* | **Kỹ thuật Chính xác & Đo lường**<br>*(Dev Leads, Devs, QA/QC)* | Chuẩn 11 mục kỹ thuật: Thông tin chung + Change Log, Giới thiệu, Mô tả tổng quan + Use Case Diagram, Phân rã FR theo Module + Use Case ➔ `FR-xxx`, FR-CC (Auth/RBAC/Consent/Audit) + BRULE→FR Enforcement, NFR + Compliance, ERD (Mermaid), External Interface, API Spec, Traceability SR→FR. |
+| **3** | `06-User-Story.md`<br>*(hoặc Story Map)* | `BA-agent/Curated templates/03-User-Story-Template.md` | **Góc nhìn Người dùng (INVEST)**<br>*(Scrum Team, PO, Dev, QA)* | Thông tin chung + Change Log, Sprint Roadmap (6 sprints + chiến lược), Bảng tổng hợp US (Priority, SP, FR, BRULE, Dependencies), Template chuẩn INVEST + Story Points + Nguồn gốc FR + BRULE áp dụng + DoD chung & bổ sung. |
+| **4** | `07-Acceptance-Criteria.md`<br>*(hoặc trong UAT)* | `BA-agent/Curated templates/04-Acceptance-Criteria-Template.md` | **Given–When–Then (BDD)**<br>*(QA/QC, Testers, Devs)* | Thông tin chung + Change Log, Traceability FR→US→AC, Template 4 kịch bản bắt buộc (Happy/Race/Boundary/Negative) + 4 kịch bản bổ sung (Token Expiry/Duplicate/Lockout/Network), Checklist nghiệm thu 8 điểm. |
 
 > 💡 **Quy tắc đọc có chọn lọc (Selective Reading):** AI chỉ đọc file template nào mà user yêu cầu sinh trong phiên chat đó, không đọc đồng thời cả 4 file nếu không cần thiết.
+
+### 🔗 QUY TẮC TRACEABILITY MAPPING CHUẨN XÁC (CROSS-DOCUMENT MAPPING RULES)
+
+> 🔴 **CHỈ THỊ BẮT BUỘC:** Khi sinh bộ tài liệu BA, các mã ID giữa 4 tài liệu **PHẢI ánh xạ chính xác 1:1 hoặc 1:N** theo chuỗi dưới đây. AI **TUYỆT ĐỐI KHÔNG ĐƯỢC** tạo ID lệch, bỏ sót, hoặc không khớp giữa các tài liệu.
+
+#### Chuỗi Traceability bắt buộc
+
+```
+BRD                          SRS                         User Story                  AC
+┌─────────────┐              ┌─────────────┐             ┌─────────────┐            ┌─────────────┐
+│ BR-xxx      │──────────────│ (tham chiếu) │             │             │            │             │
+│ SR-xxx      │──map 1:N────▶│ FR-xxx      │──map 1:1───▶│ US-xxx      │──map 1:1──▶│ AC-xxx      │
+│ BRULE-xx    │──enforce────▶│ FR (logic)  │──nhắc──────▶│ BRULE field │──test─────▶│ Kịch bản 2-4│
+└─────────────┘              └─────────────┘             └─────────────┘            └─────────────┘
+```
+
+#### 7 Quy tắc Mapping Không Được Vi Phạm
+
+| # | Quy tắc | Ví dụ đúng | Ví dụ sai |
+|---|---|---|---|
+| **M1** | Mỗi **SR** (BRD) phải map tới ≥1 **FR** (SRS). Không có SR mồ côi. | SR-01 → FR-A01, FR-A02 | SR-03 không có FR nào |
+| **M2** | Mỗi **FR** (SRS) phải map tới đúng 1 **US**. Không có FR mồ côi. | FR-A01 → US-01 | FR-B03 không có US |
+| **M3** | Mỗi **US** phải map tới đúng 1 **AC** cùng mã số. | US-01 → AC-01 | US-05 nhưng AC-05 không tồn tại |
+| **M4** | Mỗi **BRULE** (BRD) phải được implement trong ≥1 **FR** (SRS). | BRULE-01 → FR-001 (Validation) | BRULE-05 không có FR nào enforce |
+| **M5** | Mỗi **BRULE** đã map FR phải được **test** trong ≥1 kịch bản AC. | BRULE-01 → AC-xx Kịch bản 2 | BRULE-03 không có AC nào test |
+| **M6** | **Mã số phải nhất quán** xuyên suốt 4 file. Cùng 1 yêu cầu phải dùng cùng 1 mã. | BRD: SR-01 → SRS: SR-01 → US: Nguồn gốc SR-01 | BRD ghi SR-01 nhưng SRS ghi SR-1 (thiếu số 0) |
+| **M7** | **Ma trận truy xuất** trong SRS và AC phải **đồng bộ**. Nếu SRS ghi `SR-01 → FR-A01` thì AC phải có `FR-A01 → US-01 → AC-01`. | Cả 2 bảng khớp nhau | SRS ghi FR-A01→US-01 nhưng AC ghi FR-A01→US-02 |
+
+#### Self-Audit Mapping (Bắt buộc sau khi sinh mỗi tài liệu)
+
+Sau khi hoàn thành TỪNG tài liệu, AI **BẮT BUỘC** chạy kiểm tra mapping nội bộ trước khi chuyển sang tài liệu tiếp theo:
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│ SELF-AUDIT CHECKLIST (AI tự chạy — không cần user yêu cầu)        │
+├─────────────────────────────────────────────────────────────────────┤
+│ □ 1. Đếm tổng BR, SR, BRULE trong BRD → ghi lại số lượng          │
+│ □ 2. Đếm tổng FR, FR-CC trong SRS → so sánh ≥ tổng SR (BRD)       │
+│ □ 3. Đếm tổng US → so sánh = tổng FR (SRS)                        │
+│ □ 4. Đếm tổng AC → so sánh = tổng US                              │
+│ □ 5. Mỗi BRULE có ≥1 FR enforce + ≥1 AC scenario test             │
+│ □ 6. Ma trận truy xuất BRD (1.12) khớp SRS (2.10) khớp AC (4.1)   │
+│ □ 7. Không có ID mồ côi (orphan) ở bất kỳ tài liệu nào            │
+├─────────────────────────────────────────────────────────────────────┤
+│ Kết quả: PASS → tiếp tục | FAIL → sửa ngay trước khi sinh tiếp    │
+└─────────────────────────────────────────────────────────────────────┘
+```
+
+> ⚠️ **Khi phát hiện lệch mapping:** AI phải báo cáo cho user dạng bảng: `| Loại lệch | Tài liệu | ID bị lệch | Đề xuất sửa |` và sửa ngay trước khi sinh tài liệu tiếp theo.
 
 ---
 
@@ -192,6 +241,11 @@ AI **CẤM** sử dụng các tính từ cảm tính không có khả năng ki�
 - Kiểm tra tính nhất quán 3 bên: `Stakeholder Map (Actor)` ⟷ `BPMN (Lane)` ⟷ `User Story (Role)`.
 - Liệt kê toàn bộ giả định với nhãn `[GIẢ ĐỊNH - CẦN USER XÁC NHẬN]`.
 - **🔍 Audit tự động:** Chạy `python BA-agent/scripts/traceability_scan.py <project-folder>` để kiểm tra chuỗi `BRQ→FR→Feature→US→TC`. Nếu phát hiện Orphan Requirements hoặc gãy ID → sửa trước khi sang Bước 5.
+- **🔗 Self-Audit Mapping (BẮT BUỘC):** Chạy checklist 7 điểm trong mục "QUY TẮC TRACEABILITY MAPPING" ở trên. Đối chiếu:
+  - `BR/SR (BRD) ↔ FR (SRS)`: Mỗi SR phải có ≥1 FR. Không có SR mồ côi.
+  - `BRULE (BRD) ↔ FR (SRS) ↔ AC (kịch bản)`: Mỗi BRULE phải có FR enforce + AC test.
+  - `FR (SRS) ↔ US ↔ AC`: Số lượng khớp 1:1. Mã số nhất quán.
+  - Nếu phát hiện lệch → **DỪNG LẠI**, báo cáo bảng lệch cho user, sửa xong mới tiếp tục.
 
 ### 🟢 BƯỚC 5: Tài Liệu Hóa (Documentation)
 - Áp dụng Ma trận Độc giả & Ngôn ngữ (BRD ngôn ngữ kinh doanh không kỹ thuật; SRS ngôn ngữ kỹ thuật chính xác).
@@ -199,7 +253,9 @@ AI **CẤM** sử dụng các tính từ cảm tính không có khả năng ki�
 - **🔍 Audit tự động sau mỗi tài liệu:**
   - Chạy `python BA-agent/scripts/preflight_check.py <project-folder>` → kiểm tra placeholder, tiếng Việt có dấu, sections bắt buộc.
   - Chạy `python BA-agent/scripts/quality_rubric.py <file>` → chấm điểm quality 1-5, bắt 8 Smells. Tiêu chuẩn pass: avg ≥ 3.0, 0 Critical Smells.
+  - **🔗 Chạy Self-Audit Mapping** (checklist 7 điểm) → kiểm tra mọi ID giữa tài liệu vừa sinh và các tài liệu đã sinh trước đó khớp nhau. Nếu phát hiện lệch → sửa ngay.
   - Nếu FAIL → sửa inline ngay trước khi sinh tài liệu tiếp theo.
+- **Thứ tự sinh tài liệu BẮT BUỘC:** BRD → SRS → User Story → AC. Sau mỗi tài liệu phải self-audit mapping trước khi sinh tài liệu tiếp.
 
 ### 🟢 BƯỚC 6: Bàn Giao & Vòng Lặp Phản Hồi (Handoff & Feedback Loop)
 - Tóm tắt kết quả, nêu câu hỏi mở còn lại.

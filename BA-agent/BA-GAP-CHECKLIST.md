@@ -35,13 +35,13 @@
 
 | File | Trạng thái | Nội dung đã cập nhật |
 |------|:---------:|----------------------|
-| `SKILL.md` | Done | Routing Table 4 template độc lập + Exclusive Curated rule + Audit Scripts section + Diagram standards |
-| `DOCUMENT-MAP.md` | Done | Curated templates section liệt kê 7 file + Scripts section 14 file + Exclusive role description |
+| `SKILL.md` | Done | Routing Table 4 template + Exclusive Curated rule + Traceability Mapping Rules (7 quy tắc M1-M7 + Self-Audit Checklist) + Audit Scripts + Diagram standards |
+| `DOCUMENT-MAP.md` | Done | Curated templates section liệt kê 7 file (BRD 14 phần, SRS 11 phần, US + Sprint Roadmap, AC 4+4 Scenarios) + Scripts section 14 file |
 | `BA-document-rule/README.md` | Done | Cập nhật cây thư mục template và hướng đọc theo vai trò |
-| `USER-GUIDE.md` | Done | Directory tree liệt kê 4 template mới + Exclusive Curated rule + Tùy chỉnh phân biệt cốt lõi vs phụ trợ |
+| `USER-GUIDE.md` | Done | Directory tree liệt kê 4 template (BRD 14, SRS 11, US + SP/BRULE, AC + Traceability) + Exclusive Curated rule |
 | `workflows/ba-workflow.md` | Done | Step 3 trỏ tới 4 template mới + Step 5 Exclusive Curated Template Rule |
 | `agents/ba-specialist.md` | Done | Rule 5 Exclusive Curated Templates + Rule 6 Audience Calibration |
-| `Curated templates/README.md` | Done | Danh mục 6 file (4 template + Word + PDF) |
+| `Curated templates/README.md` | Done | Danh mục 7 file (4 template + MD tổng hợp + Word + PDF) + Mapping rule reference |
 
 ## 4. Phần nên mở rộng tiếp
 
