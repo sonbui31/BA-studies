@@ -69,10 +69,10 @@
 
 | File | Mô tả | Khi nào dùng |
 |------|-------|-------------|
-| `01-BRD-Template.md` | Template BRD chuẩn 11 phần — 100% ngôn ngữ nghiệp vụ, cấm thuật ngữ IT | Khi sinh BRD dự án |
-| `02-SRS-Template.md` | Template SRS chuẩn 9 phần kỹ thuật — FR Decomposition, NFR, ERD, API, Traceability | Khi sinh SRS dự án |
-| `03-User-Story-Template.md` | Template User Story chuẩn INVEST + DoD 5 tiêu chí | Khi sinh User Story dự án |
-| `04-Acceptance-Criteria-Template.md` | Template AC chuẩn Given-When-Then — 4 Scenarios bắt buộc | Khi sinh Acceptance Criteria dự án |
+| `01-BRD-Template.md` | Template BRD chuẩn 14 phần — SR (BABOK), RACI, BRULE Mapping, Traceability BR↔SR, Từ điển thuật ngữ. CẤM thuật ngữ IT | Khi sinh BRD dự án |
+| `02-SRS-Template.md` | Template SRS chuẩn 11 phần kỹ thuật — FR-CC, BRULE→FR Enforcement, External Interface, Mermaid diagrams, Traceability SR→FR | Khi sinh SRS dự án |
+| `03-User-Story-Template.md` | Template User Story chuẩn INVEST + Sprint Roadmap + Story Points + Nguồn gốc FR + BRULE áp dụng + DoD bổ sung | Khi sinh User Story dự án |
+| `04-Acceptance-Criteria-Template.md` | Template AC chuẩn Given-When-Then — 4+4 Scenarios + Traceability FR→US→AC + Checklist 8 điểm | Khi sinh Acceptance Criteria dự án |
 | `Template-tai-lieu-BA-BRD-SRS-UserStory-AC_done.docx` | File gốc Word tổng hợp — có ví dụ thực chiến Đặt lịch khám bệnh | Reference kiểm tra format, bảng biểu |
 | `Template-tai-lieu-BA-BRD-SRS-UserStory-AC_done.md` | Bản Markdown extraction của file Word trên | AI đọc trực tiếp khi cần tra cứu nhanh |
 | `SRS.pdf` | Mẫu/reference SRS đầy đủ chuẩn IEEE dạng PDF | Khi audit SRS để đối chiếu completeness |

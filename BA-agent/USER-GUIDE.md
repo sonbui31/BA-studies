@@ -104,10 +104,10 @@ BA-agent/
 ├── agents/ba-specialist.md     ← Agent persona & 21 Skills (v3.4)
 ├── workflows/ba-workflow.md    ← Slash command logic với gates + rollback
 ├── Curated templates/          ← NGUỒN DUY NHẤT cho BRD/SRS/User Story/AC
-│   ├── 01-BRD-Template.md      ← Template BRD chuẩn 11 phần
-│   ├── 02-SRS-Template.md      ← Template SRS chuẩn 9 phần kỹ thuật
-│   ├── 03-User-Story-Template.md ← Template User Story chuẩn INVEST
-│   ├── 04-Acceptance-Criteria-Template.md ← Template AC chuẩn 4 Scenarios
+│   ├── 01-BRD-Template.md      ← Template BRD chuẩn 14 phần (SR, RACI, BRULE Mapping)
+│   ├── 02-SRS-Template.md      ← Template SRS chuẩn 11 phần (FR-CC, External Interface)
+│   ├── 03-User-Story-Template.md ← Template US (Sprint Roadmap, SP, BRULE)
+│   ├── 04-Acceptance-Criteria-Template.md ← Template AC 4+4 Scenarios + Traceability
 │   ├── Template-tai-lieu-BA-*.docx ← File gốc Word (reference)
 │   └── SRS.pdf                 ← Reference SRS chuẩn IEEE
 ├── BA-document-rule/           ← "Hệ điều hành" (Core + Templates phụ trợ + Overlays)
