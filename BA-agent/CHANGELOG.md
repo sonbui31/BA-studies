@@ -5,6 +5,39 @@
 
 ---
 
+## [3.4.4] — 2026-09-07
+
+### Added
+- `scripts/template_schema_check.py` — Runtime schema gate cho 4 curated core templates, kiểm section bắt buộc, marker canonical và legacy marker bị cấm.
+- `scripts/media_audit.py` — Audit ảnh trong `Curated templates/media`, kiểm broken image links, undeclared media và stale declarations.
+- `tests/fixtures/canonical_full_bundle/` — Fixture canonical đầy đủ BRD/SRS/Feature/Story/Acceptance Criteria dùng `AC-*`.
+
+### Changed
+- `scripts/ba_bundle_audit.py` — Đưa `template_schema_check.py` và `media_audit.py` vào danh sách required runtime scripts.
+- `tests/test_runtime_scripts.py` — Tăng coverage cho template schema, media inventory và canonical full bundle strict traceability.
+
+### Fixed
+- Canonical strict mode giờ nhận `BR-001` business rules như traceable business items, không chỉ nhận `BRQ-*`.
+
+---
+
+## [3.4.3] — 2026-09-07
+
+### Added
+- `scripts/traceability_scan.py` — Hỗ trợ `AC-*` như artifact nghiệm thu hợp lệ bên cạnh `TC-*`/`UAT-*`.
+- `tests/test_runtime_scripts.py` — Thêm coverage cho `07-Acceptance-Criteria.md`, canonical AC chain, và cardinality mismatch `FR -> nhiều US`.
+
+### Changed
+- Chuẩn hóa canonical traceability contract thành `BRQ -> FR/NFR -> Feature -> US -> AC/TC`.
+- `scripts/ba_id_utils.py`, `preflight_check.py`, `reindex_markdown.py` — Nhận diện và kiểm tra `AC-*` trong Acceptance Criteria/UAT artifacts.
+- Curated templates và tài liệu hướng dẫn — Đồng bộ cách dùng `BRQ-*` cho yêu cầu kinh doanh, `BR-*` cho business rule, và `AC-*` cho Acceptance Criteria.
+
+### Fixed
+- File `07-Acceptance-Criteria.md` không còn bị classify nhầm thành `other`.
+- Canonical strict mode giờ phát hiện `MISSING_US_FOR_FR`, `MULTIPLE_US_FOR_FR`, `MISSING_AC_FOR_US`, và `MULTIPLE_AC_FOR_US`.
+
+---
+
 ## [3.4.2] — 2026-09-03
 
 ### Added

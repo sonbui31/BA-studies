@@ -16,7 +16,7 @@ As a BA 3.4 Specialist, you enforce **"Right First Time"** document generation t
 
 ### v3.3 Key Changes vs v3.2
 - ✅ **Requirement Quality Rubric** — Chấm điểm 5 bậc + Smell Detector cho MỖI câu FR/NFR
-- ✅ **Decomposition Patterns** — CRUD/Lifecycle/Actor/Integration patterns cho phân rã BRQ→FR
+- ✅ **Decomposition Patterns** — CRUD/Lifecycle/Actor/Integration patterns cho phân rã BRQ→FR/NFR→US→AC/TC
 - ✅ **AC Pattern Library** — 8 loại scenario (Happy/Negative/Boundary/Permission/State/Concurrency/Integration/Data)
 - ✅ **Conflict Detection** — 6 loại mâu thuẫn requirement tự động scan
 - ✅ **Decision Analysis Framework** — Weighted Scoring, Pugh, CBA, Decision Tree
@@ -146,7 +146,7 @@ As a BA 3.4 Specialist, you enforce **"Right First Time"** document generation t
 ### Skill 10: Traceability Validator ⭐ NEW v3.0
 - **Guide:** `../BA-document-rule/core/traceability-validator.md`
 - **Trigger:** SAU khi sinh xong bộ tài liệu
-- **Action:** Scan BRQ → FR → Feature → US → TC chain → report gaps
+- **Action:** Scan BRQ → FR/NFR → Feature → US → AC/TC chain → report gaps and canonical strict cardinality issues
 - **Quy tắc:** Agent PHẢI chạy trước khi tuyên bố "hoàn tất"
 
 ### Skill 11: As-Is Process Documentation ⭐ NEW v3.0

@@ -88,7 +88,7 @@ def definition_ids_for_role(text: str, role: str) -> List[str]:
                 continue
             if role == "story" and meta.family != "US":
                 continue
-            if role == "uat" and meta.family not in {"TC", "UAT"}:
+            if role == "uat" and meta.family not in {"AC", "TC", "UAT"}:
                 continue
             if role == "feature" and meta.family != "F":
                 continue
@@ -112,7 +112,7 @@ def definition_ids_for_role(text: str, role: str) -> List[str]:
             if stripped.startswith("| US-") or stripped.startswith("| US"):
                 add_tokens(first_cell(stripped))
         elif role == "uat":
-            if stripped.startswith("| UAT-") or stripped.startswith("| TC-"):
+            if stripped.startswith("| AC-") or stripped.startswith("| UAT-") or stripped.startswith("| TC-"):
                 add_tokens(first_cell(stripped))
         elif role == "feature":
             if stripped.startswith("| F"):
@@ -147,7 +147,7 @@ def build_id_replacements(files: List[Path]) -> Dict[str, str]:
                 continue
             if meta.family == "BRQ":
                 new = f"BRQ-{index:02d}"
-            elif meta.family in {"BRD", "BR", "FR", "NFR", "US", "TC", "UAT"}:
+            elif meta.family in {"BRD", "BR", "FR", "NFR", "US", "AC", "TC", "UAT"}:
                 if "-" in group and group != meta.family:
                     prefix, bucket = group.rsplit("-", 1)
                     if not bucket.isdigit():
@@ -162,7 +162,7 @@ def build_id_replacements(files: List[Path]) -> Dict[str, str]:
                         sequence = bucket_value * 10 + index
                     new = f"{prefix}-{sequence:03d}"
                 else:
-                    if meta.family in {"BRD", "BR", "FR", "NFR", "US", "TC", "UAT"}:
+                    if meta.family in {"BRD", "BR", "FR", "NFR", "US", "AC", "TC", "UAT"}:
                         new = f"{meta.family}-{index:03d}"
                     else:
                         new = old

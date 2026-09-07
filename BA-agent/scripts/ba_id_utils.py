@@ -10,15 +10,16 @@ ID_PATTERNS = {
     "functional": re.compile(r"\bFR(?:-[A-Z]{2,10})?-\d{1,3}\b"),
     "nonfunctional": re.compile(r"\bNFR(?:-[A-Z]{2,10})?-\d{1,3}\b"),
     "story": re.compile(r"\b(?:US(?:-[A-Z]{2,10})?-\d{3}|US\d{2,3})\b"),
-    "test": re.compile(r"\b(?:TC(?:-[A-Z]{2,10})?-\d{3}|TC-\d{2}-[A-Z]|UAT(?:-[A-Z]+)?-\d{2,3})\b"),
+    "test": re.compile(r"\b(?:AC(?:-[A-Z]{2,10})?-\d{2,3}|TC(?:-[A-Z]{2,10})?-\d{3}|TC-\d{2}-[A-Z]|UAT(?:-[A-Z]+)?-\d{2,3})\b"),
     "feature": re.compile(r"\b(?:F\d{2}|F-\d{3})\b"),
 }
 
 HEADING_PATTERN = re.compile(r"^(#{1,6})\s+((\d+(?:\.\d+)*)\.?\s+)(.+?)\s*$")
 TOP_LEVEL_BRQ_PATTERN = re.compile(r"^BRQ-(\d+)$")
 SUB_BRQ_PATTERN = re.compile(r"^BRQ-(\d+)\.(\d+)$")
-MODULED_PATTERN = re.compile(r"^(FR|NFR|US|TC)-([A-Z]{2,10})-(\d{3})$")
-SIMPLE_HUNDREDS_PATTERN = re.compile(r"^(BRD|BR|FR|NFR|US|TC|UAT)-(\d{3})$")
+MODULED_PATTERN = re.compile(r"^(FR|NFR|US|AC|TC)-([A-Z]{2,10})-(\d{3})$")
+SIMPLE_HUNDREDS_PATTERN = re.compile(r"^(BRD|BR|FR|NFR|US|AC|TC|UAT)-(\d{3})$")
+SIMPLE_AC_PATTERN = re.compile(r"^AC-(\d{2})$")
 LEGACY_US_PATTERN = re.compile(r"^US(\d{2,3})$")
 LEGACY_TC_ALPHA_PATTERN = re.compile(r"^TC-(\d{2})-([A-Z])$")
 UAT_MODULED_PATTERN = re.compile(r"^UAT-([A-Z]{2,10})-(\d{2,3})$")
@@ -61,7 +62,7 @@ def classify_file(path: Path) -> str:
         return "brd"
     if "srs" in name:
         return "srs"
-    if "uat" in name:
+    if "uat" in name or "acceptance" in name or "criteria" in name:
         return "uat"
     if "story" in name:
         return "story"
@@ -104,6 +105,8 @@ def detect_id_meta(value: str, line_no: int) -> Optional[MarkdownId]:
         else:
             group = f"{family}-{numeric // 10}"
         return MarkdownId(value=value, family=family, group=group, sequence=numeric, line_no=line_no)
+    if match := SIMPLE_AC_PATTERN.match(value):
+        return MarkdownId(value=value, family="AC", group="AC", sequence=int(match.group(1)), line_no=line_no)
     if match := LEGACY_US_PATTERN.match(value):
         return MarkdownId(value=value, family="US", group="US", sequence=int(match.group(1)), line_no=line_no)
     if match := LEGACY_TC_ALPHA_PATTERN.match(value):

@@ -53,6 +53,25 @@
 | RBAC consistency scan | Medium | Thêm script check Role/Permission trong SRS/API/UAT |
 | BPMN diagram linting | Low | Thêm checklist parser cho gateway/lane/exception trong Mermaid/BPMN text |
 
+## 4.1 Cải thiện v3.4.3 đã hoàn tất
+
+| Gap đã xử lý | Trạng thái | Ghi chú |
+|---|:---:|---|
+| Acceptance Criteria không được runtime nhận diện | Done | `classify_file()` nhận `acceptance/criteria`; ID parser nhận `AC-*` |
+| Canonical traceability thiếu AC | Done | Chain mới: `BRQ→FR/NFR→Feature→US→AC/TC` |
+| Strict mode chưa bắt cardinality 1:1 | Done | Thêm `MISSING_US_FOR_FR`, `MULTIPLE_US_FOR_FR`, `MISSING_AC_FOR_US`, `MULTIPLE_AC_FOR_US` |
+| Template còn trộn `BR`, `SR`, `BRULE` | Done | Curated templates dùng `BRQ-*` cho yêu cầu, `BR-*` cho business rule |
+| Quality report gọi `BR-*` là `BRULE` | Done | `quality_rubric.py` xuất family `BR` |
+
+## 4.2 Cải thiện v3.4.4 đã hoàn tất
+
+| Gap đã xử lý | Trạng thái | Ghi chú |
+|---|:---:|---|
+| Chưa có schema gate cho 4 curated templates | Done | Thêm `template_schema_check.py` kiểm tra section bắt buộc, marker canonical, legacy marker và bảng Markdown |
+| Chưa có media inventory gate | Done | Thêm `media_audit.py` đối chiếu embedded images, reference-only files và khai báo trong `media/README.md` |
+| Canonical sample chưa phủ đủ BRD → SRS → Story → AC | Done | Thêm `tests/fixtures/canonical_full_bundle` pass `traceability_scan.py --scheme canonical --strict` |
+| Bundle audit chưa bắt script mới | Done | `ba_bundle_audit.py` yêu cầu đủ `template_schema_check.py` và `media_audit.py` |
+
 ## 5. Scorecard audit tài liệu và logic
 
 | Hạng mục | Chuẩn đạt | Trạng thái hiện tại |
@@ -60,7 +79,9 @@
 | Pre-flight structure | Product/Outsource sample pass `preflight_check.py` | Pass |
 | Requirement quality | BRD/SRS/Story Map sample pass `quality_rubric.py` với avg >= 3 và không item nào < 3 | Pass |
 | Strict traceability | Sample có Feature layer và pass `traceability_scan.py --scheme legacy --strict` | Pass |
-| Canonical traceability | Fixture canonical pass `--scheme canonical --strict` | Pass |
+| Canonical traceability | Fixture canonical + canonical full bundle pass `--scheme canonical --strict` | Pass |
+| Curated template schema | 4 core templates pass `template_schema_check.py` | Pass |
+| Media inventory | 13 files trong `media/` được embed hoặc khai báo đúng | Pass |
 | Runtime cleanliness | Python cache không còn track trong Git, `.gitignore` chặn cache mới | Pass sau khi commit thay đổi |
 | Documentation clarity | `DOCUMENT-MAP.md`, `SKILL.md`, `USER-GUIDE.md` nêu rõ legacy/canonical/strict | Pass |
 
@@ -75,3 +96,6 @@
 - `python .\scripts\traceability_scan.py .\BA-Documents-Product --scheme legacy --strict` pass.
 - `python .\scripts\traceability_scan.py .\BA-Documents-Outsource --scheme legacy --strict` pass.
 - `python .\scripts\traceability_scan.py .\tests\fixtures\canonical_bundle --scheme canonical --strict` pass.
+- `python .\scripts\traceability_scan.py .\tests\fixtures\canonical_full_bundle --scheme canonical --strict` pass.
+- `python .\scripts\template_schema_check.py ".\Curated templates"` pass.
+- `python .\scripts\media_audit.py ".\Curated templates"` pass.

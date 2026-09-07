@@ -74,38 +74,38 @@
 
 ---
 
-## 1.5 Yêu cầu nghiệp vụ (Business Requirements — BR)
+## 1.5 Mục tiêu nghiệp vụ (Business Objectives — OBJ)
 
-| Mã YC | Mô tả yêu cầu nghiệp vụ | Độ ưu tiên (MoSCoW) | Ghi chú |
+| Mã mục tiêu | Mô tả mục tiêu nghiệp vụ | Độ ưu tiên (MoSCoW) | Ghi chú |
 |---|---|---|---|
-| **BR-001** | [Yêu cầu nghiệp vụ 1] | Must | [Ghi chú nếu có] |
-| **BR-002** | [Yêu cầu nghiệp vụ 2] | Must | - |
-| **BR-003** | [Yêu cầu nghiệp vụ 3] | Should | - |
-| **BR-004** | [Yêu cầu nghiệp vụ 4] | Could | - |
+| **OBJ-001** | [Mục tiêu nghiệp vụ 1] | Must | [Ghi chú nếu có] |
+| **OBJ-002** | [Mục tiêu nghiệp vụ 2] | Must | - |
+| **OBJ-003** | [Mục tiêu nghiệp vụ 3] | Should | - |
+| **OBJ-004** | [Mục tiêu nghiệp vụ 4] | Could | - |
 
 ---
 
-## 1.6 Yêu cầu các bên liên quan (Stakeholder Requirements — SR)
-*Phân tầng theo chuẩn BABOK: BR (mục tiêu kinh doanh) → SR (nhu cầu cụ thể từ từng nhóm stakeholder).*
+## 1.6 Yêu cầu nghiệp vụ chi tiết (Business Requirements — BRQ)
+*Phân tầng theo chuẩn BABOK: mục tiêu kinh doanh → BRQ (nhu cầu cụ thể, có thể truy vết sang SRS).*
 
-| Mã SR | Stakeholder | Nhu cầu (viết theo giọng "Cần…" / "Muốn…") | MoSCoW | BR liên quan |
+| Mã BRQ | Stakeholder | Nhu cầu (viết theo giọng "Cần…" / "Muốn…") | MoSCoW | Mục tiêu liên quan |
 |---|---|---|---|---|
-| **SR-01** | [Nhóm stakeholder 1] | Cần [nhu cầu cụ thể] | Must | BR-001 |
-| **SR-02** | [Nhóm stakeholder 1] | Muốn [nhu cầu cụ thể] | Should | BR-001 |
-| **SR-03** | [Nhóm stakeholder 2] | Cần [nhu cầu cụ thể] | Must | BR-002 |
-| **SR-04** | [Nhóm stakeholder 2] | Muốn [nhu cầu cụ thể] | Could | BR-003 |
+| **BRQ-01** | [Nhóm stakeholder 1] | Cần [nhu cầu cụ thể] | Must | OBJ-001 |
+| **BRQ-02** | [Nhóm stakeholder 1] | Muốn [nhu cầu cụ thể] | Should | OBJ-001 |
+| **BRQ-03** | [Nhóm stakeholder 2] | Cần [nhu cầu cụ thể] | Must | OBJ-002 |
+| **BRQ-04** | [Nhóm stakeholder 2] | Muốn [nhu cầu cụ thể] | Could | OBJ-003 |
 
 ---
 
 ## 1.7 Luật nghiệp vụ (Business Rules)
-*Tách riêng với BR/SR để không lẫn với chức năng hệ thống.*
+*Tách riêng với BRQ để không lẫn nhu cầu nghiệp vụ với chính sách/ràng buộc vận hành.*
 
 | Mã Rule | Nội dung luật vận hành / Ràng buộc chính sách |
 |---|---|
-| **BRULE-01** | [Nội dung luật 1: VD Một khung giờ chỉ được gán cho đúng 1 lịch hẹn] |
-| **BRULE-02** | [Nội dung luật 2: VD Giữ chỗ tạm thời tối đa 5 phút] |
-| **BRULE-03** | [Nội dung luật 3: VD Chỉ được hủy/đổi lịch trước giờ hẹn tối thiểu 2 giờ] |
-| **BRULE-04** | [Nội dung luật 4: VD Tối đa 3 lịch hẹn đang chờ khám cùng lúc] |
+| **BR-001** | [Nội dung luật 1: VD Một khung giờ chỉ được gán cho đúng 1 lịch hẹn] |
+| **BR-002** | [Nội dung luật 2: VD Giữ chỗ tạm thời tối đa 5 phút] |
+| **BR-003** | [Nội dung luật 3: VD Chỉ được hủy/đổi lịch trước giờ hẹn tối thiểu 2 giờ] |
+| **BR-004** | [Nội dung luật 4: VD Tối đa 3 lịch hẹn đang chờ khám cùng lúc] |
 
 ---
 
@@ -143,15 +143,15 @@
 
 ---
 
-## 1.12 Ma trận vây vết (BR ↔ SR Traceability)
-*Đảm bảo mỗi BR được phủ bởi ít nhất 1 SR, và mỗi SR đều truy ngược về BR.*
+## 1.12 Ma trận truy vết (BRQ/BR ↔ FR Traceability)
+*Đảm bảo mỗi BRQ được phủ bởi ít nhất 1 FR/NFR, và mỗi BR business rule có nơi enforce/test ở SRS/AC.*
 
-| Mã BR | Mã SR liên quan | Trạng thái phủ |
-|---|---|---|
-| **BR-001** | SR-01, SR-02 | ✅ Đã phủ |
-| **BR-002** | SR-03 | ✅ Đã phủ |
-| **BR-003** | SR-04 | ✅ Đã phủ |
-| **BR-004** | *(chưa có SR)* | ⚠️ Cần bổ sung |
+| Mã BRQ/BR | Mã FR/NFR dự kiến | Mã AC/TC dự kiến | Trạng thái phủ |
+|---|---|---|---|
+| **BRQ-01** | FR-MOD-001 | AC-MOD-001 | ✅ Đã phủ |
+| **BRQ-02** | FR-MOD-002 | AC-MOD-002 | ✅ Đã phủ |
+| **BR-001** | FR-MOD-003 | AC-MOD-003 | ✅ Đã phủ |
+| **BR-004** | *(chưa có FR/NFR)* | *(chưa có AC/TC)* | ⚠️ Cần bổ sung |
 
 ---
 

@@ -27,6 +27,8 @@ REQUIRED_FILES = [
     ROOT / "scripts" / "quality_rubric.py",
     ROOT / "scripts" / "traceability_scan.py",
     ROOT / "scripts" / "reindex_markdown.py",
+    ROOT / "scripts" / "template_schema_check.py",
+    ROOT / "scripts" / "media_audit.py",
     ROOT / "scripts" / "knowledge_search.py",
     ROOT / "scripts" / "build_knowledge_index.py",
     ROOT / "scripts" / "knowledge_index_search.py",

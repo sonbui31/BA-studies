@@ -30,7 +30,7 @@
   6. AI Quality Gate — Inline audit (Rubric + Smells + Conflicts)
   6.5 Pre-Flight Verify — Re-check sau khi viết
   6.6 Sequential Index Validation — Heading/ID numbering không nhảy/lặp
-  6.7 Traceability Validation — BRQ→FR→US→TC chain check (incl. NFR→TC)
+  6.7 Traceability Validation — BRQ→FR/NFR→Feature→US→AC/TC chain check
   7. Impact + Persona Sim + Decision Analysis — Scan, stress-test, evaluate
   7.5 [NEW] Communication Packaging — Đóng gói theo audience (CEO/Dev)
   7.6 [NEW] Operational/Data/Adoption Readiness — RBAC, RAID, Ops, Data Governance
@@ -104,9 +104,9 @@ BA-agent/
 ├── agents/ba-specialist.md     ← Agent persona & 21 Skills (v3.4)
 ├── workflows/ba-workflow.md    ← Slash command logic với gates + rollback
 ├── Curated templates/          ← NGUỒN DUY NHẤT cho BRD/SRS/User Story/AC
-│   ├── 01-BRD-Template.md      ← Template BRD chuẩn 14 phần (SR, RACI, BRULE Mapping)
+│   ├── 01-BRD-Template.md      ← Template BRD chuẩn 14 phần (BRQ, RACI, BR→FR)
 │   ├── 02-SRS-Template.md      ← Template SRS chuẩn 11 phần (FR-CC, External Interface)
-│   ├── 03-User-Story-Template.md ← Template US (Sprint Roadmap, SP, BRULE)
+│   ├── 03-User-Story-Template.md ← Template US (Sprint Roadmap, SP, BR)
 │   ├── 04-Acceptance-Criteria-Template.md ← Template AC 4+4 Scenarios + Traceability
 │   ├── Template-tai-lieu-BA-*.docx ← File gốc Word (reference)
 │   └── SRS.pdf                 ← Reference SRS chuẩn IEEE
@@ -160,7 +160,7 @@ BA-agent/
 2. **Facts, not Theory** — Risk Register từ patterns thực tế, không predict từ "hàng ngàn mẫu"
 3. **Visual First** — Screen Inventory + Wireframe TRƯỚC khi code. Diagram tốt hơn 1000 chữ
 4. **Reviewer-role Precision** — phân vai drafter/reviewer theo loại việc; chỉ dùng nhiều LLM khi workflow thực tế có công cụ/model tương ứng
-5. **Complete Traceability** — BRQ→FR→US→TC + NFR→NFR-TC — không gì bị orphan
+5. **Complete Traceability** — BRQ→FR/NFR→Feature→US→AC/TC, canonical strict bắt FR→US và US→AC/TC đúng 1:1
 
 ---
 
@@ -187,11 +187,13 @@ python .\scripts\quality_rubric.py <project-folder-or-file>
 python .\scripts\traceability_scan.py <project-folder> --scheme legacy
 python .\scripts\traceability_scan.py <project-folder> --scheme canonical --strict
 python .\scripts\reindex_markdown.py <project-folder>
+python .\scripts\template_schema_check.py ".\Curated templates"
+python .\scripts\media_audit.py ".\Curated templates"
 ```
 
 **Legacy bundle** dùng ID như `BRD-101 / FR-101 / US-001 / UAT-001`. Với dạng này, chạy `--scheme legacy` là mặc định an toàn. Chỉ thêm `--strict` nếu tài liệu cũng có Feature ID và mapping Feature.
 
-**Canonical bundle** dùng ID như `BRQ-01 / FR-MOD-001 / US-MOD-001 / TC-MOD-001`. Với dạng này, chạy `--scheme canonical --strict`; strict mode yêu cầu chain đầy đủ `BRQ -> FR -> Feature -> US -> TC`.
+**Canonical bundle** dùng ID như `BRQ-01 / FR-MOD-001 / US-MOD-001 / AC-MOD-001` hoặc `TC-MOD-001`. Với dạng này, chạy `--scheme canonical --strict`; strict mode yêu cầu chain đầy đủ `BRQ -> FR/NFR -> Feature -> US -> AC/TC` và bắt cardinality trực tiếp `FR -> đúng 1 US`, `US -> đúng 1 AC/TC`.
 
 Nếu `--strict` báo `BROKEN_CHAIN`, có hai hướng xử lý:
 - Bổ sung Feature ID và mapping vào BRD/SRS/Story/UAT nếu dự án yêu cầu traceability đầy đủ.

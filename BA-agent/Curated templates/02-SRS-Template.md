@@ -29,8 +29,8 @@
   - `OTP`: One-Time Password
   - `FR`: Functional Requirement
   - `NFR`: Non-Functional Requirement
-  - `BR`: Business Requirement
-  - `SR`: Stakeholder Requirement
+  - `BRQ`: Business Requirement
+  - `BR`: Business Rule
   - `FR-CC`: Cross-cutting Functional Requirement
 - **2.1.4 Tài liệu tham chiếu:**
   - BRD v[x.x] ([Ngày])
@@ -87,25 +87,25 @@ UC-00: [Tên Use Case tổng]
 
 ```text
 Module A: [Tên Module]
-├── FR-A01: [Chức năng 1]
-├── FR-A02: [Chức năng 2]
-└── FR-A03: [Chức năng 3]
+├── FR-MODA-001: [Chức năng 1]
+├── FR-MODA-002: [Chức năng 2]
+└── FR-MODA-003: [Chức năng 3]
 
 Module B: [Tên Module]
-├── FR-B01: [Chức năng 1]
-└── FR-B02: [Chức năng 2]
+├── FR-MODB-001: [Chức năng 1]
+└── FR-MODB-002: [Chức năng 2]
 ```
 
 ### 2.3.3 Ánh xạ Use Case ➔ FR
 | Use Case | FR tương ứng | Module | Ghi chú |
 |---|---|---|---|
-| **UC-01** | `FR-A01`: [Tên chức năng] | [Module A] | API GET |
-| **UC-02** | `FR-A02`: [Tên chức năng] | [Module A] | API POST |
-| **UC-03** | `FR-B01`: [Tên chức năng] | [Module B] | Chi tiết bên dưới |
+| **UC-01** | `FR-MODA-001`: [Tên chức năng] | [Module A] | API GET |
+| **UC-02** | `FR-MODA-002`: [Tên chức năng] | [Module A] | API POST |
+| **UC-03** | `FR-MODB-001`: [Tên chức năng] | [Module B] | Chi tiết bên dưới |
 
 ---
 
-### Chi tiết chức năng: FR-001 — [Tên chức năng]
+### Chi tiết chức năng: FR-MOD-001 — [Tên chức năng]
 
 - **Actor:** [Tên Actor]
 - **Mô tả:** [Mô tả chi tiết hành động hệ thống]
@@ -138,7 +138,7 @@ Module B: [Tên Module]
 - **Exception Flow (Luồng ngoại lệ):**
   - `3a.` Tài nguyên vừa bị người khác chọn trước:
     - ➔ Báo lỗi `ERR_SLOT_TAKEN (HTTP 409 Conflict)`, yêu cầu chọn lại.
-  - `3b.` Người dùng chạm ngưỡng giới hạn (theo `BRULE-04`):
+  - `3b.` Người dùng chạm ngưỡng giới hạn (theo `BR-004`):
     - ➔ Báo lỗi `ERR_LIMIT_REACHED (HTTP 422)`, từ chối tạo mới.
 
 #### Activity Diagram (Minh hoạ luồng xử lý)
@@ -317,14 +317,14 @@ Response 409 Conflict:
 
 ---
 
-## 2.10 Ma trận truy xuất (Traceability Matrix — SR → FR)
+## 2.10 Ma trận truy xuất (Traceability Matrix — BRQ/BR → FR/NFR)
 
-| Mã SR (BRD) | Mã FR (SRS) | Mã FR-CC | Trạng thái |
-|---|---|---|---|
-| **SR-01** | `FR-A01`, `FR-A02` | `FR-CC-01` | Done |
-| **SR-02** | `FR-A03` | - | Done |
-| **SR-03** | `FR-B01`, `FR-B02` | `FR-CC-02`, `FR-CC-04` | In Progress |
-| **SR-04** | `FR-B03` | - | To Do |
+| Mã BRQ/BR (BRD) | Mã FR/NFR (SRS) | Mã Feature | Mã US/AC dự kiến | Trạng thái |
+|---|---|---|---|---|
+| **BRQ-01** | `FR-MODA-001` | F01 | US-MODA-001 / AC-MODA-001 | Done |
+| **BRQ-02** | `FR-MODA-002` | F02 | US-MODA-002 / AC-MODA-002 | Done |
+| **BR-001** | `FR-MODB-001` | F03 | US-MODB-001 / AC-MODB-001 | In Progress |
+| **BR-004** | `NFR-SEC-001` | F04 | US-SEC-001 / AC-SEC-001 | To Do |
 
 ---
 

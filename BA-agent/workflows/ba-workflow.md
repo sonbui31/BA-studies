@@ -196,7 +196,7 @@ This workflow automates BA documentation using the full v3.4 skill suite (21 ski
 6.6. **Sequential Index Validation (NEW v3.4)** ⭐
      - Quét toàn bộ documents ĐÃ SINH để kiểm tra chỉ mục tuần tự:
        - **Heading scan:** §1 → §2 → §3... không nhảy cóc, không lặp, không đảo
-       - **Requirement ID scan:** BRQ-ID, FR-ID, NFR-ID, US-ID, TC-ID tuần tự trong cùng prefix
+       - **Requirement ID scan:** BRQ-ID, FR-ID, NFR-ID, US-ID, AC-ID, TC-ID tuần tự trong cùng prefix
        - **Sub-ID scan:** BRQ-XX.Y tuần tự trong nhóm cha (VD: BRQ-06.1 → .2 → .3)
        - **Test Group scan:** Test Group 2.1 → 2.2 → 2.3... tuần tự
        - **Cross-doc ID consistency:** ID cùng entity phải khớp giữa BRD ↔ SRS ↔ Feature Spec ↔ Story Map ↔ UAT Plan
@@ -210,13 +210,14 @@ This workflow automates BA documentation using the full v3.4 skill suite (21 ski
 6.7. **Cross-Document Traceability Validation (NEW v3.0)**
      - Run `../BA-document-rule/core/traceability-validator.md`
      - **Automation:** Chạy `../scripts/traceability_scan.py <project-folder>` để sinh report markdown/json trước khi kết luận thủ công
-     - Scan: BRQ-ID → FR-ID → Feature-ID → US-ID → TC-ID
+     - Scan: BRQ-ID → FR/NFR-ID → Feature-ID → US-ID → AC/TC-ID
+     - Với dự án mới, chạy `../scripts/traceability_scan.py <project-folder> --scheme canonical --strict`; strict mode bắt mỗi FR có đúng 1 US trực tiếp và mỗi US có đúng 1 AC/TC trực tiếp.
      - **Industry Traceability (nếu Gov/HC/FT):**
        - 🏛️ Gov: FR → Regulation (Luật/NĐ/TT) mapping validated
        - 🏥 HC: FR → Clinical Pathway → DDI rule traceability
        - 💰 FT: FR → Transaction State → AML Rule → Recon flow traceability
      - Output: Full Chain Report + Missing Items + Regulatory Gaps (nếu industry)
-     - **Gate Rule:** Nếu có ≥ 1 ORPHAN_BRQ hoặc MISSING_TC → agent PHẢI fix trước khi báo hoàn tất
+     - **Gate Rule:** Nếu có ≥ 1 `ORPHAN_BRQ`, `MISSING_TC`, `MISSING_US_FOR_FR`, `MULTIPLE_US_FOR_FR`, `MISSING_AC_FOR_US`, hoặc `MULTIPLE_AC_FOR_US` → agent PHẢI fix trước khi báo hoàn tất
      - **Gate Rule (Industry):** Nếu có FR chưa map → Regulation → BLOCK until mapped
      - **LLM:** Gemini 3 Pro — massive cross-doc scan
 

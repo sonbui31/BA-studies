@@ -99,9 +99,9 @@ def detect_smells(text: str, family: str = "SRS") -> List[str]:
         smells.append("Vague Adjective")
     if re.search(r"\b(được|is|are)\b", lowered) and re.search(r"\b(gửi|xử lý|lưu|hiển thị|validated?|sent|processed)\b", lowered):
         smells.append("Passive Voice")
-    if family not in {"NFR", "BRD", "BRULE"} and not any(actor in lowered for actor in ACTOR_WORDS):
+    if family not in {"NFR", "BRD", "BR"} and not any(actor in lowered for actor in ACTOR_WORDS):
         smells.append("Missing Actor")
-    if family not in {"NFR", "BRD", "BRULE"} and (
+    if family not in {"NFR", "BRD", "BR"} and (
         len(re.findall(r"\b(và|and)\b", lowered)) >= 2 or len(re.findall(r"\b(phải|shall|must)\b", lowered)) >= 2
     ):
         smells.append("Compound Requirement")
@@ -125,18 +125,18 @@ def score_requirement(text: str, smells: List[str], family: str = "SRS") -> int:
     lowered = text.lower()
     score = 5
 
-    if family not in {"NFR", "BRD", "BRULE"} and not any(actor in lowered for actor in ACTOR_WORDS):
+    if family not in {"NFR", "BRD", "BR"} and not any(actor in lowered for actor in ACTOR_WORDS):
         score -= 1
     obligation_words = ("phải", "shall", "must", "có thể", "cần", "cho phép", "i want", "so that")
     if not any(word in lowered for word in obligation_words):
         score -= 1
-    if family not in {"BRD", "BRULE"} and not (
+    if family not in {"BRD", "BR"} and not (
         any(pattern.search(text) for pattern in METRIC_PATTERNS)
         or any(pattern.search(text) for pattern in VERIFIABLE_CONTROL_PATTERNS)
     ):
         score -= 1
     condition_words = ("if", "khi", "nếu", "trước khi", "then", "sau khi", "precondition", "để", "so that", "giảm")
-    if family not in {"BRD", "BRULE"} and not any(token in lowered for token in condition_words):
+    if family not in {"BRD", "BR"} and not any(token in lowered for token in condition_words):
         score -= 1
     score -= min(2, len(smells))
 
@@ -215,7 +215,7 @@ def extract_requirement_candidates(text: str, doc_role: str = "srs") -> List[Tup
             continue
         if req_id.startswith(("BRD-", "BR-")) and "UAT-" in line and "US-" in line:
             continue
-        family = "BRULE" if req_id.startswith("BR-") else ("BRD" if req_id.startswith(("BRQ-", "BRD-")) else ("NFR" if req_id.startswith("NFR-") else "SRS"))
+        family = "BR" if req_id.startswith("BR-") else ("BRD" if req_id.startswith(("BRQ-", "BRD-")) else ("NFR" if req_id.startswith("NFR-") else "SRS"))
         clean = normalize_candidate_line(req_id, line).replace("  ", " ")
         if should_skip_candidate(req_id, clean):
             continue

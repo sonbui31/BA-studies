@@ -152,9 +152,9 @@ def definition_ids_for_role(text: str, role: str):
                 first_cell = stripped.strip().strip("|").split("|")[0].strip()
                 ids.extend(item for item in extract_ids(first_cell) if item.family == "US")
         elif role == "uat":
-            if stripped.startswith("| UAT-") or stripped.startswith("| TC-"):
+            if stripped.startswith("| AC-") or stripped.startswith("| UAT-") or stripped.startswith("| TC-"):
                 first_cell = stripped.strip().strip("|").split("|")[0].strip()
-                ids.extend(item for item in extract_ids(first_cell) if item.family in {"UAT", "TC"})
+                ids.extend(item for item in extract_ids(first_cell) if item.family in {"AC", "UAT", "TC"})
     return ids
 
 
@@ -290,14 +290,14 @@ def story_checks(text: str, ctx: Dict[str, str]) -> List[Dict[str, str]]:
 def uat_checks(text: str, ctx: Dict[str, str]) -> List[Dict[str, str]]:
     checks: List[Dict[str, str]] = []
     placeholder_count = count_placeholders(text)
-    tc_count = count_ids(text, ("TC", "UAT"))
+    tc_count = count_ids(text, ("AC", "TC", "UAT"))
     business_refs = len(re.findall(r"\b(BR-|BRD-\d{3}|FR-\d{3}|FR-[A-Z]{2,10}-\d{3})\b", text))
     signoff_rows = count_table_rows(text, ("điều kiện kết thúc", "sign-off", "biên bản nghiệm thu"))
 
     checks.append(make_check("Open Placeholders", placeholder_count == 0, f"{placeholder_count} placeholder marker(s)"))
     ok, detail = vietnamese_diacritics_status(text)
     checks.append(make_check("Vietnamese Diacritics", ok, detail))
-    checks.append(make_check("Story Coverage", tc_count >= 1 and any("story" in name.lower() for name in ctx), f"{tc_count} test-case IDs"))
+    checks.append(make_check("Story Coverage", tc_count >= 1 and any("story" in name.lower() for name in ctx), f"{tc_count} AC/test-case IDs"))
     checks.append(make_check("Test Data Spec", has_any(text, "test data", "dữ liệu kiểm thử", "test accounts"), "test-data markers"))
     checks.append(make_check("Pre-requisites", has_any(text, "điều kiện bắt đầu", "pre-requisite", "môi trường", "environment"), "pre-req markers"))
     checks.append(make_check("Sign-off Criteria", signoff_rows >= 1 or has_any(text, "nghiệm thu", "sign-off"), f"{signoff_rows} sign-off table block(s)"))
