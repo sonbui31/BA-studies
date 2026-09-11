@@ -289,3 +289,9 @@ Step 8 ──────► │  Final v3.4 Report                            �
    - ❌ KHÔNG viết User Story nếu BPMN còn `[CẦN XÁC NHẬN]`.
    - ❌ KHÔNG viết AC nếu chưa có nhánh Gateway tương ứng trong BPMN.
 8. **Anti-Ambiguity Rules:** Mọi yêu cầu kỹ thuật trong SRS/Stories phải đo lường và test được. Cấm dùng các từ chung chung không có metric cụ thể.
+9. **Anti-AI Writing Rules Enforcement (Zero AI Writing Smell — ZERO-TOLERANCE):**
+   - Tuân thủ 100% Bộ 24 Điều cấm và Checklist 10 bước trong ../Anti_ai_writing_rules.md.
+   - Cấm từ vựng sáo rỗng (crucial, 
+obust, delve, deep dive, pivotal, nhance, serves as, stands as...).
+   - Cấm câu chuyển ý dập khuôn (Additionally, In summary), cấm đối lập giả, cấm 'Rule of Three' máy móc, cấm phân tích rỗng (mệnh đề , highlighting...).
+   - Cấm giọng chatbot phục vụ (Of course!, Certainly!, I hope this helps), cấm định dạng ChatGPT máy móc (bullet lặp, emoji heading) và placeholder/citation chưa kiểm chứng.

@@ -79,6 +79,7 @@ Mọi tài liệu BA phải có:
    - **Tài liệu Kỹ thuật (SRS, API Spec, US):** Được phép/Nên dùng thuật ngữ chuyên ngành Tech để Dev/QC hiểu chính xác (VD: dùng "End-User", "Audit Log", "Cronjob").
    - **Tuy nhiên:** Phải duy trì sự nhất quán tuyệt đối *trong cùng một phân lớp tài liệu*. (VD: Trong tài liệu kỹ thuật, nếu đã thống nhất dùng "End-User" thì không đoạn khác lại tự đổi thành "Customer". Tương tự ở BRD, dùng "Khách hàng" thì 100% dùng "Khách hàng").
 6. **Văn phong Chỉn chu & Chuyên nghiệp (Polished Professionalism):** Mọi câu từ phải được trau chuốt kỹ lưỡng. Sử dụng giọng văn trang trọng (formal), khách quan. Không dùng văn nói, tiếng lóng, từ cảm thán hoặc cách hành văn lủng củng. Câu cú phải gọn gàng, súc tích, đi thẳng vào trọng tâm.
+7. **Chống "Mùi AI" (Zero AI Writing Smell — ZERO-TOLERANCE):** Toàn bộ văn bản đầu ra phải tuân thủ nghiêm ngặt Bộ 24 Điều cấm và Checklist 10 bước trong `BA-agent/Anti_ai_writing_rules.md`. Cấm dùng từ vựng sáo rỗng (`crucial`, `robust`, `delve`, `deep dive`, `pivotal`, `enhance`), câu chuyển ý dập khuôn (`Additionally`, `In summary`), đối lập giả (`Not just X, but Y`), phân tích rỗng (mệnh đề `, highlighting...`), giọng chatbot phục vụ (`Of course!`, `Certainly!`) và định dạng ChatGPT máy móc.
 
 ---
 
@@ -163,6 +164,14 @@ Mọi tài liệu BA phải có:
 | **NÊN** / **SHOULD** | Khuyến nghị mạnh | Requirement quan trọng nhưng có workaround |
 | **CÓ THỂ** / **MAY** | Tùy chọn | Nice-to-have feature |
 | **KHÔNG ĐƯỢC** / **SHALL NOT** | Cấm | Security, compliance requirement |
+
+### Quy tắc chống "mùi AI" (Anti-AI Writing Rules — Zero-Tolerance)
+
+Mọi văn bản tài liệu BA bắt buộc tuân thủ 100% hướng dẫn tại `BA-agent/Anti_ai_writing_rules.md`:
+- **Cấm từ vựng sáo rỗng (Điều 1, 5, 6, 8, 9, 22):** `additionally, crucial, robust, delve, deep dive, pivotal, enhance, tapestry, serves as, stands as...`
+- **Cấm câu dập khuôn & đối lập giả (Điều 2, 3, 4, 7, 11, 13):** Không mở đầu câu bằng liên từ công thức; không dùng `Not just X, but Y`; không dùng "Rule of Three" máy móc; không gắn mệnh đề `-ing` rỗng sau fact.
+- **Cấm giọng chatbot & định dạng ChatGPT (Điều 10, 12, 14, 15, 16, 17, 18, 23):** Cấm câu meta chào hỏi (`Certainly!`, `Of course!`); cấm bullet `- **Label:**` lặp lại máy móc; cấm emoji trước heading; cấm heading và kết luận thừa.
+- **Cấm thông tin không kiểm chứng (Điều 19, 20, 21):** Xóa sạch placeholder chưa điền, mã hệ thống kỹ thuật và không bịa nguồn trích dẫn.
 
 ---
 

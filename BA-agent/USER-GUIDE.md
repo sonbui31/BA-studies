@@ -24,10 +24,10 @@
   3.5 Industry Preparation — Gov/Healthcare/Fintech templates nếu cần
   4. Screen Inventory — Liệt kê screens + Navigation Map
   5. Document + Diagram + Wireframe — PRE-FLIGHT trước mỗi doc
-     ↳ [NEW] Quality Engine: Decomposition + NFR Discovery + Quality Rubric
+     ↳ [NEW] Quality Engine: Decomposition + NFR Discovery + Quality Rubric + Anti-AI Writing Rules
 
 ✅ VALIDATION (multi-layer)
-  6. AI Quality Gate — Inline audit (Rubric + Smells + Conflicts)
+  6. AI Quality Gate — Inline audit (Rubric + Smells + Conflicts + Anti-AI Checklist)
   6.5 Pre-Flight Verify — Re-check sau khi viết
   6.6 Sequential Index Validation — Heading/ID numbering không nhảy/lặp
   6.7 Traceability Validation — BRQ→FR/NFR→Feature→US→AC/TC chain check
@@ -149,6 +149,7 @@ BA-agent/
 ├── USER-GUIDE.md               ← Hướng dẫn sử dụng (file này)
 ├── CHANGELOG.md                ← Lịch sử thay đổi
 ├── CONTRIBUTING.md             ← ⭐ NEW v3.2: Quy trình đóng góp
+├── Anti_ai_writing_rules.md      ← ⭐ Bộ quy tắc viết văn chống "mùi AI" (24 Điều cấm)
 └── so_do.md                    ← Thư viện Mermaid (10 loại sơ đồ)
 ```
 

@@ -19,6 +19,7 @@ description: Master Business Analysis (BA) skill. Chạy quy trình BA chuẩn h
    - (a) Giải thích ngắn gọn 1-2 câu **TẠI SAO** bước đó quan trọng cho chất lượng tài liệu phía sau.
    - (b) **Đề xuất phiên bản rút gọn (Lite)** thay vì bỏ hoàn toàn. VD: *"Thay vì bỏ, tôi có thể tạo Quick Stakeholder Map 3 cột (Stakeholder, Vai trò, Nhu cầu chính) trong 2 phút — vừa nhanh vừa đủ input cho BRD."*
    - (c) Nếu user vẫn kiên quyết bỏ → ghi nhãn `[ĐÃ BỎ QUA THEO YÊU CẦU USER]` vào tài liệu + cảnh báo rủi ro cụ thể.
+6. **Tuân thủ Tuyệt đối Bộ Quy Tắc Chống "Mùi AI" (Zero AI Writing Smell):** Toàn bộ câu trả lời, phân tích nghiệp vụ và tài liệu BA (BRD, SRS, User Story, AC, BPMN...) **BẮT BUỘC** tuân thủ 100% 24 Điều cấm và Checklist 10 bước trong `BA-agent/Anti_ai_writing_rules.md`. Cấm tuyệt đối từ vựng sáo rỗng, cấu trúc dập khuôn, phân tích rỗng, giọng trợ lý phục vụ và định dạng thừa thãi.
 
 ---
 
@@ -207,6 +208,62 @@ AI **CẤM** sử dụng các tính từ cảm tính không có khả năng ki�
 
 ---
 
+## 🚫 BỘ QUY TẮC VIẾT VĂN CHỐNG "MÙI AI" (TÍCH HỢP TỪ BA-agent/Anti_ai_writing_rules.md)
+
+> 🔴 **CHỈ THỊ VIẾT VĂN BẮT BUỘC (ZERO TOLERANCE):** Mọi văn bản đầu ra của BA (từ câu trả lời chat, giải thích nghiệp vụ đến các tài liệu BRD, SRS, User Story, AC) **BẮT BUỘC TUÂN THỦ 100%** Bộ 24 Điều cấm và Quy trình kiểm tra 10 bước trong `BA-agent/Anti_ai_writing_rules.md`. Vi phạm bất kỳ điều nào đều bị coi là lỗi chất lượng nghiêm trọng cần sửa trước khi phản hồi.
+
+### 1. Nhóm 1: Cấm Từ Vựng & Cụm Từ "Mùi AI" Sáo Rỗng (Điều 1, 5, 6, 8, 9, 22)
+- **Từ cấm tuyệt đối (Điều 1):** `additionally, align with, boasts, bolstered, crucial, deep dive, delve, emphasizing, enduring, enhance, fostering, garner, highlight/highlighting, interplay, intricate/intricacies, key (dùng như tính từ), landscape (nghĩa trừu tượng), meticulous/meticulously, pivotal, robust, showcase/showcasing, tapestry (nghĩa bóng), testament, underscore, valuable, vibrant, groundbreaking, renowned, nestled, in the heart of, diverse array, exemplifies, commitment to`. BẮT BUỘC thay bằng từ đơn giản, cụ thể hơn hoặc xóa hẳn.
+- **Cấm động từ "sang" thay thế is/are/has (Điều 5):** Cấm `serves as, stands as, functions as, operates as, represents, marks, refers to, features, boasts, offers, maintains` khi dùng thay cho is/are/has. Viết thẳng: *"X is a platform"* thay vì *"X serves as a platform"*.
+- **Cấm nói vòng vo quan hệ (Điều 6):** Cấm `in connection with, connected with/to, in association with, associated with`. Nói thẳng quan hệ thực tế: *"John was CEO of Company A"* thay vì *"John was associated with the leadership of Company A"*.
+- **Cấm thổi phồng ý nghĩa & giọng brochure (Điều 8, 9):** Cấm `marks a pivotal moment, represents a significant shift, serves as a testament to, plays a crucial/key/vital role, underscores its significance, reflects broader trends, rich, profound, natural beauty`. Một sự việc nhỏ viết đúng tầm nhỏ, không gán di sản/ý nghĩa sâu xa to tát.
+- **Cấm sáo rỗng khi sửa/comment (Điều 22):** Cấm `refined, enhanced, enriched, streamlined, improved clarity/flow`. Nói cụ thể đã sửa cái gì, không mô tả quy trình tô vẽ.
+
+### 2. Nhóm 2: Cấm Cấu Trúc Câu & Cú Pháp Dập Khuôn (Điều 2, 3, 4, 7, 11, 13)
+- **Cấm câu chuyển ý dập khuôn ở đầu câu (Điều 2):** Cấm mở đầu câu bằng `Additionally, Consequently, Notably, However, Despite its..., Despite these challenges, While X..., Rather than X, In summary, In conclusion, Overall, It's important to note that, It is crucial to note/remember/consider, It is worth noting that`. Nối thẳng vào câu trước hoặc dùng liên từ tự nhiên (and, but, so).
+- **Cấm cấu trúc đối lập kiểu AI (Điều 3):** Cấm `Not just X, but also Y`, `This is not X, but Y`, `No X, no Y, just Z`, `This is not a limitation. Rather, it represents...`. Nói thẳng sự thật, không dựng hiểu lầm giả để "sửa".
+- **Cấm "Rule of Three" máy móc (Điều 4):** Cấm liệt kê ba tính từ/danh từ/lợi ích song song liên tục (`efficient, scalable, and reliable`). Số lượng phải do nội dung thật quyết định.
+- **Cấm phân tích rỗng / đuôi -ing vô nghĩa (Điều 7):** Cấm mệnh đề `, highlighting...`, `, underscoring...`, `, emphasizing...`, `, fostering...`, `, ensuring...`. Nếu xóa phần sau dấu phẩy mà thông tin không mất gì ➔ XÓA phần đó.
+- **Cấm công thức bài viết dập khuôn (Điều 11):** Cấm cấu trúc: *Thành tựu → "Despite these challenges" → "Looking ahead / Future Outlook"*. Cấu trúc bài phải do nội dung thật quyết định.
+- **Hạn chế Em Dash (—) (Điều 13):** Không dùng tạo nhịp punchy kiểu `X — while effective — introduces...`, không dùng liên tiếp nhiều lần, không quá 1 lần/200 từ.
+
+### 3. Nhóm 3: Cấm Định Dạng & Giọng Văn "Chatbot Phục Vụ" (Điều 10, 12, 14, 15, 16, 17, 18, 23)
+- **Cấm giọng trợ lý AI đang phục vụ (Điều 15):** CẤM TUYỆT ĐỐI các câu meta: `Of course!, Certainly!, You're absolutely right!, I hope this helps., Would you like me to...?, Let me know if..., Feel free to..., Let's explore..., Let's break this down...`.
+- **Cấm định dạng ChatGPT máy móc (Điều 14):**
+  - Không lặp lại tiêu đề bài ngay đầu output.
+  - Cấm Title Case tràn lan (`Challenges and Future Directions`) ➔ dùng sentence case.
+  - Cấm chuỗi bullet `- **Label:** description` lặp lại máy móc liên tục.
+  - Cấm in đậm tràn lan (`**Key Takeaways**`, `**Important:**`, `**Benefits:**`).
+  - Cấm emoji đứng trước heading (`🚀`, `✅`, `📌`, `🔍`).
+  - Cấm bảng con không cần thiết; cấm đường phân cách `----` giữa các đoạn.
+  - Dùng dấu nháy thẳng `' '`, `" "`, không dùng ngoặc kép cong `“ ”` và apostrophe cong `’` nếu văn bản gốc dùng kiểu thẳng.
+- **Cấm quy kết mơ hồ (Điều 10):** Cấm `Experts argue..., Observers have noted..., Industry reports suggest...` trừ khi trích dẫn rõ tên nguồn cụ thể.
+- **Cấm heading sáo rỗng & kết luận thừa (Điều 12, 18):** Cấm tự chèn heading `Awards and Recognition`, `Challenges and Future Outlook`, `Conclusion`, `In Summary` chỉ để nhắc lại ý cũ mà không có insight mới.
+- **Cấm disclaimer thừa (Điều 17):** Cấm `As of my last knowledge update...`, `Based on available information...`. Nếu thiếu thông tin thì nói thẳng là không có thông tin.
+- **Giữ nhất quán giọng văn (Điều 23) & tránh nhịp văn giả tạo (Điều 16):** Giữ giọng trung tính, thực tế từ đầu đến cuối; không ép mọi chủ đề phải có kết thúc tích cực cân bằng giả tạo.
+
+### 4. Nhóm 4: Tính Trung Thực & Dấu Vết Kỹ Thuật (Điều 19, 20, 21, 24)
+- **Cấm sót placeholder (Điều 19):** Cấm sót `[Your Name]`, `[Insert URL]`, `PASTE_..._HERE`, `2025-XX-XX`, `Add citation here`, `Delete this section...`.
+- **Cấm sót dấu vân tay kỹ thuật (Điều 20):** Cấm để sót `contentReference`, `oaicite`, `turn0search0`, `[cite: 1]`, `〖...†L...〗`, `grok_card`, `:::writing{...}`.
+- **Cấm citation giả mạo (Điều 21):** Cấm bịa đặt DOI, ISBN, số trang, tác giả, bài báo hay chèn link không kiểm chứng.
+
+### 5. Checklist 10 Bước Tự Kiểm Duyệt Bắt Buộc Trước Khi Phản Hồi
+Trước khi đưa ra bất kỳ câu trả lời hoặc tài liệu nào, AI bắt buộc tự rà soát theo checklist:
+1. Có từ nào trong Điều 1 không? ➔ Xóa/thay.
+2. Có mở đầu câu bằng từ nối cấm ở Điều 2 không? ➔ Viết lại.
+3. Có cấu trúc đối lập giả ở Điều 3 không? ➔ Viết thẳng sự thật.
+4. Có "rule of three" máy móc (Điều 4) không? ➔ Cắt bớt, viết chính xác.
+5. Có mệnh đề `-ing` rỗng (Điều 7) không? ➔ Xóa nếu không thêm thông tin.
+6. Có thổi phồng ý nghĩa (Điều 8) không? ➔ Viết đúng tầm vóc sự việc.
+7. Có công thức "thách thức → tương lai tươi sáng" (Điều 11) không? ➔ Phá cấu trúc.
+8. Có giọng trợ lý AI phục vụ (Điều 15) không? ➔ Xóa hoàn toàn.
+9. Có sót placeholder hoặc mã hệ thống (Điều 19, 20) không? ➔ Xóa sạch.
+10. Có citation không kiểm chứng được (Điều 21) không? ➔ Xác minh hoặc xóa.
+
+> ⚠️ **Quy tắc nghiệm thu:** Chỉ khi văn bản vượt qua cả 10 bước trên mới được coi là đạt yêu cầu. Toàn văn chi tiết xem tại `BA-agent/Anti_ai_writing_rules.md`.
+
+---
+
 ## 🗺️ BẢN ĐỒ TÀI NGUYÊN & TRI THỨC TRONG `BA-agent/`
 
 | Nhu cầu / Giai đoạn | Tài nguyên cần đọc & sử dụng |
@@ -220,6 +277,7 @@ AI **CẤM** sử dụng các tính từ cảm tính không có khả năng ki�
 | **Kiểm tra chất lượng & Preflight** | Script: `python BA-agent/scripts/preflight_check.py <folder>`<br>Script: `python BA-agent/scripts/quality_rubric.py <file-or-folder>` |
 | **Quản lý Traceability** | `BA-agent/BA-document-rule/core/traceability-validator.md`<br>Script: `python BA-agent/scripts/traceability_scan.py <folder>` |
 | **Kiểm tra Template & Media** | Script: `python BA-agent/scripts/template_schema_check.py "BA-agent/Curated templates"`<br>Script: `python BA-agent/scripts/media_audit.py "BA-agent/Curated templates"` |
+| **Quy chuẩn văn phong & Chống "mùi AI"** | `BA-agent/Anti_ai_writing_rules.md` (Bộ 24 Điều cấm nghiêm ngặt & Checklist 10 bước tự kiểm duyệt văn bản) |
 
 ---
 
@@ -253,18 +311,19 @@ AI **CẤM** sử dụng các tính từ cảm tính không có khả năng ki�
 ### 🟢 BƯỚC 5: Tài Liệu Hóa (Documentation)
 - Áp dụng Ma trận Độc giả & Ngôn ngữ (BRD ngôn ngữ kinh doanh không kỹ thuật; SRS ngôn ngữ kỹ thuật chính xác).
 - **CHỈ DÙNG DUY NHẤT** template trong `BA-agent/Curated templates/` để sinh 4 tài liệu độc lập: `02-BRD.md`, `05-SRS.md`, `06-User-Story.md`, `07-Acceptance-Criteria.md`.
-- **🔍 Audit tự động sau mỗi tài liệu:**
+- **🔍 Audit tự động & Kiểm soát văn phong sau mỗi tài liệu:**
+  - **Kiểm duyệt Anti-AI Writing (BẮT BUỘC):** Tự rà soát 10 bước checklist trong `BA-agent/Anti_ai_writing_rules.md`, quét sạch 24 điều cấm (từ vựng AI, câu dập khuôn, phân tích rỗng, giọng phục vụ).
   - Chạy `python BA-agent/scripts/preflight_check.py <project-folder>` → kiểm tra placeholder, tiếng Việt có dấu, sections bắt buộc.
   - Chạy `python BA-agent/scripts/quality_rubric.py <file>` → chấm điểm quality 1-5, bắt 8 Smells. Tiêu chuẩn pass: avg ≥ 3.0, 0 Critical Smells.
   - Khi chỉnh curated templates, chạy `python BA-agent/scripts/template_schema_check.py "BA-agent/Curated templates"` để bắt thiếu section, marker canonical và bảng Markdown lệch cột.
   - **🔗 Chạy Self-Audit Mapping** (checklist 7 điểm) → kiểm tra mọi ID giữa tài liệu vừa sinh và các tài liệu đã sinh trước đó khớp nhau. Nếu phát hiện lệch → sửa ngay.
   - Nếu FAIL → sửa inline ngay trước khi sinh tài liệu tiếp theo.
-- **Thứ tự sinh tài liệu BẮT BUỘC:** BRD → SRS → User Story → AC. Sau mỗi tài liệu phải self-audit mapping trước khi sinh tài liệu tiếp.
+- **Thứ tự sinh tài liệu BẮT BUỘC:** BRD → SRS → User Story → AC. Sau mỗi tài liệu phải self-audit mapping và kiểm duyệt Anti-AI trước khi sinh tài liệu tiếp.
 
 ### 🟢 BƯỚC 6: Bàn Giao & Vòng Lặp Phản Hồi (Handoff & Feedback Loop)
 - Tóm tắt kết quả, nêu câu hỏi mở còn lại.
 - Cập nhật Change Log khi có phản hồi mới từ người dùng.
-- **🔍 Audit cuối cùng:** Chạy lại `traceability_scan.py` + `preflight_check.py` lần cuối trước khi bàn giao → đảm bảo mọi thay đổi phản hồi không gây gãy traceability hoặc regression. Nếu có chỉnh curated template/media, chạy thêm `template_schema_check.py` và `media_audit.py`.
+- **🔍 Audit cuối cùng:** Chạy lại `traceability_scan.py` + `preflight_check.py` + rà soát 10 bước checklist Anti-AI lần cuối trước khi bàn giao → đảm bảo mọi thay đổi phản hồi không gây gãy traceability, regression hoặc sót "mùi AI". Nếu có chỉnh curated template/media, chạy thêm `template_schema_check.py` và `media_audit.py`.
 
 ---
 

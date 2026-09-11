@@ -173,6 +173,7 @@ This workflow automates BA documentation using the full v3.4 skill suite (21 ski
      - **BRD:** 100% Ngôn ngữ Nghiệp vụ & Người dùng cuối (Business & End-User Language). Giải thích *What* & *Why*. **CẤM TUYỆT ĐỐI** nhồi nhét thuật ngữ kỹ thuật (API, SQL, DB table, endpoint, JSON payload, class, server architecture, code). Có Glossary cho thuật ngữ ngành.
      - **SRS:** Ngôn ngữ Kỹ thuật Chính xác (Technical / Engineering Language) cho Dev & Tester: field validation, kiểu dữ liệu, API contract, logic xử lý, state machine, NFRs đo lường được. Cấm từ ngữ cảm tính ("nhanh", "dễ dùng").
      - **UAT Plan:** Ngôn ngữ Kịch bản Thao tác Thực tế (Scenario-Based): mô tả hành động bấm nút, nhập liệu, kết quả hiển thị trên màn hình. Cấm bước test kỹ thuật sâu.
+      - **Anti-AI Writing Rules (MANDATORY ZERO-TOLERANCE):** Tuân thủ tuyệt đối 100% Bộ 24 Điều cấm và Checklist 10 bước trong `../Anti_ai_writing_rules.md`. Cấm từ vựng sáo rỗng (`crucial`, `robust`, `delve`, `enhance`), câu chuyển ý dập khuôn (`Additionally`, `In summary`), đối lập giả, "Rule of Three" máy móc, đuôi `-ing` rỗng sau fact, giọng chatbot phục vụ (`Of course!`, `Certainly!`), định dạng ChatGPT máy móc và placeholder chưa xóa.
    - **Requirement Quality Engine (NEW v3.3):**
      - Áp dụng 4 Decomposition Patterns (`../BA-document-rule/core/writing-guide.md` §10)
      - Khám phá NFR qua 7 câu hỏi (`../BA-document-rule/core/nfr-discovery-guide.md`)
@@ -191,6 +192,7 @@ This workflow automates BA documentation using the full v3.4 skill suite (21 ski
 6.5. **Pre-Flight Verification (Post-Gen)**
      - Re-run Pre-Flight Checklist cho mỗi document ĐÃ SINH
      - Verify tất cả items PASS sau khi viết (không phải chỉ trước khi viết)
+     - **Anti-AI Writing Audit:** Tự rà soát 10 bước Checklist trong `../Anti_ai_writing_rules.md`, bảo đảm output sạch hoàn toàn "mùi AI"
      - Nếu vẫn FAIL → sửa inline → re-verify
 
 6.6. **Sequential Index Validation (NEW v3.4)** ⭐

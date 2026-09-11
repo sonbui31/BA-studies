@@ -23,6 +23,8 @@ Hệ thống AI Agent đóng vai Business Analyst — thu thập yêu cầu, ph�
 | [SKILL.md](BA-agent/SKILL.md) | Entrypoint cho skill system |
 | [USER-GUIDE.md](BA-agent/USER-GUIDE.md) | Hướng dẫn sử dụng |
 | [DOCUMENT-MAP.md](BA-agent/DOCUMENT-MAP.md) | Bản đồ toàn bộ tài liệu BA |
+| [Anti_ai_writing_rules.md](BA-agent/Anti_ai_writing_rules.md) | Bộ quy tắc viết văn chống "mùi AI" (24 Điều cấm & Checklist) |
+| [so_do.md](BA-agent/so_do.md) | Quy chuẩn vẽ sơ đồ Mermaid Level 0→3 |
 | `agents/` | Agent persona (ba-specialist) |
 | `workflows/` | Quy trình BA workflow |
 | `scripts/` | 14 scripts tự động: preflight, quality rubric, traceability, knowledge search... |
@@ -55,10 +57,11 @@ Tài liệu này dành cho cách dùng đơn giản nhất: **bạn chat trực 
 
 Bạn chỉ cần nói rõ mục tiêu, cung cấp thông tin đang có, rồi để BA-agent hỏi tiếp, phân tích, tạo tài liệu, review và chỉ ra gap.
 
-Hai quy tắc mặc định hiện tại:
+Ba quy tắc mặc định hiện tại:
 
 - **Tài liệu tiếng Việt phải có dấu**. BA-agent không được sinh nội dung kiểu `tieng Viet khong dau`, trừ ID, tên file, code, API path, database field, command, URL.
 - Khi viết **BRD, SRS, User Story, Acceptance Criteria**, BA-agent phải tham chiếu `BA-agent/Curated templates/` trước để bám format/ví dụ thực chiến, rồi chuẩn hóa output theo markdown templates và overlay của repo.
+- **Văn phong chuẩn xác, cấm "mùi AI"**: Tuân thủ nghiêm ngặt Bộ 24 Điều cấm và Checklist 10 bước trong [Anti_ai_writing_rules.md](BA-agent/Anti_ai_writing_rules.md), cấm từ vựng sáo rỗng, cấu trúc câu dập khuôn, phân tích rỗng và giọng chatbot phục vụ.
 
 Khi bạn muốn BA-agent tự kiểm tra bằng terminal, hãy nói rõ:
 
