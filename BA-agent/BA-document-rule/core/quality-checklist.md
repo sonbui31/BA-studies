@@ -20,6 +20,7 @@
 | 4c | **Đánh số Chỉ mục — Cross-doc:** Không có ID lệch giữa các tài liệu (VD: BRD ghi BRQ-03 nhưng SRS ghi BRQ-3). | ☐ |
 | 5 | **Nhất quán Thuật ngữ (Audience-Aware):** Tiếng Kinh doanh phổ thông cho BRD, Thuật ngữ Kỹ Thuật cho SRS/US. Nhất quán 100% *trong cùng một phân lớp tài liệu*. | ☐ |
 | 6 | **Văn phong Chuyên nghiệp:** Câu từ phải được trau chuốt, trang trọng (formal), khách quan. Tuyệt đối không dùng văn nói, ngôn ngữ lủng củng. | ☐ |
+| 7 | **Chống "Mùi AI" (Zero AI Writing Smell):** Tuân thủ tuyệt đối 24 Điều cấm và Checklist 10 bước (`Anti_ai_writing_rules.md`). Không từ vựng AI sáo rỗng, không câu chuyển ý dập khuôn, không phân tích rỗng (-ing), không giọng trợ lý phục vụ, không định dạng ChatGPT máy móc. | ☐ |
 
 ---
 

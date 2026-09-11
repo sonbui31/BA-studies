@@ -62,6 +62,8 @@
 |------|-------|
 | `README.md` | Tổng quan: cách hoạt động, cấu trúc thư mục, flow sử dụng |
 | `QUICK-START.md` | Hướng dẫn 5 phút: chọn overlay → copy template → viết tài liệu |
+| `Anti_ai_writing_rules.md` | Bộ quy tắc viết văn nghiêm ngặt chống "mùi AI": 24 Điều cấm tuyệt đối & Checklist 10 bước tự kiểm duyệt văn bản |
+| `so_do.md` | Sổ tay quy chuẩn vẽ sơ đồ BA chuẩn Mermaid (Level 0→3, ký hiệu, 10 tiêu chuẩn vàng) |
 
 ### 📁 Curated templates/ — NGUỒN TEMPLATE DUY NHẤT cho BRD, SRS, User Story, AC
 

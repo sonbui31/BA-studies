@@ -9,6 +9,8 @@ CHANGELOG = ROOT / "CHANGELOG.md"
 
 VERSIONED_FILES = [
     ROOT / "SKILL.md",
+    ROOT / "Anti_ai_writing_rules.md",
+    ROOT / "so_do.md",
     ROOT / "USER-GUIDE.md",
     ROOT / "DOCUMENT-MAP.md",
     ROOT / "agents" / "ba-specialist.md",
@@ -20,6 +22,8 @@ VERSIONED_FILES = [
 
 REQUIRED_FILES = [
     ROOT / "SKILL.md",
+    ROOT / "Anti_ai_writing_rules.md",
+    ROOT / "so_do.md",
     ROOT / "agents" / "openai.yaml",
     ROOT / "agents" / "ba-specialist.md",
     ROOT / "workflows" / "ba-workflow.md",
