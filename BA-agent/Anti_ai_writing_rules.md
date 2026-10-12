@@ -195,6 +195,22 @@ Các yếu tố sau **không tự động bị cấm** — chỉ cấm khi kết
 
 ---
 
+## ĐIỀU 25 — CẤM ĐỘNG TỪ MƠ HỒ TRONG NGHIỆP VỤ (VAGUE VERBS BAN)
+
+Cấm tuyệt đối dùng các động từ chung chung, không xác định rõ hành vi khi viết yêu cầu, Use Case, User Story, và quy trình nghiệp vụ:
+
+`manage (quản lý), handle (xử lý chung chung), do (làm), make (tạo/làm mơ hồ), get (lấy), use (sử dụng chung chung), take care of (phụ trách)`
+
+→ Bắt buộc thay thế bằng động từ hành động chuẩn xác, đo lường được:
+- Thay vì `manage`: Dùng `Tạo mới (Create), Cập nhật (Update), Lưu trữ (Archive), Xem danh sách/Chi tiết (View), Xóa (Delete)`.
+- Thay vì `handle`: Dùng `Kiểm tra hợp lệ (Validate), Xử lý giao dịch (Process), Từ chối (Reject), Chuyển cấp duyệt (Escalate)`.
+- Thay vì `do`: Dùng `Gửi yêu cầu (Submit), Phê duyệt (Approve), Phân công (Assign), Khởi tạo (Generate)`.
+- Thay vì `make`: Dùng `Cấp phát (Issue), Xây dựng (Build), Hiển thị (Render), Tính toán (Compute)`.
+- Thay vì `get`: Dùng `Truy xuất (Retrieve), Truy vấn (Query), Lấy dữ liệu (Fetch), Tải về (Download)`.
+- Thay vì `use`: Dùng `Áp dụng (Apply), Kích hoạt (Invoke), Thực thi (Execute), Quy đổi/Đổi mã (Redeem)`.
+
+---
+
 ## QUY TRÌNH KIỂM TRA BẮT BUỘC TRƯỚC KHI TRẢ LỜI
 
 Trước khi đưa ra câu trả lời cuối cùng, tự rà lại toàn bộ văn bản theo checklist:
@@ -209,5 +225,6 @@ Trước khi đưa ra câu trả lời cuối cùng, tự rà lại toàn bộ v
 8. Có giọng trợ lý AI (Điều 15) không? → Xóa hoàn toàn.
 9. Có sót placeholder hoặc mã hệ thống (Điều 19, 20) không? → Xóa.
 10. Có citation không kiểm chứng được (Điều 21) không? → Xóa hoặc xác minh.
+11. Có động từ nghiệp vụ mơ hồ (manage, handle, do...) ở Điều 25 không? → Thay bằng động từ hành động cụ thể.
 
-Chỉ khi văn bản vượt qua cả 10 bước trên mới được coi là đạt yêu cầu.
+Chỉ khi văn bản vượt qua cả 11 bước trên mới được coi là đạt yêu cầu.

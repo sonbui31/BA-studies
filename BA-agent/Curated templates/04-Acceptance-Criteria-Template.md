@@ -31,7 +31,13 @@
 | `FR-MODA-001` | US-MODA-001 | AC-MODA-001 | 5 | 🔄 In Progress |
 | `FR-CC-001` | US-CC-001 | AC-CC-001 | 6 | ⬜ To Do |
 
-> **Quy tắc:** Mỗi AC **tối thiểu 4 kịch bản** (Happy Path, Race Condition, Boundary, Negative). Story phức tạp có thể cần 5-8 kịch bản.
+> 🔴 **Quy tắc Vàng cho Acceptance Criteria (AC Rules):**
+> 1. **Số lượng kịch bản:** Mỗi User Story có **tối thiểu 4 kịch bản** (Happy Path, Race Condition, Boundary, Negative). Story phức tạp tối đa 8 kịch bản.
+> 2. **Chặn quá tải (Story Splitting Trigger):** Nếu một User Story có **hơn 8 kịch bản AC**, AI **BẮT BUỘC DỪNG LẠI** và yêu cầu tách User Story (xem quy tắc Story Splitting tại `03-User-Story-Template.md`).
+> 3. **Chống Anti-patterns trong AC:**
+>    - ❌ Cấm mô tả UI chi tiết/styling: *"Nút chuyển màu xanh"* ➔ ✅ *"Hệ thống hiển thị trạng thái thành công"*.
+>    - ❌ Cấm chèn mã kỹ thuật/API: *"Gọi API POST /v1/booking"* ➔ ✅ *"Hệ thống tạo bản ghi đặt lịch và trừ hạn mức tương ứng"*.
+>    - ❌ Cấm động từ mơ hồ (Điều 25 Anti-AI): Thay `manage, handle, do` bằng động từ hành động cụ thể.
 
 ---
 

@@ -74,13 +74,41 @@ graph LR
 
 ## 2.3 Yêu cầu chức năng (Functional Requirements — FR)
 
-### 2.3.1 Phân rã Use Case (Use Case Decomposition)
+### 2.3.1 Phân rã Use Case & Quy chuẩn Scoping (Use Case Decomposition & Scoping Rules)
+
+> 🔴 **Nguyên tắc Scoping Use Case (Theo Alistair Cockburn & BABOK v3):**
+> 1. **Coffee-Break Test:** Sau khi hoàn thành Use Case, Actor có thể dừng lại nghỉ uống cà phê mà không cảm thấy công việc dở dang không? Nếu KHÔNG ➔ Quá nhỏ (sub-function), cần gộp. Nếu CÓ ➔ Đạt chuẩn cấp mục tiêu người dùng (User-goal level).
+> 2. **3 Cấp độ mục tiêu (Goal Levels):**
+>    - *Cấp tóm tắt (Cloud / Summary level):* Bao trùm nhiều phiên làm việc (VD: "Quản lý vòng đời học viên") ➔ Quá rộng, BẮT BUỘC tách thành nhiều Use Case con.
+>    - *Cấp người dùng (Sea level / User-goal level) ✅:* 1 Actor, 1 phiên làm việc liên tục, đạt 1 mục tiêu nghiệp vụ trọn vẹn (VD: "Đăng ký khóa học Digital School", "Đặt lịch tư vấn mentor") ➔ Cấp độ CHUẨN cho Use Case.
+>    - *Cấp chức năng con (Fish / Sub-function level):* Bước phụ trợ bên trong Use Case khác (VD: "Xác thực OTP", "Tải tệp đính kèm") ➔ Xử lý bằng quan hệ `<<include>>`.
+> 3. **Nguyên tắc "Một Actor, Một Mục tiêu, Một Phiên" (One-Actor, One-Goal, One-Session):** Mỗi Use Case có duy nhất 1 Primary Actor và 1 mục tiêu kinh doanh cụ thể. Nếu có 2 mục tiêu hoặc 2 vai trò kích hoạt độc lập ➔ Tách làm 2 Use Case riêng.
+> 4. **Ranh giới hệ thống (System Boundary):** Use Case chỉ mô tả tương tác bề mặt đen/trắng (Actor thao tác gì ➔ Hệ thống phản hồi gì), tuyệt đối không mô tả giải thuật hoặc code nội bộ server.
+> 5. **3 Kỹ thuật phân rã Use Case:**
+>    - *Goal-driven (Top-down):* Liệt kê danh sách mục tiêu của từng Actor ➔ Mỗi mục tiêu = 1 candidate UC.
+>    - *Event-driven:* Phân tích sự kiện bên ngoài (User kích hoạt) và sự kiện bên trong (Cron job, Batch process, Webhook).
+>    - *CRUD-driven:* Phân tích vòng đời thực thể dữ liệu (Tạo mới, Xem, Cập nhật, Lưu trữ/Xóa).
+
 ```text
-UC-00: [Tên Use Case tổng]
-├── UC-01: [Tên Use Case con 1]
-├── UC-02: [Tên Use Case con 2]
-└── UC-03: [Tên Use Case con 3]
+UC-00: [Tên Use Case tổng - Summary level]
+├── UC-01: [Tên Use Case con 1 - User-goal level: Động từ + Danh từ]
+├── UC-02: [Tên Use Case con 2 - User-goal level: Động từ + Danh từ]
+└── UC-03: [Tên Use Case con 3 - Sub-function level: Dùng <<include>>]
 ```
+
+> 📋 **Quy tắc viết câu trong Luồng xử lý (Writing Style Rules):**
+> - **Thể chủ động & Thì hiện tại đơn:** Dùng *"Người dùng bấm nút Xác nhận"* (thay vì bị động *"Nút Xác nhận được bấm bởi..."* hoặc tương lai *"Hệ thống sẽ hiển thị..."*).
+> - **Cấu trúc S-V-O rõ ràng:** Mọi bước bắt đầu bằng một chủ thể cụ thể: Tên Actor hoặc **Hệ thống**.
+> - **Một bước = Một hành vi duy nhất:** Tuyệt đối không gộp nhiều hành vi vào 1 bước có chữ "và" (VD: Tách *"Người dùng nhập số điện thoại và bấm Gửi mã"* thành 2 bước riêng để gắn Exception xử lý lỗi xác thực).
+> - **Cấm động từ mơ hồ (Điều 25 Anti-AI):** Cấm `manage, handle, do, make, get, use, take care of`; thay bằng động từ hành động chuẩn mực (`Tạo mới, Cập nhật, Xác thực, Khóa tạm thời, Cấp phát...`).
+
+> 🔍 **Bộ kiểm định chất lượng Use Case (20-Point Checklist tóm lược):**
+> - [ ] **C1-C5 (Scope & ID):** Tên dạng [Động từ] + [Danh từ]; đạt Coffee-break test; mã `UC-[MODULE]-[SEQ]`; đúng 1 Primary Actor; ranh giới hệ thống rõ ràng.
+> - [ ] **C6-C8 (Actor & Ngữ cảnh):** Actor là vai trò cụ thể (không dùng "User"); Description đủ WHY + WHAT + OUTCOME; Tần suất sử dụng được lượng hóa bằng số liệu.
+> - [ ] **C9-C11 (Điều kiện):** Preconditions kiểm chứng được bằng boolean/query; Postconditions bao quát toàn bộ thay đổi dữ liệu/trạng thái; tách bạch Preconditions vs Business Rules.
+> - [ ] **C12-C14 (Luồng chính):** Thể chủ động, thì hiện tại đơn, S-V-O; 1 bước = 1 hành động; không đưa chi tiết thiết kế code/API vào flow.
+> - [ ] **C15-C17 (Luồng ngoại lệ):** Luồng thay thế đánh số theo bước gốc (`3a, 3b`); mã Exception `UC-XX.EX.N`; bao phủ đủ các Failure Modes (Timeout, Race condition, Hết hạn).
+> - [ ] **C18-C20 (Tính đầy đủ):** Dùng đúng `<<include>>`/`<<extend>>`; NFRs có SLA đo lường được; các điểm chưa chốt gắn nhãn `[CẦN XÁC NHẬN]`.
 
 ### 2.3.2 Hướng dẫn phân nhóm FR theo Module
 *Với hệ thống nhiều module, nhóm FR theo từng phân hệ để dễ quản lý.*

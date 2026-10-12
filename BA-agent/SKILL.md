@@ -277,18 +277,30 @@ Trước khi đưa ra bất kỳ câu trả lời hoặc tài liệu nào, AI b�
 | **Kiểm tra chất lượng & Preflight** | Script: `python BA-agent/scripts/preflight_check.py <folder>`<br>Script: `python BA-agent/scripts/quality_rubric.py <file-or-folder>` |
 | **Quản lý Traceability** | `BA-agent/BA-document-rule/core/traceability-validator.md`<br>Script: `python BA-agent/scripts/traceability_scan.py <folder>` |
 | **Kiểm tra Template & Media** | Script: `python BA-agent/scripts/template_schema_check.py "BA-agent/Curated templates"`<br>Script: `python BA-agent/scripts/media_audit.py "BA-agent/Curated templates"` |
-| **Quy chuẩn văn phong & Chống "mùi AI"** | `BA-agent/Anti_ai_writing_rules.md` (Bộ 24 Điều cấm nghiêm ngặt & Checklist 10 bước tự kiểm duyệt văn bản) |
+| **Quy chuẩn văn phong & Chống "mùi AI"** | `BA-agent/Anti_ai_writing_rules.md` (Bộ 25 Điều cấm nghiêm ngặt & Checklist 11 bước tự kiểm duyệt văn bản) |
 
 ---
 
 ## 🔄 QUY TRÌNH BA 6 BƯỚC THỰC THI (CHẠY LẦN LƯỢT)
 
-### 🟢 BƯỚC 1: Tiếp Nhận, Làm Rõ Yêu Cầu & Phân Tích Bối Cảnh (Elicitation)
-1. **Tiếp nhận:** Đặt 3-5 câu hỏi Socratic trọng tâm (Pain point, Actor, Mục tiêu, Phạm vi In/Out, Ràng buộc).
-2. **Phân loại:** `in-house`, `outsource`, `product/SaaS`, `startup-mvp`, `fintech`, `healthcare`, `government`.
+### 🟢 BƯỚC 1: Tiếp Nhận, Khám Phá & Khơi Gợi Yêu Cầu (Discovery & Elicitation)
+1. **Phát hiện Ý định & Gắn cờ Thiên kiến Giải pháp (Solution Bias Warning ⚠️):**
+   - Phân loại yêu cầu thô: *Tính năng mới, Phàn nàn vận hành, Workaround thủ công, Mục tiêu KPI, Quy định pháp lý...*
+   - **Gắn cờ Solution Bias ⚠️:** Nếu khách hàng/stakeholder đưa ra ngay giải pháp công nghệ cụ thể (*"cần tích hợp AI", "cần recommendation engine", "cần làm mobile app"*), xem đó là **giả thuyết cần kiểm chứng**, tuyệt đối không chấp nhận là requirement đã chốt.
+2. **Kiểm tra 5 tầng yêu cầu theo BABOK v3 (Requirement Layer Check):**
+   - Lập bảng hiển thị trạng thái 5 tầng yêu cầu:
+     - *Yêu cầu kinh doanh (Business Requirement - Tại sao làm?):* Đã có / Một phần / Chưa có
+     - *Yêu cầu bên liên quan (Stakeholder Requirement - Ai cần gì?):* Đã có / Một phần / Chưa có
+     - *Yêu cầu giải pháp chức năng (Functional Requirement - Hệ thống làm gì?):* Đã có / Một phần / Chưa có
+     - *Yêu cầu giải pháp phi chức năng (Non-Functional Requirement - Chất lượng ra sao?):* Đã có / Một phần / Chưa có
+     - *Yêu cầu chuyển giao (Transition Requirement - Triển khai & đào tạo thế nào?):* Đã có / Một phần / Chưa có
+3. **Bảng đối chiếu Đã biết vs Chưa biết (Known vs Unknown Matrix):**
+   - Tổng hợp nhanh các dữ kiện đã rõ (Known) và các khoảng trống rủi ro chưa rõ (Unknown) trước khi đặt câu hỏi.
+4. **Socratic Gate Elicitation:** Đặt tối đa 3-5 câu hỏi trọng tâm theo ngữ cảnh (Pain point, Actor, Mục tiêu, Phạm vi In/Out, Ràng buộc). Không nhảy cóc sang giải pháp.
+5. **Phân loại dự án:** `in-house`, `outsource`, `product/SaaS`, `startup-mvp`, `fintech`, `healthcare`, `government`.
    > *Nếu là Product/SaaS/B2B:* BẮT BUỘC chốt **Product Vision Document** trước Project Charter/BRD.
-3. **Stakeholder Map:** Bảng 6 cột + phân loại ma trận 2x2 Power-Interest (quét cả stakeholder gián tiếp).
-4. **BPMN (As-Is / To-Be):** Mỗi Lane = 1 Stakeholder. Đánh dấu `[CẦN XÁC NHẬN]` trên Gateway chưa rõ điều kiện.
+6. **Stakeholder Map:** Bảng 6 cột + phân loại ma trận 2x2 Power-Interest (quét cả stakeholder gián tiếp).
+7. **BPMN (As-Is / To-Be):** Mỗi Lane = 1 Stakeholder. Đánh dấu `[CẦN XÁC NHẬN]` trên Gateway chưa rõ điều kiện.
 
 ### 🟢 BƯỚC 2: Phân Tích Nghiệp Vụ Chuyên Sâu (Analysis)
 - Bóc tách: Actor, Trigger, Flow chính, Flow ngoại lệ.
@@ -383,7 +395,7 @@ Stakeholder Map + BPMN (tổng quan)
 
 Khi user tag skill này (`@ba-agent` hoặc `@BA-agent/SKILL.md`) và đưa ra yêu cầu dự án:
 
-1. **Lượt 1:** Đọc yêu cầu thô. Nhận diện loại dự án. **Chỉ đặt 3-5 câu hỏi Socratic sắc bén** làm rõ bài toán (không sinh tài liệu ngay).
+1. **Lượt 1:** Đọc yêu cầu thô. Nhận diện loại dự án & gắn cờ Solution Bias ⚠️ (nếu có). Quét nhanh 5 tầng yêu cầu BABOK và bảng Known vs Unknown. **Chỉ đặt 3-5 câu hỏi Socratic sắc bén** làm rõ bài toán (không sinh tài liệu ngay).
 2. **Lượt 2 (sau khi user trả lời):** Tóm tắt lại bài toán. Xuất **Stakeholder Map (6 cột + Power-Interest)** và sơ đồ **BPMN (As-Is / To-Be)**. Đánh dấu các điểm `[CẦN XÁC NHẬN]`.
 3. **Lượt 3 (sau khi user chốt quy trình):** Bóc tách Business Rules và xây dựng **User Story Map** kèm **Acceptance Criteria (Given-When-Then)**.
 4. **Lượt 4 (khi được yêu cầu xuất BRD/SRS):** Kiểm tra Hard Gates. Áp dụng đúng ma trận ngôn ngữ độc giả (BRD cấm thuật ngữ IT; SRS chuẩn xác kỹ thuật). Tải Curated templates và xuất tài liệu.
