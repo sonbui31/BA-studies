@@ -211,6 +211,24 @@ Cấm tuyệt đối dùng các động từ chung chung, không xác định r�
 
 ---
 
+## ĐIỀU 26 — QUY TẮC RÀNG BUỘC ĐẦU VÀO & PHÂN TÁCH 3 VÙNG DỮ LIỆU (ANTI-HALLUCINATION INPUT BINDING)
+
+Cấm tuyệt đối để AI tự suy diễn các sự thật nghiệp vụ mà không có căn cứ từ tài liệu gốc. Mọi bản thảo tài liệu phân tích phải phân tách rạch ròi 3 vùng thông tin:
+
+1. **Facts (Dữ kiện xác thực):** Thông tin trích xuất trực tiếp từ tài liệu gốc, biên bản họp, chính sách hoặc database schema. Phải ghi rõ mã tham chiếu nguồn (ví dụ: `[BR-01 ← Biên bản 12/10, Mục 2]`). Nếu không có thông tin trong tài liệu nguồn, BẮT BUỘC ghi rõ: `[CHƯA CÓ THÔNG TIN]`, cấm tự ý điền phỏng đoán.
+2. **Assumptions (Giả định logic):** Các nhận định hoặc bước suy luận do AI đề xuất thêm để hoàn thiện giải pháp. Phải gắn nhãn rõ ràng: `[Giả định]` để Stakeholder thẩm định.
+3. **Open Questions (Câu hỏi mở):** Các điểm khuyết thiếu, mâu thuẫn hoặc chưa rõ ràng trong nghiệp vụ cần BA phỏng vấn lại Stakeholder/SME trước khi chuyển sang giai đoạn phát triển.
+
+---
+
+## ĐIỀU 27 — TRACEABILITY 1-1 & GÁN NHÃN BẢN THẢO (AI-DRAFTED REQUIREMENT TAGGING)
+
+1. **Gán nhãn trạng thái bản thảo:** Mọi tài liệu, User Story, biểu mẫu hoặc phân tích do AI sinh ra phải được gắn nhãn `[AI-Drafted]` ở phần tiêu đề hoặc đầu tài liệu. Nhãn này chỉ được gỡ bỏ khi BA/PO người thật đã thẩm định và xác nhận.
+2. **Truy vết 1-1 (Traceability):** Từng User Story và tiêu chí chấp thuận (AC) phải ánh xạ ngược về tối thiểu một mục tiêu kinh doanh hoặc yêu cầu nghiệp vụ gốc. Dòng nào không truy nguyên được nguồn gốc phải bị loại bỏ hoặc đánh dấu nghi ngờ ảo giác.
+3. **Chuẩn kiểm thử mệnh đề Then:** Trong mọi kịch bản Acceptance Criteria viết theo cấu trúc Given-When-Then, mệnh đề "Then" bắt buộc phải mô tả kết quả cụ thể, quan sát được và đo lường được trên hệ thống. Cấm các câu "Then" chung chung (ví dụ: "Then hệ thống xử lý thành công", "Then người dùng nhận được trải nghiệm tốt").
+
+---
+
 ## QUY TRÌNH KIỂM TRA BẮT BUỘC TRƯỚC KHI TRẢ LỜI
 
 Trước khi đưa ra câu trả lời cuối cùng, tự rà lại toàn bộ văn bản theo checklist:
@@ -226,5 +244,7 @@ Trước khi đưa ra câu trả lời cuối cùng, tự rà lại toàn bộ v
 9. Có sót placeholder hoặc mã hệ thống (Điều 19, 20) không? → Xóa.
 10. Có citation không kiểm chứng được (Điều 21) không? → Xóa hoặc xác minh.
 11. Có động từ nghiệp vụ mơ hồ (manage, handle, do...) ở Điều 25 không? → Thay bằng động từ hành động cụ thể.
+12. Có trộn lẫn phỏng đoán với sự thật không (Điều 26)? → Phân tách 3 vùng Facts / Assumptions / Open Questions.
+13. Đã có mã truy vết nguồn gốc hoặc nhãn `[AI-Drafted]` chưa (Điều 27)? → Bổ sung truy vết.
 
-Chỉ khi văn bản vượt qua cả 11 bước trên mới được coi là đạt yêu cầu.
+Chỉ khi văn bản vượt qua cả 13 bước trên mới được coi là đạt yêu cầu.

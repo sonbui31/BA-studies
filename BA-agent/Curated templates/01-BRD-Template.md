@@ -41,14 +41,16 @@
 
 ---
 
-## 1.4 Stakeholders
+## 1.4 Stakeholders & Phân nhóm bên liên quan
 
-| Vai trò | Tên / Bộ phận | Trách nhiệm chính |
-|---|---|---|
-| **Sponsor** | [Tên] | Duyệt ngân sách, mục tiêu kinh doanh |
-| **Business Owner** | [Tên] | Xác nhận quy trình nghiệp vụ |
-| **End-User Representative** | [Tên/Nhóm] | Góp ý trải nghiệm thực tế |
-| **Tech Lead / PM** | [Tên] | Đánh giá tính khả thi và kế hoạch |
+| Nhóm | Vai trò | Tên / Bộ phận | Trách nhiệm chính | Quyền hạn (H/M/L) | Mức quan tâm (H/M/L) | Rủi ro nếu bỏ sót |
+|---|---|---|---|---|---|---|
+| **Customers** | Sponsor | [Tên] | Duyệt ngân sách, mục tiêu kinh doanh | H | H | Hủy dự án |
+| **Customers** | Product Champion | [Tên/Nhóm] | Thúc đẩy áp dụng, định hướng giải pháp | M | H | Khó triển khai |
+| **Users** | Direct User (NV vận hành) | [Tên/Nhóm] | Thao tác nhập liệu, xử lý nghiệp vụ hàng ngày | L | H | Sai quy trình thực tế |
+| **Users** | Indirect User (Quản lý) | [Tên/Nhóm] | Xem báo cáo, kiểm toán kết quả đầu ra | M | M | Thiếu số liệu quản trị |
+| **Others** | Advisor (Pháp chế/SME) | [Tên/Nhóm] | Rà soát tính tuân thủ pháp luật/chính sách | H | L | Vi phạm pháp lý |
+| **Others** | Provider (Đối tác ngoài) | [Tên/Đơn vị] | Cung cấp cổng thanh toán, hạ tầng đám mây | L | M | Gián đoạn tích hợp |
 
 ### Ma trận RACI — Vận hành nghiệp vụ
 *Phân quyền trách nhiệm cho các hoạt động nghiệp vụ hàng ngày.*

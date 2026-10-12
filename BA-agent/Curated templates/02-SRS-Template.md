@@ -339,9 +339,23 @@ Response 409 Conflict:
 
 ---
 
-## 2.9 Giao diện người dùng (UI / Wireframe)
+## 2.9 Giao diện người dùng (UI / Visual Deliverables & Screen Specs)
 
-- *(Chèn wireframe bố cục màn hình và các trạng thái element: Active, Hover, Disabled, Selected)*
+### 2.9.1 Phân cấp 4 cấp độ trực quan hóa (Visual Deliverables Hierarchy)
+Mọi thiết kế giao diện trong SRS phải được định vị rõ theo 4 cấp độ:
+1. **Sketch (Phác thảo nhanh):** Bắt ý tưởng bố cục trong các phiên khơi gợi và họp làm rõ yêu cầu.
+2. **Wireframe (Khung xương):** Cấu trúc layout, vị trí các khối thông tin, hệ thống phân cấp nội dung (Hierarchy) và luồng điều hướng thô.
+3. **Mockup (Giao diện chuẩn hóa):** Thể hiện chính xác màu sắc thương hiệu, font chữ, icon, logo, tỷ lệ hiển thị và dữ liệu mẫu thực tế.
+4. **Prototype (Bản mẫu tương tác):** Mô phỏng luồng thao tác thực tế giữa các màn hình, popup và hiệu ứng chuyển cảnh để kiểm thử khả năng sử dụng (Usability Testing).
+
+### 2.9.2 Bảng đặc tả trạng thái trường dữ liệu (Field State Checklist)
+Mỗi màn hình bắt buộc đặc tả đầy đủ 5 trạng thái hiển thị cơ bản của các phần tử giao diện:
+
+| Tên trường / Element | Trạng thái Default (Mặc định) | Trạng thái Active / Focus | Trạng thái Error (Báo lỗi) | Trạng thái Disabled (Bị khóa) | Trạng thái Empty State (Dữ liệu rỗng) |
+|---|---|---|---|---|---|
+| [Tên trường 1: VD Input Email] | Hiển thị placeholder xám | Viền xanh, hiện con trỏ | Viền đỏ, text lỗi bên dưới | Nền xám mờ, cấm click | - |
+| [Tên trường 2: VD Nút Đặt lịch] | Nền xanh chính, chữ trắng | Hiệu ứng nhấn xuống | Rung nhẹ nếu thiếu field | Nền xám, cursor not-allowed | - |
+| [Tên danh sách: VD Lịch hẹn] | Hiển thị tối đa 10 item/trang | Phân trang hoặc lazy loading | Thông báo: "Không thể tải dữ liệu" + Nút Thử lại | - | Ảnh minh họa trống + Nút "Tạo lịch hẹn mới" |
 
 ---
 

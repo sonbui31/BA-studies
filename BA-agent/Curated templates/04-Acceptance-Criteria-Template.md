@@ -34,10 +34,11 @@
 > 🔴 **Quy tắc Vàng cho Acceptance Criteria (AC Rules):**
 > 1. **Số lượng kịch bản:** Mỗi User Story có **tối thiểu 4 kịch bản** (Happy Path, Race Condition, Boundary, Negative). Story phức tạp tối đa 8 kịch bản.
 > 2. **Chặn quá tải (Story Splitting Trigger):** Nếu một User Story có **hơn 8 kịch bản AC**, AI **BẮT BUỘC DỪNG LẠI** và yêu cầu tách User Story (xem quy tắc Story Splitting tại `03-User-Story-Template.md`).
-> 3. **Chống Anti-patterns trong AC:**
+> 3. **Chống Anti-patterns & Ảo giác logic trong AC:**
 >    - ❌ Cấm mô tả UI chi tiết/styling: *"Nút chuyển màu xanh"* ➔ ✅ *"Hệ thống hiển thị trạng thái thành công"*.
 >    - ❌ Cấm chèn mã kỹ thuật/API: *"Gọi API POST /v1/booking"* ➔ ✅ *"Hệ thống tạo bản ghi đặt lịch và trừ hạn mức tương ứng"*.
 >    - ❌ Cấm động từ mơ hồ (Điều 25 Anti-AI): Thay `manage, handle, do` bằng động từ hành động cụ thể.
+>    - ❌ Cấm mệnh đề "Then" mơ hồ (Điều 27 Anti-AI): Mệnh đề "Then" bắt buộc phải mô tả kết quả cụ thể, quan sát được và đo lường được trên hệ thống. Nếu không thể viết được "Then" định lượng, kịch bản đó bị loại bỏ vì là sản phẩm của ảo giác.
 
 ---
 

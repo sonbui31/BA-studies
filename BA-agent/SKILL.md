@@ -42,10 +42,18 @@ description: Master Business Analysis (BA) skill. Chạy quy trình BA chuẩn h
 ## 📖 QUY CHUẨN CHI TIẾT TỪNG LOẠI TÀI LIỆU (DOCUMENT-SPECIFIC RULEBOOK)
 
 ### 1. Stakeholder Map
-- **Cấu trúc:** Bắt buộc bảng đầy đủ **6 cột**:
-  `| Stakeholder | Vai trò trong quy trình | Ảnh hưởng (H/M/L) | Quan tâm (H/M/L) | Nhu cầu / kỳ vọng chính | Kênh liên lạc phù hợp |`
-- **Nguyên tắc:** Quét đủ các bên liên quan gián tiếp (compliance, security, kế toán, IT support, vendor).
-- **Phân loại 2x2 Power-Interest:**
+- **3 Nhóm Stakeholder cốt lõi bắt buộc phân loại:**
+  1. *Customers (Khách hàng & Tài trợ):* Sponsors (Người cấp ngân sách, quan tâm ROI/chiến lược), Product Champions (Người thúc đẩy triển khai nội bộ).
+  2. *Users (Người dùng):* Direct Users (Thao tác trực tiếp hàng ngày trên giao diện), Indirect Users (Nhận báo cáo, xem số liệu xuất ra, kiểm toán nội bộ).
+  3. *Others (Các bên liên quan ngoại vi):* Advisors/SMEs (Cố vấn pháp lý, thuế, an ninh dữ liệu), Providers/Tech Partners (Đối tác hạ tầng, cổng thanh toán, đơn vị vận chuyển bên thứ 3).
+- **3 Câu hỏi sàng lọc chống bỏ sót Stakeholder:**
+  - *Ai ảnh hưởng hoặc chịu ảnh hưởng trực tiếp/gián tiếp bởi hệ thống?*
+  - *Hệ thống hoặc đối tượng bên ngoài nào tương tác gửi/nhận dữ liệu với sản phẩm?*
+  - *Ai nắm giữ tri thức nghiệp vụ đặc thù (Domain Knowledge) mà tài liệu chưa ghi nhận?*
+- **Cấu trúc:** Bắt buộc bảng đầy đủ **7 cột**:
+  `| Stakeholder | Phân nhóm (Customers/Users/Others) | Vai trò trong quy trình | Ảnh hưởng (H/M/L) | Quan tâm (H/M/L) | Nhu cầu / kỳ vọng chính | Kênh liên lạc phù hợp |`
+- **Nguyên tắc:** Quét đủ các bên liên quan gián tiếp và đánh giá mức độ rủi ro nếu bỏ sót họ.
+- **Phân loại 2x2 Power-Interest Grid:**
   - *Ảnh hưởng cao - Quan tâm cao:* Quản lý chặt chẽ (Manage Closely)
   - *Ảnh hưởng cao - Quan tâm thấp:* Giữ hài lòng (Keep Satisfied)
   - *Ảnh hưởng thấp - Quan tâm cao:* Cập nhật thông tin (Keep Informed)
@@ -271,6 +279,8 @@ Trước khi đưa ra bất kỳ câu trả lời hoặc tài liệu nào, AI b�
 | **Định tuyến quy trình chi tiết** | `BA-agent/workflows/ba-workflow.md` |
 | **Phân loại dự án & kiểm tra tính thương mại** | `BA-agent/BA-document-rule/core/project-classification-gate.md` |
 | **Tra cứu tri thức BA nhanh / sâu** | `BA-agent/BA-document-rule/references/ba-knowledge-base.md`<br>Script: `python BA-agent/scripts/knowledge_search.py "<topic>"`<br>Script: `python BA-agent/scripts/knowledge_index_search.py "<query>"` |
+| **Cẩm nang 50 kỹ thuật BABOK v3 & 14 mẹo nhớ** | `BA-agent/knowledge-source/50-babok-v3-techniques.md` |
+| **Sổ tay ước lượng độ phức tạp (9 phương pháp)** | `BA-agent/knowledge-source/requirements-estimation-guide.md` |
 | **Curated Templates Cốt Lõi (DUY NHẤT cho BRD, SRS, Story, AC)** | `BA-agent/Curated templates/` (Bắt buộc dùng folder này):<br>• `01-BRD-Template.md`<br>• `02-SRS-Template.md`<br>• `03-User-Story-Template.md`<br>• `04-Acceptance-Criteria-Template.md`<br>• File gốc Word: `Template-tai-lieu-BA-BRD-SRS-UserStory-AC_done.docx`<br>• File PDF: `SRS.pdf` |
 | **Supporting Templates bổ trợ (Chỉ dùng khi có nhu cầu phụ)** | `BA-agent/BA-document-rule/templates/` (Chỉ dùng cho các tài liệu phụ như: `risk-register.md`, `rbac-matrix.md`, `raid-log.md`, `business-case.md`. KHÔNG dùng cho BRD/SRS/Story/AC) |
 | **Overlays theo ngành/mô hình** | `BA-agent/BA-document-rule/overlays/` (`inhouse`, `outsource`, `product`, `startup-mvp`, `fintech`, `healthcare`, `government`) |
@@ -285,34 +295,53 @@ Trước khi đưa ra bất kỳ câu trả lời hoặc tài liệu nào, AI b�
 
 ### 🟢 BƯỚC 1: Tiếp Nhận, Khám Phá & Khơi Gợi Yêu Cầu (Discovery & Elicitation)
 1. **Phát hiện Ý định & Gắn cờ Thiên kiến Giải pháp (Solution Bias Warning ⚠️):**
-   - Phân loại yêu cầu thô: *Tính năng mới, Phàn nàn vận hành, Workaround thủ công, Mục tiêu KPI, Quy định pháp lý...*
+   - Phân loại yêu cầu thô: *Tính năng mới, Cập nhật tính năng cũ (CR), Phàn nàn vận hành, Workaround thủ công, Mục tiêu KPI, Quy định pháp lý...*
    - **Gắn cờ Solution Bias ⚠️:** Nếu khách hàng/stakeholder đưa ra ngay giải pháp công nghệ cụ thể (*"cần tích hợp AI", "cần recommendation engine", "cần làm mobile app"*), xem đó là **giả thuyết cần kiểm chứng**, tuyệt đối không chấp nhận là requirement đã chốt.
-2. **Kiểm tra 5 tầng yêu cầu theo BABOK v3 (Requirement Layer Check):**
+2. **Chiến lược Khơi gợi Linh hoạt (BABOK v3 Elicitation Selection):**
+   - Khi quy trình thao tác tay phức tạp hoặc có nhiều luật ngầm: Áp dụng **Observation** (Quan sát hiện trường chủ động Active hoặc thụ động Passive; cam kết bảo mật và trấn an nhân sự để triệt tiêu **Hiệu ứng Hawthorne**).
+   - Khi cần phát sinh ý tưởng mới hoặc giải quyết điểm nghẽn: Áp dụng **Brainstorming** (Tuân thủ nguyên tắc *Số lượng hơn chất lượng* và *Không phán xét*; dùng **Brainwriting** để tránh người có chức vụ áp đặt; dùng **Nominal Group Technique - NGT** để bỏ phiếu kín khách quan).
+   - Tra cứu đầy đủ 50 kỹ thuật phân tích nghiệp vụ tại `BA-agent/knowledge-source/50-babok-v3-techniques.md`.
+3. **Xử lý Yêu cầu Thay đổi / Cập nhật Tính năng Cũ (Change Request Delta Protocol):**
+   - Nếu dự án là sửa đổi hệ thống đang chạy, tổ chức tài liệu nguồn thành 4 nhóm bắt buộc:
+     1. *Tài liệu hiện trạng (AS-IS):* SRS/Spec đang chạy, DB schema, API contract cũ.
+     2. *Tài liệu thay đổi (CR Doc):* Ai đề xuất, lý do, scope (Giữ gì? Sửa gì? Bỏ gì? Thêm gì?).
+     3. *Tài liệu bối cảnh (Context):* Phản hồi người dùng, lỗi phát sinh, các hệ thống phụ thuộc.
+     4. *Chuẩn tham chiếu (Standards):* Biểu mẫu dự án, từ điển thuật ngữ.
+   - Soạn **File Brief ngắn (nửa trang A4)** làm prompt điều hướng, bắt buộc AI chỉ tập trung phân tích sự sai khác (**Delta**), đánh giá rủi ro ảnh hưởng ngược (Backward Compatibility) và kiểm tra tính toàn vẹn dữ liệu lịch sử.
+4. **Kiểm tra 5 tầng yêu cầu theo BABOK v3 (Requirement Layer Check):**
    - Lập bảng hiển thị trạng thái 5 tầng yêu cầu:
      - *Yêu cầu kinh doanh (Business Requirement - Tại sao làm?):* Đã có / Một phần / Chưa có
      - *Yêu cầu bên liên quan (Stakeholder Requirement - Ai cần gì?):* Đã có / Một phần / Chưa có
      - *Yêu cầu giải pháp chức năng (Functional Requirement - Hệ thống làm gì?):* Đã có / Một phần / Chưa có
      - *Yêu cầu giải pháp phi chức năng (Non-Functional Requirement - Chất lượng ra sao?):* Đã có / Một phần / Chưa có
      - *Yêu cầu chuyển giao (Transition Requirement - Triển khai & đào tạo thế nào?):* Đã có / Một phần / Chưa có
-3. **Bảng đối chiếu Đã biết vs Chưa biết (Known vs Unknown Matrix):**
-   - Tổng hợp nhanh các dữ kiện đã rõ (Known) và các khoảng trống rủi ro chưa rõ (Unknown) trước khi đặt câu hỏi.
-4. **Socratic Gate Elicitation:** Đặt tối đa 3-5 câu hỏi trọng tâm theo ngữ cảnh (Pain point, Actor, Mục tiêu, Phạm vi In/Out, Ràng buộc). Không nhảy cóc sang giải pháp.
-5. **Phân loại dự án:** `in-house`, `outsource`, `product/SaaS`, `startup-mvp`, `fintech`, `healthcare`, `government`.
+5. **Bảng đối chiếu Đã biết vs Chưa biết (Known vs Unknown Matrix):**
+   - Phân tách dữ kiện đã rõ (Known Facts) và khoảng trống rủi ro (Unknowns) trước khi đặt câu hỏi.
+6. **Socratic Gate Elicitation:** Đặt tối đa 3-5 câu hỏi trọng tâm theo ngữ cảnh (Pain point, Actor, Mục tiêu, Phạm vi In/Out, Ràng buộc). Không nhảy cóc sang giải pháp.
+7. **Phân loại dự án:** `in-house`, `outsource`, `product/SaaS`, `startup-mvp`, `fintech`, `healthcare`, `government`.
    > *Nếu là Product/SaaS/B2B:* BẮT BUỘC chốt **Product Vision Document** trước Project Charter/BRD.
-6. **Stakeholder Map:** Bảng 6 cột + phân loại ma trận 2x2 Power-Interest (quét cả stakeholder gián tiếp).
-7. **BPMN (As-Is / To-Be):** Mỗi Lane = 1 Stakeholder. Đánh dấu `[CẦN XÁC NHẬN]` trên Gateway chưa rõ điều kiện.
+8. **Stakeholder Map (3 nhóm cốt lõi):** Bảng 7 cột (Customers, Users, Others) + phân loại ma trận 2x2 Power-Interest và trọng số rủi ro.
+9. **BPMN (As-Is / To-Be):** Mỗi Lane = 1 Stakeholder. Đánh dấu `[CẦN XÁC NHẬN]` trên Gateway chưa rõ điều kiện.
 
-### 🟢 BƯỚC 2: Phân Tích Nghiệp Vụ Chuyên Sâu (Analysis)
+### 🟢 BƯỚC 2: Phân Tích Nghiệp Vụ Chuyên Sâu & Ước Lượng (Analysis & Estimation)
 - Bóc tách: Actor, Trigger, Flow chính, Flow ngoại lệ.
 - Mỗi Gateway BPMN tương ứng ít nhất 1 Business Rule (`BR-*`) bằng văn bản.
+- **Ước lượng độ phức tạp yêu cầu (Complexity Estimation):**
+  - Xác định phương pháp ước lượng phù hợp (Chi tiết tại `BA-agent/knowledge-source/requirements-estimation-guide.md`):
+    - *Agile / Scrum:* T-Shirt Sizing cho Feature/Epic + Planning Poker (Story Points) cho User Story.
+    - *Waterfall / Thầu / Báo giá:* Bottom-Up (WBS) kết hợp Three-Point PERT ($E = \frac{O + 4M + P}{6}$).
+    - *Đo quy mô chuẩn hóa:* Function Point Analysis (FPA) hoặc Use Case Points (UCP).
 
-### 🟢 BƯỚC 3: Cấu Trúc Hóa Yêu Cầu (Structuring)
-- User Story chuẩn INVEST.
-- Acceptance Criteria chuẩn Given–When–Then bao phủ 4 luồng (Happy, Negative, Boundary, Permission) cho từng Gateway.
+### 🟢 BƯỚC 3: Cấu Trúc Hóa Yêu Cầu & Mô Hình Hóa Dữ Liệu (Structuring & Data Modeling)
+- User Story chuẩn INVEST kèm bảng INVEST Self-check. Kích hoạt quy tắc chặn tách Story khi số AC > 8 hoặc dev effort > 5 man-days.
+- Acceptance Criteria chuẩn Given–When–Then bao phủ 4 luồng bắt buộc (Happy, Negative, Boundary, Permission) cho từng Gateway. Mệnh đề "Then" bắt buộc đo lường được.
+- **Đặc tả tính năng AI & Dữ liệu Quan hệ (Knowledge Graph Specification):**
+  - Khi thiết kế tính năng gợi ý thông minh, tìm kiếm ngữ nghĩa, hoặc phát hiện gian lận: Mô hình hóa rõ mạng lưới tri thức gồm Thực thể (Node/Entity), Quan hệ (Edge/Relationship), và Thuộc tính (Property).
+  - Xác định rõ kiến trúc tích hợp: Khi nào dùng Vector DB thuần, khi nào cần kết hợp Knowledge Graph (GraphRAG) để triệt tiêu ảo giác nghiệp vụ.
 
 ### 🟢 BƯỚC 4: Kiểm Tra & Đối Chiếu Chéo (Validation)
 - Kiểm tra tính nhất quán 3 bên: `Stakeholder Map (Actor)` ⟷ `BPMN (Lane)` ⟷ `User Story (Role)`.
-- Liệt kê toàn bộ giả định với nhãn `[GIẢ ĐỊNH - CẦN USER XÁC NHẬN]`.
+- Phân tách rạch ròi 3 vùng thông tin theo Điều 26: Facts (có nguồn), Assumptions (giả định cần duyệt), Open Questions (câu hỏi mở).
 - **🔍 Audit tự động:** Chạy `python BA-agent/scripts/traceability_scan.py <project-folder> --scheme canonical --strict` cho dự án mới để kiểm tra chuỗi `BRQ→FR/NFR→Feature→US→AC/TC`. Nếu phát hiện Orphan Requirements, cardinality mismatch hoặc gãy ID → sửa trước khi sang Bước 5.
 - **🔗 Self-Audit Mapping (BẮT BUỘC):** Chạy checklist 7 điểm trong mục "QUY TẮC TRACEABILITY MAPPING" ở trên. Đối chiếu:
   - `BRQ/BR (BRD) ↔ FR/NFR (SRS)`: Mỗi BRQ phải có ≥1 FR/NFR. Không có BRQ mồ côi.
@@ -322,9 +351,13 @@ Trước khi đưa ra bất kỳ câu trả lời hoặc tài liệu nào, AI b�
 
 ### 🟢 BƯỚC 5: Tài Liệu Hóa (Documentation)
 - Áp dụng Ma trận Độc giả & Ngôn ngữ (BRD ngôn ngữ kinh doanh không kỹ thuật; SRS ngôn ngữ kỹ thuật chính xác).
+- Gắn nhãn trạng thái bản thảo `[AI-Drafted]` ở đầu tài liệu theo Điều 27.
+- **4 Cấp độ Trực quan hóa Giao diện trong SRS (Visual Specs):**
+  - Đảm bảo tài liệu SRS thể hiện rõ cấp độ giao diện: Sketch (phác thảo) ➔ Wireframe (bố cục layout) ➔ Mockup (giao diện tĩnh có dữ liệu mẫu) ➔ Prototype (bản mẫu tương tác).
+  - Mô tả đầy đủ trạng thái trường dữ liệu (Field States: Default, Active, Error, Disabled, Empty State).
 - **CHỈ DÙNG DUY NHẤT** template trong `BA-agent/Curated templates/` để sinh 4 tài liệu độc lập: `02-BRD.md`, `05-SRS.md`, `06-User-Story.md`, `07-Acceptance-Criteria.md`.
 - **🔍 Audit tự động & Kiểm soát văn phong sau mỗi tài liệu:**
-  - **Kiểm duyệt Anti-AI Writing (BẮT BUỘC):** Tự rà soát 10 bước checklist trong `BA-agent/Anti_ai_writing_rules.md`, quét sạch 24 điều cấm (từ vựng AI, câu dập khuôn, phân tích rỗng, giọng phục vụ).
+  - **Kiểm duyệt Anti-AI Writing (BẮT BUỘC):** Tự rà soát 13 bước checklist trong `BA-agent/Anti_ai_writing_rules.md`, quét sạch 27 điều cấm (từ vựng AI, câu dập khuôn, phân tích rỗng, giọng phục vụ, động từ mơ hồ, trộn lẫn phỏng đoán, thiếu traceability).
   - Chạy `python BA-agent/scripts/preflight_check.py <project-folder>` → kiểm tra placeholder, tiếng Việt có dấu, sections bắt buộc.
   - Chạy `python BA-agent/scripts/quality_rubric.py <file>` → chấm điểm quality 1-5, bắt 8 Smells. Tiêu chuẩn pass: avg ≥ 3.0, 0 Critical Smells.
   - Khi chỉnh curated templates, chạy `python BA-agent/scripts/template_schema_check.py "BA-agent/Curated templates"` để bắt thiếu section, marker canonical và bảng Markdown lệch cột.
@@ -335,7 +368,7 @@ Trước khi đưa ra bất kỳ câu trả lời hoặc tài liệu nào, AI b�
 ### 🟢 BƯỚC 6: Bàn Giao & Vòng Lặp Phản Hồi (Handoff & Feedback Loop)
 - Tóm tắt kết quả, nêu câu hỏi mở còn lại.
 - Cập nhật Change Log khi có phản hồi mới từ người dùng.
-- **🔍 Audit cuối cùng:** Chạy lại `traceability_scan.py` + `preflight_check.py` + rà soát 10 bước checklist Anti-AI lần cuối trước khi bàn giao → đảm bảo mọi thay đổi phản hồi không gây gãy traceability, regression hoặc sót "mùi AI". Nếu có chỉnh curated template/media, chạy thêm `template_schema_check.py` và `media_audit.py`.
+- **🔍 Audit cuối cùng:** Chạy lại `traceability_scan.py` + `preflight_check.py` + rà soát 13 bước checklist Anti-AI lần cuối trước khi bàn giao → đảm bảo mọi thay đổi phản hồi không gây gãy traceability, regression hoặc sót "mùi AI". Nếu có chỉnh curated template/media, chạy thêm `template_schema_check.py` và `media_audit.py`.
 
 ---
 
@@ -368,26 +401,37 @@ Khi AI tự chạy hoặc được yêu cầu audit:
 
 ---
 
-## 🚪 HARD GATES — ĐIỀU KIỆN CHẶN XUẤT TÀI LIỆU
-
+## 🚪 HARD GATES & CHECKPOINTS PHÊ DUYỆT (STATE MACHINE)
 
 ```
-Stakeholder Map + BPMN (tổng quan)
-        ↓ [ĐIỀU KIỆN: Bài toán, phạm vi & stakeholder đã chốt]
-      BRD  ──────────────► (Nếu dự án Agile: có thể bỏ qua BRD/SRS, đi thẳng sang User Story)
-        ↓ [ĐIỀU KIỆN: BRD đã được user xác nhận "chốt"]
-      SRS
-        ↓ [ĐIỀU KIỆN: Đã tách luồng cụ thể từ BPMN hoặc SRS]
-   User Story
-        ↓ [ĐIỀU KIỆN: Đã xác định được nhánh Gateway trong BPMN]
-   Acceptance Criteria (AC)
+[Raw Request] ──► [Discovery Brief / Stakeholder / BPMN]
+                        │ [CHECKPOINT 1: Duyệt / Sửa / Dừng]
+                        ▼
+                     [BRD] ──► (Dự án Agile: có thể bỏ qua BRD/SRS, đi thẳng sang User Story)
+                        │ [CHECKPOINT 2: Duyệt / Sửa / Dừng]
+                        ▼
+                     [SRS]
+                        │ [CHECKPOINT 3: Duyệt / Sửa / Dừng]
+                        ▼
+                  [User Story]
+                        │ [CHECKPOINT 4: Duyệt / Sửa / Dừng]
+                        ▼
+             [Acceptance Criteria & Screen Spec]
 ```
 
+### Các điều kiện chặn cứng (Hard Gates)
 1. ❌ **KHÔNG viết BRD** nếu chưa có Stakeholder Map hoàn chỉnh + BPMN tổng quan (as-is/to-be) + Mục tiêu kinh doanh được xác nhận.
 2. ❌ **KHÔNG viết SRS** nếu BRD chưa được người dùng xác nhận "đã chốt" và chưa có BPMN To-Be chi tiết với đầy đủ Business Rules.
 3. ❌ **KHÔNG viết User Story** nếu đoạn BPMN liên quan còn mục `[CẦN XÁC NHẬN]` chưa được giải quyết.
 4. ❌ **KHÔNG viết Acceptance Criteria** nếu chưa xác định được nhánh Gateway tương ứng trong BPMN.
 5. ❌ **KHÔNG bỏ qua Product Vision:** Nếu dự án là Product, SaaS, B2B Platform hoặc MVP thương mại hóa, tài liệu đầu tiên bắt buộc phải là **Product Vision Document** (không dùng BRD hay Project Charter thay thế).
+
+### Quy chế Cổng Phê duyệt (Human Checkpoints) & Đồng bộ ngược (Reverse Sync)
+- **3 Quyết định tại mỗi Checkpoint:** Sau mỗi tài liệu/bước, AI bắt buộc dừng lại yêu cầu người dùng lựa chọn:
+  - `Duyệt (Approve)`: Khóa tài liệu hiện tại, chuyển sang bước tiếp theo.
+  - `Sửa (Revise)`: Yêu cầu AI tinh chỉnh lại phạm vi hoặc chi tiết chưa đạt.
+  - `Dừng (Halt)`: Ngắt quy trình nếu hướng tiếp cận sai lệch.
+- **Quy chế Đồng bộ ngược (Reverse Sync):** Nếu trong quá trình viết SRS hoặc User Story phát hiện phạm vi thay đổi so với BRD/Brief ban đầu, AI bắt buộc phải cập nhật ngược lại tài liệu gốc trước khi tiếp tục, đảm bảo tính nhất quán của Nguồn Sự Thật Duy Nhất (Single Source of Truth).
 
 ---
 
