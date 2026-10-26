@@ -129,64 +129,22 @@ Sau khi hoàn thành TỪNG tài liệu, AI **BẮT BUỘC** chạy kiểm tra m
 
 ---
 
-## 📊 QUY CHUẨN VẼ SƠ ĐỒ BA (TÍCH HỢP TỪ BA-agent/so_do.md)
+## 📊 QUY CHUẨN VẼ SƠ ĐỒ BA
 
-> 🔴 **CHỈ THỊ VẼ SƠ ĐỒ:** Mọi sơ đồ Mermaid trong tài liệu BA **BẮT BUỘC** tuân thủ đúng chuẩn hình khối, cấp độ chi tiết (Level 0→3) và quy tắc đối tượng được định nghĩa trong `BA-agent/so_do.md`:
+> Chi tiết (hình khối Mermaid, ví dụ, checklist 10 tiêu chuẩn): `BA-agent/so_do.md`, đọc khi cần vẽ. Mọi sơ đồ Mermaid trong tài liệu BA tuân thủ file đó.
 
-### 1. Phân bổ Loại Sơ đồ theo Tài liệu & Cấp độ Chi tiết (Level 0 → 3)
-
-| Cấp độ (Level) | Loại sơ đồ | Cú pháp Mermaid | Mục đích & Ai đọc | Vị trí đặt trong tài liệu |
+| Level | Loại | Mermaid | Trả lời câu hỏi | Đặt ở |
 |---|---|---|---|---|
-| **Level 0** | **Context Diagram** | `graph TB` | "Hệ thống tương tác với ai?"<br>• Sponsor, Ban Giám đốc đọc.<br>• Hệ thống ở giữa `[["🖥️ Tên"]]`, Actor xung quanh `("👤 Tên")`, mũi tên ghi dữ liệu trao đổi (không ghi tên chức năng). | **Vision & Scope**, **BRD** |
-| **Level 1** | **Use Case Diagram** | `graph LR` | "Hệ thống làm được gì, cho ai?"<br>• PO, Dev đọc.<br>• Sử dụng hình viên thuốc `(["Tên UC"])`.<br>• `-.->\|"≪include≫"\|`: Bắt buộc gọi tới UC con (không có không chạy được).<br>• `-.->\|"≪extend≫"\|`: Tính năng tùy chọn mở rộng UC chính. Tối đa 7-10 UC/sơ đồ. | **BRD**, **SRS** (tổng quan) |
-| **Level 2** | **Activity / Swimlane** | `flowchart TD` | "Mỗi quy trình chạy thế nào?"<br>• SME, Dev, QA đọc.<br>• Bắt buộc chia `subgraph "Tên vai trò"` (1 Lane = 1 Stakeholder).<br>• Happy Path đi **THẲNG**, Exception rẽ **NGANG**. | **Process Flow (As-Is / To-Be)**, **BRD**, **SRS** |
-| **Level 3** | **Sequence Diagram** | `sequenceDiagram` | "Các thành phần gọi nhau ra sao?"<br>• Dev, Tech Lead đọc.<br>• Sắp xếp từ trái qua phải: `User -> Frontend -> Backend -> Database -> External API`.<br>• Request `->>`, Response `-->>`, bắt buộc dùng `alt/else` cho lỗi. | **SRS** (tích hợp API / chức năng phức tạp) |
-| **Level 3** | **State Diagram** | `stateDiagram-v2` | "Đối tượng chuyển trạng thái thế nào?"<br>• Dev, QA đọc.<br>• Tên trạng thái viết HOA chuẩn Enum: `PENDING`, `CONFIRMED`, `CANCELLED`. Bắt đầu `[*] ->` và kết thúc `-> [*]`. | **SRS**, **Data Model** (vòng đời Đơn hàng, Ticket, Lịch hẹn) |
-| **Level 3** | **ERD (Data Model)** | `erDiagram` | "Dữ liệu quan hệ thế nào?"<br>• Dev, DBA đọc.<br>• Ký hiệu quan hệ chuẩn: `\|\|--o{` (1 - 0/nhiều), `\|\|--\|{` (1 - 1/nhiều bắt buộc), `}o--o{` (nhiều-nhiều). Ghi rõ PK, FK, data types. | **SRS**, **Data Model** |
-| **Bổ trợ** | **Decision Flowchart** | `flowchart TD` | Logic tính phí, chiết khấu, xếp hạng phức tạp cho Business Rules. | **SRS** (mục Business Rules) |
-| **Bổ trợ** | **User Journey Map** | `journey` | Trải nghiệm người dùng end-to-end với thang điểm cảm xúc (1-5). | **Vision & Scope**, **BRD** |
+| 0 | Context Diagram | `graph TB` | Hệ thống tương tác với ai? | Vision, BRD |
+| 1 | Use Case Diagram | `graph LR` | Hệ thống làm được gì, cho ai? (tối đa 7-10 UC) | BRD, SRS |
+| 2 | Activity / Swimlane | `flowchart TD` | Quy trình chạy thế nào? 1 Lane = 1 Stakeholder; Happy Path đi thẳng, Exception rẽ ngang | Process Flow, BRD, SRS |
+| 3 | Sequence | `sequenceDiagram` | Các thành phần gọi nhau ra sao? Có `alt` cho luồng lỗi | SRS |
+| 3 | State | `stateDiagram-v2` | Đối tượng chuyển trạng thái thế nào? Tên trạng thái viết HOA | SRS, Data Model |
+| 3 | ERD | `erDiagram` | Dữ liệu quan hệ thế nào? Ghi PK, FK, kiểu dữ liệu | SRS, Data Model |
 
-### 2. Bảng Ký hiệu Hình dạng Mermaid Chuẩn (Mermaid Shapes Reference)
-
-```mermaid
-graph LR
-    A["▭ Chữ nhật: Hành động/bước"] --> B("▢ Bo tròn: Actor/bước mềm")
-    B --> C(["⬭ Viên thuốc: Use Case"])
-    C --> D{"◇ Hình thoi: Điều kiện rẽ nhánh"}
-    D --> E(("● Hình tròn: Start/End"))
-    D --> F{{"⬡ Lục giác: Sự kiện/Trigger"}}
-    F --> G[/"▱ Bình hành: Input/Output dữ liệu"/]
-    G --> H[["⧈ Viền kép: Hệ thống/Sub-process"]]
-    H --> I[("⌸ Hình trụ: Database")]
-    I --> J((("◎ Kết thúc lớn: Final End")))
-```
-
-| Cú pháp Mermaid | Ý nghĩa nghiệp vụ | Ví dụ sử dụng |
-|---|---|---|
-| `["Tên bước"]` | Hành động, bước xử lý chuẩn | `["Kiểm tra lịch trống"]` |
-| `("👤 Tên")` | Actor con người / hệ thống ngoài | `("👤 Khách hàng")`, `("💳 Cổng thanh toán")` |
-| `(["Tên Use Case"])` | Use Case (bắt buộc dạng viên thuốc, thay oval) | `(["Đặt lịch khám online"])` |
-| `{"◇ Điều kiện?"}` | Điểm quyết định, rẽ nhánh if/else | `{"◇ Còn khung giờ trống?"}` |
-| `(("● Bắt đầu"))` | Điểm bắt đầu quy trình | `(("● Bắt đầu"))` |
-| `((("◎ Kết thúc")))` | Điểm kết thúc quy trình | `((("◎ Hoàn tất đơn hàng")))` |
-| `[["🖥️ Hệ thống"]]` | Hệ thống chính / Sub-process | `[["🖥️ HỆ THỐNG ĐẶT LỊCH"]]` |
-| `[("Database")]` | Kho lưu trữ dữ liệu | `[("Cơ sở dữ liệu lịch hẹn")]` |
-
-### 3. Checklist 10 Tiêu chuẩn Vàng cho Sơ đồ (Theo so_do.md §12)
-Trước khi xuất sơ đồ, AI bắt buộc tự kiểm tra:
-1. Có điểm **BẮT ĐẦU** `(("●"))` và **KẾT THÚC** `((("◎")))` rõ ràng.
-2. Mọi hình thoi rẽ nhánh `{"◇"}` đều có **ĐỦ ĐƯỜNG ĐI** (Yes/No, Hợp lệ/Lỗi) trên nhãn mũi tên.
-3. Trong Swimlane: **1 Lane = 1 Vai trò** duy nhất; không trộn nhiều actor vào 1 lane.
-4. Tên hành động chuẩn ngữ pháp: **[Động từ] + [Danh từ]** (VD: *"Chọn bác sĩ"*, *"Khóa khung giờ tạm thời"*).
-5. **Exception Flow** (xử lý lỗi, từ chối, hết hạn) phải được vẽ đầy đủ, không chỉ vẽ luồng màu hồng.
-6. Không có phần tử "lơ lửng" (mọi node đều phải có luồng vào hoặc luồng ra).
-7. Đúng mức chi tiết cho đối tượng đọc (Level 0 cho Sếp, Level 1 cho PO, Level 2 cho SME, Level 3 cho Dev).
-8. Use Case Diagram: Dùng đúng `-.->|"≪include≫"|` (bắt buộc) và `-.->|"≪extend≫"|` (tùy chọn).
-9. Sequence Diagram: Sắp xếp đúng thứ tự Actor → Frontend → Backend → Database → Third-party; có `alt` cho luồng lỗi.
-10. State Diagram: Tên trạng thái viết HOA chuẩn Enum (`PENDING`, `CONFIRMED`, `CANCELLED`).
+Kiểm tra bắt buộc trước khi xuất sơ đồ: có Start và End; mọi nhánh rẽ có đủ đường đi; mỗi Lane một vai trò khớp Stakeholder Map; tên bước dạng `[Động từ] + [Danh từ]`; có Exception Flow; không phần tử lơ lửng; mức chi tiết đúng người đọc (`so_do.md` §12).
 
 ---
-
 
 ## 🌐 QUY TẮC NGÔN NGỮ, THUẬT NGỮ & ĐỊNH DANH ID
 
@@ -216,49 +174,19 @@ AI **CẤM** sử dụng các tính từ cảm tính không có khả năng ki�
 
 ---
 
-## 🚫 BỘ QUY TẮC VIẾT VĂN CHỐNG "MÙI AI" (TÍCH HỢP TỪ BA-agent/Anti_ai_writing_rules.md)
+## 🚫 BỘ QUY TẮC VIẾT VĂN CHỐNG "MÙI AI"
 
-> 🔴 **CHỈ THỊ VIẾT VĂN BẮT BUỘC (ZERO TOLERANCE):** Mọi văn bản đầu ra của BA (từ câu trả lời chat, giải thích nghiệp vụ đến các tài liệu BRD, SRS, User Story, AC) **BẮT BUỘC TUÂN THỦ 100%** Bộ 27 Điều và Quy trình kiểm tra 13 bước trong `BA-agent/Anti_ai_writing_rules.md`. Vi phạm bất kỳ điều nào đều bị coi là lỗi chất lượng nghiêm trọng cần sửa trước khi phản hồi.
+> 🔴 **Bắt buộc:** Mọi văn bản đầu ra (chat, BRD, SRS, User Story, AC) tuân thủ 27 Điều và checklist 13 bước trong `BA-agent/Anti_ai_writing_rules.md`. Vi phạm là lỗi chất lượng, sửa trước khi phản hồi. Tiếng Việt có phụ lục riêng (Phụ lục A).
 
-### 1. Nhóm 1: Cấm Từ Vựng & Cụm Từ "Mùi AI" Sáo Rỗng (Điều 1, 5, 6, 8, 9, 22)
-- **Từ cấm tuyệt đối (Điều 1):** `additionally, align with, boasts, bolstered, crucial, deep dive, delve, emphasizing, enduring, enhance, fostering, garner, highlight/highlighting, interplay, intricate/intricacies, key (dùng như tính từ), landscape (nghĩa trừu tượng), meticulous/meticulously, pivotal, robust, showcase/showcasing, tapestry (nghĩa bóng), testament, underscore, valuable, vibrant, groundbreaking, renowned, nestled, in the heart of, diverse array, exemplifies, commitment to`. BẮT BUỘC thay bằng từ đơn giản, cụ thể hơn hoặc xóa hẳn.
-- **Cấm động từ "sang" thay thế is/are/has (Điều 5):** Cấm `serves as, stands as, functions as, operates as, represents, marks, refers to, features, boasts, offers, maintains` khi dùng thay cho is/are/has. Viết thẳng: *"X is a platform"* thay vì *"X serves as a platform"*.
-- **Cấm nói vòng vo quan hệ (Điều 6):** Cấm `in connection with, connected with/to, in association with, associated with`. Nói thẳng quan hệ thực tế: *"John was CEO of Company A"* thay vì *"John was associated with the leadership of Company A"*.
-- **Cấm thổi phồng ý nghĩa & giọng brochure (Điều 8, 9):** Cấm `marks a pivotal moment, represents a significant shift, serves as a testament to, plays a crucial/key/vital role, underscores its significance, reflects broader trends, rich, profound, natural beauty`. Một sự việc nhỏ viết đúng tầm nhỏ, không gán di sản/ý nghĩa sâu xa to tát.
-- **Cấm sáo rỗng khi sửa/comment (Điều 22):** Cấm `refined, enhanced, enriched, streamlined, improved clarity/flow`. Nói cụ thể đã sửa cái gì, không mô tả quy trình tô vẽ.
+| Nhóm | Điều | Nội dung |
+|---|---|---|
+| Từ vựng và cụm từ sáo rỗng | 1, 5, 6, 8, 9, 22 | Cấm từ "mùi AI" (crucial, robust, delve...), động từ "serves as", giọng brochure, thổi phồng ý nghĩa |
+| Cấu trúc câu dập khuôn | 2, 3, 4, 7, 11, 13 | Cấm chuyển ý dập khuôn, đối lập giả "không chỉ... mà còn", rule of three, đuôi `-ing` rỗng, công thức thành tựu-thách thức-tương lai, lạm dụng em dash |
+| Định dạng và giọng chatbot | 10, 12, 14, 15, 16, 17, 18, 23 | Cấm "Of course!", in đậm tràn lan, emoji trước heading, kết luận thừa, disclaimer thừa, quy kết mơ hồ |
+| Trung thực và dấu vết kỹ thuật | 19, 20, 21, 24 | Cấm sót placeholder, dấu vân tay công cụ, citation giả |
+| Tài liệu nghiệp vụ | 25, 26, 27 | Cấm động từ mơ hồ (`manage`, `handle`, `do`...); tách Facts / Assumptions / Open Questions (`[CHƯA CÓ THÔNG TIN]`, `[Giả định]`); nhãn `[AI-Drafted]`; mệnh đề "Then" đo được |
 
-### 2. Nhóm 2: Cấm Cấu Trúc Câu & Cú Pháp Dập Khuôn (Điều 2, 3, 4, 7, 11, 13)
-- **Cấm câu chuyển ý dập khuôn ở đầu câu (Điều 2):** Cấm mở đầu câu bằng `Additionally, Consequently, Notably, However, Despite its..., Despite these challenges, While X..., Rather than X, In summary, In conclusion, Overall, It's important to note that, It is crucial to note/remember/consider, It is worth noting that`. Nối thẳng vào câu trước hoặc dùng liên từ tự nhiên (and, but, so).
-- **Cấm cấu trúc đối lập kiểu AI (Điều 3):** Cấm `Not just X, but also Y`, `This is not X, but Y`, `No X, no Y, just Z`, `This is not a limitation. Rather, it represents...`. Nói thẳng sự thật, không dựng hiểu lầm giả để "sửa".
-- **Cấm "Rule of Three" máy móc (Điều 4):** Cấm liệt kê ba tính từ/danh từ/lợi ích song song liên tục (`efficient, scalable, and reliable`). Số lượng phải do nội dung thật quyết định.
-- **Cấm phân tích rỗng / đuôi -ing vô nghĩa (Điều 7):** Cấm mệnh đề `, highlighting...`, `, underscoring...`, `, emphasizing...`, `, fostering...`, `, ensuring...`. Nếu xóa phần sau dấu phẩy mà thông tin không mất gì ➔ XÓA phần đó.
-- **Cấm công thức bài viết dập khuôn (Điều 11):** Cấm cấu trúc: *Thành tựu → "Despite these challenges" → "Looking ahead / Future Outlook"*. Cấu trúc bài phải do nội dung thật quyết định.
-- **Hạn chế Em Dash (—) (Điều 13):** Không dùng tạo nhịp punchy kiểu `X — while effective — introduces...`, không dùng liên tiếp nhiều lần, không quá 1 lần/200 từ.
-
-### 3. Nhóm 3: Cấm Định Dạng & Giọng Văn "Chatbot Phục Vụ" (Điều 10, 12, 14, 15, 16, 17, 18, 23)
-- **Cấm giọng trợ lý AI đang phục vụ (Điều 15):** CẤM TUYỆT ĐỐI các câu meta: `Of course!, Certainly!, You're absolutely right!, I hope this helps., Would you like me to...?, Let me know if..., Feel free to..., Let's explore..., Let's break this down...`.
-- **Cấm định dạng ChatGPT máy móc (Điều 14):**
-  - Không lặp lại tiêu đề bài ngay đầu output.
-  - Cấm Title Case tràn lan (`Challenges and Future Directions`) ➔ dùng sentence case.
-  - Cấm chuỗi bullet `- **Label:** description` lặp lại máy móc liên tục.
-  - Cấm in đậm tràn lan (`**Key Takeaways**`, `**Important:**`, `**Benefits:**`).
-  - Cấm emoji đứng trước heading (`🚀`, `✅`, `📌`, `🔍`).
-  - Cấm bảng con không cần thiết; cấm đường phân cách `----` giữa các đoạn.
-  - Dùng dấu nháy thẳng `' '`, `" "`, không dùng ngoặc kép cong `“ ”` và apostrophe cong `’` nếu văn bản gốc dùng kiểu thẳng.
-- **Cấm quy kết mơ hồ (Điều 10):** Cấm `Experts argue..., Observers have noted..., Industry reports suggest...` trừ khi trích dẫn rõ tên nguồn cụ thể.
-- **Cấm heading sáo rỗng & kết luận thừa (Điều 12, 18):** Cấm tự chèn heading `Awards and Recognition`, `Challenges and Future Outlook`, `Conclusion`, `In Summary` chỉ để nhắc lại ý cũ mà không có insight mới.
-- **Cấm disclaimer thừa (Điều 17):** Cấm `As of my last knowledge update...`, `Based on available information...`. Nếu thiếu thông tin thì nói thẳng là không có thông tin.
-- **Giữ nhất quán giọng văn (Điều 23) & tránh nhịp văn giả tạo (Điều 16):** Giữ giọng trung tính, thực tế từ đầu đến cuối; không ép mọi chủ đề phải có kết thúc tích cực cân bằng giả tạo.
-
-### 4. Nhóm 4: Tính Trung Thực & Dấu Vết Kỹ Thuật (Điều 19, 20, 21, 24)
-- **Cấm sót placeholder (Điều 19):** Cấm sót `[Your Name]`, `[Insert URL]`, `PASTE_..._HERE`, `2025-XX-XX`, `Add citation here`, `Delete this section...`.
-- **Cấm sót dấu vân tay kỹ thuật (Điều 20):** Cấm để sót `contentReference`, `oaicite`, `turn0search0`, `[cite: 1]`, `〖...†L...〗`, `grok_card`, `:::writing{...}`.
-- **Cấm citation giả mạo (Điều 21):** Cấm bịa đặt DOI, ISBN, số trang, tác giả, bài báo hay chèn link không kiểm chứng.
-
-### 4b. Nhóm 5: Quy tắc riêng cho tài liệu nghiệp vụ (Điều 25, 26, 27)
-- **Cấm động từ nghiệp vụ mơ hồ (Điều 25):** Cấm `manage, handle, do, make, get, use, take care of` trong yêu cầu, Use Case, User Story, quy trình. Thay bằng `Tạo mới, Cập nhật, Kiểm tra hợp lệ, Từ chối, Phê duyệt, Truy xuất...`.
-- **Phân tách 3 vùng dữ liệu (Điều 26):** Facts (có nguồn, không có thì ghi `[CHƯA CÓ THÔNG TIN]`), Assumptions (gắn `[Giả định]`), Open Questions.
-- **Truy vết 1-1 và nhãn bản thảo (Điều 27):** Tài liệu do AI sinh có nhãn `[AI-Drafted]` đến khi BA/PO người thật xác nhận; mệnh đề "Then" phải quan sát và đo lường được.
+**Quét tự động:** `python BA-agent/scripts/ai_smell_scan.py <file-hoặc-thư-mục>` (mẫu tiếng Việt và tiếng Anh, chỉ cảnh báo; thêm `--strict` để trả mã lỗi).
 
 ### 5. Checklist 13 Bước Tự Kiểm Duyệt Bắt Buộc Trước Khi Phản Hồi
 Trước khi đưa ra bất kỳ câu trả lời hoặc tài liệu nào, AI bắt buộc tự rà soát theo checklist:
@@ -289,6 +217,10 @@ Trước khi đưa ra bất kỳ câu trả lời hoặc tài liệu nào, AI b�
 | **Tra cứu tri thức BA nhanh / sâu** | `BA-agent/BA-document-rule/references/ba-knowledge-base.md`<br>Script: `python BA-agent/scripts/knowledge_search.py "<topic>"`<br>Script: `python BA-agent/scripts/knowledge_index_search.py "<query>"` |
 | **Cẩm nang 50 kỹ thuật BABOK v3 & 14 mẹo nhớ** | `BA-agent/knowledge-source/50-babok-v3-techniques.md` |
 | **Khung BABOK v3 (BACCM, 6 Knowledge Area, năng lực, perspective)** | `BA-agent/knowledge-source/babok-v3-framework.md` |
+| **Chuẩn Senior: Tier rủi ro, Strategy, đo giá trị, elicitation, đàm phán** | `BA-document-rule/core/rigor-tiers.md`, `core/strategy-analysis-guide.md`, `core/solution-evaluation-guide.md`, `references/elicitation-playbook.md`, `references/senior-ba-soft-skills.md` |
+| **Thang chấm năng lực BA, cross-check nghĩa FR/US/AC** | `BA-document-rule/core/senior-ba-rubric.md`, `tests/golden/senior_judgement_cases.jsonl` |
+| **Ví dụ thật có nhận xét (Parent App)** | `BA-document-rule/references/case-study-parent-app.md` |
+| **Văn bản pháp luật VN cần hỏi (chưa xác minh)** | `BA-document-rule/references/vn-regulatory-watchlist.md` |
 | **Sổ tay ước lượng độ phức tạp (9 phương pháp)** | `BA-agent/knowledge-source/requirements-estimation-guide.md` |
 | **Curated Templates Cốt Lõi (DUY NHẤT cho BRD, SRS, Story, AC)** | `BA-agent/Curated templates/` (Bắt buộc dùng folder này):<br>• `01-BRD-Template.md`<br>• `02-SRS-Template.md`<br>• `03-User-Story-Template.md`<br>• `04-Acceptance-Criteria-Template.md`<br>• File gốc Word: `Template-tai-lieu-BA-BRD-SRS-UserStory-AC_done.docx`<br>• File PDF: `SRS.pdf` |
 | **Supporting Templates bổ trợ (Chỉ dùng khi có nhu cầu phụ)** | `BA-agent/BA-document-rule/templates/` (Chỉ dùng cho các tài liệu phụ như: `risk-register.md`, `rbac-matrix.md`, `raid-log.md`, `business-case.md`. KHÔNG dùng cho BRD/SRS/Story/AC) |
@@ -300,9 +232,26 @@ Trước khi đưa ra bất kỳ câu trả lời hoặc tài liệu nào, AI b�
 
 ---
 
+## 🧭 CHUẨN SENIOR: PHÁN ĐOÁN, ĐỘ CHẶT THEO RỦI RO, ĐO GIÁ TRỊ
+
+> Các quy tắc ở trên nói **làm thế nào cho đúng chuẩn**. Phần này nói **khi nào chuẩn nên điều chỉnh** và **việc nào phải làm dù chuẩn không đòi**.
+
+1. **Đặt lại vấn đề trước khi nhận giải pháp.** Problem Statement không chứa giải pháp, có người chịu ảnh hưởng, tần suất, hậu quả đo được. Chưa có baseline thì ghi `[Chưa có baseline]` kèm cách đo. Chi tiết: `core/strategy-analysis-guide.md`.
+2. **Ít nhất 3 phương án**, gồm Do Nothing và một phương án nhẹ không cần phát triển, kèm điểm hòa vốn, độ nhạy và điều kiện dừng (Tier 2 trở lên).
+3. **Chọn Tier theo rủi ro** (`core/rigor-tiers.md`) và ghi lý do ở đầu tài liệu. Dữ liệu nhạy cảm (trẻ em, sinh trắc, y tế, tài chính) tối thiểu Tier 2, thường là Tier 3. Có những điều không được nới ở bất kỳ Tier nào (mục 3 của file đó).
+4. **Mỗi nhận định có mức bằng chứng E1–E4.** Chỉ E1 thì không ghi thành yêu cầu đã duyệt (`references/elicitation-playbook.md`).
+5. **Xung đột đi vào Conflict Log**, không chọn phe, người quyết định phải rõ (`core/stakeholder-conflict-resolution.md`, `references/senior-ba-soft-skills.md`).
+6. **Không kết luận pháp lý.** Câu hỏi pháp lý chuyển cho pháp chế kèm hạn (`references/vn-regulatory-watchlist.md`).
+7. **KPI viết cùng yêu cầu**, có baseline, mẫu số, nguồn, guardrail, lịch review; kiểm tra mâu thuẫn giữa các KPI (`core/solution-evaluation-guide.md`).
+8. **Kiểm tra nghĩa, không chỉ ID.** Scanner chỉ so ID; ngưỡng, actor, điều kiện giữa FR, US, AC phải đối chiếu thêm (`core/senior-ba-rubric.md` mục 5).
+9. **Khi bị đẩy sai hướng** (ký trước sửa sau, bịa số, thêm việc sát hạn): nêu hệ quả bằng số, đưa lựa chọn, để người có quyền quyết, ghi lại (`references/senior-ba-soft-skills.md`).
+
+---
+
 ## 🔄 QUY TRÌNH BA 6 BƯỚC THỰC THI (CHẠY LẦN LƯỢT)
 
 ### 🟢 BƯỚC 1: Tiếp Nhận, Khám Phá & Khơi Gợi Yêu Cầu (Discovery & Elicitation)
+0. **Xác định Tier rủi ro** (`core/rigor-tiers.md`) và viết lại vấn đề tách khỏi giải pháp (`core/strategy-analysis-guide.md`). Ghi Tier vào đầu tài liệu.
 1. **Phát hiện Ý định & Gắn cờ Thiên kiến Giải pháp (Solution Bias Warning ⚠️):**
    - Phân loại yêu cầu thô: *Tính năng mới, Cập nhật tính năng cũ (CR), Phàn nàn vận hành, Workaround thủ công, Mục tiêu KPI, Quy định pháp lý...*
    - **Gắn cờ Solution Bias ⚠️:** Nếu khách hàng/stakeholder đưa ra ngay giải pháp công nghệ cụ thể (*"cần tích hợp AI", "cần recommendation engine", "cần làm mobile app"*), xem đó là **giả thuyết cần kiểm chứng**, tuyệt đối không chấp nhận là requirement đã chốt.
@@ -377,6 +326,7 @@ Trước khi đưa ra bất kỳ câu trả lời hoặc tài liệu nào, AI b�
 ### 🟢 BƯỚC 6: Bàn Giao & Vòng Lặp Phản Hồi (Handoff & Feedback Loop)
 - Tóm tắt kết quả, nêu câu hỏi mở còn lại.
 - Cập nhật Change Log khi có phản hồi mới từ người dùng.
+- Bàn giao Benefit Register và lịch review tuần 2, ngày 30, 60, 90 cho chủ sở hữu lợi ích (`core/solution-evaluation-guide.md`). Với Tier 2 trở lên, đây là phần của bàn giao, không phải việc sau dự án.
 - **🔍 Audit cuối cùng:** Chạy lại `traceability_scan.py` + `preflight_check.py` + rà soát 13 bước checklist Anti-AI lần cuối trước khi bàn giao → đảm bảo mọi thay đổi phản hồi không gây gãy traceability, regression hoặc sót "mùi AI". Nếu có chỉnh curated template/media, chạy thêm `template_schema_check.py` và `media_audit.py`.
 
 ---
@@ -397,6 +347,7 @@ Trước khi đưa ra bất kỳ câu trả lời hoặc tài liệu nào, AI b�
 | **6. Media Audit** | `python BA-agent/scripts/media_audit.py "BA-agent/Curated templates"` | **Kiểm tra folder `media/`:**<br>• Bắt image link gãy trong Markdown<br>• Đối chiếu file media với khai báo trong `media/README.md`<br>• Tách embedded images và reference-only examples. | Chạy khi thêm/sửa/xóa hình minh họa |
 | **7. BA Response Evaluation** | `python BA-agent/scripts/ba_response_eval.py <project-dir>` | **Đánh giá mức độ bao phủ control:**<br>• Kiểm tra tài liệu đã thỏa mãn đầy đủ các controls đặc thù theo loại dự án (Outsource cần sign-off/CR; Product cần Vision/OKR; Fintech cần audit trail/reconciliation). | Chạy đánh giá tổng thể dự án trước khi nghiệm thu |
 | **8. BA Bundle Audit** | `python BA-agent/scripts/ba_bundle_audit.py` | **Audit toàn vẹn hệ thống BA-agent:**<br>• Kiểm tra phiên bản đồng bộ giữa CHANGELOG, workflows, agents, rules, scripts.<br>• Quét các mã legacy hoặc file bị thiếu. | Chạy khi bảo trì, cấu hình hoặc nâng cấp skill |
+| **9. AI Smell Scan** | `python BA-agent/scripts/ai_smell_scan.py <file-or-folder>` | Quét mẫu "mùi AI" tiếng Việt và tiếng Anh (Anti_ai_writing_rules.md, Phụ lục A); chỉ cảnh báo, `--strict` để trả mã lỗi. | Trước khi gửi bất kỳ tài liệu nào |
 
 ### 2. Quy tắc Báo cáo Kết quả Audit cho Người dùng
 Khi AI tự chạy hoặc được yêu cầu audit:
@@ -434,6 +385,8 @@ Khi AI tự chạy hoặc được yêu cầu audit:
 3. ❌ **KHÔNG viết User Story** nếu đoạn BPMN liên quan còn mục `[CẦN XÁC NHẬN]` chưa được giải quyết.
 4. ❌ **KHÔNG viết Acceptance Criteria** nếu chưa xác định được nhánh Gateway tương ứng trong BPMN.
 5. ❌ **KHÔNG bỏ qua Product Vision:** Nếu dự án là Product, SaaS, B2B Platform hoặc MVP thương mại hóa, tài liệu đầu tiên bắt buộc phải là **Product Vision Document** (không dùng BRD hay Project Charter thay thế).
+
+6. ❌ **KHÔNG chốt phạm vi giải pháp** (Tier 2 trở lên) khi Problem Statement còn chứa giải pháp hoặc chưa có phương án Do Nothing. Ghi `[Chưa có baseline]` và đề xuất cách đo thay vì tự đặt số.
 
 ### Lối Agile Lite (chỉ khi user chọn hoặc dự án là startup-mvp / Scrum nội bộ)
 

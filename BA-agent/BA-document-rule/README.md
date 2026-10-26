@@ -64,6 +64,10 @@ BA-document-rule/
 │   ├── requirement-quality-rubric.md ⭐ 5-point rubric + 8 Smell Detector (v3.3)
 │   ├── decision-analysis-framework.md ⭐ Weighted Scoring, Pugh, CBA, Decision Tree (v3.3)
 │   ├── nfr-discovery-guide.md        ⭐ 7 câu hỏi + 5 kỹ thuật phát hiện NFR (v3.3)
+│   ├── rigor-tiers.md                ⭐ 3 Tier rủi ro quyết định độ sâu tài liệu (v3.5.0)
+│   ├── strategy-analysis-guide.md    ⭐ Vấn đề → phương án → Go/No-Go (v3.5.0)
+│   ├── solution-evaluation-guide.md  ⭐ Benefit Register, review 30/60/90 (v3.5.0)
+│   ├── senior-ba-rubric.md           ⭐ Thang năng lực BA + cross-check nghĩa (v3.5.0)
 │   └── process-decomposition-guide.md ⭐ Phân rã quy trình L0→L3 (v3.3)
 │
 ├── knowledge-index/                    ← Index cục bộ — chỉ manifest được commit

@@ -5,6 +5,29 @@
 
 ---
 
+## [3.5.0] — 2026-10-26
+
+Nâng chuẩn lên mức Senior BA: thêm phán đoán, độ chặt theo rủi ro, phân tích chiến lược, đo giá trị và kỹ năng làm việc với stakeholder.
+
+### Added
+- `core/rigor-tiers.md` — 3 Tier rủi ro (7 câu chấm điểm) quyết định độ sâu tài liệu, số kịch bản AC, review, script; danh sách điều không được nới.
+- `core/strategy-analysis-guide.md` — Quy trình 6 bước từ vấn đề đến Go/No-Go, mức bằng chứng E1–E4, ví dụ tính số có điểm hòa vốn và độ nhạy (số giả định).
+- `core/solution-evaluation-guide.md` — Benefit Register, leading/lagging/guardrail, kiểm tra nhất quán bộ KPI, lịch review 30/60/90 ngày.
+- `core/senior-ba-rubric.md` — 9 chiều × 3 mức, dấu hiệu đỏ, 7 kiểm tra nghĩa giữa FR/US/AC, mẫu prompt LLM-judge.
+- `references/elicitation-playbook.md` — Chuẩn bị bằng giả thuyết, bảng tình huống khó, play-back 24 giờ, kịch bản workshop 3 giờ, câu hỏi theo ngành.
+- `references/senior-ba-soft-skills.md` — Từ chối yêu cầu, đàm phán lợi ích, báo tin xấu, Decision Memo, giới hạn đạo đức.
+- `references/case-study-parent-app.md` — Nhận xét kiểu Senior trên bộ tài liệu Parent App (KPI mâu thuẫn, phương án nhận diện khuôn mặt, phụ thuộc chưa xác nhận).
+- `references/vn-regulatory-watchlist.md` — Danh sách chủ đề pháp luật Việt Nam cần hỏi, ghi rõ chưa xác minh.
+- `scripts/ai_smell_scan.py` — Quét mẫu "mùi AI" tiếng Việt và tiếng Anh; `Anti_ai_writing_rules.md` Phụ lục A cho tiếng Việt.
+- `tests/golden/senior_judgement_cases.jsonl` — 9 tình huống phán đoán; 6 card tri thức mới.
+
+### Changed
+- `SKILL.md` — Thêm mục "Chuẩn Senior", Hard Gate 6, bước 0 (Tier) ở Bước 1, Benefit Register ở Bước 6; rút gọn mục sơ đồ và Anti-AI (trỏ về `so_do.md` và `Anti_ai_writing_rules.md`).
+- `Curated templates/04-Acceptance-Criteria-Template.md` — Ghi chú số kịch bản AC theo Tier.
+- `scripts/ba_bundle_audit.py` — Đưa các file mới vào danh sách bắt buộc.
+
+---
+
 ## [3.4.5] — 2026-10-26
 
 ### Added

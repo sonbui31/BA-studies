@@ -34,6 +34,7 @@
 > 🔴 **Quy tắc Vàng cho Acceptance Criteria (AC Rules):**
 > 1. **Số lượng kịch bản:** Mỗi User Story có **tối thiểu 4 kịch bản** (Happy Path, Race Condition, Boundary, Negative). Story phức tạp tối đa 8 kịch bản.
 > 2. **Chặn quá tải (Story Splitting Trigger):** Nếu một User Story có **hơn 8 kịch bản AC**, AI **BẮT BUỘC DỪNG LẠI** và yêu cầu tách User Story (xem quy tắc Story Splitting tại `03-User-Story-Template.md`).
+> 2b. **Điều chỉnh theo mức rủi ro:** Số kịch bản tối thiểu ở mục 1 là mức Tier 2. Story Tier 1 (rủi ro thấp) có thể dùng tối thiểu 2 kịch bản và ghi lý do bỏ; story Tier 3 bổ sung kịch bản 5–8 khi áp dụng. Xem `BA-document-rule/core/rigor-tiers.md`.
 > 3. **Chống Anti-patterns & Ảo giác logic trong AC:**
 >    - ❌ Cấm mô tả UI chi tiết/styling: *"Nút chuyển màu xanh"* ➔ ✅ *"Hệ thống hiển thị trạng thái thành công"*.
 >    - ❌ Cấm chèn mã kỹ thuật/API: *"Gọi API POST /v1/booking"* ➔ ✅ *"Hệ thống tạo bản ghi đặt lịch và trừ hạn mức tương ứng"*.

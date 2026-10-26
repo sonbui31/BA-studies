@@ -170,6 +170,78 @@
       "output": ["BACCM check", "Technique selection", "Knowledge Area mapping"],
       "quality_checks": ["Technique names match BABOK v3 chapter 10", "Gap Analysis, Kano and Decision Tree are not presented as BABOK v3 techniques", "Certification answers are checked against the official guide"],
       "sources": ["knowledge-source/babok-v3-framework.md", "knowledge-source/50-babok-v3-techniques.md"]
+    },
+    {
+      "id": "KB-STRATEGY-001",
+      "title": "Strategy Analysis and Business Case Judgement",
+      "aliases": ["strategy analysis", "business case", "roi", "do nothing", "options analysis", "go no-go", "phân tích chiến lược", "phương án", "hòa vốn"],
+      "tags": ["strategy", "business-case", "senior"],
+      "summary": "Reframe the problem apart from the solution, grade evidence E1-E4, compare at least 3 options (Do Nothing, a light option, a full option) with assumptions, break-even and sensitivity, and recommend with stop conditions.",
+      "use_when": ["Sponsor names a solution first", "A budget must be requested", "ROI is requested without baseline data"],
+      "questions": ["Does the problem statement contain a solution?", "What is the evidence level of each current-state claim?", "What must be true for the full option to break even?", "Which assumption flips the conclusion if it changes by 30 percent?"],
+      "output": ["Problem Statement", "Options table", "Break-even and sensitivity", "Recommendation with stop conditions"],
+      "quality_checks": ["Do Nothing is present", "A light option without development is present", "No invented numbers; assumptions are labeled"],
+      "sources": ["BA-document-rule/core/strategy-analysis-guide.md"]
+    },
+    {
+      "id": "KB-SOLEVAL-001",
+      "title": "Solution Evaluation and Benefit Realization",
+      "aliases": ["solution evaluation", "benefit register", "kpi", "baseline", "guardrail", "post go-live", "đo giá trị", "đánh giá sau triển khai", "review 30 60 90"],
+      "tags": ["kpi", "benefits", "senior", "evaluation"],
+      "summary": "Write KPIs with baseline, denominator, data source, guardrail and a review schedule; check KPI sets for arithmetic consistency; decide keep, tune, extend or stop at day 90.",
+      "use_when": ["Writing KPIs in a BRD", "Planning post go-live measurement", "A KPI set looks inconsistent"],
+      "questions": ["What is the baseline and when was it measured?", "What is the denominator?", "What decision follows if the target is missed?", "Which guardrail detects harm?"],
+      "output": ["Benefit Register", "Review calendar", "Decision rule"],
+      "quality_checks": ["No KPI contradicts another (weekly vs monthly usage)", "Every goal has a result metric and a guardrail"],
+      "sources": ["BA-document-rule/core/solution-evaluation-guide.md"]
+    },
+    {
+      "id": "KB-ELICIT-PLAYBOOK-001",
+      "title": "Elicitation Playbook and Difficult Situations",
+      "aliases": ["elicitation playbook", "interview", "workshop facilitation", "difficult stakeholder", "play-back", "solution bias", "phỏng vấn", "workshop", "stakeholder khó"],
+      "tags": ["elicitation", "facilitation", "senior"],
+      "summary": "Prepare hypotheses, ask for the last real case and exceptions, handle stakeholders who give solutions, rank everything Must, stay silent, or contradict each other, and send a play-back within 24 hours.",
+      "use_when": ["Before an interview or workshop", "A stakeholder is uncooperative", "Notes must become verified requirements"],
+      "questions": ["What do I need to know by the end of this session?", "Tell me about the last time this went wrong", "Who decides if two departments disagree?"],
+      "output": ["Interview plan", "Play-back note", "Conflict log entry"],
+      "quality_checks": ["Each claim has an evidence level and a source", "Open items are marked for confirmation"],
+      "sources": ["BA-document-rule/references/elicitation-playbook.md", "BA-document-rule/references/senior-ba-soft-skills.md"]
+    },
+    {
+      "id": "KB-RIGOR-001",
+      "title": "Risk-Based Rigor Tiers",
+      "aliases": ["rigor tier", "tier", "risk based", "lite", "agile lite", "độ chặt", "mức rủi ro", "tier 1", "tier 2", "tier 3"],
+      "tags": ["rigor", "risk", "senior"],
+      "summary": "Score 7 risk questions to choose Tier 1, 2 or 3. Tier sets document depth, number of AC scenarios, review and scripts. Some rules never relax: fact/assumption split, AC per story, traceability to a need, AI-Drafted label, no sensitive data at Tier 1.",
+      "use_when": ["Choosing how deep to document", "A rule seems excessive for a small feature", "Sensitive data appears mid-project"],
+      "questions": ["Does it handle money, children, health, biometrics or legal sanctions?", "Is any integration unconfirmed?", "Is change after go-live expensive?"],
+      "output": ["Tier declaration at document head"],
+      "quality_checks": ["Relaxations are written with a reason", "Tier is raised when sensitive data is found"],
+      "sources": ["BA-document-rule/core/rigor-tiers.md"]
+    },
+    {
+      "id": "KB-SENIOR-RUBRIC-001",
+      "title": "Senior BA Rubric and Semantic Cross-Check",
+      "aliases": ["senior ba", "ba level", "rubric", "judgement", "cross-check", "cấp độ ba", "đánh giá năng lực", "đối chiếu nghĩa"],
+      "tags": ["rubric", "senior", "quality"],
+      "summary": "Nine dimensions graded 1-3 (framing, evidence, options, conflict, rigor, requirement quality, communication, compliance, value measurement). Senior needs no dimension below 2 and at least six at 3. Seven semantic checks compare FR, US and AC beyond ID matching.",
+      "use_when": ["Reviewing a BA output", "A scanner reports PASS but numbers may disagree", "Calibrating the agent"],
+      "questions": ["Do the thresholds in FR and AC match?", "Is any behavior in FR untested by AC?", "Does any AC add a requirement the FR does not state?"],
+      "output": ["Dimension scores", "Level verdict", "Cross-check table"],
+      "quality_checks": ["Red flags lower the level by one", "Evidence is quoted from the document"],
+      "sources": ["BA-document-rule/core/senior-ba-rubric.md", "tests/golden/senior_judgement_cases.jsonl"]
+    },
+    {
+      "id": "KB-VN-REG-001",
+      "title": "Vietnam Regulatory Watchlist (unverified)",
+      "aliases": ["luật", "nghị định", "pháp lý", "bảo vệ dữ liệu cá nhân", "dữ liệu trẻ em", "regulatory", "compliance vn", "nghị định 13"],
+      "tags": ["regulatory", "vietnam", "compliance"],
+      "summary": "A list of Vietnamese legal topics to ask about when specifying systems (personal data, children, cybersecurity, e-transactions, e-invoice, AML/KYC, healthcare records, public procurement). Marked unverified; the BA routes questions to legal counsel and records confirmed sources and check dates.",
+      "use_when": ["Sensitive data is involved", "A regulated domain is in scope"],
+      "questions": ["Which text applies and who confirmed it?", "What is the date of the last check?"],
+      "output": ["Open Questions with owner and due date", "Regulatory Compliance Matrix"],
+      "quality_checks": ["No article numbers or penalties quoted from this list", "Legal conclusions come from legal counsel"],
+      "sources": ["BA-document-rule/references/vn-regulatory-watchlist.md"]
     }
   ]
 }

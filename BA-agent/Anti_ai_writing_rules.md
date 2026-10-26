@@ -229,6 +229,32 @@ Cấm tuyệt đối để AI tự suy diễn các sự thật nghiệp vụ mà
 
 ---
 
+## PHỤ LỤC A — MẪU "MÙI AI" TRONG TIẾNG VIỆT
+
+Điều 1 và Điều 2 liệt kê từ tiếng Anh. Văn bản BA viết bằng tiếng Việt cũng có các mẫu tương đương. Phụ lục này mở rộng Điều 1, 2, 3, 7, 8, 9 và 11 cho tiếng Việt; không tạo điều mới.
+
+| Mẫu | Điều | Thay bằng |
+|---|---|---|
+| `đóng vai trò quan trọng / then chốt / cốt lõi` | 8, 9 | Nói thành phần đó làm gì: "Dịch vụ X lưu trạng thái đơn" |
+| `không chỉ ... mà còn ...` | 3 | Hai câu thẳng, hoặc một câu liệt kê |
+| `nhằm mục đích`, `với mục đích` | 7 | `để` hoặc bỏ |
+| `mang lại giá trị / lợi ích / trải nghiệm` | 9 | Ghi lợi ích cụ thể có số: "giảm 30% cuộc gọi hỏi điểm danh" |
+| `một cách hiệu quả / toàn diện / tối ưu / liền mạch` | 9 | Bỏ trạng từ; nếu cần, ghi metric |
+| `giải pháp toàn diện`, `nền tảng mạnh mẽ`, `trải nghiệm liền mạch` | 1, 9 | Mô tả chức năng cụ thể |
+| `nâng tầm`, `đột phá`, `hệ sinh thái`, `sợi dây liên kết` | 1, 9 | Xóa hoặc nói cụ thể |
+| `đảm bảo rằng`, `góp phần nâng cao / cải thiện` | 7 | Nói thẳng hành động và kết quả |
+| `cần lưu ý rằng`, `đáng chú ý là`, `không thể phủ nhận`, `điều quan trọng là` | 2 | Bỏ phần dẫn, nói thẳng |
+| Mở câu bằng `Bên cạnh đó,` `Hơn nữa,` `Tóm lại,` `Nhìn chung,` | 2 | Nối vào câu trước hoặc xóa |
+| `trong bối cảnh ... hiện nay`, `ngày càng phát triển / quan trọng` | 11 | Bỏ câu mở đầu chung chung, vào thẳng vấn đề |
+
+Cách dùng:
+
+- Chạy `python BA-agent/scripts/ai_smell_scan.py <file-hoặc-thư-mục>` trước khi gửi tài liệu. Script chỉ cảnh báo; người viết quyết định giữ hay sửa.
+- Từ trong danh sách được phép khi nó là thuật ngữ thật của nghiệp vụ (ví dụ "hệ sinh thái" trong tên một sản phẩm cụ thể). Ghi rõ ngữ cảnh khi giữ.
+- Văn bản có `toàn diện`, `đột phá`... mà không kèm số hoặc bằng chứng thì sửa, vì đó là lời quảng cáo chứ không phải yêu cầu.
+
+---
+
 ## QUY TRÌNH KIỂM TRA BẮT BUỘC TRƯỚC KHI TRẢ LỜI
 
 Trước khi đưa ra câu trả lời cuối cùng, tự rà lại toàn bộ văn bản theo checklist:

@@ -15,6 +15,7 @@ import preflight_check
 import knowledge_search
 import knowledge_index_search
 import ba_response_eval
+import ai_smell_scan
 import build_knowledge_index
 import eval_golden_cases
 import ba_id_utils
@@ -127,6 +128,35 @@ class RuntimeScriptTests(unittest.TestCase):
         for scenario in ("healthcare", "government", "startup-mvp", "inhouse"):
             payload = ba_response_eval.evaluate_text("Nothing relevant here.", scenario)
             self.assertFalse(payload["passed"], scenario)
+
+    def test_ai_smell_scan_flags_vietnamese_and_english_patterns(self):
+        text = "\n".join(
+            [
+                "Hệ thống đóng vai trò quan trọng trong việc quản lý.",
+                "Nó không chỉ lưu dữ liệu mà còn gửi thông báo.",
+                "Additionally, this is a robust design.",
+                "Hệ thống gửi thông báo trong 30 giây.",
+            ]
+        )
+        findings = ai_smell_scan.scan_text(text)
+        self.assertEqual({item["line"] for item in findings}, {1, 2, 3})
+
+    def test_ai_smell_scan_skips_fenced_code(self):
+        text = "\n".join(["```", "đóng vai trò quan trọng", "```", "Hệ thống lưu đơn nghỉ."])
+        self.assertEqual(ai_smell_scan.scan_text(text), [])
+
+    def test_senior_judgement_cases_have_required_structure(self):
+        path = Path(__file__).resolve().parent / "golden" / "senior_judgement_cases.jsonl"
+        cases = [json.loads(line) for line in path.read_text(encoding="utf-8").splitlines() if line.strip()]
+        self.assertGreaterEqual(len(cases), 8)
+        ids = [case["id"] for case in cases]
+        self.assertEqual(len(ids), len(set(ids)))
+        for case in cases:
+            for key in ("situation", "ask"):
+                self.assertTrue(str(case.get(key, "")).strip(), f"{case['id']} missing {key}")
+            for key in ("senior_signals", "middle_signals", "red_flags"):
+                self.assertTrue(case.get(key), f"{case['id']} missing {key}")
+            self.assertGreaterEqual(len(case["senior_signals"]), 3, case["id"])
 
     def test_golden_cases_pass(self):
         payload = eval_golden_cases.evaluate_cases(Path(__file__).resolve().parent / "golden" / "ba_response_cases.jsonl")

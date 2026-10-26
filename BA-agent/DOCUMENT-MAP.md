@@ -104,6 +104,10 @@
 | `decision-analysis-framework.md` | ⭐ 4 công cụ ra quyết định: Weighted Scoring, Pugh, CBA, Decision Tree | ⭐ NEW v3.3 |
 | `nfr-discovery-guide.md` | ⭐ 7 câu hỏi + 5 kỹ thuật phát hiện NFR specific cho từng dự án | ⭐ NEW v3.3 |
 | `process-decomposition-guide.md` | ⭐ Phân rã quy trình L0→L1→L2→L3 + rules khi nào dừng | ⭐ NEW v3.3 |
+| `rigor-tiers.md` | ⭐ 3 Tier rủi ro quyết định độ sâu tài liệu, số kịch bản AC, review; điều không được nới | ⭐ NEW v3.5.0 |
+| `strategy-analysis-guide.md` | ⭐ Từ vấn đề đến Go/No-Go: mức bằng chứng E1–E4, phương án, hòa vốn, độ nhạy | ⭐ NEW v3.5.0 |
+| `solution-evaluation-guide.md` | ⭐ Benefit Register, kiểm tra nhất quán KPI, lịch review 30/60/90 | ⭐ NEW v3.5.0 |
+| `senior-ba-rubric.md` | ⭐ Thang 9 chiều đánh giá năng lực BA + 7 kiểm tra nghĩa FR/US/AC | ⭐ NEW v3.5.0 |
 
 ### 📁 templates/ — 28 templates generic
 
@@ -176,7 +180,11 @@
 | `writing-examples.md` | ⭐ Bộ mẫu viết: Precondition, Exception, Business Rule, NFR, Integration Spec, Test Case | ⭐ NEW v3.3 |
 | `communication-packaging.md` | ⭐ 4 package types đóng gói thông tin: Executive Summary, Technical Brief, Test Strategy, Quick Start | ⭐ NEW v3.3 |
 | `ba-knowledge-base.md` | Knowledge base BA tự chứa, chắt lọc từ kho `BA/`, dùng được ngay cả khi xoá folder nguồn | ⭐ NEW |
-| `ba-knowledge-cards.json` | Retrieval cards có cấu trúc cho các chủ đề BRD/SRS/UAT/RTM/modeling/data/product/AI/domain | ⭐ NEW |
+| `ba-knowledge-cards.json` | Retrieval cards có cấu trúc cho các chủ đề BRD/SRS/UAT/RTM/modeling/data/product/AI/domain/BABOK/Senior | ⭐ NEW |
+| `elicitation-playbook.md` | Chuẩn bị bằng giả thuyết, tình huống khó, play-back, kịch bản workshop, câu hỏi theo ngành | ⭐ NEW v3.5.0 |
+| `senior-ba-soft-skills.md` | Từ chối yêu cầu, đàm phán, báo tin xấu, Decision Memo, giới hạn đạo đức | ⭐ NEW v3.5.0 |
+| `case-study-parent-app.md` | Nhận xét kiểu Senior trên bộ tài liệu Parent App | ⭐ NEW v3.5.0 |
+| `vn-regulatory-watchlist.md` | Chủ đề pháp luật Việt Nam cần hỏi khi đặc tả (chưa xác minh) | ⭐ NEW v3.5.0 |
 
 ### 📁 scripts/ — Audit Scripts & Công cụ Tự động hóa (16 files)
 
@@ -196,6 +204,7 @@
 | `build_semantic_index.py` | Build semantic search index | Khi cập nhật knowledge |
 | `semantic_index_search.py` | Semantic search trên index | Khi cần search ngữ nghĩa |
 | `ba_id_utils.py` | Tiện ích xử lý BA ID (parse, validate, generate) | Dùng nội bộ bởi scripts khác |
+| `ai_smell_scan.py` | Quét mẫu "mùi AI" tiếng Việt và tiếng Anh trong Markdown | Trước khi gửi tài liệu |
 | `eval_golden_cases.py` | Chạy golden test cases cho quality assurance | Khi kiểm tra regression |
 | `docx_to_md.py` | Chuyển đổi file DOCX sang Markdown | Khi cần convert tài liệu |
 
