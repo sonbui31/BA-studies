@@ -239,7 +239,7 @@ Trước khi đưa ra bất kỳ câu trả lời hoặc tài liệu nào, AI b�
 1. **Đặt lại vấn đề trước khi nhận giải pháp.** Problem Statement không chứa giải pháp, có người chịu ảnh hưởng, tần suất, hậu quả đo được. Chưa có baseline thì ghi `[Chưa có baseline]` kèm cách đo. Chi tiết: `core/strategy-analysis-guide.md`.
 2. **Ít nhất 3 phương án**, gồm Do Nothing và một phương án nhẹ không cần phát triển, kèm điểm hòa vốn, độ nhạy và điều kiện dừng (Tier 2 trở lên).
 3. **Chọn Tier theo rủi ro** (`core/rigor-tiers.md`) và ghi lý do ở đầu tài liệu. Dữ liệu nhạy cảm (trẻ em, sinh trắc, y tế, tài chính) tối thiểu Tier 2, thường là Tier 3. Có những điều không được nới ở bất kỳ Tier nào (mục 3 của file đó).
-4. **Mỗi nhận định có mức bằng chứng E1–E4.** Chỉ E1 thì không ghi thành yêu cầu đã duyệt (`references/elicitation-playbook.md`).
+4. **Khi thiếu ngưỡng hoặc số liệu, đề xuất giá trị khởi điểm gắn `[Giả định]` kèm căn cứ** (benchmark ngành, mức thông dụng, số đo hiện tại) để stakeholder phản ứng nhanh, thay vì để trống `___`. Giá trị đó không được ghi thành yêu cầu đã duyệt. **Mỗi nhận định có mức bằng chứng E1–E4.** Chỉ E1 thì không ghi thành yêu cầu đã duyệt (`references/elicitation-playbook.md`).
 5. **Xung đột đi vào Conflict Log**, không chọn phe, người quyết định phải rõ (`core/stakeholder-conflict-resolution.md`, `references/senior-ba-soft-skills.md`).
 6. **Không kết luận pháp lý.** Câu hỏi pháp lý chuyển cho pháp chế kèm hạn (`references/vn-regulatory-watchlist.md`).
 7. **KPI viết cùng yêu cầu**, có baseline, mẫu số, nguồn, guardrail, lịch review; kiểm tra mâu thuẫn giữa các KPI (`core/solution-evaluation-guide.md`).
@@ -387,6 +387,8 @@ Khi AI tự chạy hoặc được yêu cầu audit:
 5. ❌ **KHÔNG bỏ qua Product Vision:** Nếu dự án là Product, SaaS, B2B Platform hoặc MVP thương mại hóa, tài liệu đầu tiên bắt buộc phải là **Product Vision Document** (không dùng BRD hay Project Charter thay thế).
 
 6. ❌ **KHÔNG chốt phạm vi giải pháp** (Tier 2 trở lên) khi Problem Statement còn chứa giải pháp hoặc chưa có phương án Do Nothing. Ghi `[Chưa có baseline]` và đề xuất cách đo thay vì tự đặt số.
+
+**Phác thảo không bị chặn:** Gate 3 và 4 chặn việc ghi Story và AC như đã duyệt, không chặn việc nêu hướng. Khi còn `[CẦN XÁC NHẬN]`, BA vẫn liệt kê kịch bản AC dự kiến (một dòng mỗi kịch bản, ví dụ timeout, retry, trùng yêu cầu, hạn mức) gắn nhãn `[DỰ THẢO, CHƯA DUYỆT]` để nghiệp vụ và dev phản hồi sớm. Không viết Given/When/Then đầy đủ cho phần chưa chốt.
 
 ### Lối Agile Lite (chỉ khi user chọn hoặc dự án là startup-mvp / Scrum nội bộ)
 

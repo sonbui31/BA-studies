@@ -100,6 +100,10 @@
 - `python .\scripts\template_schema_check.py ".\Curated templates"` pass.
 - `python .\scripts\media_audit.py ".\Curated templates"` pass.
 
+## 8. Chạy thử phán đoán Senior (2026-10-26)
+
+Xem `tests/golden/senior_run_2026-10-26.md`: 4 tình huống mới, đáp án viết trước, agent bị cấm đọc file đáp án. Cả 4 đạt phần lớn tín hiệu Senior; hai chỗ yếu đã sửa trong SKILL.md (phác AC khi gate còn mở, đề xuất ngưỡng khởi điểm gắn `[Giả định]`). Chưa có nhóm đối chứng và chưa chạy lại sau điều chỉnh.
+
 ## 7. Audit trên dự án thật (chưa nằm trong scorecard mục 5)
 
 Scorecard mục 5 chạy trên mẫu `BA-Documents-Product`, `BA-Documents-Outsource` và fixture. Kết quả trên bộ tài liệu thật `projects/vClassio_app/parent_app/parent_app_md`:

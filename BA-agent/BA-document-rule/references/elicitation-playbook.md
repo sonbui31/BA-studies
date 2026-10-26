@@ -49,6 +49,7 @@ Tránh câu hỏi dẫn ("Chắc anh/chị cần báo cáo tự động đúng k
 | SME bận, hẹn không đến | Hủy lịch liên tục | Rút buổi còn 20 phút, gửi trước câu hỏi, gửi bản nháp quy trình để họ sửa thay vì kể; báo Sponsor nếu rủi ro lịch |
 | Yêu cầu đổi liên tục | Mỗi tuần một hướng | Hỏi mục tiêu gốc; ghi log thay đổi; đưa vào `change-log.md`; hỏi ai chịu trách nhiệm chốt |
 | Hai người mâu thuẫn | Mỗi người nói điều ngược | Không chọn phe. Ghi thành xung đột (CON-xxx), xác định người quyết định theo `stakeholder-conflict-resolution.md` |
+| Thiếu ngưỡng cho yêu cầu chất lượng (nhanh, dễ dùng, an toàn) | Stakeholder trả lời "nhanh thôi" | Đề xuất ngưỡng khởi điểm kèm căn cứ và nhãn `[Giả định]` (ví dụ "đăng nhập < 3 giây ở p95, theo mức thông dụng"), hỏi "nếu 3 giây thì anh/chị chấp nhận được không, 5 giây thì sao?" |
 | Người không biết mình cần gì | "Anh làm giúp tôi cái nào tốt nhất" | Dùng prototype giấy hoặc kịch bản mẫu để họ phản ứng; hỏi "cái này gần hay xa với điều anh/chị nghĩ?" |
 | Thông tin nhạy cảm, pháp lý | Dữ liệu trẻ em, sức khỏe, tài chính | Dừng, ghi nhận, hỏi đơn vị pháp chế hoặc bảo mật trước khi đặc tả; không tự quyết |
 | Stakeholder chống thay đổi | "Cách cũ đang ổn" | Hỏi họ mất gì và được gì; đưa họ vào thiết kế quy trình mới; đo hiệu quả bằng dữ liệu của chính họ |

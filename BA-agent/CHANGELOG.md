@@ -5,6 +5,18 @@
 
 ---
 
+## [3.5.1] — 2026-10-26
+
+### Added
+- `tests/golden/senior_run_2026-10-26.md` — Ghi nhận lần chạy thử 4 tình huống phán đoán, phương pháp, kết quả và giới hạn.
+- `tests/golden/senior_judgement_cases.jsonl` — 4 tình huống mới (13 tất cả), đáp án chấm viết trước khi chạy.
+
+### Changed
+- `SKILL.md` — Gate 3 và 4 không chặn phác kịch bản AC dạng `[DỰ THẢO, CHƯA DUYỆT]`; thiếu ngưỡng thì đề xuất giá trị khởi điểm gắn `[Giả định]`.
+- `references/elicitation-playbook.md` — Thêm tình huống yêu cầu chất lượng thiếu ngưỡng.
+
+---
+
 ## [3.5.0] — 2026-10-26
 
 Nâng chuẩn lên mức Senior BA: thêm phán đoán, độ chặt theo rủi ro, phân tích chiến lược, đo giá trị và kỹ năng làm việc với stakeholder.
