@@ -25,7 +25,7 @@ Không dùng file này để:
 
 ## 2. Provenance từ folder BA
 
-Phần này chỉ ghi lại kiến thức đã được lấy từ vùng nào của folder `BA/`. Agent không được phụ thuộc vào các path này khi chạy.
+Phần này chỉ ghi lại kiến thức đã được lấy từ vùng nào của folder `BA/`. Thư mục `BA/` không nằm trong repo và không được đọc khi chạy; mọi nhận định phải dựa trên nội dung đã nhúng trong file này, trong `knowledge-source/` và trong `core/`.
 
 | Nguồn gốc trong folder `BA/` | Kiến thức đã chắt lọc | Đã nhúng vào phần |
 |---|---|---|
@@ -74,12 +74,13 @@ Phần này chỉ ghi lại kiến thức đã được lấy từ vùng nào c�
 | User cần | Agent dùng |
 |---|---|
 | Portfolio BA | Section 6.2, 6.4, 6.6 + templates trong `BA-agent/BA-document-rule/templates/` |
-| BRD/SRS/RTM/UAT | `DOCUMENT-MAP.md`, `templates/brd.md`, `templates/srs.md`, `templates/uat-plan.md`, `core/traceability-validator.md` |
-| User Story/AC | `templates/user-story-map.md`, `core/writing-guide.md`, `references/writing-examples.md` |
+| BRD/SRS/RTM/UAT | `DOCUMENT-MAP.md`, `Curated templates/01-BRD-Template.md`, `02-SRS-Template.md`, `templates/uat-plan.md`, `core/traceability-validator.md` |
+| User Story/AC | `Curated templates/03-User-Story-Template.md`, `04-Acceptance-Criteria-Template.md`, `core/writing-guide.md`, `references/writing-examples.md` (Story Map bổ trợ: `templates/user-story-map.md`) |
 | BPMN/UML/DFD | `templates/bpmn-modeling-standard.md`, `core/diagram-guide.md`, `core/process-decomposition-guide.md` |
 | Product/SaaS | Section 6.7 + `overlays/product/overlay-config.md`, `templates/product-analytics-spec.md` |
 | Data/BI/Reporting | `templates/reporting-specification.md`, `templates/data-governance-plan.md`, `templates/data-model.md` |
 | AI/ML feature | Section 6.8 + `templates/ai-feature-spec.md` |
+| Khung BABOK v3 (Knowledge Area, BACCM, kỹ thuật, ôn CCBA/CBAP) | Section 6.10 + `knowledge-source/babok-v3-framework.md` + `knowledge-source/50-babok-v3-techniques.md` |
 | Internal training system | Section 6.1, 6.8 + `templates/ai-feature-spec.md`, `templates/operational-readiness-checklist.md` |
 
 ---
@@ -216,3 +217,14 @@ Khi phát hiện domain, agent phải load overlay/template phù hợp trước 
 - E-commerce/Product: catalog, cart, order, payment, inventory, refund/cancel, promotion, analytics.
 
 Nếu thông tin domain có thể thay đổi theo luật/chuẩn hiện hành, agent phải kiểm tra nguồn chính thức trước khi khẳng định.
+
+### 6.10 BABOK v3: khung tổng thể
+
+Khung nền của nghề BA, dùng khi cần chọn kỹ thuật, kiểm tra tài liệu có đủ góc nhìn hay chuẩn bị chứng chỉ IIBA.
+
+- **BACCM:** 6 khái niệm Change, Need, Solution, Stakeholder, Value, Context. Mỗi artifact phải trả lời ít nhất một khái niệm và không mâu thuẫn với các khái niệm còn lại.
+- **6 Knowledge Area:** Business Analysis Planning and Monitoring; Elicitation and Collaboration; Requirements Life Cycle Management; Strategy Analysis; Requirements Analysis and Design Definition; Solution Evaluation. Gồm 28 task, chi tiết và ánh xạ sang artifact của BA-agent trong `knowledge-source/babok-v3-framework.md`.
+- **Phân loại yêu cầu:** business, stakeholder, solution (functional và non-functional), transition. Stakeholder requirement là tầng nằm giữa BRQ và FR; chuỗi canonical của BA-agent không có mã riêng cho tầng này (xem `core/traceability-validator.md` mục 8).
+- **50 kỹ thuật:** danh sách đúng theo BABOK v3 trong `knowledge-source/50-babok-v3-techniques.md`. Gap Analysis, Kano, Decision Tree không nằm trong 50 kỹ thuật đó.
+- **Underlying Competencies và Perspectives** (Agile, BI, IT, Business Architecture, BPM): xem cùng file framework.
+- Câu hỏi thi hoặc trích dẫn BABOK phải đối chiếu lại với sách gốc của IIBA, vì các file trong repo là bản tóm tắt thực hành.

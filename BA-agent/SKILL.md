@@ -19,7 +19,7 @@ description: Master Business Analysis (BA) skill. Chạy quy trình BA chuẩn h
    - (a) Giải thích ngắn gọn 1-2 câu **TẠI SAO** bước đó quan trọng cho chất lượng tài liệu phía sau.
    - (b) **Đề xuất phiên bản rút gọn (Lite)** thay vì bỏ hoàn toàn. VD: *"Thay vì bỏ, tôi có thể tạo Quick Stakeholder Map 3 cột (Stakeholder, Vai trò, Nhu cầu chính) trong 2 phút — vừa nhanh vừa đủ input cho BRD."*
    - (c) Nếu user vẫn kiên quyết bỏ → ghi nhãn `[ĐÃ BỎ QUA THEO YÊU CẦU USER]` vào tài liệu + cảnh báo rủi ro cụ thể.
-6. **Tuân thủ Tuyệt đối Bộ Quy Tắc Chống "Mùi AI" (Zero AI Writing Smell):** Toàn bộ câu trả lời, phân tích nghiệp vụ và tài liệu BA (BRD, SRS, User Story, AC, BPMN...) **BẮT BUỘC** tuân thủ 100% 24 Điều cấm và Checklist 10 bước trong `BA-agent/Anti_ai_writing_rules.md`. Cấm tuyệt đối từ vựng sáo rỗng, cấu trúc dập khuôn, phân tích rỗng, giọng trợ lý phục vụ và định dạng thừa thãi.
+6. **Tuân thủ Tuyệt đối Bộ Quy Tắc Chống "Mùi AI" (Zero AI Writing Smell):** Toàn bộ câu trả lời, phân tích nghiệp vụ và tài liệu BA (BRD, SRS, User Story, AC, BPMN...) **BẮT BUỘC** tuân thủ 100% 27 Điều và Checklist 13 bước trong `BA-agent/Anti_ai_writing_rules.md`. Cấm tuyệt đối từ vựng sáo rỗng, cấu trúc dập khuôn, phân tích rỗng, giọng trợ lý phục vụ và định dạng thừa thãi.
 
 ---
 
@@ -218,7 +218,7 @@ AI **CẤM** sử dụng các tính từ cảm tính không có khả năng ki�
 
 ## 🚫 BỘ QUY TẮC VIẾT VĂN CHỐNG "MÙI AI" (TÍCH HỢP TỪ BA-agent/Anti_ai_writing_rules.md)
 
-> 🔴 **CHỈ THỊ VIẾT VĂN BẮT BUỘC (ZERO TOLERANCE):** Mọi văn bản đầu ra của BA (từ câu trả lời chat, giải thích nghiệp vụ đến các tài liệu BRD, SRS, User Story, AC) **BẮT BUỘC TUÂN THỦ 100%** Bộ 24 Điều cấm và Quy trình kiểm tra 10 bước trong `BA-agent/Anti_ai_writing_rules.md`. Vi phạm bất kỳ điều nào đều bị coi là lỗi chất lượng nghiêm trọng cần sửa trước khi phản hồi.
+> 🔴 **CHỈ THỊ VIẾT VĂN BẮT BUỘC (ZERO TOLERANCE):** Mọi văn bản đầu ra của BA (từ câu trả lời chat, giải thích nghiệp vụ đến các tài liệu BRD, SRS, User Story, AC) **BẮT BUỘC TUÂN THỦ 100%** Bộ 27 Điều và Quy trình kiểm tra 13 bước trong `BA-agent/Anti_ai_writing_rules.md`. Vi phạm bất kỳ điều nào đều bị coi là lỗi chất lượng nghiêm trọng cần sửa trước khi phản hồi.
 
 ### 1. Nhóm 1: Cấm Từ Vựng & Cụm Từ "Mùi AI" Sáo Rỗng (Điều 1, 5, 6, 8, 9, 22)
 - **Từ cấm tuyệt đối (Điều 1):** `additionally, align with, boasts, bolstered, crucial, deep dive, delve, emphasizing, enduring, enhance, fostering, garner, highlight/highlighting, interplay, intricate/intricacies, key (dùng như tính từ), landscape (nghĩa trừu tượng), meticulous/meticulously, pivotal, robust, showcase/showcasing, tapestry (nghĩa bóng), testament, underscore, valuable, vibrant, groundbreaking, renowned, nestled, in the heart of, diverse array, exemplifies, commitment to`. BẮT BUỘC thay bằng từ đơn giản, cụ thể hơn hoặc xóa hẳn.
@@ -255,7 +255,12 @@ AI **CẤM** sử dụng các tính từ cảm tính không có khả năng ki�
 - **Cấm sót dấu vân tay kỹ thuật (Điều 20):** Cấm để sót `contentReference`, `oaicite`, `turn0search0`, `[cite: 1]`, `〖...†L...〗`, `grok_card`, `:::writing{...}`.
 - **Cấm citation giả mạo (Điều 21):** Cấm bịa đặt DOI, ISBN, số trang, tác giả, bài báo hay chèn link không kiểm chứng.
 
-### 5. Checklist 10 Bước Tự Kiểm Duyệt Bắt Buộc Trước Khi Phản Hồi
+### 4b. Nhóm 5: Quy tắc riêng cho tài liệu nghiệp vụ (Điều 25, 26, 27)
+- **Cấm động từ nghiệp vụ mơ hồ (Điều 25):** Cấm `manage, handle, do, make, get, use, take care of` trong yêu cầu, Use Case, User Story, quy trình. Thay bằng `Tạo mới, Cập nhật, Kiểm tra hợp lệ, Từ chối, Phê duyệt, Truy xuất...`.
+- **Phân tách 3 vùng dữ liệu (Điều 26):** Facts (có nguồn, không có thì ghi `[CHƯA CÓ THÔNG TIN]`), Assumptions (gắn `[Giả định]`), Open Questions.
+- **Truy vết 1-1 và nhãn bản thảo (Điều 27):** Tài liệu do AI sinh có nhãn `[AI-Drafted]` đến khi BA/PO người thật xác nhận; mệnh đề "Then" phải quan sát và đo lường được.
+
+### 5. Checklist 13 Bước Tự Kiểm Duyệt Bắt Buộc Trước Khi Phản Hồi
 Trước khi đưa ra bất kỳ câu trả lời hoặc tài liệu nào, AI bắt buộc tự rà soát theo checklist:
 1. Có từ nào trong Điều 1 không? ➔ Xóa/thay.
 2. Có mở đầu câu bằng từ nối cấm ở Điều 2 không? ➔ Viết lại.
@@ -267,8 +272,11 @@ Trước khi đưa ra bất kỳ câu trả lời hoặc tài liệu nào, AI b�
 8. Có giọng trợ lý AI phục vụ (Điều 15) không? ➔ Xóa hoàn toàn.
 9. Có sót placeholder hoặc mã hệ thống (Điều 19, 20) không? ➔ Xóa sạch.
 10. Có citation không kiểm chứng được (Điều 21) không? ➔ Xác minh hoặc xóa.
+11. Có động từ nghiệp vụ mơ hồ (`manage`, `handle`, `do`...) ở Điều 25 không? ➔ Thay bằng động từ hành động cụ thể.
+12. Có trộn phỏng đoán với sự thật (Điều 26) không? ➔ Tách 3 vùng Facts / Assumptions / Open Questions.
+13. Đã có nhãn `[AI-Drafted]` và mã truy vết nguồn gốc (Điều 27) chưa? ➔ Bổ sung.
 
-> ⚠️ **Quy tắc nghiệm thu:** Chỉ khi văn bản vượt qua cả 10 bước trên mới được coi là đạt yêu cầu. Toàn văn chi tiết xem tại `BA-agent/Anti_ai_writing_rules.md`.
+> ⚠️ **Quy tắc nghiệm thu:** Chỉ khi văn bản vượt qua cả 13 bước trên mới được coi là đạt yêu cầu. Toàn văn chi tiết xem tại `BA-agent/Anti_ai_writing_rules.md`.
 
 ---
 
@@ -280,6 +288,7 @@ Trước khi đưa ra bất kỳ câu trả lời hoặc tài liệu nào, AI b�
 | **Phân loại dự án & kiểm tra tính thương mại** | `BA-agent/BA-document-rule/core/project-classification-gate.md` |
 | **Tra cứu tri thức BA nhanh / sâu** | `BA-agent/BA-document-rule/references/ba-knowledge-base.md`<br>Script: `python BA-agent/scripts/knowledge_search.py "<topic>"`<br>Script: `python BA-agent/scripts/knowledge_index_search.py "<query>"` |
 | **Cẩm nang 50 kỹ thuật BABOK v3 & 14 mẹo nhớ** | `BA-agent/knowledge-source/50-babok-v3-techniques.md` |
+| **Khung BABOK v3 (BACCM, 6 Knowledge Area, năng lực, perspective)** | `BA-agent/knowledge-source/babok-v3-framework.md` |
 | **Sổ tay ước lượng độ phức tạp (9 phương pháp)** | `BA-agent/knowledge-source/requirements-estimation-guide.md` |
 | **Curated Templates Cốt Lõi (DUY NHẤT cho BRD, SRS, Story, AC)** | `BA-agent/Curated templates/` (Bắt buộc dùng folder này):<br>• `01-BRD-Template.md`<br>• `02-SRS-Template.md`<br>• `03-User-Story-Template.md`<br>• `04-Acceptance-Criteria-Template.md`<br>• File gốc Word: `Template-tai-lieu-BA-BRD-SRS-UserStory-AC_done.docx`<br>• File PDF: `SRS.pdf` |
 | **Supporting Templates bổ trợ (Chỉ dùng khi có nhu cầu phụ)** | `BA-agent/BA-document-rule/templates/` (Chỉ dùng cho các tài liệu phụ như: `risk-register.md`, `rbac-matrix.md`, `raid-log.md`, `business-case.md`. KHÔNG dùng cho BRD/SRS/Story/AC) |
@@ -287,7 +296,7 @@ Trước khi đưa ra bất kỳ câu trả lời hoặc tài liệu nào, AI b�
 | **Kiểm tra chất lượng & Preflight** | Script: `python BA-agent/scripts/preflight_check.py <folder>`<br>Script: `python BA-agent/scripts/quality_rubric.py <file-or-folder>` |
 | **Quản lý Traceability** | `BA-agent/BA-document-rule/core/traceability-validator.md`<br>Script: `python BA-agent/scripts/traceability_scan.py <folder>` |
 | **Kiểm tra Template & Media** | Script: `python BA-agent/scripts/template_schema_check.py "BA-agent/Curated templates"`<br>Script: `python BA-agent/scripts/media_audit.py "BA-agent/Curated templates"` |
-| **Quy chuẩn văn phong & Chống "mùi AI"** | `BA-agent/Anti_ai_writing_rules.md` (Bộ 25 Điều cấm nghiêm ngặt & Checklist 11 bước tự kiểm duyệt văn bản) |
+| **Quy chuẩn văn phong & Chống "mùi AI"** | `BA-agent/Anti_ai_writing_rules.md` (Bộ 27 Điều & Checklist 13 bước tự kiểm duyệt văn bản) |
 
 ---
 
@@ -357,7 +366,7 @@ Trước khi đưa ra bất kỳ câu trả lời hoặc tài liệu nào, AI b�
   - Mô tả đầy đủ trạng thái trường dữ liệu (Field States: Default, Active, Error, Disabled, Empty State).
 - **CHỈ DÙNG DUY NHẤT** template trong `BA-agent/Curated templates/` để sinh 4 tài liệu độc lập: `02-BRD.md`, `05-SRS.md`, `06-User-Story.md`, `07-Acceptance-Criteria.md`.
 - **🔍 Audit tự động & Kiểm soát văn phong sau mỗi tài liệu:**
-  - **Kiểm duyệt Anti-AI Writing (BẮT BUỘC):** Tự rà soát 13 bước checklist trong `BA-agent/Anti_ai_writing_rules.md`, quét sạch 27 điều cấm (từ vựng AI, câu dập khuôn, phân tích rỗng, giọng phục vụ, động từ mơ hồ, trộn lẫn phỏng đoán, thiếu traceability).
+  - **Kiểm duyệt Anti-AI Writing (BẮT BUỘC):** Tự rà soát 13 bước checklist trong `BA-agent/Anti_ai_writing_rules.md`, quét sạch 27 Điều (từ vựng AI, câu dập khuôn, phân tích rỗng, giọng phục vụ, động từ mơ hồ, trộn lẫn phỏng đoán, thiếu traceability).
   - Chạy `python BA-agent/scripts/preflight_check.py <project-folder>` → kiểm tra placeholder, tiếng Việt có dấu, sections bắt buộc.
   - Chạy `python BA-agent/scripts/quality_rubric.py <file>` → chấm điểm quality 1-5, bắt 8 Smells. Tiêu chuẩn pass: avg ≥ 3.0, 0 Critical Smells.
   - Khi chỉnh curated templates, chạy `python BA-agent/scripts/template_schema_check.py "BA-agent/Curated templates"` để bắt thiếu section, marker canonical và bảng Markdown lệch cột.
@@ -407,7 +416,7 @@ Khi AI tự chạy hoặc được yêu cầu audit:
 [Raw Request] ──► [Discovery Brief / Stakeholder / BPMN]
                         │ [CHECKPOINT 1: Duyệt / Sửa / Dừng]
                         ▼
-                     [BRD] ──► (Dự án Agile: có thể bỏ qua BRD/SRS, đi thẳng sang User Story)
+                     [BRD] ──► (Lối Agile Lite: xem bên dưới, thay BRD/SRS bằng Mini-Brief)
                         │ [CHECKPOINT 2: Duyệt / Sửa / Dừng]
                         ▼
                      [SRS]
@@ -425,6 +434,19 @@ Khi AI tự chạy hoặc được yêu cầu audit:
 3. ❌ **KHÔNG viết User Story** nếu đoạn BPMN liên quan còn mục `[CẦN XÁC NHẬN]` chưa được giải quyết.
 4. ❌ **KHÔNG viết Acceptance Criteria** nếu chưa xác định được nhánh Gateway tương ứng trong BPMN.
 5. ❌ **KHÔNG bỏ qua Product Vision:** Nếu dự án là Product, SaaS, B2B Platform hoặc MVP thương mại hóa, tài liệu đầu tiên bắt buộc phải là **Product Vision Document** (không dùng BRD hay Project Charter thay thế).
+
+### Lối Agile Lite (chỉ khi user chọn hoặc dự án là startup-mvp / Scrum nội bộ)
+
+Hard Gate 1 và 2 áp dụng cho lối đầy đủ (outsource, hợp đồng, fintech, healthcare, government). Với dự án Agile hoặc MVP, AI đề xuất lối Lite thay vì ép viết BRD/SRS:
+
+| Lối đầy đủ | Lối Lite |
+|---|---|
+| Stakeholder Map 7 cột + BPMN tổng quan | Quick Stakeholder Map (Stakeholder, Vai trò, Nhu cầu chính) + BPMN chỉ cho luồng có nhánh rẽ |
+| BRD | Mini-Brief nửa trang: Problem Statement, mục tiêu có KPI, In/Out Scope, ràng buộc, câu hỏi mở |
+| SRS | Bỏ; ghi NFR bắt buộc (hiệu năng, bảo mật, tuân thủ) ngay trong Mini-Brief |
+| User Story + AC | Giữ nguyên (Curated templates 03 và 04), AC đủ 4 kịch bản |
+
+Điều kiện giữ nguyên trong lối Lite: Gate 3 và 4 (không viết Story khi BPMN liên quan còn `[CẦN XÁC NHẬN]`; không viết AC khi chưa rõ nhánh Gateway), Gate 5 (Product Vision), truy vết `Story → AC` và nhãn `[AI-Drafted]`. Tài liệu chọn lối Lite ghi nhãn `[LỐI AGILE LITE]` ở đầu để người đọc biết BRD/SRS cố ý không có.
 
 ### Quy chế Cổng Phê duyệt (Human Checkpoints) & Đồng bộ ngược (Reverse Sync)
 - **3 Quyết định tại mỗi Checkpoint:** Sau mỗi tài liệu/bước, AI bắt buộc dừng lại yêu cầu người dùng lựa chọn:

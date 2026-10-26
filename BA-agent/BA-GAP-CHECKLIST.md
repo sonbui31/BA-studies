@@ -99,3 +99,14 @@
 - `python .\scripts\traceability_scan.py .\tests\fixtures\canonical_full_bundle --scheme canonical --strict` pass.
 - `python .\scripts\template_schema_check.py ".\Curated templates"` pass.
 - `python .\scripts\media_audit.py ".\Curated templates"` pass.
+
+## 7. Audit trên dự án thật (chưa nằm trong scorecard mục 5)
+
+Scorecard mục 5 chạy trên mẫu `BA-Documents-Product`, `BA-Documents-Outsource` và fixture. Kết quả trên bộ tài liệu thật `projects/vClassio_app/parent_app/parent_app_md`:
+
+| Hạng mục | Kết quả | Nguyên nhân chính |
+|---|---|---|
+| `traceability_scan.py --scheme canonical --strict` | FAIL | Dự án dùng `BR-xxx` cho yêu cầu kinh doanh, `BRULE-xxx` cho quy tắc, `SR-xx` cho Stakeholder Requirement, `FR-01.1` đánh số theo SR; scheme khác canonical |
+| `preflight_check.py` | 30 PASS / 20 FAIL | Phần lớn là marker theo scheme canonical; "0 stories vs 43 business IDs" |
+
+Đây là khác biệt scheme, chưa phải kết luận bộ tài liệu thiếu nội dung. Cách ánh xạ và hai phương án xử lý nằm ở `core/traceability-validator.md` mục 8. Ghi chú riêng cho dự án: `projects/vClassio_app/parent_app/MIGRATION-NOTES.md`.

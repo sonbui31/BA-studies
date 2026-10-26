@@ -66,9 +66,9 @@ BA-document-rule/
 │   ├── nfr-discovery-guide.md        ⭐ 7 câu hỏi + 5 kỹ thuật phát hiện NFR (v3.3)
 │   └── process-decomposition-guide.md ⭐ Phân rã quy trình L0→L3 (v3.3)
 │
-├── knowledge-index/                    ← SELF-CONTAINED SOURCE INDEX — Chunked BA source knowledge
-│   ├── manifest.json                   Metadata, build stats, no runtime source dependency
-│   └── chunks.jsonl                    Chunk records searchable by `scripts/knowledge_index_search.py`
+├── knowledge-index/                    ← Index cục bộ — chỉ manifest được commit
+│   ├── manifest.json                   Thống kê build index
+│   └── chunks.jsonl                    (local-only, gitignore) chunk trích từ sách bên thứ ba, search bằng `scripts/knowledge_index_search.py`
 │
 ├── templates/                         ← TEMPLATES — Mẫu tài liệu (28 files)
 │   ├── vision-scope.md               + Impact Mapping, Context Diagram

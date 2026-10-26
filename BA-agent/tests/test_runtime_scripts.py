@@ -117,6 +117,17 @@ class RuntimeScriptTests(unittest.TestCase):
         payload = ba_response_eval.evaluate_text(text, "product")
         self.assertFalse(payload["passed"])
 
+    def test_ba_response_eval_short_tokens_match_on_word_boundaries(self):
+        self.assertFalse(ba_response_eval.term_in_text("cr", "the descriptions were discussed"))
+        self.assertTrue(ba_response_eval.term_in_text("cr", "a cr was raised"))
+        self.assertTrue(ba_response_eval.term_in_text("fr-", "maps to fr-auth-001"))
+        self.assertTrue(ba_response_eval.term_in_text("phạm vi", "xác định phạm vi dự án"))
+
+    def test_ba_response_eval_supports_domain_scenarios(self):
+        for scenario in ("healthcare", "government", "startup-mvp", "inhouse"):
+            payload = ba_response_eval.evaluate_text("Nothing relevant here.", scenario)
+            self.assertFalse(payload["passed"], scenario)
+
     def test_golden_cases_pass(self):
         payload = eval_golden_cases.evaluate_cases(Path(__file__).resolve().parent / "golden" / "ba_response_cases.jsonl")
         self.assertEqual(payload["failed"], 0)

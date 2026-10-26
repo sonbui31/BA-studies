@@ -43,7 +43,6 @@ REQUIRED_FILES = [
     ROOT / "BA-document-rule" / "references" / "ba-knowledge-base.md",
     ROOT / "BA-document-rule" / "references" / "ba-knowledge-cards.json",
     ROOT / "knowledge-index" / "manifest.json",
-    ROOT / "knowledge-index" / "chunks.jsonl",
     ROOT / "knowledge-source" / "source-manifest.json",
     ROOT / "knowledge-source" / "download-instructions.md",
     ROOT / "requirements-knowledge-index.txt",

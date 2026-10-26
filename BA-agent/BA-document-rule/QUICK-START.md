@@ -28,7 +28,7 @@
 {{Tên-dự-án}}/
 ├── 00-BA-Process-Framework.md    ← Copy từ core/ (nếu cần customize)
 ├── 01-Vision-Scope.md            ← Copy từ templates/vision-scope.md
-├── 02-BRD.md                     ← Copy từ templates/brd.md
+├── 02-BRD.md                     ← Copy từ Curated templates/01-BRD-Template.md
 ├── 03-Stakeholder-Map.md
 ├── 04-Process-Flow.md
 ├── 05-SRS.md

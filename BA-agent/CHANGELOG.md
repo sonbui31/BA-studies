@@ -5,6 +5,28 @@
 
 ---
 
+## [3.4.5] — 2026-10-26
+
+### Added
+- `knowledge-source/babok-v3-framework.md` — BACCM, 6 Knowledge Area (28 task), phân loại yêu cầu, Underlying Competencies, Perspectives, ánh xạ sang artifact của BA-agent.
+- `ba-knowledge-cards.json` — Card `KB-BABOK-001`.
+- `core/traceability-validator.md` mục 8 — Bảng ánh xạ scheme ID tự đặt (`BR`/`BRULE`/`SR`/`FR-01.1`) sang canonical và hai phương án xử lý.
+- `SKILL.md` — Lối Agile Lite (Mini-Brief thay BRD/SRS) cạnh Hard Gates; nhóm 5 quy tắc Điều 25–27.
+- `scripts/ba_response_eval.py` — Scenario `healthcare`, `government`, `startup-mvp`, `inhouse`; 8 golden case mới.
+- `projects/vClassio_app/parent_app/MIGRATION-NOTES.md` và `BA-GAP-CHECKLIST.md` mục 7 — Kết quả audit trên dự án thật.
+
+### Changed
+- `knowledge-source/50-babok-v3-techniques.md` — Viết lại theo đúng 50 kỹ thuật BABOK v3 (chương 10); kỹ thuật ngoài BABOK (Gap Analysis, Kano, Decision Tree...) chuyển sang mục riêng.
+- Số Điều và số bước checklist Anti-AI thống nhất: 27 Điều, checklist 13 bước, trên mọi tài liệu.
+- `scripts/ba_response_eval.py` — Token ngắn (`cr`, `kt`, `kyc`, `aml`, `sla`...) khớp theo ranh giới từ, không còn khớp nhầm trong từ dài.
+- `templates/brd.md`, `srs.md`, `user-story-map.md` — Thêm ghi chú template bổ trợ; `ba-knowledge-base.md` và `QUICK-START.md` trỏ BRD/SRS/Story/AC về Curated templates.
+- `scripts/ba_bundle_audit.py` — `knowledge-index/chunks.jsonl` không còn là file bắt buộc.
+
+### Removed
+- `knowledge-index/chunks.jsonl` khỏi git (đưa vào `.gitignore`, vẫn giữ ở máy local). File chứa text trích từ sách và tài liệu bên thứ ba. Các commit cũ vẫn còn file này trong lịch sử.
+
+---
+
 ## [3.4.4] — 2026-09-07
 
 ### Added

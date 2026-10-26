@@ -62,7 +62,7 @@
 |------|-------|
 | `README.md` | Tổng quan: cách hoạt động, cấu trúc thư mục, flow sử dụng |
 | `QUICK-START.md` | Hướng dẫn 5 phút: chọn overlay → copy template → viết tài liệu |
-| `Anti_ai_writing_rules.md` | Bộ quy tắc viết văn nghiêm ngặt chống "mùi AI": 24 Điều cấm tuyệt đối & Checklist 10 bước tự kiểm duyệt văn bản |
+| `Anti_ai_writing_rules.md` | Bộ quy tắc viết văn nghiêm ngặt chống "mùi AI": 27 Điều & Checklist 13 bước tự kiểm duyệt văn bản |
 | `so_do.md` | Sổ tay quy chuẩn vẽ sơ đồ BA chuẩn Mermaid (Level 0→3, ký hiệu, 10 tiêu chuẩn vàng) |
 
 ### 📁 Curated templates/ — NGUỒN TEMPLATE DUY NHẤT cho BRD, SRS, User Story, AC
@@ -203,8 +203,8 @@
 
 | File | Mô tả |
 |------|-------|
-| `manifest.json` | Metadata build index, số docs/chunks, xác nhận không phụ thuộc folder nguồn lúc runtime |
-| `chunks.jsonl` | Chunk nội dung/metadata đã extract từ tài liệu BA, search bằng `scripts/knowledge_index_search.py` |
+| `manifest.json` | Thống kê build index (số docs/chunks); không chứa nội dung sách |
+| `chunks.jsonl` | **Chỉ có ở máy local, không commit** (gitignore): chunk trích từ sách và tài liệu bên thứ ba, search bằng `scripts/knowledge_index_search.py`. Máy không có file này dùng `scripts/knowledge_search.py` |
 
 ### 📄 Index rebuild dependencies
 

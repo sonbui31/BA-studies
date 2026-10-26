@@ -2,7 +2,7 @@
   "version": "1.0",
   "created_at": "2026-05-25T07:46:01.496311+00:00",
   "source_root_name": "BA",
-  "self_contained": true,
+  "self_contained": false,
   "runtime_source_dependency": false,
   "chunks_file": "chunks.jsonl",
   "stats": {
@@ -23,5 +23,7 @@
       "text": 4,
       "pdf-pdfminer": 3
     }
-  }
+  },
+  "chunks_tracked_in_git": false,
+  "note": "chunks.jsonl is local-only (gitignored): it contains text extracted from third-party books and certification guides. Rebuild locally with scripts/build_knowledge_index.py. Tracked retrieval uses ba-knowledge-cards.json."
 }

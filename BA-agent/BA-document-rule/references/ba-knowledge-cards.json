@@ -158,6 +158,18 @@
       "use_when": ["HIS/EMR/LIS", "public service portal", "procurement", "regulated acceptance"],
       "focus_areas": ["Clinical workflow", "PHI/PII classification", "Consent", "Integration standards", "Procurement/bidding", "Regulatory matrix", "Security continuity", "Multi-level acceptance"],
       "quality_checks": ["Clinical workflow is reviewed by SME", "Regulation maps to features", "Acceptance has levels and evidence", "Security and continuity requirements are measurable"]
+    },
+    {
+      "id": "KB-BABOK-001",
+      "title": "BABOK v3 Framework: BACCM, Knowledge Areas, Techniques",
+      "aliases": ["babok", "babok v3", "baccm", "knowledge area", "knowledge areas", "core concept model", "iiba", "ccba", "cbap", "ecba", "50 techniques", "50 kỹ thuật", "kỹ thuật ba"],
+      "tags": ["babok", "baccm", "framework", "certification", "techniques"],
+      "summary": "BABOK v3 defines 6 Knowledge Areas (28 tasks), the 6-concept BACCM, 4 requirement classifications, 6 underlying competencies, 5 perspectives and 50 techniques. Use it to choose techniques, check that an artifact covers Change/Need/Solution/Stakeholder/Value/Context, and to answer certification questions.",
+      "use_when": ["User asks which BA technique fits a situation", "User prepares for ECBA/CCBA/CBAP", "A BRD or Vision needs a BACCM sanity check", "User asks how a BA-agent step maps to BABOK"],
+      "questions": ["Which of Change, Need, Solution, Stakeholder, Value, Context is not answered yet?", "Which Knowledge Area task is this activity?", "Is the requirement business, stakeholder, solution (functional or non-functional) or transition?", "Is the technique one of the 50 in BABOK v3 or a common practice outside it (Gap Analysis, Kano)?"],
+      "output": ["BACCM check", "Technique selection", "Knowledge Area mapping"],
+      "quality_checks": ["Technique names match BABOK v3 chapter 10", "Gap Analysis, Kano and Decision Tree are not presented as BABOK v3 techniques", "Certification answers are checked against the official guide"],
+      "sources": ["knowledge-source/babok-v3-framework.md", "knowledge-source/50-babok-v3-techniques.md"]
     }
   ]
 }

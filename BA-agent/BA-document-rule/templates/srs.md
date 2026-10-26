@@ -5,6 +5,8 @@
 > **Tác giả:** {{Tên BA}} | **Trạng thái:** Draft
 > **Tham chiếu BRD:** {{BRD version}}
 
+> **Template tham khảo (supporting).** Không dùng file này để sinh `05-SRS.md`. SRS chính thức dùng duy nhất `Curated templates/02-SRS-Template.md`. File này chỉ cung cấp phương pháp bổ trợ (nhóm NFR, State/Sequence Diagram).
+
 ---
 
 ## Lịch sử thay đổi

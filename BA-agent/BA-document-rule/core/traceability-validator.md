@@ -230,3 +230,28 @@ BRQ-03 CHANGED
 @ba-specialist trace ngược: TC-05-A thuộc BRQ nào?
 @ba-specialist phân tích ảnh hưởng thay đổi BRQ-03
 ```
+
+---
+
+## 8. Dự án có tầng Stakeholder Requirement (SR) hoặc scheme ID tự đặt
+
+Chuỗi canonical (`BRQ → FR/NFR → Feature → US → AC/TC`) không có mã cho tầng Stakeholder Requirement của BABOK v3. Một số bộ tài liệu có sẵn dùng scheme khác, ví dụ `projects/vClassio_app/parent_app`. `traceability_scan.py --scheme canonical --strict` sẽ báo hàng loạt lỗi trên các bộ này vì scheme khác, không hẳn vì nội dung thiếu.
+
+### 8.1 Bảng ánh xạ ID sang canonical
+
+| Scheme tự đặt | Canonical | Ghi chú |
+|---|---|---|
+| `BR-001` (yêu cầu kinh doanh / mục tiêu) | `BRQ-01` | Đổi tiền tố và bỏ số 0 đầu thành 2 chữ số |
+| `BRULE-001` (quy tắc nghiệp vụ) | `BR-001` | Sau khi đổi, `BR-*` chỉ còn nghĩa là business rule |
+| `SR-01` (Stakeholder Requirement) | Không có mã canonical | Giữ nguyên làm tầng trung gian; ghi ở cột riêng trong ma trận truy vết |
+| `FR-01.1` (đánh số theo SR) | `FR-[MODULE]-001` | Chọn mã module theo chức năng, ví dụ `FR-ATT-001` cho Điểm danh |
+| `FR-CC.01` | `FR-CC-001` | Cross-cutting |
+| `NFR-01` | `NFR-[LOẠI]-001` | Ví dụ `NFR-PERF-001`, `NFR-SEC-001` |
+| `US-*`, `AC-*` | Giữ nguyên nếu đã có mã module | Strict mode yêu cầu 1 FR : 1 US : 1 AC/TC |
+
+### 8.2 Hai lựa chọn khi gặp bộ tài liệu có scheme khác
+
+1. **Chuyển sang canonical:** đổi ID theo bảng trên, rồi chạy `traceability_scan.py --scheme canonical --strict`. Phù hợp khi bộ tài liệu còn ở bản draft. Cần xử lý riêng quan hệ 1 FR : 1 US : 1 AC/TC, vì đây là thay đổi nội dung chứ không chỉ đổi tên.
+2. **Giữ scheme riêng:** ghi rõ scheme trong Change Log của BRD, không dùng `--strict` canonical làm tiêu chí đạt; thay bằng rà soát tay hai chiều (BR → SR → FR → US → AC và ngược lại).
+
+Không dùng kết quả `--scheme canonical --strict` làm căn cứ kết luận bộ tài liệu thiếu nội dung truy vết khi chưa xác định scheme của bộ đó.

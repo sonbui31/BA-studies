@@ -8,13 +8,16 @@
   "indexed_chunks": 35479,
   "source_root_name": "BA",
   "index_files": [
-    "BA-agent/knowledge-index/chunks.jsonl",
     "BA-agent/knowledge-index/manifest.json"
   ],
   "rebuild_command": "python .\\BA-agent\\scripts\\build_knowledge_index.py --source <path-to-BA-folder>",
   "notes": [
     "The original BA folder is intentionally not tracked in git.",
-    "Cloned repositories can search the packaged knowledge index without the source folder.",
-    "Only machines that have the external BA source folder can rebuild the full index."
+    "chunks.jsonl is gitignored because it holds text extracted from third-party books and study guides.",
+    "Tracked retrieval uses BA-agent/BA-document-rule/references/ba-knowledge-cards.json via scripts/knowledge_search.py.",
+    "Rebuild the local index with scripts/build_knowledge_index.py --source <path-to-BA-folder>; only machines with the source folder can do this."
+  ],
+  "local_only_files": [
+    "BA-agent/knowledge-index/chunks.jsonl"
   ]
 }

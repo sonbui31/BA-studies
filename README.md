@@ -61,7 +61,7 @@ Ba quy tắc mặc định hiện tại:
 
 - **Tài liệu tiếng Việt phải có dấu**. BA-agent không được sinh nội dung kiểu `tieng Viet khong dau`, trừ ID, tên file, code, API path, database field, command, URL.
 - Khi viết **BRD, SRS, User Story, Acceptance Criteria**, BA-agent phải tham chiếu `BA-agent/Curated templates/` trước để bám format/ví dụ thực chiến, rồi chuẩn hóa output theo markdown templates và overlay của repo.
-- **Văn phong chuẩn xác, cấm "mùi AI"**: Tuân thủ nghiêm ngặt Bộ 24 Điều cấm và Checklist 10 bước trong [Anti_ai_writing_rules.md](BA-agent/Anti_ai_writing_rules.md), cấm từ vựng sáo rỗng, cấu trúc câu dập khuôn, phân tích rỗng và giọng chatbot phục vụ.
+- **Văn phong chuẩn xác, cấm "mùi AI"**: Tuân thủ nghiêm ngặt Bộ 27 Điều và Checklist 13 bước trong [Anti_ai_writing_rules.md](BA-agent/Anti_ai_writing_rules.md), cấm từ vựng sáo rỗng, cấu trúc câu dập khuôn, phân tích rỗng và giọng chatbot phục vụ.
 
 Khi bạn muốn BA-agent tự kiểm tra bằng terminal, hãy nói rõ:
 

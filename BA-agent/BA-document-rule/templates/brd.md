@@ -5,6 +5,8 @@
 > **Tác giả:** {{Tên BA}} | **Trạng thái:** Draft
 > **Dự án:** {{Tên dự án}}
 
+> **Template tham khảo (supporting).** Không dùng file này để sinh `02-BRD.md`. BRD chính thức dùng duy nhất `Curated templates/01-BRD-Template.md`. File này chỉ cung cấp phương pháp bổ trợ (SWOT, 5W1H, MoSCoW, Kano, Business Rule Architecture).
+
 ---
 
 ## Lịch sử thay đổi

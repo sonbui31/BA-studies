@@ -4,6 +4,8 @@
 > **Tác giả:** {{Tên BA}} | **Trạng thái:** Draft
 > **Phương pháp:** Jeff Patton's Story Mapping + MoSCoW + Kano
 
+> **Template bổ trợ (Story Map).** Dùng để dựng bản đồ story theo Patton khi cần. User Story và Acceptance Criteria chính thức dùng `Curated templates/03-User-Story-Template.md` và `04-Acceptance-Criteria-Template.md`.
+
 ---
 
 ## 1. Story Map Overview

@@ -1,113 +1,116 @@
-# CẨM NANG 50 KỸ THUẬT PHÂN TÍCH NGHIỆP VỤ CHUẨN BABOK V3
-*Tài liệu tra cứu chuyên sâu dành cho Business Analyst, Product Owner và ôn thi CCBA/CBAP.*
+# 50 KỸ THUẬT PHÂN TÍCH NGHIỆP VỤ TRONG BABOK GUIDE V3
+
+> **Nguồn:** IIBA, *A Guide to the Business Analysis Body of Knowledge (BABOK Guide) v3*, chương 10 "Techniques". Tên kỹ thuật theo bản gốc; mô tả và cột "Artifact trong BA-agent" do dự án viết.
+> **Cách nhóm:** IIBA liệt kê 50 kỹ thuật theo thứ tự chữ cái và không chia nhóm. Bốn nhóm dưới đây (9 / 17 / 8 / 16) là cách sắp xếp của dự án để tra cứu theo mục đích, không phải cấu trúc chính thức của IIBA.
+> **Khung tổng thể** (6 Knowledge Area, BACCM, Underlying Competencies, Perspectives): xem [babok-v3-framework.md](babok-v3-framework.md).
+> **Lưu ý khi ôn CCBA/CBAP:** đối chiếu lại với bản BABOK v3 chính thức; bảng này là tóm tắt thực hành, không thay thế sách gốc.
 
 ---
 
-## 1. TỔNG QUAN
+## 1. Danh mục 50 kỹ thuật theo nhóm mục đích
 
-BABOK v3 (A Guide to the Business Analysis Body of Knowledge v3) chuẩn hóa 50 kỹ thuật nền tảng hỗ trợ toàn bộ 6 vùng tri thức (Knowledge Areas). 
+### Nhóm A: Khơi gợi và cộng tác (9 kỹ thuật)
 
-Để ứng dụng và ghi nhớ hiệu quả, 50 kỹ thuật được cấu trúc thành 4 nhóm mục đích nghiệp vụ:
-1. **Khơi gợi & Tương tác (Elicitation & Collaboration)**: 8 kỹ thuật
-2. **Mô hình hóa Quy trình, Hệ thống & Dữ liệu (Modeling & Specifications)**: 17 kỹ thuật
-3. **Phân tích Chiến lược & Đánh giá Giải pháp (Strategy & Architecture)**: 11 kỹ thuật
-4. **Quản trị, Phân tích Dữ liệu & Ra Quyết định (Governance & Analytics)**: 14 kỹ thuật
+| # | Kỹ thuật | Mục đích | Khi nào dùng | Artifact trong BA-agent |
+|:-:|---|---|---|---|
+| 1 | Brainstorming | Sinh nhiều ý tưởng trong thời gian ngắn, chưa đánh giá | Tìm giải pháp, phá điểm nghẽn | Danh sách ý tưởng đã gom nhóm |
+| 2 | Collaborative Games | Dùng trò chơi có luật (Product Box, Speed Boat) để khơi gợi | Stakeholder ngại nói trong họp thường | Danh sách pain/gain ưu tiên |
+| 3 | Document Analysis | Đọc tài liệu, quy trình, chính sách, hợp đồng hiện có | Đầu dự án, trước khi phỏng vấn | `templates/as-is-process.md` |
+| 4 | Focus Groups | Lấy ý kiến một nhóm đại diện về sản phẩm hoặc tính năng | Khám phá nhu cầu thị trường | `templates/user-research-plan.md` |
+| 5 | Interviews | Hỏi trực tiếp 1-1 hoặc nhóm nhỏ | Cần hiểu sâu nhu cầu, quy tắc ngầm | `templates/meeting-minutes.md` |
+| 6 | Mind Mapping | Vẽ sơ đồ tư duy để gom ý và quan hệ giữa các chủ đề | Làm rõ phạm vi ban đầu, ghi chú buổi họp | Sơ đồ tư duy |
+| 7 | Observation | Quan sát người làm việc thật (chủ động hoặc thụ động) | Quy trình thủ công có luật ngầm | Ghi chú quan sát cho As-Is |
+| 8 | Survey or Questionnaire | Thu thập dữ liệu có cấu trúc từ nhiều người | Cần số liệu từ nhóm đông, không họp được | Kết quả khảo sát |
+| 9 | Workshops | Họp có điều phối để thống nhất yêu cầu giữa nhiều bên | Stakeholder xung đột, cần chốt phạm vi nhanh | Biên bản workshop, decision log |
 
----
+### Nhóm B: Mô hình hóa và đặc tả (17 kỹ thuật)
 
-## 2. BẢNG DANH MỤC 50 KỸ THUẬT THEO NHÓM MỤC ĐÍCH
+| # | Kỹ thuật | Mục đích | Khi nào dùng | Artifact trong BA-agent |
+|:-:|---|---|---|---|
+| 10 | Business Rules Analysis | Xác định, diễn đạt và quản lý quy tắc nghiệp vụ | Chính sách, điều kiện duyệt, công thức tính | Danh mục `BR-*` |
+| 11 | Concept Modelling | Định nghĩa khái niệm nghiệp vụ và quan hệ giữa chúng | Thống nhất thuật ngữ trước khi làm ERD | Mô hình khái niệm, Glossary |
+| 12 | Data Dictionary | Mô tả từng phần tử dữ liệu: kiểu, độ dài, quy tắc | Bàn giao cho dev và DBA | `templates/data-model.md` |
+| 13 | Data Flow Diagrams | Dữ liệu đi qua tiến trình và kho lưu trữ nào | Phân tích điểm vào/ra, tích hợp | DFD cấp 0, cấp 1 |
+| 14 | Data Modelling | Thực thể, thuộc tính, quan hệ (ERD) | Thiết kế dữ liệu | ERD trong SRS |
+| 15 | Decision Modelling | Biểu diễn logic ra quyết định phức tạp (decision table, decision tree) | Quy tắc nhiều điều kiện chồng nhau | Decision table trong SRS |
+| 16 | Glossary | Danh sách thuật ngữ và định nghĩa dùng chung | Mọi dự án có thuật ngữ ngành | `core/glossary.md`, mục Từ điển trong BRD |
+| 17 | Interface Analysis | Xác định điểm giao tiếp giữa hệ thống, người, thiết bị | Tích hợp cổng thanh toán, ERP, CRM | `templates/api-specification.md` |
+| 18 | Organizational Modelling | Cơ cấu tổ chức, vai trò, tuyến báo cáo | Xác định ai chịu ảnh hưởng | Org chart, Stakeholder Map |
+| 19 | Process Modelling | Biểu diễn quy trình bằng BPMN hoặc flowchart | As-Is, To-Be | `templates/process-flow.md`, `bpmn-modeling-standard.md` |
+| 20 | Prototyping | Bản mẫu để người dùng thử và góp ý | Người dùng khó mô tả mong muốn | Wireframe, clickable prototype |
+| 21 | Roles and Permissions Matrix | Ai được làm gì trên chức năng và dữ liệu nào | Hệ thống có phân quyền | `templates/rbac-matrix.md` |
+| 22 | Scope Modelling | Vẽ ranh giới phạm vi (context diagram, use case diagram, feature tree) | Chốt In/Out Scope | Context diagram (Level 0) |
+| 23 | Sequence Diagrams | Thứ tự thông điệp giữa các thành phần theo thời gian | API, microservice, xử lý bất đồng bộ | Sequence trong SRS (Level 3) |
+| 24 | State Modelling | Vòng đời và điều kiện chuyển trạng thái của một đối tượng | Đơn hàng, đơn nghỉ phép, ticket | State diagram trong SRS |
+| 25 | Use Cases and Scenarios | Tương tác giữa actor và hệ thống để đạt một mục tiêu | Đặc tả chức năng, nền cho kiểm thử | Use Case trong SRS |
+| 26 | User Stories | Yêu cầu từ góc nhìn người dùng: ai, muốn gì, để làm gì | Agile/Scrum | `Curated templates/03-User-Story-Template.md` |
 
-### Nhóm 1: Khơi Gợi & Tương Tác (Elicitation & Collaboration)
+### Nhóm C: Chiến lược và tài chính (8 kỹ thuật)
 
-| STT | Tên kỹ thuật | Mục đích nghiệp vụ | Khi nào áp dụng? | Đầu ra chính |
-| :---: | :--- | :--- | :--- | :--- |
-| **1** | **Brainstorming** *(Động não)* | Phát sinh số lượng lớn ý tưởng sáng tạo trong thời gian ngắn mà không phán xét. | Giai đoạn khởi tạo, tìm giải pháp mới, phá vỡ lối mòn tư duy. | Danh mục ý tưởng thô đã phân nhóm. |
-| **2** | **Document Analysis** *(Phân tích tài liệu)* | Nghiên cứu hệ thống, quy trình, chính sách và hợp đồng hiện hành. | Khi bắt đầu dự án, trước khi phỏng vấn stakeholder. | Bảng ghi nhận hiện trạng AS-IS, khoảng trống nghiệp vụ. |
-| **3** | **Interviews** *(Phỏng vấn)* | Trao đổi trực tiếp 1-1 hoặc 1-nhiều để khai thác thông tin chi tiết. | Khi cần hiểu sâu động cơ, kỳ vọng hoặc nghiệp vụ cá nhân. | Biên bản phỏng vấn, danh sách yêu cầu sơ bộ. |
-| **4** | **Observation** *(Quan sát hiện trường)* | Theo dõi thao tác thực tế của người dùng tại nơi làm việc (Active hoặc Passive). | Khi quy trình thao tác tay phức tạp, có nhiều quy tắc ngầm khó diễn đạt bằng lời. | Sơ đồ luồng thao tác thực tế, ghi nhận thời gian chu kỳ. |
-| **5** | **Workshops** *(Hội thảo tập trung)* | Tập hợp các bên liên quan đa phòng ban để làm rõ và thống nhất yêu cầu. | Khi các bên có xung đột lợi ích hoặc cần chốt phạm vi nhanh. | Biên bản thống nhất, danh mục yêu cầu đã ký nháy. |
-| **6** | **Focus Groups** *(Nhóm thảo luận tập trung)* | Khảo sát ý kiến của một nhóm người dùng đại diện về một chủ đề cụ thể. | Nghiên cứu thị trường, đánh giá cảm nhận về sản phẩm/tính năng mới. | Báo cáo cảm nhận và xu hướng hành vi người dùng. |
-| **7** | **Requirements Workshops** *(Hội thảo yêu cầu)* | Phiên làm việc chuyên sâu để chi tiết hóa và chuẩn hóa các yêu cầu phần mềm. | Giai đoạn đặc tả BRD/SRS, làm mịn Product Backlog. | Bản thảo yêu cầu chi tiết (FR, NFR, Business Rules). |
-| **8** | **Collaborative Games** *(Trò chơi cộng tác)* | Áp dụng cơ chế game (Product Box, Speed Boat) để kích thích tư duy tập thể. | Khi stakeholder ngại chia sẻ hoặc thiếu động lực trong buổi họp thông thường. | Danh mục nỗi đau (Pains) và mong muốn (Gains) ưu tiên. |
+| # | Kỹ thuật | Mục đích | Khi nào dùng | Artifact trong BA-agent |
+|:-:|---|---|---|---|
+| 27 | Balanced Scorecard | Đo hiệu quả theo 4 góc nhìn: tài chính, khách hàng, quy trình, học hỏi | Gắn dự án với chiến lược tổ chức | Scorecard trong Business Case |
+| 28 | Benchmarking and Market Analysis | So sánh với đối thủ và chuẩn ngành | Xác định tính năng tạo khác biệt | Báo cáo đối sánh |
+| 29 | Business Capability Analysis | Đánh giá năng lực cốt lõi cần có hoặc cần bổ sung | Chuyển đổi số, tái cấu trúc | Capability map |
+| 30 | Business Cases | Giải trình chi phí, lợi ích, rủi ro để xin duyệt | Xin ngân sách, Go/No-Go | `templates/business-case.md` |
+| 31 | Business Model Canvas | 9 khối của mô hình kinh doanh | Sản phẩm mới, đổi mô hình | Canvas trong Vision |
+| 32 | Financial Analysis | Phân tích tài chính của phương án (NPV, IRR, payback, ROI) | So sánh phương án đầu tư | Bảng tài chính trong Business Case |
+| 33 | SWOT Analysis | Điểm mạnh, yếu, cơ hội, thách thức | Khởi đầu chiến lược sản phẩm | Ma trận SWOT trong Vision |
+| 34 | Vendor Assessment | Chấm điểm nhà cung cấp theo tiêu chí có trọng số | Quyết định mua hay tự xây | `core/decision-analysis-framework.md` |
 
----
+### Nhóm D: Phân tích, ra quyết định và quản trị yêu cầu (16 kỹ thuật)
 
-### Nhóm 2: Mô Hình Hóa Quy Trình, Hệ Thống & Dữ Liệu (Modeling & Specifications)
-
-| STT | Tên kỹ thuật | Mục đích nghiệp vụ | Khi nào áp dụng? | Đầu ra chính |
-| :---: | :--- | :--- | :--- | :--- |
-| **9** | **Process Modeling** *(Mô hình hóa quy trình)* | Trực quan hóa các bước thực hiện công việc tuần tự qua BPMN hoặc Flowchart. | Phân tích hiện trạng (AS-IS) và thiết kế quy trình tương lai (TO-BE). | Sơ đồ quy trình Swimlane BPMN 2.0. |
-| **10** | **Use Cases** *(Trường hợp sử dụng)* | Mô tả chuỗi tương tác chi tiết giữa Actor và hệ thống để đạt mục tiêu cụ thể. | Đặc tả phần mềm hướng đối tượng, làm cơ sở kiểm thử chức năng. | Tài liệu đặc tả Use Case (Luồng chính, Luồng phụ, Ngoại lệ). |
-| **11** | **Use Case Diagrams** *(Sơ đồ Use Case)* | Thể hiện tổng quan ranh giới hệ thống, các Actor và Use Case. | Giới thiệu bức tranh chức năng tổng thể cho Tech Lead và PO. | Sơ đồ Use Case chuẩn UML. |
-| **12** | **Scenarios and Use Cases** *(Kịch bản)* | Xây dựng câu chuyện ngữ cảnh cụ thể khi người dùng tương tác với hệ thống. | Làm rõ kịch bản biên, kịch bản lỗi phát sinh trong thực tế. | Bảng kịch bản tương tác từng bước. |
-| **13** | **User Stories** *(Câu chuyện người dùng)* | Mô tả yêu cầu theo cấu trúc người dùng: *"Là ai, tôi muốn gì, để làm gì"*. | Phát triển phần mềm theo mô hình Agile/Scrum. | Thẻ User Story chuẩn INVEST. |
-| **14** | **State Diagrams** *(Sơ đồ trạng thái)* | Mô hình hóa các trạng thái và điều kiện chuyển dịch của một đối tượng dữ liệu. | Quản lý vòng đời đơn hàng, vé hỗ trợ, hồ sơ ứng viên. | Sơ đồ State Machine (Enum chuẩn). |
-| **15** | **Sequence Diagrams** *(Sơ đồ tuần tự)* | Trực quan hóa việc truyền nhận thông điệp giữa các thành phần theo thời gian. | Thiết kế tích hợp API, vi dịch vụ (Microservices), xử lý bất đồng bộ. | Sơ đồ Sequence Diagram chuẩn UML. |
-| **16** | **Data Flow Diagrams (DFD)** *(Sơ đồ luồng dữ liệu)* | Mô tả sự di chuyển của dữ liệu qua các tiến trình xử lý và kho lưu trữ. | Phân tích kiến trúc dữ liệu và điểm vào/ra của hệ thống. | Sơ đồ DFD cấp 0, cấp 1. |
-| **17** | **Data Modeling** *(Mô hình hóa dữ liệu)* | Định nghĩa các thực thể, thuộc tính và mối quan hệ giữa dữ liệu (ERD). | Thiết kế cơ sở dữ liệu quan hệ cho Tech Lead và Database Architect. | Sơ đồ ERD (Conceptual, Logical, Physical). |
-| **18** | **Data Dictionary & Glossary** *(Từ điển dữ liệu)* | Định nghĩa chi tiết kiểu dữ liệu, độ dài, quy tắc kiểm tra và giải thích thuật ngữ. | Chuẩn hóa ngôn ngữ chung giữa nghiệp vụ và kỹ thuật. | Bảng Data Dictionary 7 cột và bảng Glossary. |
-| **19** | **Interface Analysis** *(Phân tích giao diện/điểm chạm)* | Xác định các điểm giao tiếp giữa các hệ thống, thiết bị hoặc người dùng. | Dự án tích hợp hệ thống ngoài (Cổng thanh toán, ERP, CRM). | Bản đặc tả Interface Spec, hợp đồng API. |
-| **20** | **Documenting Interface Analysis** | Lập tài liệu chi tiết hóa kết quả phân tích điểm giao tiếp kỹ thuật. | Bàn giao cho đội ngũ phát triển Backend và Tích hợp. | Tài liệu API Contract, bảng mapping trường dữ liệu. |
-| **21** | **Interface Mockups** *(Bản vẽ giao diện)* | Bản vẽ tĩnh thể hiện cấu trúc bố cục, vị trí nút bấm và nội dung màn hình. | Xác nhận layout và trải nghiệm người dùng với Product Manager. | Wireframe hoặc Mockup Figma. |
-| **22** | **Prototyping** *(Bản mẫu thử nghiệm)* | Tạo mô hình mô phỏng tương tác động để người dùng bấm thử nghiệm luồng. | Kiểm thử tính khả dụng (Usability Testing) trước khi viết mã nguồn. | Clickable Prototype (Figma, Axure). |
-| **23** | **Storyboarding** *(Bảng cốt truyện)* | Chuỗi hình ảnh trực quan hóa hành trình trải nghiệm của khách hàng theo thời gian. | Thiết kế trải nghiệm khách hàng (Customer Journey), thuyết trình ý tưởng. | Bộ tranh Storyboard trực quan. |
-| **24** | **Documenting Business Rules** | Văn bản hóa các quy tắc vận hành độc lập với phần mềm (chiết khấu, điều kiện vay). | Đảm bảo tính tuân thủ chính sách và bảo vệ tính toàn vẹn của nghiệp vụ. | Danh mục Business Rules (`BR-*`) chi tiết. |
-| **25** | **Non-Functional Requirements (NFR)** | Đặc tả các chỉ số chất lượng hệ thống: bảo mật, hiệu năng, tính sẵn sàng. | Thiết lập tiêu chuẩn nghiệm thu hạ tầng và kiểm thử tải. | Bảng NFRs định lượng có SLA rõ ràng. |
-
----
-
-### Nhóm 3: Phân Tích Chiến Lược & Đánh Giá Giải Pháp (Strategy & Architecture)
-
-| STT | Tên kỹ thuật | Mục đích nghiệp vụ | Khi nào áp dụng? | Đầu ra chính |
-| :---: | :--- | :--- | :--- | :--- |
-| **26** | **SWOT Analysis** | Phân tích Điểm mạnh, Điểm yếu, Cơ hội và Thách thức của tổ chức. | Định hình chiến lược sản phẩm, đánh giá khả năng cạnh tranh. | Ma trận 4 ô SWOT. |
-| **27** | **Benchmarking & Market Analysis** | Đối sánh quy trình và hiệu suất nội bộ với đối thủ cạnh tranh và tiêu chuẩn ngành. | Tìm kiếm khoảng cách để cải tiến hoặc xác định tính năng tạo lợi thế. | Báo cáo phân tích đối thủ cạnh tranh. |
-| **28** | **Business Capability Analysis** | Đánh giá năng lực cốt lõi của doanh nghiệp cần bổ sung để đạt mục tiêu mới. | Tái cấu trúc tổ chức, chuyển đổi số toàn diện. | Bản đồ năng lực doanh nghiệp (Capability Map). |
-| **29** | **Business Cases** | Xây dựng tài liệu giải trình hiệu quả kinh tế và tính khả thi của dự án. | Đệ trình Ban Giám đốc hoặc Nhà tài trợ phê duyệt ngân sách. | Hồ sơ Business Case (Chi phí, Lợi ích, ROI, Rủi ro). |
-| **30** | **Business Model Canvas** | Trực quan hóa 9 khối thành phần cốt lõi cấu thành mô hình kinh doanh. | Khởi tạo sản phẩm mới, tái định vị mô hình vận hành. | Bảng Canvas 9 ô chuẩn Osterwalder. |
-| **31** | **Cost-Benefit Analysis** | Đo lường chi phí đầu tư so sánh với lợi ích tài chính thu về trong vòng đời dự án. | Lựa chọn phương án triển khai tối ưu giữa nhiều giải pháp. | Bảng tính tài chính (NPV, IRR, Payback Period). |
-| **32** | **Gap Analysis** | Phân tích khoảng cách giữa hiện trạng (AS-IS) và trạng thái mong muốn (TO-BE). | Xác định chính xác phạm vi công việc cần thực hiện. | Bảng Gap Matrix (Hiện trạng, Mục tiêu, Hành động). |
-| **33** | **Functional Decomposition** | Phân rã chức năng lớn phức tạp thành các module và tính năng con nhỏ hơn. | Quản lý phạm vi dự án, lập cấu trúc phân rã công việc (WBS). | Cây phân rã chức năng (Decomposition Tree). |
-| **34** | **Organization Modeling** | Phân tích cấu trúc thứ bậc, phòng ban và tuyến báo cáo trong tổ chức. | Xác định các đơn vị chịu ảnh hưởng khi triển khai quy trình mới. | Sơ đồ cơ cấu tổ chức (Org Chart). |
-| **35** | **Role Modeling** | Định nghĩa vai trò, thẩm quyền và trách nhiệm của từng vị trí trong hệ thống. | Thiết lập phân quyền truy cập người dùng (RBAC Matrix). | Ma trận phân quyền chức năng và dữ liệu. |
-| **36** | **Vendor Assessment** | Đánh giá và chấm điểm năng lực của các nhà cung cấp giải pháp bên ngoài. | Ra quyết định Tự xây dựng (Build) hay Mua sẵn (Buy). | Bảng chấm điểm nhà cung cấp có trọng số. |
-
----
-
-### Nhóm 4: Quản Trị, Phân Tích Dữ Liệu & Ra Quyết Định (Governance & Analytics)
-
-| STT | Tên kỹ thuật | Mục đích nghiệp vụ | Khi nào áp dụng? | Đầu ra chính |
-| :---: | :--- | :--- | :--- | :--- |
-| **37** | **Decision Analysis** | Đánh giá định lượng các phương án giải pháp dựa trên ma trận tiêu chí có trọng số. | Chọn giải pháp kiến trúc, công nghệ hoặc quy trình tối ưu. | Ma trận quyết định đa tiêu chí (Decision Matrix). |
-| **38** | **Decision Trees** | Trực quan hóa các phương án rẽ nhánh và hệ quả xác suất/tài chính tương ứng. | Đưa ra quyết định trong điều kiện có nhiều rủi ro bất định. | Sơ đồ cây quyết định. |
-| **39** | **Root Cause Analysis (RCA)** | Tìm kiếm nguyên nhân gốc rễ của vấn đề (Fishbone Ishikawa, 5 Whys). | Xử lý lỗi hệ thống nghiêm trọng, tối ưu quy trình nghẽn. | Biểu đồ xương cá, báo cáo 5 Whys. |
-| **40** | **Risk Analysis & Management** | Nhận diện, phân tích xác suất/tác động và lập kế hoạch ứng phó rủi ro. | Quản trị dự án từ đầu đến khi bàn giao nghiệm thu. | Sổ đăng ký rủi ro (Risk Register / RAID Log). |
-| **41** | **Dependency Modeling** | Lập bản đồ phụ thuộc giữa các yêu cầu, module và hệ thống bên ngoài. | Sắp xếp thứ tự ưu tiên Sprint, quản trị đường găng dự án. | Ma trận hoặc đồ thị liên kết phụ thuộc. |
-| **42** | **Metrics and KPIs** | Xác lập các chỉ số định lượng đo lường mức độ thành công của giải pháp. | Đánh giá sau triển khai (Post-implementation Review). | Bộ chỉ số đo lường hiệu quả (KPIs, OKRs). |
-| **43** | **Kano Model Analysis** | Phân loại tính năng sản phẩm theo mức độ hài lòng của khách hàng. | Ưu tiên Backlog sản phẩm (Cơ bản, Hiệu năng, Đột phá). | Biểu đồ phân bổ tính năng Kano. |
-| **44** | **Acceptance & Evaluation Criteria** | Xác định tiêu chuẩn định lượng để nghiệm thu sản phẩm hoặc chuyển giai đoạn. | Bàn giao phần mềm giữa Dev, QA và Khách hàng. | Tiêu chí chấp thuận (Definition of Done, AC). |
-| **45** | **Backlog Management** | Tiếp nhận, làm mịn, phân loại và sắp xếp độ ưu tiên danh mục công việc. | Vận hành sản phẩm liên tục trong môi trường Scrum/Kanban. | Product Backlog được sắp xếp thứ tự ưu tiên. |
-| **46** | **Estimation** | Dự đoán quy mô, nỗ lực, chi phí và thời gian cần thiết để thực hiện công việc. | Lập kế hoạch dự án, phân bổ nguồn lực và báo giá. | Bản ước lượng (Story Points, Man-days, Chi phí). |
-| **47** | **Problem Tracking** | Ghi nhận, phân loại và theo dõi tiến độ xử lý các lỗi/khúc mắc phát sinh. | Vận hành dự án hàng ngày, hỗ trợ giai đoạn UAT. | Nhật ký theo dõi vấn đề (Issue Log / Bug Tracker). |
-| **48** | **Data Mining** | Khai phá kho dữ liệu lớn để tìm kiếm quy luật, hành vi bất thường hoặc xu hướng. | Phát hiện gian lận, xây dựng mô hình dự báo kinh doanh. | Báo cáo phân tích dữ liệu, mô hình phân cụm. |
-| **49** | **Social Media Analysis** | Thu thập và phân tích phản hồi, cảm xúc của công chúng trên mạng xã hội. | Nghiên cứu thương hiệu, đo lường sự đón nhận tính năng mới. | Báo cáo phân tích cảm xúc (Sentiment Analysis). |
-| **50** | **Data Migration Planning** | Lập kế hoạch chuyển đổi, làm sạch, ánh xạ và di chuyển dữ liệu sang hệ thống mới. | Khi thay thế phần mềm cũ (Legacy System Replacement). | Kế hoạch di chuyển dữ liệu (Data Migration Spec). |
+| # | Kỹ thuật | Mục đích | Khi nào dùng | Artifact trong BA-agent |
+|:-:|---|---|---|---|
+| 35 | Acceptance and Evaluation Criteria | Tiêu chí để chấp nhận yêu cầu hoặc đánh giá giải pháp | Nghiệm thu, DoD | `Curated templates/04-Acceptance-Criteria-Template.md` |
+| 36 | Backlog Management | Ghi nhận, làm mịn, xếp thứ tự công việc | Scrum/Kanban | Product Backlog |
+| 37 | Data Mining | Khai phá dữ liệu để tìm quy luật, bất thường | Phát hiện gian lận, dự báo | Báo cáo phân tích |
+| 38 | Decision Analysis | Chọn phương án bằng tiêu chí có trọng số | Chọn kiến trúc, công nghệ, phương án | `core/decision-analysis-framework.md` |
+| 39 | Estimation | Dự đoán nỗ lực, thời gian, chi phí | Lập kế hoạch, báo giá | [requirements-estimation-guide.md](requirements-estimation-guide.md) |
+| 40 | Functional Decomposition | Chia chức năng lớn thành phần nhỏ hơn | Quản lý phạm vi, WBS | Feature Map (`04A-Feature-Map.md`) |
+| 41 | Item Tracking | Theo dõi vấn đề, rủi ro, quyết định, hành động | Vận hành dự án hằng ngày, UAT | `templates/raid-log.md` |
+| 42 | Lessons Learned | Rút bài học từ dự án hoặc giai đoạn | Cuối sprint, cuối dự án | `templates/post-implementation-review.md` |
+| 43 | Metrics and Key Performance Indicators (KPIs) | Chỉ số đo thành công của giải pháp | Đánh giá sau triển khai | `templates/product-analytics-spec.md` |
+| 44 | Non-Functional Requirements Analysis | Phân tích yêu cầu chất lượng: hiệu năng, bảo mật, sẵn sàng | Mọi SRS | `core/nfr-discovery-guide.md` |
+| 45 | Prioritization | Xếp thứ tự yêu cầu (MoSCoW, value/effort, Kano, voting) | Quá nhiều yêu cầu, ngân sách giới hạn | MoSCoW trong BRD |
+| 46 | Process Analysis | Tìm điểm nghẽn, lãng phí, cơ hội cải tiến trong quy trình | Sau As-Is, trước To-Be | Pain point map |
+| 47 | Reviews | Rà soát tài liệu hoặc sản phẩm (inspection, walkthrough, peer review) | Trước khi chốt tài liệu | `core/quality-checklist.md` |
+| 48 | Risk Analysis and Management | Nhận diện, đánh giá, ứng phó rủi ro | Toàn vòng đời dự án | `templates/risk-register.md` |
+| 49 | Root Cause Analysis | Tìm nguyên nhân gốc (5 Whys, Fishbone) | Lỗi lặp lại, quy trình nghẽn | Fishbone, 5 Whys |
+| 50 | Stakeholder List, Map, or Personas | Liệt kê, phân tích, mô tả stakeholder và người dùng | Đầu dự án | `templates/stakeholder-map.md`, `03-Stakeholder-Map.md` |
 
 ---
 
-## 3. 14 CHIẾN LƯỢC GHI NHỚ PHẢN XẠ (HỌC NHANH - NHỚ LÂU)
+## 2. Kỹ thuật ngoài danh sách 50 của BABOK v3 mà dự án vẫn dùng
 
-1. **Grouping (Gom nhóm nghiệp vụ):** Nhớ theo 4 nhóm mục đích lớn (Khơi gợi 8, Mô hình hóa 17, Chiến lược 11, Quản trị 14) thay vì cố nhớ 50 kỹ thuật rời rạc.
-2. **Chunking (Chia nhỏ danh mục):** Chia lộ trình học thành 5 tuần, mỗi tuần dung nạp đúng 10 kỹ thuật.
-3. **Flashcards:** Dùng thẻ 2 mặt: Mặt trước ghi tên kỹ thuật $\leftrightarrow$ Mặt sau ghi 3 dòng: *Mục đích, Khi nào dùng, Đầu ra chính*.
-4. **Visual Mind Map:** Vẽ bản đồ tư duy nối 50 kỹ thuật vào 6 Vùng tri thức của BABOK v3.
-5. **Create Stories (Gắn vào câu chuyện dự án):** Tưởng tượng hành trình làm một dự án thật từ đầu đến cuối: *"Tiếp nhận dự án dùng SWOT & Business Case $\rightarrow$ Khơi gợi dùng Interview & Observation $\rightarrow$ Mô hình hóa dùng BPMN & Use Case $\rightarrow$ Thiết kế giao diện dùng Mockup $\rightarrow$ Nghiệm thu dùng Acceptance Criteria"*.
-6. **Practice with Examples:** Áp dụng tối thiểu 1 lần mỗi kỹ thuật vào tài liệu thực tế của công việc.
-7. **Teach Someone Else (Feynman Technique):** Giải thích nguyên lý kỹ thuật cho Junior BA hoặc đồng nghiệp trong 3 phút. Nếu giải thích không gãy gọn là chưa nắm chắc.
-8. **Mnemonics (Từ khóa viết tắt):** Ghép chữ cái đầu của các nhóm thành từ khóa gợi nhớ.
-9. **Acrostics (Thơ vần):** Tạo các câu văn ngắn có nghĩa từ chữ cái đầu của các kỹ thuật trọng tâm.
-10. **Regular Review (Chu kỳ ngắt quãng):** Ôn tập theo nhịp 1 ngày $\rightarrow$ 3 ngày $\rightarrow$ 7 ngày $\rightarrow$ 30 ngày.
-11. **Associations (Liên tưởng đời thường):** Gắn kỹ thuật trừu tượng với hành động quen thuộc (VD: *Observation giống như quan sát giao thông để đặt đèn đỏ; Functional Decomposition giống như rã xe máy ra từng phụ tùng*).
-12. **Multi-sensory Learning:** Đọc tài liệu, vẽ sơ đồ tay ra giấy A4, nói to thành tiếng định nghĩa.
-13. **Online Quiz & Mock Tests:** Làm đề trắc nghiệm tình huống CCBA/CBAP để rèn luyện phản xạ chọn kỹ thuật đúng theo bối cảnh đề bài.
-14. **Spaced Repetition App (Anki):** Nạp toàn bộ 50 kỹ thuật vào app Anki để thuật toán tự động nhắc lại đúng thời điểm não bộ sắp quên.
+Các kỹ thuật này phổ biến trong thực hành nhưng **không nằm** trong 50 kỹ thuật của BABOK v3. Không dùng chúng khi trả lời câu hỏi thi theo BABOK.
+
+| Kỹ thuật | Ghi chú |
+|---|---|
+| Gap Analysis | Có trong thực hành và trong các bản BABOK cũ; BABOK v3 xử lý gián tiếp qua Strategy Analysis (phân tích hiện trạng và trạng thái tương lai). |
+| Kano Model | Công cụ phân loại tính năng, thường dùng bên trong Prioritization. |
+| Decision Tree | Một dạng của Decision Modelling / Decision Analysis. |
+| Dependency Modelling | Bảng hoặc đồ thị phụ thuộc giữa yêu cầu; thực hành Agile và quản lý dự án. |
+| Social Media Analysis | Dạng riêng của Data Mining / Survey; không phải kỹ thuật riêng của BABOK v3. |
+| Data Migration Planning | Hoạt động Transition Requirements, xem `templates/data-migration-plan.md`. |
+| Requirements Workshop | Tên cũ ở BABOK v2; trong v3 gộp vào Workshops. |
+| Problem Tracking | Tên cũ ở BABOK v2; v3 gọi là Item Tracking. |
+
+---
+
+## 3. 14 chiến lược ghi nhớ
+
+1. **Grouping:** nhớ theo 4 nhóm mục đích (9 / 17 / 8 / 16) thay vì 50 tên rời.
+2. **Chunking:** chia 5 tuần, mỗi tuần 10 kỹ thuật.
+3. **Flashcards:** mặt trước ghi tên kỹ thuật; mặt sau ghi mục đích, khi nào dùng, đầu ra.
+4. **Mind map:** nối 50 kỹ thuật vào 6 Knowledge Area (xem [babok-v3-framework.md](babok-v3-framework.md)).
+5. **Gắn vào một dự án thật:** đi từ SWOT và Business Case, qua Interviews và Observation, Process Modelling và Use Cases, Prototyping, đến Acceptance Criteria.
+6. **Áp dụng:** dùng mỗi kỹ thuật ít nhất một lần trong tài liệu thật.
+7. **Dạy lại (Feynman):** giải thích một kỹ thuật cho người khác trong 3 phút.
+8. **Mnemonics:** ghép chữ cái đầu của từng nhóm thành từ khóa.
+9. **Acrostics:** đặt câu ngắn từ chữ cái đầu các kỹ thuật trọng tâm.
+10. **Ôn ngắt quãng:** ngày 1, 3, 7, 30.
+11. **Liên tưởng đời thường:** Observation giống quan sát giao thông trước khi đặt đèn đỏ; Functional Decomposition giống tháo xe máy thành phụ tùng.
+12. **Đa giác quan:** đọc, vẽ tay, nói to định nghĩa.
+13. **Đề tình huống:** làm câu hỏi chọn kỹ thuật theo bối cảnh kiểu CCBA/CBAP.
+14. **Anki:** nạp 50 thẻ để lặp lại ngắt quãng.

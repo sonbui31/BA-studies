@@ -49,11 +49,68 @@ SCENARIOS = {
             "uat_traceability": ["uat", "traceability", "rtm", "acceptance", "nghiệm thu"],
         },
     },
+    "healthcare": {
+        "threshold": 0.84,
+        "checks": {
+            "clinical_workflow": ["clinical workflow", "quy trình lâm sàng", "clinician", "bác sĩ", "điều dưỡng"],
+            "privacy_consent": ["phi", "pii", "consent", "đồng ý", "privacy", "quyền riêng tư"],
+            "standards": ["hl7", "fhir", "icd", "dicom"],
+            "access_audit": ["audit", "access control", "phân quyền", "encryption", "mã hóa"],
+            "clinical_validation": ["clinical validation", "patient safety", "an toàn người bệnh", "thẩm định lâm sàng"],
+            "integration": ["his", "emr", "ehr", "lis", "pacs", "integration", "tích hợp"],
+            "uat_traceability": ["uat", "traceability", "rtm", "acceptance", "nghiệm thu"],
+        },
+    },
+    "government": {
+        "threshold": 0.84,
+        "checks": {
+            "procurement": ["procurement", "bidding", "đấu thầu", "hồ sơ mời thầu", "mua sắm"],
+            "regulatory": ["regulatory", "compliance", "nghị định", "thông tư", "quy định"],
+            "multi_level_acceptance": ["multi-level", "nhiều cấp", "hội đồng nghiệm thu", "acceptance", "nghiệm thu"],
+            "security_classification": ["security classification", "phân loại bảo mật", "cấp độ", "an toàn thông tin", "security"],
+            "approval_chain": ["approval", "phê duyệt", "sign-off", "ký duyệt", "văn bản"],
+            "traceability": ["traceability", "rtm", "brq", "fr-", "truy vết"],
+            "data_retention": ["retention", "lưu trữ", "archive", "audit", "kiểm toán"],
+        },
+    },
+    "startup-mvp": {
+        "threshold": 0.75,
+        "checks": {
+            "problem": ["problem", "pain point", "vấn đề", "người dùng"],
+            "hypothesis": ["hypothesis", "assumption", "giả thuyết", "giả định"],
+            "mvp_scope": ["mvp", "in scope", "out of scope", "phạm vi"],
+            "metrics": ["metric", "kpi", "okr", "retention", "conversion", "chỉ số"],
+            "constraints": ["budget", "timeline", "deadline", "ngân sách", "thời hạn"],
+            "backlog_ac": ["backlog", "user story", "acceptance criteria", "tiêu chí chấp nhận"],
+        },
+    },
+    "inhouse": {
+        "threshold": 0.78,
+        "checks": {
+            "stakeholders": ["stakeholder", "phòng ban", "department", "owner", "raci"],
+            "process": ["as-is", "to-be", "quy trình", "process"],
+            "adoption_training": ["adoption", "training", "đào tạo", "change management"],
+            "operational_readiness": ["operational readiness", "go-live", "support", "vận hành", "rollback"],
+            "governance": ["governance", "approval", "phê duyệt", "change request"],
+            "acceptance": ["uat", "acceptance", "nghiệm thu", "tiêu chí chấp nhận"],
+        },
+    },
 }
 
 
 def normalize(text: str) -> str:
     return re.sub(r"\s+", " ", text.lower())
+
+
+def term_in_text(needle: str, lowered: str) -> bool:
+    """Match short tokens (cr, kt, kyc, aml, sla, his...) on word boundaries so that "description" does not satisfy "cr"."""
+    needle = needle.lower()
+    if len(needle) > 4 and not needle.endswith("-"):
+        return needle in lowered
+    pattern = r"(?<![0-9a-zà-ỹ])" + re.escape(needle)
+    if not needle.endswith("-"):
+        pattern += r"(?![0-9a-zà-ỹ])"
+    return re.search(pattern, lowered) is not None
 
 
 def evaluate_text(text: str, scenario: str) -> Dict[str, object]:
@@ -64,7 +121,7 @@ def evaluate_text(text: str, scenario: str) -> Dict[str, object]:
     checks: List[Dict[str, object]] = []
     passed_count = 0
     for check_id, needles in profile["checks"].items():
-        matched = [needle for needle in needles if needle.lower() in lowered]
+        matched = [needle for needle in needles if term_in_text(needle, lowered)]
         passed = bool(matched)
         passed_count += 1 if passed else 0
         checks.append(

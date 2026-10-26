@@ -149,7 +149,7 @@ BA-agent/
 ├── USER-GUIDE.md               ← Hướng dẫn sử dụng (file này)
 ├── CHANGELOG.md                ← Lịch sử thay đổi
 ├── CONTRIBUTING.md             ← ⭐ NEW v3.2: Quy trình đóng góp
-├── Anti_ai_writing_rules.md      ← ⭐ Bộ quy tắc viết văn chống "mùi AI" (24 Điều cấm)
+├── Anti_ai_writing_rules.md      ← ⭐ Bộ quy tắc viết văn chống "mùi AI" (27 Điều)
 └── so_do.md                    ← Thư viện Mermaid (10 loại sơ đồ)
 ```
 

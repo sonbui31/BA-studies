@@ -64,7 +64,10 @@ def expand_query_terms(query: str) -> List[str]:
 
 def load_chunks(index_path: Path = DEFAULT_INDEX) -> List[Dict[str, object]]:
     if not index_path.exists():
-        raise FileNotFoundError(f"Knowledge index not found: {index_path}")
+        raise FileNotFoundError(
+            f"Knowledge index not found: {index_path}. chunks.jsonl is a local-only file and is not tracked in git; "
+            "build it with scripts/build_knowledge_index.py or use scripts/knowledge_search.py (tracked knowledge cards) instead."
+        )
     chunks = []
     for line in index_path.read_text(encoding="utf-8").splitlines():
         line = line.strip()
