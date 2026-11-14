@@ -5,6 +5,18 @@
 
 ---
 
+## [3.5.2] — 2026-11-14
+
+### Added
+- `knowledge-source/ba-update-2026-11-14.md` — Đối chiếu nguồn chính thức IIBA, Scrum, Cucumber, ISO, W3C và NIST; hướng dẫn áp dụng cho BA-agent.
+- Card tra cứu cho cập nhật chuẩn BA, AC, NFR/accessibility và AI tạo sinh.
+
+### Changed
+- Sửa số task BABOK v3 từ 28 thành 30 ở khung kiến thức, knowledge base và card truy xuất.
+- Làm rõ số kịch bản AC theo Tier là quy ước nội bộ trong curated template AC, User Story và SKILL; cập nhật template AI để ngưỡng đánh giá và tự động hóa phải dựa trên rủi ro và bằng chứng.
+
+---
+
 ## [3.5.1] — 2026-10-26
 
 ### Added
@@ -43,7 +55,7 @@ Nâng chuẩn lên mức Senior BA: thêm phán đoán, độ chặt theo rủi 
 ## [3.4.5] — 2026-10-26
 
 ### Added
-- `knowledge-source/babok-v3-framework.md` — BACCM, 6 Knowledge Area (28 task), phân loại yêu cầu, Underlying Competencies, Perspectives, ánh xạ sang artifact của BA-agent.
+- `knowledge-source/babok-v3-framework.md` — BACCM, 6 Knowledge Area (30 task), phân loại yêu cầu, Underlying Competencies, Perspectives, ánh xạ sang artifact của BA-agent.
 - `ba-knowledge-cards.json` — Card `KB-BABOK-001`.
 - `core/traceability-validator.md` mục 8 — Bảng ánh xạ scheme ID tự đặt (`BR`/`BRULE`/`SR`/`FR-01.1`) sang canonical và hai phương án xử lý.
 - `SKILL.md` — Lối Agile Lite (Mini-Brief thay BRD/SRS) cạnh Hard Gates; nhóm 5 quy tắc Điều 25–27.

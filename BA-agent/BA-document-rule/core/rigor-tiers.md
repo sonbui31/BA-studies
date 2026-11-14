@@ -1,6 +1,6 @@
 # RIGOR TIERS: Mức độ chặt chẽ theo rủi ro
 
-> **Mục đích:** Quy tắc cứng (4 template, tối thiểu 4 kịch bản AC, BRD + SRS đầy đủ) phù hợp với tính năng rủi ro cao nhưng gây thừa với việc đơn giản. BA Senior điều chỉnh độ sâu theo rủi ro, ghi lại lựa chọn đó và chịu trách nhiệm về nó.
+> **Mục đích:** Điều chỉnh độ sâu tài liệu và kịch bản AC theo rủi ro. Các mức tối thiểu dưới đây là quy ước của BA-agent, không phải số lượng do Scrum hay Gherkin quy định.
 > **Áp dụng:** Xác định Tier ở Bước 1 (cùng lúc phân loại dự án), ghi vào đầu tài liệu. Tier có thể thay đổi theo từng module trong cùng dự án.
 
 ---
@@ -74,5 +74,5 @@ Khi nới so với chuẩn, ghi lý do ngắn. Khi tăng Tier giữa chừng (ph
 ## 5. Quan hệ với quy tắc khác
 
 - `SKILL.md`: Hard Gate 1–2 áp dụng cho lối đầy đủ; Tier 1 có thể đi Lối Agile Lite.
-- `Curated templates/04-Acceptance-Criteria-Template.md`: số kịch bản tối thiểu ở đó là mức Tier 2. Tier 1 và Tier 3 theo bảng trên.
+- `Curated templates/04-Acceptance-Criteria-Template.md`: bốn kịch bản là ví dụ cho một giao dịch; áp dụng số kịch bản theo Tier và rule thực tế trong bảng trên.
 - `traceability_scan.py --strict`: dùng cho Tier 2 và 3.

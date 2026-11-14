@@ -1,5 +1,5 @@
 {
-  "version": "3.4.1",
+  "version": "3.5.2",
   "purpose": "Self-contained retrieval cards distilled from the BA learning repository. Use these cards before drafting or reviewing BA artifacts.",
   "cards": [
     {
@@ -164,7 +164,7 @@
       "title": "BABOK v3 Framework: BACCM, Knowledge Areas, Techniques",
       "aliases": ["babok", "babok v3", "baccm", "knowledge area", "knowledge areas", "core concept model", "iiba", "ccba", "cbap", "ecba", "50 techniques", "50 kỹ thuật", "kỹ thuật ba"],
       "tags": ["babok", "baccm", "framework", "certification", "techniques"],
-      "summary": "BABOK v3 defines 6 Knowledge Areas (28 tasks), the 6-concept BACCM, 4 requirement classifications, 6 underlying competencies, 5 perspectives and 50 techniques. Use it to choose techniques, check that an artifact covers Change/Need/Solution/Stakeholder/Value/Context, and to answer certification questions.",
+      "summary": "BABOK v3 defines 6 Knowledge Areas (30 tasks), the 6-concept BACCM, 4 requirement classifications, 6 underlying competency groups, 5 perspectives and 50 techniques. Use it to choose techniques and check Change/Need/Solution/Stakeholder/Value/Context; verify certification answers against IIBA sources.",
       "use_when": ["User asks which BA technique fits a situation", "User prepares for ECBA/CCBA/CBAP", "A BRD or Vision needs a BACCM sanity check", "User asks how a BA-agent step maps to BABOK"],
       "questions": ["Which of Change, Need, Solution, Stakeholder, Value, Context is not answered yet?", "Which Knowledge Area task is this activity?", "Is the requirement business, stakeholder, solution (functional or non-functional) or transition?", "Is the technique one of the 50 in BABOK v3 or a common practice outside it (Gap Analysis, Kano)?"],
       "output": ["BACCM check", "Technique selection", "Knowledge Area mapping"],
@@ -230,6 +230,46 @@
       "output": ["Dimension scores", "Level verdict", "Cross-check table"],
       "quality_checks": ["Red flags lower the level by one", "Evidence is quoted from the document"],
       "sources": ["BA-document-rule/core/senior-ba-rubric.md", "tests/golden/senior_judgement_cases.jsonl"]
+    },
+    {
+      "id": "KB-BA-STANDARD-2026-001",
+      "title": "IIBA Business Analysis Standard and Outcome Focus",
+      "aliases": ["business analysis standard", "iiba standard", "outcome", "giá trị kinh doanh", "30 task", "task cards"],
+      "tags": ["iiba", "standard", "outcomes", "strategy"],
+      "summary": "IIBA's updated Business Analysis Standard emphasizes measurable outcomes, organizational context and task cards; BABOK v3 remains the detailed guide with 6 knowledge areas and 30 tasks. Map need, outcome, baseline, options, risk and post-launch value.",
+      "use_when": ["Starting a BA initiative", "Checking current IIBA foundations", "Planning benefit realization"],
+      "quality_checks": ["Distinguish IIBA guidance from repo conventions", "Record baseline and value owner", "Check certification syllabus separately"],
+      "sources": ["knowledge-source/ba-update-2026-11-14.md", "knowledge-source/babok-v3-framework.md"]
+    },
+    {
+      "id": "KB-AC-GHERKIN-2026-001",
+      "title": "Risk-Based Acceptance Criteria and Gherkin",
+      "aliases": ["gherkin", "acceptance criteria", "scenario outline", "examples", "số kịch bản", "ac theo rủi ro"],
+      "tags": ["ac", "gherkin", "risk", "quality"],
+      "summary": "Given-When-Then describes business behavior. Neither Gherkin nor Scrum mandates four scenarios or an eight-scenario ceiling; the repo's Tier minimum is an internal quality rule. Select examples by rules and risk, and use Scenario Outline for data variants.",
+      "use_when": ["Writing or reviewing acceptance criteria", "Deciding whether to split a story"],
+      "quality_checks": ["Then is observable", "Scenario corresponds to a rule or real risk", "No invented threshold", "Repo Tier is labeled as internal convention"],
+      "sources": ["knowledge-source/ba-update-2026-11-14.md", "Curated templates/04-Acceptance-Criteria-Template.md"]
+    },
+    {
+      "id": "KB-NFR-ACCESSIBILITY-2026-001",
+      "title": "Product Quality and WCAG 2.2 Accessibility",
+      "aliases": ["iso 25010", "nfr", "non-functional requirement", "wcag 2.2", "accessibility", "khả năng tiếp cận"],
+      "tags": ["nfr", "quality", "accessibility", "wcag"],
+      "summary": "Use ISO/IEC 25010:2023's nine product quality characteristics as an NFR checklist. For web accessibility, agree the WCAG 2.2 conformance target and test scope with stakeholders; turn relevant criteria into measurable requirements and acceptance checks.",
+      "use_when": ["Writing SRS quality requirements", "Reviewing web or mobile accessibility"],
+      "quality_checks": ["Metric, conditions and owner are specified", "WCAG target and scope are explicit", "Legal applicability is checked separately"],
+      "sources": ["knowledge-source/ba-update-2026-11-14.md"]
+    },
+    {
+      "id": "KB-GENAI-BA-2026-001",
+      "title": "Generative AI Requirements and Risk Evaluation",
+      "aliases": ["genai", "generative ai", "ai risk", "hallucination", "confabulation", "human review", "ai tạo sinh"],
+      "tags": ["ai", "genai", "risk", "evaluation"],
+      "summary": "Specify AI purpose, prohibited uses, data rights, representative evaluations, severe errors, human escalation, logging and monitoring. Do not reuse a universal accuracy or confidence threshold. NIST AI RMF guidance is voluntary and risk-based.",
+      "use_when": ["Specifying an AI feature", "Reviewing AI-generated BA artifacts", "Choosing auto-accept behavior"],
+      "quality_checks": ["Threshold owner approves risk", "Evaluation has independent labeled samples", "Sensitive data access is authorized", "Human override and appeal are defined"],
+      "sources": ["knowledge-source/ba-update-2026-11-14.md", "BA-document-rule/templates/ai-feature-spec.md"]
     },
     {
       "id": "KB-VN-REG-001",

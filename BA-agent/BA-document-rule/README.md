@@ -163,4 +163,5 @@ BA-document-rule/
 | **Ops / Support** | `templates/operational-readiness-checklist.md` → `templates/handover-checklist.md` |
 | **Trainer** | `core/principles.md` (BACCM, models) → `core/quality-checklist.md` (DoR/DoD) |
 | **BA knowledge curator** | `references/ba-knowledge-base.md` |
+| **Cập nhật chuẩn BA đến 14/11/2026** | `../knowledge-source/ba-update-2026-11-14.md` (nguồn và cách áp dụng) |
 | **Agent/runtime retrieval** | `references/ba-knowledge-cards.json` qua `scripts/knowledge_search.py` |

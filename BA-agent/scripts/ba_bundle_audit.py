@@ -42,6 +42,7 @@ REQUIRED_FILES = [
     ROOT / "scripts" / "eval_golden_cases.py",
     ROOT / "scripts" / "ai_smell_scan.py",
     ROOT / "knowledge-source" / "babok-v3-framework.md",
+    ROOT / "knowledge-source" / "ba-update-2026-11-14.md",
     ROOT / "BA-document-rule" / "core" / "rigor-tiers.md",
     ROOT / "BA-document-rule" / "core" / "strategy-analysis-guide.md",
     ROOT / "BA-document-rule" / "core" / "solution-evaluation-guide.md",

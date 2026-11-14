@@ -45,11 +45,11 @@
 
 ---
 
-## 3. Accuracy Requirements (Yêu cầu Độ chính xác)
+## 3. Evaluation Requirements (Yêu cầu đánh giá chất lượng)
 
-> **Quan trọng:** Mọi AI behavior PHẢI có accuracy target. "AI chính xác" ❌ → "Precision ≥ 90%" ✅
+> **Quan trọng:** Mỗi AI behavior cần tiêu chí đánh giá **phù hợp nhiệm vụ và tác động khi sai**. Precision/recall phù hợp với phân loại; OCR có tỷ lệ lỗi ký tự; AI tạo sinh cần thêm độ đúng theo nguồn, lỗi nghiêm trọng và khả năng từ chối. Mọi ngưỡng số trong bảng dưới là **ví dụ cần chủ sở hữu rủi ro xác nhận**, không phải mức chuẩn cho mọi dự án. Xem [NIST AI RMF GenAI Profile](https://www.nist.gov/publications/artificial-intelligence-risk-management-framework-generative-artificial-intelligence).
 
-### 3.1 Accuracy Targets
+### 3.1 Chỉ số và ngưỡng đánh giá theo nhiệm vụ
 
 | Behavior ID | Metric | Target | Acceptable Min | Đo bằng cách nào |
 |------------|--------|:------:|:--------------:|---|
@@ -71,15 +71,15 @@
 
 ## 4. Human-in-the-Loop Design (Thiết kế Con người Trong Vòng lặp)
 
-> **Triết lý:** AI assist, Human decide. Trừ khi accuracy ≥ 99% VÀ impact thấp, luôn cho user review.
+> **Quyết định mức giám sát:** Chọn tự động, lấy mẫu kiểm tra hay duyệt từng kết quả theo mức hại tiềm năng, bằng chứng đánh giá và người chịu trách nhiệm. Không dùng một ngưỡng accuracy chung để bỏ qua người duyệt. `Confidence` chỉ dùng làm ngưỡng điều khiển khi đã hiệu chỉnh và kiểm chứng cho đúng nhiệm vụ; với AI tạo sinh, điểm confidence không tự chứng minh nội dung đúng.
 
-### 4.1 Confidence-based Action Matrix
+### 4.1 Ma trận quyết định theo rủi ro
 
-| Confidence Level | Range | UI Behavior | User Action | Feedback Loop |
+| Mức quyết định | Điều kiện đã được phê duyệt | Hành vi hệ thống | Người dùng / người duyệt | Bằng chứng cần lưu |
 |---|:---:|---|---|---|
-| 🟢 **High** | ≥ {{90%}} | Auto-accept, hiển thị kết quả | Review nếu muốn | None (silent) |
-| 🟡 **Medium** | {{70-90%}} | Highlight kết quả, yêu cầu confirm | PHẢI review & confirm/reject | User correction → cập nhật knowledge base |
-| 🔴 **Low** | < {{70%}} | Cảnh báo "Không chắc chắn" | PHẢI review thủ công | User correction → retrain candidate |
+| 🟢 **Có thể tự động** | {{Tác động thấp + ngưỡng đã kiểm chứng + người phê duyệt}} | Xử lý tự động, cho phép sửa/kháng nghị | Kiểm tra mẫu theo lịch | Đầu vào, phiên bản mô hình, kết quả, mẫu kiểm tra |
+| 🟡 **Cần xác nhận** | {{Chưa đủ bằng chứng hoặc tác động trung bình}} | Đề xuất và giải thích giới hạn | Xác nhận / sửa / từ chối | Quyết định và lý do sửa |
+| 🔴 **Chuyển người xử lý** | {{Tác động cao, dữ liệu bất thường hoặc ngoài phạm vi sử dụng}} | Dừng quyết định tự động, chuyển tuyến | Người có thẩm quyền quyết định | Tín hiệu rủi ro, người quyết định, thời điểm |
 
 ### 4.2 Override & Feedback Mechanism
 
@@ -202,16 +202,18 @@ AI báo "Lệch tên gọi: File Gốc = Ammonia, Kế hoạch = NH3"
 | Metric | Target | Alert Threshold | Đo bằng |
 |--------|:------:|:---------------:|---------|
 | Processing time (per file) | ≤ {{X}} giây | > {{Y}} giây | System log |
-| Production accuracy | ≥ {{X%}} | < {{Y%}} | User feedback (confirm/reject rate) |
+| Chất lượng theo bộ mẫu đã gắn nhãn | ≥ {{X}} theo metric đã chọn | < {{Y}} | Kiểm tra mẫu độc lập, có phân nhóm dữ liệu |
 | False negative rate | ≤ {{X%}} | > {{Y%}} | QC spot-check hàng tuần |
 | User override rate | ≤ {{X%}} | > {{Y%}} | Override log |
 
-### 9.2 Model Degradation Detection
+> Tỷ lệ người dùng xác nhận/từ chối là tín hiệu phản hồi, **không tự là accuracy**; cần đối chiếu mẫu chuẩn độc lập và mức độ lỗi theo nhóm người dùng.
+
+### 9.2 Phát hiện tín hiệu suy giảm
 
 ```
 IF user_override_rate > threshold FOR 2_consecutive_weeks:
-  → ALERT: "AI accuracy giảm. Cần review model/knowledge base."
-  → ACTION: QC spot-check 50 samples → retrain/update nếu cần
+  → ALERT: "Tỷ lệ người dùng sửa kết quả tăng; cần điều tra nguyên nhân."
+  → ACTION: QC kiểm tra mẫu độc lập theo kế hoạch đánh giá → phân tích theo nhóm dữ liệu → quyết định cập nhật model/rule/knowledge base nếu có bằng chứng
 ```
 
 ---
@@ -221,9 +223,9 @@ IF user_override_rate > threshold FOR 2_consecutive_weeks:
 | Concern | Mitigation |
 |---------|-----------|
 | **Bias trong training data** | Đảm bảo data đa dạng, review by ≥ 2 domain experts |
-| **PII/Confidential data** | KHÔNG gửi dữ liệu khách hàng lên AI cloud API nếu chưa có NDA |
-| **AI hallucination** | Rule-based validation layer ĐÈ LÊN AI output |
-| **Over-reliance** | UI PHẢI hiển thị disclaimer "Kết quả AI chỉ mang tính tham khảo" |
+| **PII/Confidential data** | Xác định dữ liệu được phép dùng, mục đích, quyền truy cập, lưu giữ và nhà cung cấp; NDA một mình không đủ để cho phép gửi dữ liệu |
+| **Nội dung sai hoặc không có căn cứ** | Đánh giá theo nguồn, kiểm tra rule khi phù hợp, chuyển người duyệt khi rủi ro cao và đo tỷ lệ lỗi nghiêm trọng |
+| **Over-reliance** | Nêu giới hạn sử dụng, cho phép sửa/kháng nghị, định rõ người chịu trách nhiệm và kiểm tra hành vi thực tế của người dùng |
 
 ---
 
@@ -231,9 +233,9 @@ IF user_override_rate > threshold FOR 2_consecutive_weeks:
 
 ```
 ☐ BEHAVIOR:     Mọi AI behavior có ID + Input + Output rõ ràng (Mục 2)
-☐ ACCURACY:     Mọi behavior có accuracy target đo được (Mục 3)
-☐ HUMAN-LOOP:   Confidence matrix + Override flow đã thiết kế (Mục 4)
-☐ DATA:         Training data identified + quality requirements set (Mục 5)
+☐ EVALUATION:   Mỗi behavior có metric, bộ mẫu, ngưỡng và người duyệt phù hợp rủi ro (Mục 3)
+☐ HUMAN-LOOP:   Luồng tự động/duyệt tay/override có điều kiện và log rõ (Mục 4)
+☐ DATA:         Nguồn dữ liệu, quyền dùng, chất lượng và phạm vi lưu giữ đã xác định (Mục 5)
 ☐ KNOWLEDGE:    User-managed KB đã spec (nếu applicable) (Mục 6)
 ☐ FALLBACK:     Mọi failure scenario có fallback action (Mục 7)
 ☐ EXPLAINABLE:  User hiểu được TẠI SAO AI ra kết quả (Mục 8)

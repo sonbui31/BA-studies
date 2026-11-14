@@ -22,7 +22,7 @@ Cách dùng trong dự án: sau khi viết xong BRD hoặc Vision, kiểm tra t�
 
 ---
 
-## 2. Sáu Knowledge Area và 28 task
+## 2. Sáu Knowledge Area và 30 task
 
 ### 2.1 Business Analysis Planning and Monitoring
 

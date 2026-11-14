@@ -1,7 +1,7 @@
 # BA KNOWLEDGE BASE
 
 > **Mục đích:** Lưu kiến thức BA đã chắt lọc từ kho học liệu `BA/` để BA-agent dùng độc lập khi tạo, review, hoặc audit tài liệu BA.
-> **Cập nhật:** 25/05/2026
+> **Cập nhật:** 14/11/2026 (phần bổ sung nguồn hiện hành; lớp tri thức từ folder BA gốc vẫn là bản 25/05/2026)
 > **Phạm vi:** Self-contained knowledge base. Không cần folder `BA/` tồn tại lúc runtime.
 
 ---
@@ -223,8 +223,12 @@ Nếu thông tin domain có thể thay đổi theo luật/chuẩn hiện hành, 
 Khung nền của nghề BA, dùng khi cần chọn kỹ thuật, kiểm tra tài liệu có đủ góc nhìn hay chuẩn bị chứng chỉ IIBA.
 
 - **BACCM:** 6 khái niệm Change, Need, Solution, Stakeholder, Value, Context. Mỗi artifact phải trả lời ít nhất một khái niệm và không mâu thuẫn với các khái niệm còn lại.
-- **6 Knowledge Area:** Business Analysis Planning and Monitoring; Elicitation and Collaboration; Requirements Life Cycle Management; Strategy Analysis; Requirements Analysis and Design Definition; Solution Evaluation. Gồm 28 task, chi tiết và ánh xạ sang artifact của BA-agent trong `knowledge-source/babok-v3-framework.md`.
+- **6 Knowledge Area:** Business Analysis Planning and Monitoring; Elicitation and Collaboration; Requirements Life Cycle Management; Strategy Analysis; Requirements Analysis and Design Definition; Solution Evaluation. Gồm 30 task, chi tiết và ánh xạ sang artifact của BA-agent trong `knowledge-source/babok-v3-framework.md`.
 - **Phân loại yêu cầu:** business, stakeholder, solution (functional và non-functional), transition. Stakeholder requirement là tầng nằm giữa BRQ và FR; chuỗi canonical của BA-agent không có mã riêng cho tầng này (xem `core/traceability-validator.md` mục 8).
 - **50 kỹ thuật:** danh sách đúng theo BABOK v3 trong `knowledge-source/50-babok-v3-techniques.md`. Gap Analysis, Kano, Decision Tree không nằm trong 50 kỹ thuật đó.
 - **Underlying Competencies và Perspectives** (Agile, BI, IT, Business Architecture, BPM): xem cùng file framework.
 - Câu hỏi thi hoặc trích dẫn BABOK phải đối chiếu lại với sách gốc của IIBA, vì các file trong repo là bản tóm tắt thực hành.
+
+### 6.11 Cập nhật nguồn chính thức đến 14/11/2026
+
+Đọc [`knowledge-source/ba-update-2026-11-14.md`](../../knowledge-source/ba-update-2026-11-14.md) khi gặp câu hỏi về The Business Analysis Standard của IIBA, Scrum, AC/Gherkin, ISO/IEC 25010:2023, WCAG 2.2 hoặc AI tạo sinh. Phân biệt điều chuẩn quy định với quy ước của repo; không biến con số ví dụ hay ngưỡng Tier thành yêu cầu bắt buộc của tiêu chuẩn.

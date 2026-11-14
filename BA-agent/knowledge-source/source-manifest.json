@@ -4,6 +4,11 @@
   "source_required_for": "rebuild only",
   "runtime_requires_source": false,
   "indexed_at": "2026-05-25",
+  "tracked_supplemental_review": {
+    "as_of": "2026-11-14",
+    "path": "BA-agent/knowledge-source/ba-update-2026-11-14.md",
+    "scope": "Official BA, Scrum, Gherkin, software quality, accessibility, and AI risk sources; separate from the local-only BA folder index"
+  },
   "indexed_documents": 992,
   "indexed_chunks": 35479,
   "source_root_name": "BA",

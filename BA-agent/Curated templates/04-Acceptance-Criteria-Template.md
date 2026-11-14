@@ -32,18 +32,20 @@
 | `FR-CC-001` | US-CC-001 | AC-CC-001 | 6 | ⬜ To Do |
 
 > 🔴 **Quy tắc Vàng cho Acceptance Criteria (AC Rules):**
-> 1. **Số lượng kịch bản:** Mỗi User Story có **tối thiểu 4 kịch bản** (Happy Path, Race Condition, Boundary, Negative). Story phức tạp tối đa 8 kịch bản.
-> 2. **Chặn quá tải (Story Splitting Trigger):** Nếu một User Story có **hơn 8 kịch bản AC**, AI **BẮT BUỘC DỪNG LẠI** và yêu cầu tách User Story (xem quy tắc Story Splitting tại `03-User-Story-Template.md`).
-> 2b. **Điều chỉnh theo mức rủi ro:** Số kịch bản tối thiểu ở mục 1 là mức Tier 2. Story Tier 1 (rủi ro thấp) có thể dùng tối thiểu 2 kịch bản và ghi lý do bỏ; story Tier 3 bổ sung kịch bản 5–8 khi áp dụng. Xem `BA-document-rule/core/rigor-tiers.md`.
+> 1. **Số lượng kịch bản:** Mức tối thiểu 2/4 theo Tier trong `BA-document-rule/core/rigor-tiers.md` là **quy ước nội bộ**, không phải quy định của Gherkin hoặc Scrum. Chọn kịch bản theo rule và rủi ro; chỉ thêm Race, Boundary, Permission, Network khi áp dụng. Mỗi story phải có ít nhất một AC quan sát được.
+> 2. **Story Splitting Trigger:** Hơn 8 kịch bản là tín hiệu rà soát: nếu có nhiều quy tắc hoặc nhiều kết quả độc lập, cân nhắc tách story; nếu là nhiều bộ dữ liệu cho cùng một quy tắc, dùng `Scenario Outline` và `Examples`. Không có trần 8 kịch bản trong Gherkin.
+> 2b. **Điều chỉnh theo mức rủi ro:** Tier 1 thường có ít nhất 2 kịch bản; Tier 2 ít nhất 4; Tier 3 bổ sung tình huống rủi ro cao khi áp dụng. Lý do bỏ các nhánh liên quan cần được ghi lại. Xem `BA-document-rule/core/rigor-tiers.md`.
 > 3. **Chống Anti-patterns & Ảo giác logic trong AC:**
 >    - ❌ Cấm mô tả UI chi tiết/styling: *"Nút chuyển màu xanh"* ➔ ✅ *"Hệ thống hiển thị trạng thái thành công"*.
 >    - ❌ Cấm chèn mã kỹ thuật/API: *"Gọi API POST /v1/booking"* ➔ ✅ *"Hệ thống tạo bản ghi đặt lịch và trừ hạn mức tương ứng"*.
 >    - ❌ Cấm động từ mơ hồ (Điều 25 Anti-AI): Thay `manage, handle, do` bằng động từ hành động cụ thể.
->    - ❌ Cấm mệnh đề "Then" mơ hồ (Điều 27 Anti-AI): Mệnh đề "Then" bắt buộc phải mô tả kết quả cụ thể, quan sát được và đo lường được trên hệ thống. Nếu không thể viết được "Then" định lượng, kịch bản đó bị loại bỏ vì là sản phẩm của ảo giác.
+>    - ❌ Cấm mệnh đề "Then" mơ hồ (Điều 27 Anti-AI): Mệnh đề "Then" phải nêu kết quả cụ thể, quan sát/kiểm tra được. Dùng ngưỡng số khi quy tắc có ngưỡng; trạng thái, quyền hoặc thông báo chính xác cũng có thể là kết quả kiểm tra được. Thiếu dữ kiện thì đánh dấu `[CẦN XÁC NHẬN]`, không tự đặt ngưỡng.
 
 ---
 
-## 4.2 Template Chuẩn — Tối thiểu 4 Kịch bản Bắt buộc
+## 4.2 Template Chuẩn — Bốn kịch bản minh họa, chọn theo nghiệp vụ và Tier
+
+> Bộ ví dụ dưới đây dành cho giao dịch có giới hạn và tranh chấp tài nguyên. Với tính năng không có xử lý đồng thời, thay kịch bản 2 bằng tình huống có rủi ro thật. Viết `Then` theo kết quả nghiệp vụ; mã HTTP thuộc API/SRS nếu thực sự cần kiểm tra ở tầng đó. [Nguồn Gherkin](https://cucumber.io/docs/gherkin/reference/).
 
 ```text
 Mã Acceptance Criteria: AC-[MODULE]-001

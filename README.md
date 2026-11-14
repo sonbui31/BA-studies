@@ -21,6 +21,7 @@ Hệ thống AI Agent đóng vai Business Analyst — thu thập yêu cầu, ph�
 | Thành phần | Mô tả |
 |---|---|
 | [SKILL.md](BA-agent/SKILL.md) | Entrypoint cho skill system |
+| [Cập nhật BA đến 14/11/2026](BA-agent/knowledge-source/ba-update-2026-11-14.md) | Tóm tắt có dẫn nguồn IIBA, Scrum, Gherkin, ISO, W3C và NIST; hướng dẫn áp dụng vào tài liệu dự án |
 | [USER-GUIDE.md](BA-agent/USER-GUIDE.md) | Hướng dẫn sử dụng |
 | [DOCUMENT-MAP.md](BA-agent/DOCUMENT-MAP.md) | Bản đồ toàn bộ tài liệu BA |
 | [Anti_ai_writing_rules.md](BA-agent/Anti_ai_writing_rules.md) | Bộ quy tắc viết văn chống "mùi AI" (24 Điều cấm & Checklist) |

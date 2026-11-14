@@ -68,7 +68,7 @@ Tôi muốn [Hành động / Thao tác đo lường được trên hệ thống]
 Để [Giá trị nghiệp vụ / Lợi ích thực tế thu được].
 
 Độ ưu tiên: [Must / Should / Could / Won't]
-Story Points: [1 / 2 / 3 / 5 / 8 / 13] (Nếu > 8 SP ➔ Kích hoạt Story Splitting)
+Story Points: [Theo thang ước lượng của nhóm, nếu nhóm dùng story point]
 Mức độ phức tạp: [Đơn giản | Trung bình | Phức tạp]
   • Đơn giản: Thao tác đọc dữ liệu (view-only), ít logic.
   • Trung bình: Có validate form, xử lý ngoại lệ, thông báo.
@@ -77,7 +77,7 @@ Mức độ phức tạp: [Đơn giản | Trung bình | Phức tạp]
 Sprint: [Sprint X]
 Nguồn gốc: [FR-MODULE-001] (từ SRS)
 Dependencies: [Danh sách User Story phụ thuộc liên quan]
-Liên kết Acceptance Criteria: [AC-MODULE-001] (Bắt buộc 4–8 kịch bản)
+Liên kết Acceptance Criteria: [AC-MODULE-001] (Bao phủ rule và rủi ro theo Tier; số kịch bản là quy ước nội bộ)
 
 Bảng Kiểm tra INVEST (INVEST Self-Check Table):
 | Tiêu chí | Đánh giá | Ghi chú & Hướng khắc phục (nếu chưa đạt) |
@@ -86,12 +86,12 @@ Bảng Kiểm tra INVEST (INVEST Self-Check Table):
 | **N - Negotiable** | [✅ / ⚠️] | Là lời mời thảo luận; không trói buộc chi tiết pixel UI hay thuật toán server. |
 | **V - Valuable** | [✅ / ⚠️] | Mang lại giá trị đo lường được; phần "Để" giải quyết nỗi đau rõ ràng. |
 | **E - Estimable** | [✅ / ⚠️] | Dev đủ ngữ cảnh estimate; nếu công nghệ quá mới thì tạo Spike Story trước. |
-| **S - Small** | [✅ / ⚠️] | Vừa vặn trong sprint (≤ 5 ngày dev work, ≤ 8 SP); nếu lớn hơn ➔ Phải Tách Story. |
+| **S - Small** | [✅ / ⚠️] | Nhóm có thể hoàn thành trong một Sprint theo năng lực thực tế; ngưỡng ngày/SP do nhóm thống nhất, không phải quy tắc Scrum. |
 | **T - Testable** | [✅ / ⚠️] | QA viết được test case rõ ràng với số liệu định lượng, không cảm tính. |
 
 Definition of Done (DoD) — Chung:
   [ ] Code đã merge vào branch chính, pass code review
-  [ ] Unit test + Integration test đạt coverage >= 80%
+  [ ] Unit test và Integration test đạt mức kiểm tra nhóm đã thống nhất cho rủi ro của story
   [ ] Toàn bộ Acceptance Criteria pass trên môi trường Staging
   [ ] API đã cập nhật vào Swagger / Postman collection
   [ ] QA sign-off, không còn bug mức Critical / Major
@@ -105,12 +105,10 @@ DoD bổ sung (nếu story phức tạp):
 
 ### 3.3.1 Quy tắc Chặn Tách Story (Story Splitting Guardrails)
 
-> ⚠️ **Dấu hiệu BẮT BUỘC phải Tách User Story (Split Story):**
-> 1. Story có **hơn 8 kịch bản Acceptance Criteria** (quá tải cho 1 lần kiểm thử).
-> 2. Đội Dev ước lượng **> 5 ngày làm việc** hoặc Story Points **> 8 SP**.
-> 3. Tiêu đề chứa liên từ **"VÀ / AND"** (VD: *"Đăng ký VÀ Đăng nhập"* ➔ Bắt buộc tách đôi).
-> 4. Story ôm đồm cả vòng đời **CRUD** (Tạo, Xem, Sửa, Xóa chung 1 story).
-> 5. Có nhiều Persona khác nhau cùng thao tác trong 1 Story.
+> ⚠️ **Dấu hiệu cần rà soát việc tách User Story (quy ước repo, không phải quy tắc Scrum/Gherkin):**
+> 1. Story có hơn 8 kịch bản AC: kiểm tra có nhiều quy tắc độc lập hay chỉ là nhiều bộ dữ liệu của cùng một quy tắc (`Scenario Outline`).
+> 2. Nhóm ước lượng vượt khả năng hoàn thành trong một Sprint: trao đổi lại phạm vi và phụ thuộc; không áp một ngưỡng ngày/SP chung cho mọi nhóm.
+> 3. Story có nhiều outcome độc lập, ôm nhiều phần của vòng đời CRUD hoặc nhiều persona có nhu cầu khác nhau: cân nhắc tách theo giá trị có thể nghiệm thu.
 
 > 🛠️ **4 Kỹ thuật Tách Story Chuẩn:**
 > - **Tách theo CRUD Operations:** Tách riêng luồng *Tạo mới (Create)* ➔ *Xem danh sách & Tìm kiếm (Read)* ➔ *Cập nhật (Update)* ➔ *Lưu trữ/Xóa (Archive/Delete)*.
