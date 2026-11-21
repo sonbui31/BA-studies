@@ -65,19 +65,15 @@ SignalDesk cung cấp public feedback portal cho khách hàng gửi request và 
 ### 4.2. Luồng thao tác người dùng
 > Chi tiết tại `04-User-Flow.md`
 
-```
-Customer gửi feedback -> Workspace inbox nhận feedback -> PM review và gắn status/tag
--> Nếu trùng thì merge vote/history -> Customer nhận update trạng thái
--> Khi release, PM publish changelog gắn với feedback liên quan
-```
+![To-Be: Vòng phản hồi feedback trên SignalDesk](diagrams/feedback-tobe.png)
+
+Bản chuẩn BPMN 2.0: [`diagrams/feedback-tobe.bpmn`](diagrams/feedback-tobe.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Sinh lại (chạy trong thư mục bộ tài liệu): `python ../scripts/bpmn_tool.py build diagrams/feedback-tobe.json --png diagrams/feedback-tobe.png`.
 
 #### 4.2.1. Quy trình hiện tại (As-Is)
 
-```
-Khách hàng gửi feedback qua Slack / Intercom / email -> CS chép tay vào spreadsheet (khi nhớ)
--> PM đọc spreadsheet theo đợt, tự gộp nội dung trùng -> quyết định roadmap
--> Khách hàng hỏi lại CS về trạng thái -> CS hỏi PM rồi trả lời thủ công
-```
+![As-Is: Thu và phản hồi feedback khách hàng](diagrams/feedback-asis.png)
+
+Bản chuẩn BPMN 2.0: [`diagrams/feedback-asis.bpmn`](diagrams/feedback-asis.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Sinh lại (chạy trong thư mục bộ tài liệu): `python ../scripts/bpmn_tool.py build diagrams/feedback-asis.json --png diagrams/feedback-asis.png`. Ô viền đỏ là bước gây điểm nghẽn.
 
 | Bước | Ai làm | Điểm nghẽn (số liệu ở mục 1.1) |
 |---|---|---|

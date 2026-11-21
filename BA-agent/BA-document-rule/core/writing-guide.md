@@ -249,7 +249,7 @@ BRD (BR-001) → SRS (FR-ORD-001) → User Story (US-ORD-001) → Test Case (TC-
 | Quy tắc rẽ nhánh? | Decision Flowchart | SRS (BR) |
 | Timeline dự án? | Gantt Chart | Vision & Scope |
 
-> Chi tiết cú pháp và ví dụ: xem `core/diagram-guide.md`
+> Chuẩn vẽ, cú pháp và ví dụ: `BA-agent/so_do.md`
 
 ---
 

@@ -59,20 +59,21 @@ Tài liệu này đặc tả chi tiết yêu cầu chức năng và phi chức n
 > Context-level architecture — hệ thống + hệ thống liên quan.
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 graph TB
     subgraph "Frontend"
-        WEB["🌐 Web App"]
-        MOB["📱 Mobile App"]
+        WEB["Web App"]
+        MOB["Mobile App"]
     end
 
     subgraph "Backend"
-        API["⚙️ API Server"]
-        DB[("🗄️ Database")]
+        API["API Server"]
+        DB[("Database")]
     end
 
     subgraph "External"
-        PAY["💳 Payment"]
-        EMAIL["📧 Email"]
+        PAY["Payment"]
+        EMAIL["Email"]
     end
 
     WEB --> API
@@ -97,12 +98,13 @@ graph TB
 #### Use Case Diagram
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 graph LR
     subgraph "{{Module 1}}"
         UC1(["{{Use Case 1}}"])
         UC2(["{{Use Case 2}}"])
     end
-    A1("👤 {{Actor}}") --- UC1
+    A1("{{Actor}}") --- UC1
     A1 --- UC2
 ```
 
@@ -201,11 +203,15 @@ graph LR
 > Dùng cho entity có nhiều trạng thái (Order, Ticket, Request...)
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 stateDiagram-v2
-    [*] --> {{STATE_1}}: {{Action}}
-    {{STATE_1}} --> {{STATE_2}}: {{Action}}
-    {{STATE_2}} --> {{STATE_3}}: {{Action}}
-    {{STATE_3}} --> [*]
+    %% Thay DRAFT, SUBMITTED, APPROVED, REJECTED và nhãn bằng trạng thái thật của entity
+    [*] --> DRAFT: Người dùng tạo
+    DRAFT --> SUBMITTED: Gửi duyệt
+    SUBMITTED --> APPROVED: Người duyệt đồng ý
+    SUBMITTED --> REJECTED: Người duyệt từ chối
+    REJECTED --> DRAFT: Sửa lại
+    APPROVED --> [*]
 ```
 
 ---
@@ -213,8 +219,9 @@ stateDiagram-v2
 ## 6. Sequence Diagram — Luồng chính
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 sequenceDiagram
-    actor User as 👤 User
+    actor User as User
     participant FE as Frontend
     participant BE as Backend
     participant DB as Database

@@ -47,28 +47,32 @@
 - **2.2.5 Use Case Diagram tổng quan:**
 
 ```mermaid
-graph LR
-    subgraph Actors
-        U[👤 User]
-        A[👤 Admin]
-        S[🖥️ External System]
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
+flowchart LR
+    U("[Actor người dùng]")
+    A("[Actor quản trị]")
+    subgraph HT["[Tên hệ thống] — [Module]"]
+        UC1(["UC-01: [Use Case 1]"])
+        UC2(["UC-02: [Use Case 2]"])
+        UC3(["UC-03: [Use Case 3]"])
+        UC4(["UC-04: [Use Case 4]"])
     end
+    S("[Hệ thống ngoài]")
 
-    subgraph System ["Hệ thống [Tên hệ thống]"]
-        UC1["UC-01: [Use Case 1]"]
-        UC2["UC-02: [Use Case 2]"]
-        UC3["UC-03: [Use Case 3]"]
-        UC4["UC-04: [Use Case 4]"]
-    end
+    U --- UC1
+    U --- UC2
+    A --- UC3
+    UC1 -.->|"≪include≫"| UC2
+    UC4 -.->|"≪extend≫"| UC3
+    UC2 --- S
 
-    U --> UC1
-    U --> UC2
-    A --> UC3
-    A --> UC4
-    UC2 -.->|"<<include>>"| UC1
-    UC3 -.->|"<<extend>>"| UC4
-    S --> UC2
+    classDef role1 fill:#EBF8FF,stroke:#2B6CB0
+    classDef external fill:#EDF2F7,stroke:#718096,stroke-dasharray:4 3
+    class U,A role1
+    class S external
 ```
+
+Quy ước (`so_do.md` mục 6): use case hình viên thuốc trong khung hệ thống, actor nối bằng đường không mũi tên, `≪include≫` đi từ use case chính tới use case con, `≪extend≫` đi từ use case phụ tới use case chính. Tối đa 8 use case mỗi sơ đồ; nhiều hơn thì tách theo module.
 
 ---
 
@@ -172,6 +176,7 @@ Module B: [Tên Module]
 #### Activity Diagram (Minh hoạ luồng xử lý)
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 flowchart TD
     A[Người dùng gửi yêu cầu] --> B{Dữ liệu hợp lệ?}
     B -->|Không| C[Trả lỗi ERR_INVALID_INPUT 400]
@@ -183,11 +188,17 @@ flowchart TD
     H --> I[Tạo bản ghi mới]
     I --> J[Gửi thông báo async]
     J --> K[Trả kết quả thành công 201]
+
+    classDef gateway fill:#FFF8E1,stroke:#B7791F
+    classDef error fill:#FFF5F5,stroke:#C53030
+    class B,D,F gateway
+    class C,E,G error
 ```
 
 #### Sequence Diagram (Minh họa tương tác)
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 sequenceDiagram
     actor U as User
     participant App as Mobile/Web App
@@ -248,6 +259,7 @@ sequenceDiagram
 ## 2.6 Mô hình dữ liệu (Data Model / ERD)
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 erDiagram
     USER ||--o{ BOOKING : creates
     USER {
@@ -264,6 +276,7 @@ erDiagram
         uuid slot_id FK
         enum status
         datetime created_at
+        datetime updated_at
     }
     SLOT }o--|| RESOURCE : belongs_to
     SLOT {

@@ -1,8 +1,8 @@
 ---
-description: Business Analysis Workflow 3.8.0 - các bước lối L4, định tuyến theo ngành, rollback và ước lượng công
+description: Business Analysis Workflow 3.10.0 - các bước lối L4, định tuyến theo ngành, rollback và ước lượng công
 ---
 
-# BA Workflow Protocol 3.8.0
+# BA Workflow Protocol 3.10.0
 
 Các bước chi tiết của lối L4: định tuyến theo loại dự án và ngành (Government / Healthcare / Fintech), tài liệu phụ theo tín hiệu nghiệp vụ, rollback và ước lượng công.
 
@@ -170,7 +170,7 @@ Các bước chi tiết của lối L4: định tuyến theo loại dự án và
      - 🏛️ Gov → Tích hợp HSMT specs vào SRS phụ lục + Nghiệm thu protocol → UAT
      - 🏥 HC → Tích hợp Clinical Workflow vào Process Flow + PHI NFRs vào SRS + DDI specs
      - 💰 FT → Tích hợp Transaction State Machine vào SRS + AML rules vào Feature Spec
-   - **Auto-Diagram:** Parse raw input → auto-select diagram type → generate Mermaid
+   - **Auto-Diagram:** chọn loại sơ đồ theo `../so_do.md` mục 2. Quy trình nghiệp vụ: BPMN 2.0 (`../so_do.md` mục 4) bằng `../scripts/bpmn_tool.py build diagrams/<tên>.json --png diagrams/<tên>.png`, chèn ảnh kèm liên kết `.bpmn`, chạy `bpmn_tool.py check`. Sơ đồ khác: Mermaid theo khối khai báo chuẩn, chạy `../scripts/diagram_check.py --strict`
    - **Wireframes:** Mermaid mockup cho screens trong Inventory; dùng công cụ thiết kế nếu môi trường có
    - **Requirement Quality Engine (NEW v3.3):**
      - Áp dụng 4 Decomposition Patterns (`../BA-document-rule/core/writing-guide.md` §10)

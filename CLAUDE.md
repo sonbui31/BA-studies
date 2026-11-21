@@ -25,6 +25,10 @@ python BA-agent/scripts/traceability_scan.py BA-agent/BA-Documents-Outsource --s
 python BA-agent/scripts/traceability_scan.py projects/QLTS --scheme project --strict   # real bundle with its own IDs (ba-scheme.json)
 python BA-agent/scripts/preflight_check.py BA-agent/BA-Documents-Product
 python BA-agent/scripts/ai_smell_scan.py <file-or-dir>           # Vietnamese/English "AI-sounding" prose
+python BA-agent/scripts/diagram_check.py <file-or-dir> --strict  # Mermaid diagrams vs so_do.md (--fix, --render)
+python BA-agent/scripts/bpmn_tool.py build <spec.json> --png <out.png>  # BPMN 2.0 process from a JSON spec
+python BA-agent/scripts/bpmn_tool.py check <dir> --strict         # validate every .bpmn
+npm install --prefix BA-agent/scripts                            # optional: bpmn-js, puppeteer-core, mermaid-cli for images
 ```
 
 CI (`.github/workflows/ba-agent-ci.yml`) runs all of the above and also runs strict traceability on `tests/fixtures/canonical_bundle`, `tests/fixtures/canonical_full_bundle`, both sample bundles, and `--scheme project` on `tests/fixtures/real_world_patterns`. Any change to scripts, sample documents, or rules must keep these passing. `BA-agent/scripts/README.md` lists every script with its exit codes.
@@ -55,6 +59,10 @@ CI (`.github/workflows/ba-agent-ci.yml`) runs all of the above and also runs str
 - Renaming sample files or moving IDs out of first table cells changes scan results.
 
 **Real bundles keep their own IDs.** A `ba-scheme.json` in a bundle folder declares extra ID formats per kind, file roles and domain actors; every script loads it through `find_project_scheme`/`set_project_scheme` (a module-level global in `ba_id_utils`, so tests reset it in `tearDown`). Beyond same-line links, the scanner reads links on the lines under a definition (`definition_blocks`), attribute tables (`| ID | FR-X-001 |`), and matrix rows in any file (`matrix_lines`). Sub-IDs (`FR-TEA-003.1`) belong to their parent (`parent_id`). Numbering gaps and cross-file duplicates are judged only in the family's own document (`FAMILY_PRIMARY_ROLE`). `tests/fixtures/real_world_patterns/` reproduces the patterns found in `projects/`; when a script raises a false alarm on a real document, add the pattern there first (`BA-document-rule/core/pilot-protocol.md`).
+
+**Business processes are BPMN 2.0 files.** Each process lives in a bundle's `diagrams/` folder as `<name>.json` (spec), `<name>.bpmn` (standard XML with DI layout, opens in bpmn.io / Camunda Modeler) and `<name>.png` (embedded in the Markdown next to a link to the `.bpmn`). `bpmn_tool.py build` regenerates `.bpmn` and the image; `tests/test_bpmn.py` fails when a `.bpmn` no longer matches its `.json`, so after editing a spec, rebuild (rendering needs Node, `bpmn_render.mjs`, and `BA_BPMN_NODE_MODULES` or `npm install --prefix BA-agent/scripts`). If a `.bpmn` is edited by hand in a modeler, delete its `.json`.
+
+**Diagrams have one owner: `BA-agent/so_do.md`.** Every delivered Mermaid diagram starts with the standard `%%{init ...}%%` line (`diagram_check.THEME_LINE`) and uses the shared `classDef` set; business processes use BPMN-lite (roles by colour and bold name, not `subgraph` lanes, which Mermaid lays out badly). `diagram_check.py --strict` must pass on samples, curated templates and `so_do.md` (CI and `tests/test_diagrams.py`). Rendering for real needs mermaid-cli (`mmdc`), which is optional: `md_to_docx.py` and `diagram_check.py --render` use it when present; on a machine without its bundled Chromium pass `--browser` to an installed Chrome/Edge.
 
 **Document headers drive the checks.**
 - `preflight_check.py` and `persona_review_check.py` read `Tier:` near the top of a document.

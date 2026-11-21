@@ -1,7 +1,7 @@
 # BA-DOCUMENT-RULE
 ## Bộ quy tắc & Template tài liệu Business Analysis
 
-> **Phiên bản:** 3.8 | **Ngày:** 21/11/2026
+> **Phiên bản:** 3.10 | **Ngày:** 21/11/2026
 > **Kiến trúc:** Layered OS (Core + Templates + Overlays)
 > **Áp dụng:** Mọi loại dự án
 
@@ -47,7 +47,7 @@ BA-document-rule/
 │   ├── 00-ba-process-framework.md     Quy trình BA 5 pha + BABOK mapping
 │   ├── principles.md                  BACCM, MoSCoW, Kano, INVEST, GWT, SWOT, 5W1H
 │   ├── writing-guide.md              Chuẩn viết, format, versioning, SMART req
-│   ├── diagram-guide.md              Hướng dẫn vẽ sơ đồ (Mermaid)
+│   ├── diagram-guide.md              Trỏ về BA-agent/so_do.md (chuẩn vẽ sơ đồ)
 │   ├── quality-checklist.md          DoR, DoD, BACCM check, review checklist
 │   ├── glossary.md                   Thuật ngữ BA
 │   ├── evaluation-protocol.md        C-S-K-A Matrix 3.3: inline audit + Multi-LLM phases

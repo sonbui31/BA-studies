@@ -10,18 +10,28 @@
 
 ### 1.1. Workspace Activation Flow
 
+```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
+flowchart LR
+    S(("Đăng ký hoặc<br/>nhận lời mời")) -->|"signup_completed"| T1["<b>Admin</b><br/>Tạo workspace"]
+    T1 -->|"workspace_created"| T2["<b>Admin</b><br/>Nhập CSV hoặc<br/>dữ liệu mẫu"]
+    T2 -->|"feedback_imported"| T3["<b>Admin</b><br/>Công khai portal"]
+    T3 -->|"portal_published"| E1((("Có feedback<br/>đầu tiên")))
+
+    classDef startEvt fill:#E6F4EA,stroke:#2F855A,stroke-width:2px
+    classDef endEvt fill:#FDECEA,stroke:#C53030,stroke-width:3px
+    classDef gateway fill:#FFF8E1,stroke:#B7791F
+    classDef sys fill:#F7FAFC,stroke:#4A5568,stroke-dasharray:4 3
+    classDef role1 fill:#EBF8FF,stroke:#2B6CB0
+    classDef role2 fill:#F0FFF4,stroke:#2F855A
+    classDef role3 fill:#FAF5FF,stroke:#6B46C1
+    classDef pain fill:#FFF5F5,stroke:#C53030,stroke-dasharray:2 2
+    class S startEvt
+    class E1 endEvt
+    class T1,T2,T3 role1
 ```
-┌─────────────┐     ┌─────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│ Sign Up /   │────▶│ Create      │────▶│ Import CSV or │────▶│ Publish      │────▶│ First Feedback │
-│ Invite      │     │ Workspace   │     │ sample data   │     │ Portal       │     │ Submitted      │
-└─────────────┘     └─────────────┘     └──────────────┘     └──────────────┘     └──────────────┘
-      │                    │                    │                    │                      │
-      │                    │                    │                    │                      └── 📊 `feedback_submitted`
-      │                    │                    │                    └── 📊 `portal_published`
-      │                    │                    └── 📊 `feedback_imported`
-      │                    └── 📊 `workspace_created`
-      └── 📊 `signup_completed`
-```
+
+Nhãn trên mũi tên là sự kiện analytics phát ra khi bước trước hoàn tất; sự kiện cuối là `feedback_submitted` hoặc `feedback_imported`.
 
 **Target activation path**
 - `signup_completed` -> `workspace_created` trong cùng session
@@ -32,24 +42,9 @@
 
 ### 1.2. Core User Flow - Feedback-to-Response Loop
 
-```
-Portal User truy cập portal
-    ├── Tìm ý tưởng tương tự
-    │      └── Nếu thấy item phù hợp -> Upvote -> Subscribe -> Chờ update
-    └── Không thấy item phù hợp -> Submit feedback mới
-                                  └── Hệ thống tạo item status `New`
+![Vòng phản hồi feedback trên portal](diagrams/vong-phan-hoi.png)
 
-PM mở inbox
-    ├── Review feedback mới
-    ├── Xem duplicate candidates
-    ├── Merge nếu cần
-    ├── Gắn tag / status public
-    └── Khi feature ship -> Publish release note gắn feedback liên quan
-
-Subscriber / Customer Champion
-    ├── Nhận email khi status đổi
-    └── Đọc release note khi feedback được `Released`
-```
+Bản chuẩn BPMN 2.0: [`diagrams/vong-phan-hoi.bpmn`](diagrams/vong-phan-hoi.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Sinh lại (chạy trong thư mục bộ tài liệu): `python ../scripts/bpmn_tool.py build diagrams/vong-phan-hoi.json --png diagrams/vong-phan-hoi.png`.
 
 **Related requirements**
 - `BRQ-01` / `FR-POR-001`, `FR-POR-002`
@@ -95,11 +90,32 @@ Subscriber / Customer Champion
 
 ### 3.1. Public Feedback Submission
 
-```
-[Portal visit]
-   └── Search existing feedback
-           ├── Found similar item -> Upvote -> Subscribe -> End
-           └── No suitable item -> Fill form -> Validate title/email -> Create `New` feedback -> Confirmation -> Optional subscribe
+```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
+flowchart LR
+    S(("Vào portal")) --> T1["<b>Người dùng portal</b><br/>Tìm feedback có sẵn"]
+    T1 --> G1{"Có mục tương tự?"}
+    G1 -->|"Có"| T2["<b>Người dùng portal</b><br/>Bình chọn, theo dõi"]
+    T2 --> E1((("Đã bình chọn")))
+    G1 -->|"Không"| T3["<b>Người dùng portal</b><br/>Điền biểu mẫu"]
+    T3 --> G2{"Tiêu đề và<br/>email hợp lệ?"}
+    G2 -->|"Không"| T3
+    G2 -->|"Có"| T4["<b>Hệ thống</b><br/>Tạo mục New,<br/>hiện xác nhận"]
+    T4 --> E2((("Feedback mới<br/>đã ghi nhận")))
+
+    classDef startEvt fill:#E6F4EA,stroke:#2F855A,stroke-width:2px
+    classDef endEvt fill:#FDECEA,stroke:#C53030,stroke-width:3px
+    classDef gateway fill:#FFF8E1,stroke:#B7791F
+    classDef sys fill:#F7FAFC,stroke:#4A5568,stroke-dasharray:4 3
+    classDef role1 fill:#EBF8FF,stroke:#2B6CB0
+    classDef role2 fill:#F0FFF4,stroke:#2F855A
+    classDef role3 fill:#FAF5FF,stroke:#6B46C1
+    classDef pain fill:#FFF5F5,stroke:#C53030,stroke-dasharray:2 2
+    class S startEvt
+    class E1,E2 endEvt
+    class G1,G2 gateway
+    class T1,T2,T3 role3
+    class T4 sys
 ```
 
 **Tracking points**
@@ -111,17 +127,9 @@ Subscriber / Customer Champion
 
 ### 3.2. Duplicate Triage Flow
 
-```
-[Feedback appears in inbox]
-   -> PM opens detail
-   -> System suggests duplicate candidates
-      ├── PM rejects suggestion -> keep item separate
-      └── PM accepts merge
-             -> choose parent item
-             -> move vote_count + subscribers + history
-             -> child becomes `Merged`
-             -> audit log + `feedback_merged`
-```
+![Gộp feedback trùng](diagrams/gop-feedback-trung.png)
+
+Bản chuẩn BPMN 2.0: [`diagrams/gop-feedback-trung.bpmn`](diagrams/gop-feedback-trung.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Sinh lại (chạy trong thư mục bộ tài liệu): `python ../scripts/bpmn_tool.py build diagrams/gop-feedback-trung.json --png diagrams/gop-feedback-trung.png`.
 
 **Control points**
 - Chỉ `Admin` hoặc `PM` được merge.
@@ -130,22 +138,11 @@ Subscriber / Customer Champion
 
 ### 3.3. Status Update and Release Proof Flow
 
-```
-[PM changes public status]
-   -> Validate status in allowed public set
-   -> Save status history
-   -> Queue subscriber notification
-      ├── unsubscribed -> skip send
-      ├── email delivered -> mark success
-      └── email failed -> retry / dead-letter
+![Cập nhật trạng thái công khai và thông báo](diagrams/cap-nhat-trang-thai.png)
 
-[PM publishes release note]
-   -> choose feedback items in `Released`
-   -> set publish_at
-   -> publish release note
-   -> link feedback items on portal
-   -> emit `release_note_published`
-```
+Bản chuẩn BPMN 2.0: [`diagrams/cap-nhat-trang-thai.bpmn`](diagrams/cap-nhat-trang-thai.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Sinh lại (chạy trong thư mục bộ tài liệu): `python ../scripts/bpmn_tool.py build diagrams/cap-nhat-trang-thai.json --png diagrams/cap-nhat-trang-thai.png`.
+
+Phát hành release note: PM chọn các feedback ở trạng thái `Released`, đặt `publish_at`, phát hành; hệ thống gắn feedback lên portal và phát `release_note_published`. Không có rẽ nhánh nên không vẽ sơ đồ.
 
 ---
 
@@ -203,13 +200,6 @@ Subscriber / Customer Champion
 
 ## 7. Flow Documentation Convention
 
-| Ký hiệu | Ý nghĩa |
-|---------|---------|
-| `───▶` | Luồng chính |
-| `- - ▶` | Exception / alternate flow |
-| `✅` | Outcome thành công |
-| `❌` | Outcome thất bại hoặc bị chặn |
-| `📊` | Tracking point |
-| `🔔` | Notification trigger |
+Luồng có nhiều vai trò và rẽ nhánh (mục 1.2, 3.2, 3.3) vẽ bằng BPMN 2.0 (`so_do.md` mục 4): mỗi lane là một vai trò, file nguồn `.bpmn` trong `diagrams/`. Luồng thao tác của một người dùng trên màn hình (mục 1.1, 3.1) là user flow, vẽ bằng Mermaid theo khối khai báo chuẩn (`so_do.md` mục 1.1). Sự kiện analytics ghi trên mũi tên của user flow hoặc trong mục Tracking points.
 
 > Với SignalDesk, mọi flow P0 phải chỉ ra ít nhất một trong ba thứ: `status transition`, `analytics event`, hoặc `customer-facing update`.

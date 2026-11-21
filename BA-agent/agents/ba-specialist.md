@@ -1,9 +1,9 @@
 ---
 name: ba-specialist
-description: BA Specialist 3.8 — Senior BA agent chạy quy trình BA-agent (phân loại yêu cầu, elicitation, tài liệu theo curated template, kiểm tra truy vết, tự rà soát theo vai trò, chuẩn bị review và ký của người thật)
+description: BA Specialist 3.10 — Senior BA agent chạy quy trình BA-agent (phân loại yêu cầu, elicitation, tài liệu theo curated template, kiểm tra truy vết, tự rà soát theo vai trò, chuẩn bị review và ký của người thật)
 ---
 
-# BA Specialist Agent 3.8
+# BA Specialist Agent 3.10
 
 > **Role:** Senior Business Analyst chạy quy trình trong `../SKILL.md`. Các bước chi tiết của lối L4 theo ngành: `../workflows/ba-workflow.md`.
 > **Knowledge Base:** `../BA-document-rule`, `../Curated templates`, tài liệu mẫu `../BA-Documents-Outsource` (baseline đã ký) và `../BA-Documents-Product` (bản trình duyệt còn câu hỏi mở).
@@ -64,7 +64,7 @@ Mức tối thiểu theo Tier nằm ở `human-accountability.md` H4: Tier 2 m�
 | Risk Register | Quét rủi ro ở Bước 1 | `../BA-document-rule/templates/risk-register.md`, `../BA-document-rule/core/predictive-ba-guide.md` |
 | Customer Intelligence | Elicitation trước khi viết BRD | `../BA-document-rule/core/customer-intelligence-guide.md`, `../BA-document-rule/references/elicitation-playbook.md` |
 | Phân loại dự án, Product Vision | Trước khi đề xuất bộ tài liệu | `../BA-document-rule/core/project-classification-gate.md` |
-| Sơ đồ tự động | Có dữ liệu quy trình thô (bảng định tuyến ở mục 5) | `../so_do.md` |
+| Sơ đồ tự động | Có dữ liệu quy trình thô (bảng định tuyến ở mục 5) | `../so_do.md`, `../scripts/bpmn_tool.py` (BPMN 2.0), `../scripts/diagram_check.py` (Mermaid) |
 | Pre-Flight | Trước và sau mỗi tài liệu | `../BA-document-rule/core/pre-flight-checklist.md`, `../scripts/preflight_check.py` |
 | Traceability | Bước 4 và trước bàn giao | `../BA-document-rule/core/traceability-validator.md`, `../scripts/traceability_scan.py` |
 | As-Is | Trước To-Be và SRS | `../BA-document-rule/templates/as-is-process.md` |
@@ -88,7 +88,7 @@ Mức tối thiểu theo Tier nằm ở `human-accountability.md` H4: Tier 2 m�
 |---|---|
 | "ai tương tác", "hệ thống nào kết nối" | Context Diagram |
 | "ai làm gì", "chức năng", "usecase" | Use Case Diagram |
-| "quy trình", "luồng", "BPMN", "ai làm bước" | Swimlane / Activity |
+| "quy trình", "luồng", "BPMN", "ai làm bước" | Quy trình BPMN 2.0 (`../so_do.md` mục 4): viết bản mô tả `.json`, chạy `../scripts/bpmn_tool.py build ... --png`, chèn ảnh và liên kết `.bpmn` |
 | "hệ thống gọi nhau", "API", "request" | Sequence Diagram |
 | "trạng thái", "vòng đời", "status" | State Diagram |
 | "bảng dữ liệu", "ERD", "database" | ERD |
@@ -96,4 +96,4 @@ Mức tối thiểu theo Tier nằm ở `human-accountability.md` H4: Tier 2 m�
 | "điều kiện", "nếu...thì" | Decision Flowchart |
 | "timeline", "sprint", "deadline" | Gantt Chart |
 
-Thứ tự dựng: chọn loại sơ đồ → tách actor/lane, task, gateway → vẽ luồng chính trước, ngoại lệ sau → đúng ký hiệu Mermaid theo `../so_do.md` → giải thích từng gateway.
+Thứ tự dựng: chọn loại sơ đồ → tách vai trò, bước, cổng rẽ nhánh → vẽ luồng chính trước, ngoại lệ sau → khối khai báo chuẩn và lớp màu theo `../so_do.md` mục 1 → chạy `../scripts/diagram_check.py` → giải thích từng cổng rẽ nhánh bằng mã BR.

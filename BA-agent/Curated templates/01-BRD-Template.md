@@ -113,12 +113,17 @@
 
 ## 1.8 Quy trình nghiệp vụ (As-Is / To-Be)
 
+> Vẽ bằng BPMN 2.0 theo `so_do.md` mục 4: mỗi quy trình chính một cặp As-Is / To-Be, file nguồn `diagrams/<tên>.bpmn` (mở bằng bpmn.io / Camunda Modeler), ảnh `diagrams/<tên>.png` chèn vào đây kèm liên kết tới `.bpmn`. Sinh nhanh từ bản mô tả: `bpmn_tool.py build diagrams/<tên>.json --png diagrams/<tên>.png`. Quy trình dài tách sang `04-Process-Flow.md`, ở đây chỉ giữ tóm tắt.
+
 ### As-Is (Hiện tại)
-- [Mô tả quy trình thủ công hiện tại và các điểm nghẽn]
+- [Mô tả quy trình thủ công hiện tại và các điểm nghẽn; bước gây điểm nghẽn đánh dấu `"highlight": "pain"` và ghi mã PD-xx]
+- Sơ đồ: [chèn ảnh `diagrams/<tên>-asis.png`, liên kết `diagrams/<tên>-asis.bpmn`]
 
 ### To-Be (Đề xuất)
-- [Mô tả quy trình mới được tối ưu hóa]
-- *(Chèn sơ đồ Context Diagram hoặc Activity / Swimlane Diagram)*
+- [Mô tả quy trình mới; mỗi cổng rẽ nhánh ghi mã BR quyết định nhánh đó]
+- Sơ đồ: [chèn ảnh `diagrams/<tên>-tobe.png`, liên kết `diagrams/<tên>-tobe.bpmn`]
+- Kiểm tra: `bpmn_tool.py check diagrams` không còn lỗi
+
 
 ---
 

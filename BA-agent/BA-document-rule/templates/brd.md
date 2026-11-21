@@ -164,18 +164,19 @@ Tài liệu này mô tả **yêu cầu kinh doanh** cho dự án {{Tên dự án
 #### 4.3.3 Decision Flowchart
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 graph TD
     A["Bắt đầu kiểm tra"] --> B{"QT-01: Thông tin KH khớp?"}
-    B -->|Không| B_ERR["🔴 Sai thông tin KH"]
+    B -->|Không| B_ERR["Sai thông tin KH"]
     B -->|Có| C{"QT-02: Xác định hạng mục"}
     C --> D{"QT-03: So khớp 1-1"}
     D -->|Thiếu| E{"QT-05: Synonym?"}
-    E -->|Có trong từ điển| F["🔵 Lệch tên gọi"]
+    E -->|Có trong từ điển| F["Lệch tên gọi"]
     E -->|Không| G{"QT-06: Lịch sử đủ?"}
-    G -->|Đủ tần suất| H["🔵 Đã đo đủ"]
-    G -->|Chưa đủ| I["🔴 THIẾU"]
-    D -->|Thừa| J["🟡 Cảnh báo thừa"]
-    D -->|Khớp| K["✅ OK"]
+    G -->|Đủ tần suất| H["Đã đo đủ"]
+    G -->|Chưa đủ| I["THIẾU"]
+    D -->|Thừa| J["Cảnh báo thừa"]
+    D -->|Khớp| K["OK"]
 ```
 
 ### 4.4 Thiết kế phân loại kết quả đầu ra ⭐ v3.1
@@ -230,16 +231,17 @@ graph TD
 ## 6. Tổng quan các nhóm chức năng chính
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 graph LR
-    subgraph "🖥️ {{TÊN HỆ THỐNG}}"
+    subgraph "{{TÊN HỆ THỐNG}}"
         UC1(["{{Use Case 1}}"])
         UC2(["{{Use Case 2}}"])
         UC3(["{{Use Case 3}}"])
     end
 
-    A1("👤 {{Actor 1}}") --- UC1
+    A1("{{Actor 1}}") --- UC1
     A1 --- UC2
-    A2("👤 {{Actor 2}}") --- UC3
+    A2("{{Actor 2}}") --- UC3
 ```
 
 ---

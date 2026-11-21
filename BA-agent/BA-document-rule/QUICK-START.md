@@ -98,7 +98,7 @@ Mở từng file → thay thế `{{...}}` bằng thông tin thực:
 | Cần gì | Mở file |
 |--------|---------|
 | Không biết viết requirement thế nào | `core/writing-guide.md` |
-| Không biết vẽ sơ đồ nào | `core/diagram-guide.md` |
+| Không biết vẽ sơ đồ nào | `BA-agent/so_do.md` mục 2 |
 | Review tài liệu trước sign-off | `core/quality-checklist.md` |
 | Phân công ai làm gì | `references/raci-matrix.md` |
 | Ước lượng effort | `references/estimation-guide.md` |

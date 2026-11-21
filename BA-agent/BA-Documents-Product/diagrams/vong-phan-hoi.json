@@ -1,0 +1,39 @@
+{
+  "id": "vong_phan_hoi",
+  "name": "Vòng phản hồi feedback trên portal",
+  "pool": "SignalDesk",
+  "lanes": [
+    {"id": "nguoi_dung", "name": "Người dùng portal"},
+    {"id": "he_thong", "name": "Hệ thống SignalDesk"},
+    {"id": "pm", "name": "Product Manager"}
+  ],
+  "nodes": [
+    {"id": "start", "type": "start", "name": "Người dùng vào portal", "lane": "nguoi_dung"},
+    {"id": "t1", "type": "user", "name": "Tìm ý tưởng tương tự", "lane": "nguoi_dung"},
+    {"id": "g1", "type": "xor", "name": "Có mục phù hợp?", "lane": "nguoi_dung"},
+    {"id": "t2", "type": "user", "name": "Bình chọn và theo dõi mục có sẵn", "lane": "nguoi_dung"},
+    {"id": "t3", "type": "user", "name": "Gửi feedback mới", "lane": "nguoi_dung", "row": 1},
+    {"id": "t4", "type": "service", "name": "Tạo mục trạng thái New", "lane": "he_thong"},
+    {"id": "m1", "type": "xor", "name": "", "lane": "pm"},
+    {"id": "t5", "type": "user", "name": "Xem, gộp nếu trùng, đổi trạng thái công khai", "lane": "pm"},
+    {"id": "t6", "type": "send", "name": "Gửi email cho người theo dõi", "lane": "he_thong"},
+    {"id": "g2", "type": "xor", "name": "Tính năng đã phát hành?", "lane": "pm"},
+    {"id": "t7", "type": "user", "name": "Phát hành release note gắn feedback (BR-004)", "lane": "pm"},
+    {"id": "end", "type": "end", "name": "Người theo dõi đọc release note", "lane": "nguoi_dung"}
+  ],
+  "flows": [
+    ["start", "t1"],
+    ["t1", "g1"],
+    ["g1", "t2", "Có"],
+    ["g1", "t3", "Không"],
+    ["t3", "t4"],
+    ["t2", "m1"],
+    ["t4", "m1"],
+    ["m1", "t5"],
+    ["t5", "t6"],
+    ["t6", "g2"],
+    ["g2", "t5", "Chưa"],
+    ["g2", "t7", "Rồi"],
+    ["t7", "end"]
+  ]
+}

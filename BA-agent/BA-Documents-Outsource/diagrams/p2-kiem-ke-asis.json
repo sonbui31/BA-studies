@@ -1,0 +1,22 @@
+{
+  "id": "p2_kiem_ke_asis",
+  "name": "P2 As-Is: Kiểm kê tài sản cuối tháng",
+  "pool": "Bệnh viện Đa khoa An Phúc",
+  "lanes": [
+    {"id": "vat_tu", "name": "Phòng Vật tư"},
+    {"id": "nv_vat_tu", "name": "Nhân viên Vật tư"}
+  ],
+  "nodes": [
+    {"id": "start", "type": "start_timer", "name": "Cuối tháng", "lane": "vat_tu"},
+    {"id": "a1", "type": "manual", "name": "In danh sách tài sản từ file Excel từng khoa", "lane": "vat_tu"},
+    {"id": "a2", "type": "manual", "name": "Đếm và đánh dấu tay tại từng khoa (PD-01)", "lane": "nv_vat_tu", "highlight": "pain"},
+    {"id": "a3", "type": "manual", "name": "Gộp kết quả, dò chênh lệch bằng tay (PD-03)", "lane": "vat_tu", "highlight": "pain"},
+    {"id": "end", "type": "end", "name": "Báo cáo kiểm kê sau khoảng 3 ngày", "lane": "vat_tu"}
+  ],
+  "flows": [
+    ["start", "a1"],
+    ["a1", "a2"],
+    ["a2", "a3"],
+    ["a3", "end"]
+  ]
+}

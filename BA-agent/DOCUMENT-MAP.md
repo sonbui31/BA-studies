@@ -1,4 +1,4 @@
-# HƯỚNG DẪN BỘ TÀI LIỆU BA (Document Map v3.8)
+# HƯỚNG DẪN BỘ TÀI LIỆU BA (Document Map v3.10)
 
 > **Mục đích:** Giải thích chức năng và nội dung từng file trong hệ thống BA-agent
 > **Cập nhật:** 12/05/2026 — v3.4 (đóng gói skill + đồng bộ numbering/validation)
@@ -86,7 +86,7 @@
 | `00-ba-process-framework.md` | Quy trình BA generic 5 phase: Inception → Discovery → Elaboration → Delivery → Closure | |
 | `principles.md` | Nguyên tắc BA: BACCM, stakeholder-centric, traceability, iterative | |
 | `writing-guide.md` | Chuẩn viết tài liệu: naming, format bảng, viết AC, ngôn ngữ, tone | |
-| `diagram-guide.md` | Quy ước sơ đồ: Mermaid syntax, hình dạng, khi nào dùng loại nào | |
+| `diagram-guide.md` | Trỏ về `so_do.md`, nơi duy nhất giữ chuẩn vẽ sơ đồ | |
 | `quality-checklist.md` | Checklist chất lượng: completeness, consistency, traceability check | |
 | `glossary.md` | Thuật ngữ BA A-Z (AC, BABOK, BRD, CR, DoD, Epic, SRS, UAT...) | |
 | `evaluation-protocol.md` | C-S-K-A Matrix 3.2: **inline audit** + Multi-LLM phases + Pre-Flight cross-check | ⬆ Updated |
@@ -192,7 +192,7 @@
 | `case-study-parent-app.md` | Nhận xét kiểu Senior trên bộ tài liệu Parent App | ⭐ NEW v3.5.0 |
 | `vn-regulatory-watchlist.md` | Chủ đề pháp luật Việt Nam cần hỏi khi đặc tả (chưa xác minh) | ⭐ NEW v3.5.0 |
 
-### 📁 scripts/ — Audit Scripts & Công cụ Tự động hóa (19 files)
+### 📁 scripts/ — Audit Scripts & Công cụ Tự động hóa (22 files)
 
 | File | Mô tả | Khi nào dùng |
 |------|-------|-------------|
@@ -216,6 +216,9 @@
 | `docx_to_md.py` | Chuyển đổi file DOCX sang Markdown | Khi cần convert tài liệu |
 | `md_to_docx.py` | Xuất Markdown sang Word, theo mẫu Word của khách (`--template`) | Khi giao tài liệu cho khách |
 | `docx_feedback.py` | Gom Track Changes và comment trong file Word khách gửi lại, gắn về ID; `--baseline` so với bản Markdown | Khi khách gửi góp ý bằng Word |
+| `bpmn_tool.py` | Sinh file BPMN 2.0 (`.bpmn`, mở bằng bpmn.io / Camunda Modeler) từ bản mô tả JSON, kiểm tra mô hình, vẽ PNG/SVG | Khi vẽ hoặc sửa quy trình nghiệp vụ |
+| `bpmn_render.mjs` | Vẽ `.bpmn` thành ảnh bằng bpmn-js (Node, tùy chọn) | Gọi qua `bpmn_tool.py` |
+| `diagram_check.py` | Kiểm tra sơ đồ Mermaid theo `so_do.md`; `--fix` sửa phần máy móc, `--render` vẽ thử bằng mermaid-cli | Sau khi vẽ hoặc sửa sơ đồ, trước khi gửi khách |
 | `id_migrate.py` | Đổi ID riêng của dự án sang ID canonical theo quy tắc trong `ba-scheme.json`, sinh `ID-MIGRATION.md` | Khi chuẩn hóa ID của dự án đang dở |
 
 ### 📁 knowledge-index/ — Self-contained source index

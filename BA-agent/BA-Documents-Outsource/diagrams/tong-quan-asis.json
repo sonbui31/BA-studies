@@ -1,0 +1,28 @@
+{
+  "id": "tong_quan_asis",
+  "name": "Tổng quan As-Is: Vòng đời tài sản",
+  "pool": "Bệnh viện Đa khoa An Phúc",
+  "lanes": [
+    {"id": "khoa", "name": "Khoa sử dụng"},
+    {"id": "vat_tu", "name": "Phòng Vật tư"}
+  ],
+  "nodes": [
+    {"id": "start", "type": "start", "name": "Có tài sản mới", "lane": "khoa"},
+    {"id": "a1", "type": "send", "name": "Báo tài sản mới qua email hoặc phiếu", "lane": "khoa"},
+    {"id": "a2", "type": "manual", "name": "Ghi vào file Excel tổng (PD-01)", "lane": "vat_tu", "highlight": "pain"},
+    {"id": "a3", "type": "manual", "name": "Sử dụng tài sản tại khoa", "lane": "khoa"},
+    {"id": "a4", "type": "manual", "name": "Điều chuyển ghi tay hoặc qua email (PD-02)", "lane": "khoa", "highlight": "pain"},
+    {"id": "a5", "type": "manual", "name": "Kiểm kê bằng tay cuối tháng", "lane": "vat_tu"},
+    {"id": "a6", "type": "manual", "name": "Gộp file các khoa, làm báo cáo Excel (PD-03)", "lane": "vat_tu", "highlight": "pain"},
+    {"id": "end", "type": "end", "name": "Báo cáo điều hành chậm 5-7 ngày", "lane": "vat_tu"}
+  ],
+  "flows": [
+    ["start", "a1"],
+    ["a1", "a2"],
+    ["a2", "a3"],
+    ["a3", "a4"],
+    ["a4", "a5"],
+    ["a5", "a6"],
+    ["a6", "end"]
+  ]
+}

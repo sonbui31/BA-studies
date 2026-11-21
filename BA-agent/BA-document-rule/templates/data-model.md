@@ -7,19 +7,20 @@
 
 ## 1. ERD — Entity Relationship Diagram
 
-> Xem `core/diagram-guide.md` > Mục ERD để biết cú pháp và quy ước.
+> Cú pháp và quy ước ERD: `BA-agent/so_do.md` mục 9.
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 erDiagram
-    {{ENTITY_1}} ||--o{ {{ENTITY_2}} : "{{quan hệ}}"
-    {{ENTITY_1}} {
+    ENTITY_A ||--o{ ENTITY_B : "quan hệ"
+    ENTITY_A {
         uuid id PK
         string name
         timestamp created_at
         timestamp updated_at
     }
 
-    {{ENTITY_2}} {
+    ENTITY_B {
         uuid id PK
         uuid entity1_id FK
         string status

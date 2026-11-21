@@ -1,0 +1,33 @@
+{
+  "id": "cap_nhat_trang_thai",
+  "name": "Cập nhật trạng thái công khai và thông báo",
+  "pool": "SignalDesk",
+  "lanes": [
+    {"id": "pm", "name": "Product Manager"},
+    {"id": "he_thong", "name": "Hệ thống SignalDesk"}
+  ],
+  "nodes": [
+    {"id": "start", "type": "start", "name": "Mục feedback có tiến triển", "lane": "pm"},
+    {"id": "t1", "type": "user", "name": "Đổi trạng thái công khai", "lane": "pm"},
+    {"id": "t2", "type": "business_rule", "name": "Kiểm tra trạng thái thuộc danh sách công khai", "lane": "he_thong"},
+    {"id": "t3", "type": "service", "name": "Lưu lịch sử, xếp hàng gửi thông báo", "lane": "he_thong"},
+    {"id": "g1", "type": "xor", "name": "Người theo dõi còn đăng ký?", "lane": "he_thong"},
+    {"id": "end_skip", "type": "end", "name": "Không gửi", "lane": "he_thong", "row": 1},
+    {"id": "t4", "type": "send", "name": "Gửi email thông báo", "lane": "he_thong"},
+    {"id": "g2", "type": "xor", "name": "Kết quả gửi?", "lane": "he_thong"},
+    {"id": "end_sent", "type": "end", "name": "Đã thông báo", "lane": "he_thong"},
+    {"id": "end_failed", "type": "end", "name": "Chuyển hàng lỗi, cảnh báo nội bộ", "lane": "he_thong", "row": 1}
+  ],
+  "flows": [
+    ["start", "t1"],
+    ["t1", "t2"],
+    ["t2", "t3"],
+    ["t3", "g1"],
+    ["g1", "end_skip", "Đã hủy đăng ký"],
+    ["g1", "t4", "Còn"],
+    ["t4", "g2"],
+    ["g2", "end_sent", "Thành công"],
+    ["g2", "t4", "Lỗi, thử lại"],
+    ["g2", "end_failed", "Lỗi sau 2 lần thử"]
+  ]
+}

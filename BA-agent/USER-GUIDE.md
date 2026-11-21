@@ -1,4 +1,4 @@
-# HƯỚNG DẪN SỬ DỤNG BỘ KIT BA 3.8 (ADVANCED ANALYSIS & WRITING QUALITY ENGINE)
+# HƯỚNG DẪN SỬ DỤNG BỘ KIT BA 3.10 (ADVANCED ANALYSIS & WRITING QUALITY ENGINE)
 
 > **Chào mừng bạn đến với BA-Agent 3.4!**
 > Bộ kit "Layered OS" v3.4 — **"Think Deeper, Write Better"**: Advanced Analysis + Requirement Quality Engine.
@@ -49,7 +49,23 @@ Step 5 FAIL (pre-flight trước doc) → Quay lại Step 0/2 (bổ sung input)
 
 ---
 
-## 🆕 Có gì mới trong v3.8?
+## 🆕 Có gì mới trong v3.10?
+
+- **Quy trình nghiệp vụ vẽ bằng BPMN 2.0 thật** (định dạng bpmn.io): pool, lane, loại task, cổng loại trừ và song song, sự kiện hẹn giờ gắn biên. File `.bpmn` mở và sửa được bằng bpmn.io, Camunda Modeler; nhập được vào Bizagi, Signavio. Xem `so_do.md` mục 4.
+- **`bpmn_tool.py`:** viết bản mô tả JSON ngắn (lane, bước, luồng), script sinh `.bpmn` có bố cục, kiểm tra lỗi mô hình (luồng cụt, nhánh thiếu điều kiện, phần tử lơ lửng) và vẽ ảnh PNG/SVG bằng bpmn-js.
+- **Tài liệu mẫu:** 13 sơ đồ BPMN: bộ Outsource 7 (tổng quan vòng đời tài sản; điều chuyển, kiểm kê, bảo trì), bộ Product 5 (BRD, vòng phản hồi, gộp feedback trùng, cập nhật trạng thái), 1 ví dụ trong `so_do.md`; ô viền đỏ đánh dấu bước gây điểm đau trong As-Is. User flow của một người dùng trên màn hình vẫn vẽ bằng Mermaid.
+- **Xuất Word:** ảnh sơ đồ rộng tự nằm trên trang ngang riêng để chữ còn đọc được.
+- Mermaid BPMN-lite chỉ còn dùng để phác thảo trong lúc trao đổi.
+
+## Có gì mới trong v3.9
+
+- **Một chuẩn vẽ sơ đồ duy nhất:** `so_do.md` (viết lại). Khối khai báo giao diện chung thay theme mặc định của Mermaid; mười quy tắc; BPMN-lite cho quy trình (sự kiện bắt đầu/kết thúc, cổng loại trừ và song song, vai trò theo màu); khi nào phải vẽ BPMN 2.0 thật. Sửa các ví dụ sai nghiệp vụ cũ (Sequence thiếu `else`, State hoàn tiền về sai trạng thái).
+- **Tài liệu mẫu có sơ đồ quy trình thật:** `BA-Documents-Outsource/04-Process-Flow.md` (điều chuyển, kiểm kê, bảo trì; As-Is và To-Be), BRD và User Flow của bộ Product chuyển từ sơ đồ ký tự sang Mermaid.
+- **`diagram_check.py`:** bắt sơ đồ không vẽ được, nhánh không nhãn, `<<include>>` hiện thành `<>`; `--fix` sửa phần máy móc; `--render` vẽ thử bằng mermaid-cli.
+- **Xuất Word có hình:** `md_to_docx.py` vẽ sơ đồ Mermaid thành ảnh khi có mermaid-cli.
+- **Preflight `Process Diagram`:** BRD phải dựa trên sơ đồ quy trình vẽ được (Hard Gate 1).
+
+## Có gì mới trong v3.8
 
 - **Scripts đọc đúng tài liệu thật.** Chạy lên ba bộ tài liệu thật (QLTS, vClassio) cho thấy phần lớn cảnh báo của bản 3.7 là sai: ma trận có cột tên, ID con `FR-TEA-003.1`, liên kết viết ở dòng dưới định nghĩa, bảng nhóm, bảng thuộc tính. Đã sửa 15 mẫu viết; bản ghi: `tests/golden/real_project_tool_run_2026-11-21.md`.
 - **Dự án đang dở giữ ID riêng:** khai báo định dạng ID, vai trò file và tác nhân trong `ba-scheme.json`, chạy `traceability_scan.py --scheme project`. Muốn chuyển sang ID canonical: `id_migrate.py` (có bảng đổi ID).

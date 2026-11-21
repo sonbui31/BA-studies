@@ -34,12 +34,13 @@
 ### 3.1 L0 — Value Chain Diagram
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 graph LR
-    A["📝 Lập KH\n mua sắm"] --> B["🛒 Mua sắm\n& Đấu thầu"]
-    B --> C["📦 Nhập kho\n& Ghi sổ"]
-    C --> D["🏥 Phân phối\n& Sử dụng"]
-    D --> E["🔧 Bảo trì\n& Sửa chữa"]
-    E --> F["♻️ Thanh lý\n& Kiểm kê"]
+    A["Lập KH<br/> mua sắm"] --> B["Mua sắm<br/>& Đấu thầu"]
+    B --> C["Nhập kho<br/>& Ghi sổ"]
+    C --> D["Phân phối<br/>& Sử dụng"]
+    D --> E["Bảo trì<br/>& Sửa chữa"]
+    E --> F["Thanh lý<br/>& Kiểm kê"]
     
     style A fill:#e1f5fe
     style B fill:#e1f5fe
@@ -65,18 +66,19 @@ graph LR
 ### 3.3 L2 — Process Detail (Swimlane)
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 graph TD
     subgraph "KTTS"
-        A1["1. Nhận biên bản\nmua sắm"] --> A2["2. Kiểm hàng\ntheo BB"]
-        A2 --> A3["3. Ký biên bản\ntiếp nhận"]
+        A1["1. Nhận biên bản<br/>mua sắm"] --> A2["2. Kiểm hàng<br/>theo BB"]
+        A2 --> A3["3. Ký biên bản<br/>tiếp nhận"]
     end
     subgraph "Kế toán"
-        A3 --> B1["4. Lập phiếu\nnhập kho"]
-        B1 --> B2["5. Ghi sổ\ntài sản"]
-        B2 --> B3["6. Dán mã\ntài sản"]
+        A3 --> B1["4. Lập phiếu<br/>nhập kho"]
+        B1 --> B2["5. Ghi sổ<br/>tài sản"]
+        B2 --> B3["6. Dán mã<br/>tài sản"]
     end
     subgraph "Trưởng phòng"
-        B2 --> C1["7. Phê duyệt\nnhập kho"]
+        B2 --> C1["7. Phê duyệt<br/>nhập kho"]
     end
     C1 -->|Approved| B3
     C1 -->|Rejected| A2

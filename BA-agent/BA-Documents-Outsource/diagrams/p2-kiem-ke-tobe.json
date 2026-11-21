@@ -1,0 +1,35 @@
+{
+  "id": "p2_kiem_ke_tobe",
+  "name": "P2 To-Be: Kiểm kê theo đợt",
+  "pool": "Bệnh viện Đa khoa An Phúc",
+  "lanes": [
+    {"id": "vat_tu", "name": "Phòng Vật tư"},
+    {"id": "nv_vat_tu", "name": "Nhân viên Vật tư"},
+    {"id": "truong_khoa", "name": "Trưởng khoa"}
+  ],
+  "nodes": [
+    {"id": "start", "type": "start_timer", "name": "Đến kỳ kiểm kê", "lane": "vat_tu"},
+    {"id": "t1", "type": "user", "name": "Mở đợt kiểm kê cho khoa (FR-INV-001)", "lane": "vat_tu"},
+    {"id": "t2", "type": "user", "name": "Quét barcode từng tài sản", "lane": "nv_vat_tu"},
+    {"id": "g1", "type": "xor", "name": "Có chênh lệch?", "lane": "nv_vat_tu"},
+    {"id": "t3", "type": "user", "name": "Phân loại chênh lệch: Mất, Hỏng, Sai vị trí, Chờ xác minh", "lane": "nv_vat_tu"},
+    {"id": "g2", "type": "xor", "name": "Còn dòng chưa phân loại (BR-005)?", "lane": "nv_vat_tu"},
+    {"id": "m1", "type": "xor", "name": "", "lane": "truong_khoa"},
+    {"id": "t4", "type": "user", "name": "Xác nhận kết quả kiểm kê của khoa", "lane": "truong_khoa"},
+    {"id": "t5", "type": "user", "name": "Khóa sổ đợt kiểm kê", "lane": "vat_tu"},
+    {"id": "end", "type": "end", "name": "Báo cáo lệch đã chốt", "lane": "vat_tu"}
+  ],
+  "flows": [
+    ["start", "t1"],
+    ["t1", "t2"],
+    ["t2", "g1"],
+    ["g1", "t3", "Có"],
+    ["g1", "m1", "Không"],
+    ["t3", "g2"],
+    ["g2", "t3", "Còn"],
+    ["g2", "m1", "Hết"],
+    ["m1", "t4"],
+    ["t4", "t5"],
+    ["t5", "end"]
+  ]
+}

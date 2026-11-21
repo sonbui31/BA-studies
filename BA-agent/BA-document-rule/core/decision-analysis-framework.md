@@ -86,6 +86,7 @@
 **Khi nào:** Quyết định phụ thuộc vào kịch bản (probability-based)
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 graph TD
     A["Xây hệ thống mới?"] -->|"Build (500M)"| B{"Dự án thành công?"}
     A -->|"Buy (300M)"| C{"Vendor đáng tin?"}

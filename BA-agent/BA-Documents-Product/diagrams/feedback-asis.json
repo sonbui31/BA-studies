@@ -1,0 +1,29 @@
+{
+  "id": "feedback_asis",
+  "name": "As-Is: Thu và phản hồi feedback khách hàng",
+  "pool": "SignalDesk — khách hàng và đội sản phẩm",
+  "lanes": [
+    {"id": "khach_hang", "name": "Khách hàng"},
+    {"id": "cs", "name": "Customer Success"},
+    {"id": "pm", "name": "Product Manager"}
+  ],
+  "nodes": [
+    {"id": "start", "type": "start", "name": "Có ý kiến về sản phẩm", "lane": "khach_hang"},
+    {"id": "a1", "type": "send", "name": "Gửi feedback qua Slack, Intercom, email", "lane": "khach_hang"},
+    {"id": "a2", "type": "manual", "name": "Chép tay vào spreadsheet khi nhớ", "lane": "cs", "highlight": "pain"},
+    {"id": "a3", "type": "manual", "name": "Đọc theo đợt, tự gộp nội dung trùng", "lane": "pm", "highlight": "pain"},
+    {"id": "a4", "type": "task", "name": "Quyết định roadmap", "lane": "pm"},
+    {"id": "a5", "type": "send", "name": "Hỏi lại CS về trạng thái", "lane": "khach_hang"},
+    {"id": "a6", "type": "manual", "name": "Hỏi PM rồi trả lời thủ công", "lane": "cs", "highlight": "pain"},
+    {"id": "end", "type": "end", "name": "Nhận câu trả lời sau nhiều ngày", "lane": "khach_hang"}
+  ],
+  "flows": [
+    ["start", "a1"],
+    ["a1", "a2"],
+    ["a2", "a3"],
+    ["a3", "a4"],
+    ["a4", "a5"],
+    ["a5", "a6"],
+    ["a6", "end"]
+  ]
+}

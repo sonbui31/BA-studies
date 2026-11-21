@@ -5,6 +5,49 @@
 
 ---
 
+## [3.10.0] — 2026-11-21
+
+Quy trình nghiệp vụ chuyển từ Mermaid BPMN-lite sang BPMN 2.0 thật (định dạng bpmn.io), theo yêu cầu vẽ đúng chuẩn.
+
+### Added
+- `scripts/bpmn_tool.py` (Python thuần): `build` sinh BPMN 2.0 XML có bố cục (pool, lane, luồng trái sang phải, nhãn cổng đặt phía không có đường ra, đoạn dọc chạy trong khe giữa các cột) từ bản mô tả JSON; `check` kiểm tra mô hình trên mọi file `.bpmn`, kể cả bản sửa tay; tô màu điểm đau bằng phần mở rộng màu của bpmn.io.
+- `scripts/bpmn_render.mjs`: vẽ `.bpmn` thành PNG/SVG bằng bpmn-js; báo lỗi khi bpmn-js đọc file có cảnh báo.
+- `scripts/package.json`: cài công cụ Node tùy chọn (bpmn-js, puppeteer-core, mermaid-cli) bằng một lệnh.
+- Sơ đồ BPMN 2.0 (`.json`, `.bpmn`, `.png`), 13 sơ đồ: bộ Outsource 7 (tổng quan As-Is/To-Be trong BRD mục 6 với quy trình con thu gọn và cổng bao hàm; P1 Điều chuyển, P2 Kiểm kê, P3 Bảo trì), bộ Product 5 (As-Is/To-Be trong BRD; vòng phản hồi, gộp feedback trùng, cập nhật trạng thái trong User Flow), ví dụ duyệt hoàn tiền trong `diagrams/`. Task vẽ thành task thường, không biểu tượng (bật lại bằng `"task_icons": true`). Nhãn đặt bằng cách thử vị trí ứng viên, tránh ô, đường nối, biên lane và nhãn khác.
+- `md_to_docx.py`: ảnh rộng nằm trên trang ngang riêng.
+- `tests/test_bpmn.py` (10 test): sinh và đọc lại XML, lỗi và cảnh báo mô hình, sơ đồ mẫu khớp bản mô tả và có ảnh, tài liệu có liên kết `.bpmn` cạnh mỗi ảnh, vẽ thật bằng bpmn-js khi có Node, trang ngang trong Word.
+
+### Changed
+- `so_do.md` mục 4: BPMN 2.0 là chuẩn cho quy trình nghiệp vụ (ký hiệu, bản mô tả JSON, quy tắc mô hình, cách sửa không trộn JSON với sửa tay, draw.io); Mermaid BPMN-lite chỉ để phác thảo (mục 4.5).
+- `04-Process-Flow.md` và BRD (Outsource), BRD và User Flow mục 1.2, 3.2, 3.3 (Product), curated template BRD mục 1.8, `bpmn-modeling-standard.md`, `SKILL.md` mục 5, agent, workflow: dùng ảnh BPMN kèm liên kết `.bpmn`.
+
+---
+
+## [3.9.0] — 2026-11-21
+
+Đánh giá phần sơ đồ: vẽ thử 57 sơ đồ bằng mermaid-cli. 4 sơ đồ template không vẽ được; template SRS hiện `<<include>>` thành `<>`; ví dụ mẫu có lỗi nghiệp vụ; mọi sơ đồ dùng theme mặc định; bộ tài liệu mẫu không có BPMN dù Hard Gate 1 đòi; xuất Word ra mã thay vì hình.
+
+### Added
+- `scripts/diagram_check.py`: kiểm tra sơ đồ theo `so_do.md`, `--fix` cho phần máy móc, `--render` vẽ thử bằng mermaid-cli.
+- `md_to_docx.py`: vẽ sơ đồ Mermaid thành ảnh khi có mermaid-cli (`--diagrams`, `--mmdc`, `--browser`), cảnh báo rõ khi sơ đồ phải giữ dạng mã.
+- `preflight_check.py`: check `Process Diagram` cho BRD (Hard Gate 1).
+- `BA-Documents-Outsource/04-Process-Flow.md`: 3 quy trình As-Is/To-Be bám BRD/SRS (BR-002, BR-003, BR-004, BR-005), bảng khoảng cách, phê duyệt.
+- `tests/test_diagrams.py` (10 test), gồm kiểm tra mọi sơ đồ trong tài liệu mẫu, curated template và `so_do.md` đạt chuẩn.
+
+### Changed
+- `so_do.md` viết lại thành file chủ duy nhất về sơ đồ: khối khai báo giao diện, bộ lớp màu, mười quy tắc, BPMN-lite, điều kiện bắt buộc BPMN 2.0 thật, ví dụ đã vẽ thử. `BA-document-rule/core/diagram-guide.md` chỉ còn trỏ về đây.
+- Curated template: BRD có khung sơ đồ As-Is/To-Be; Use Case của SRS dùng hình viên thuốc, đường nối không mũi tên, `≪include≫`.
+- `bpmn-modeling-standard.md`: phân biệt cổng XOR/AND/OR, sự kiện chờ, cách thể hiện trong BPMN-lite.
+- BRD và User Flow bộ Product, BRD bộ Outsource: sơ đồ ký tự chuyển sang Mermaid.
+- 33 sơ đồ trong core guide và template: thêm khối khai báo chuẩn, bỏ emoji, `\n` thành `<br/>` (chạy `diagram_check.py --fix`).
+
+### Fixed
+- 4 template có `{{...}}` ở tên entity, tên trạng thái hoặc ngày (`data-model.md`, `srs.md`, `vision-scope.md`, `procurement-bidding-spec.md`) nên không vẽ được.
+- Ví dụ trong `so_do.md`: Sequence trả 400 rồi vẫn chạy tiếp; State từ chối hoàn tiền luôn về PROCESSING, PENDING không có lối hết hạn; Activity dùng "Gọi API" trong sơ đồ nghiệp vụ; nhánh song song không có điểm hợp; mục đánh số nhảy 10 → 12.
+- Bộ Outsource ghi BRD là Baseline đã ký khi chưa có sơ đồ quy trình (vi phạm Hard Gate 1); nay quy trình đã vẽ và có phê duyệt riêng.
+
+---
+
 ## [3.8.0] — 2026-11-21
 
 Chạy scripts lên ba bộ tài liệu thật (`projects/QLTS`, `projects/vClassio_app`) cho thấy bản 3.7 chỉ đúng trên tài liệu mẫu do chính bộ kit viết: phần lớn cảnh báo trên tài liệu thật là sai, và strict canonical đếm 0 FR, 0 US, 0 TC cho dự án dùng ID riêng. Bản này sửa công cụ cho tài liệu thật và bổ sung phần việc của người.

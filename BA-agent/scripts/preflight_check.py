@@ -305,6 +305,30 @@ def signed_rows(text: str) -> int:
     return count
 
 
+PROCESS_DIAGRAM = re.compile(r"^[ \t]*```mermaid[ \t]*\r?\n(?:[ \t]*(?:%%.*)?\r?\n)*[ \t]*(?:flowchart|graph)\b", re.MULTILINE)
+DIAGRAM_FILE_LINK = re.compile(r"!\[[^\]]*\]\([^)]+\.(?:png|jpe?g|svg)\)|\.bpmn\b|\.drawio\b", re.IGNORECASE)
+
+
+def has_process_diagram(text: str) -> bool:
+    return bool(PROCESS_DIAGRAM.search(text) or DIAGRAM_FILE_LINK.search(text))
+
+
+def process_diagram_check(text: str, ctx: Dict[str, str]) -> Dict[str, str]:
+    """Hard Gate 1: the BRD rests on a drawn process (in the BRD or a Process/User Flow file)."""
+    if "LỐI AGILE LITE" in text.upper():
+        return make_na("Process Diagram", "Agile Lite: BPMN only for flows with branches")
+    if has_process_diagram(text):
+        return make_check("Process Diagram", True, "process diagram in BRD")
+    flow_files = [name for name in ctx if re.search(r"process|flow|quy-trinh", name, re.IGNORECASE)]
+    drawn = [name for name in flow_files if has_process_diagram(ctx[name])]
+    if drawn:
+        return make_check("Process Diagram", True, f"process diagram in {', '.join(sorted(drawn))}")
+    detail = "no Mermaid flowchart, image or .bpmn/.drawio link in BRD"
+    if flow_files:
+        detail += f"; {', '.join(sorted(flow_files))} has no drawn diagram"
+    return make_check("Process Diagram", False, detail)
+
+
 def human_signoff_check(text: str) -> Dict[str, str]:
     """core/human-accountability.md H5: a document that claims baseline needs a filled sign-off."""
     if not claims_baseline(text):
@@ -418,6 +442,7 @@ def brd_checks(text: str, ctx: Dict[str, str]) -> List[Dict[str, str]]:
     else:
         checks.append(make_na("AI Feature Spec", "no AI/ML markers"))
     checks.append(evidence_sources_check(text))
+    checks.append(process_diagram_check(text, ctx))
     ok, detail = numbering_status(text, "brd")
     checks.append(make_check("Sequential Numbering", ok, detail))
     return checks

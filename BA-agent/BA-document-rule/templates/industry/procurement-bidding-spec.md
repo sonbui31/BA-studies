@@ -96,12 +96,14 @@
 ## 6. Tiến độ thực hiện (gắn với Payment Milestone)
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 gantt
-    title Tiến độ gói thầu — {{Tên dự án}}
+    title Tiến độ gói thầu
     dateFormat  YYYY-MM-DD
+    %% Thay 2026-01-05 bằng ngày ký hợp đồng thật
 
     section Ký HĐ & Khởi động
-        Ký hợp đồng + Tạm ứng (M0)      :milestone, m0, {{date}}, 0d
+        Ký hợp đồng + Tạm ứng (M0)      :milestone, m0, 2026-01-05, 0d
         Khảo sát & Phân tích              :a1, after m0, 30d
 
     section Thiết kế & Phát triển

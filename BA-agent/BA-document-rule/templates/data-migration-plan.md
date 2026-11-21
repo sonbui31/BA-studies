@@ -57,12 +57,13 @@
 ## 4. Migration Phases
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 graph LR
-    P1["📊 Phase 1:<br/>Data Audit<br/>(2 ngày)"] --> P2["🧹 Phase 2:<br/>Data Cleanse<br/>(3 ngày)"]
-    P2 --> P3["🧪 Phase 3:<br/>Trial Import<br/>(2 ngày)"]
-    P3 --> P4["✅ Phase 4:<br/>UAT Verify<br/>(2 ngày)"]
-    P4 --> P5["🚀 Phase 5:<br/>Production Import<br/>(1 ngày)"]
-    P5 --> P6["🔍 Phase 6:<br/>Post-Migration<br/>Verify (2 ngày)"]
+    P1["Phase 1:<br/>Data Audit<br/>(2 ngày)"] --> P2["Phase 2:<br/>Data Cleanse<br/>(3 ngày)"]
+    P2 --> P3["Phase 3:<br/>Trial Import<br/>(2 ngày)"]
+    P3 --> P4["Phase 4:<br/>UAT Verify<br/>(2 ngày)"]
+    P4 --> P5["Phase 5:<br/>Production Import<br/>(1 ngày)"]
+    P5 --> P6["Phase 6:<br/>Post-Migration<br/>Verify (2 ngày)"]
 ```
 
 ### Phase 1: Data Audit (Kiểm toán dữ liệu nguồn)

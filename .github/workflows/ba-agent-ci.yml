@@ -59,6 +59,20 @@ jobs:
       - name: Traceability (project scheme) on real-world pattern fixture
         run: python BA-agent/scripts/traceability_scan.py BA-agent/tests/fixtures/real_world_patterns --scheme project --strict
 
+      - name: Diagram standard (so_do.md) on shipped diagrams
+        run: |
+          python BA-agent/scripts/diagram_check.py BA-agent/so_do.md --strict
+          python BA-agent/scripts/diagram_check.py "BA-agent/Curated templates" --strict
+          python BA-agent/scripts/diagram_check.py BA-agent/BA-Documents-Outsource --strict
+          python BA-agent/scripts/diagram_check.py BA-agent/BA-Documents-Product --strict
+          python BA-agent/scripts/diagram_check.py BA-agent/BA-document-rule --max-nodes 15
+
+      - name: BPMN 2.0 models (structure; rendering needs Node and is checked locally)
+        run: |
+          python BA-agent/scripts/bpmn_tool.py check BA-agent/BA-Documents-Outsource/diagrams --strict
+          python BA-agent/scripts/bpmn_tool.py check BA-agent/BA-Documents-Product/diagrams --strict
+          python BA-agent/scripts/bpmn_tool.py check BA-agent/diagrams --strict
+
       - name: Pre-flight on sample bundles
         run: |
           python BA-agent/scripts/preflight_check.py BA-agent/BA-Documents-Outsource

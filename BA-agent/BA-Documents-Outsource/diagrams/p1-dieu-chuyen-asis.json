@@ -1,0 +1,27 @@
+{
+  "id": "p1_dieu_chuyen_asis",
+  "name": "P1 As-Is: Điều chuyển tài sản giữa các khoa",
+  "pool": "Bệnh viện Đa khoa An Phúc",
+  "lanes": [
+    {"id": "khoa_giao", "name": "Khoa giao"},
+    {"id": "vat_tu", "name": "Phòng Vật tư"},
+    {"id": "khoa_nhan", "name": "Khoa nhận"}
+  ],
+  "nodes": [
+    {"id": "start", "type": "start", "name": "Cần chuyển tài sản sang khoa khác", "lane": "khoa_giao"},
+    {"id": "a1", "type": "send", "name": "Gửi email hoặc phiếu giấy cho Phòng Vật tư", "lane": "khoa_giao"},
+    {"id": "a2", "type": "manual", "name": "Sửa file Excel tổng (PD-02)", "lane": "vat_tu", "highlight": "pain"},
+    {"id": "a3", "type": "manual", "name": "Mang tài sản sang khoa nhận", "lane": "khoa_giao"},
+    {"id": "g1", "type": "xor", "name": "Khoa nhận ký sổ bàn giao?", "lane": "khoa_nhan"},
+    {"id": "end_signed", "type": "end", "name": "Tài sản ở khoa mới, có chữ ký giấy", "lane": "khoa_nhan"},
+    {"id": "end_unknown", "type": "end", "name": "Không rõ ai đang giữ tài sản (PD-02)", "lane": "khoa_nhan", "highlight": "pain"}
+  ],
+  "flows": [
+    ["start", "a1"],
+    ["a1", "a2"],
+    ["a2", "a3"],
+    ["a3", "g1"],
+    ["g1", "end_signed", "Có"],
+    ["g1", "end_unknown", "Không"]
+  ]
+}

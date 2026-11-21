@@ -1,0 +1,36 @@
+{
+  "id": "p3_bao_tri_tobe",
+  "name": "P3 To-Be: Cảnh báo và lên lịch bảo trì",
+  "pool": "Bệnh viện Đa khoa An Phúc",
+  "lanes": [
+    {"id": "he_thong", "name": "Hệ thống quản lý tài sản"},
+    {"id": "vat_tu", "name": "Phòng Vật tư"},
+    {"id": "ky_su", "name": "Kỹ sư bảo trì"}
+  ],
+  "nodes": [
+    {"id": "start", "type": "start_timer", "name": "Hằng ngày 06:00", "lane": "he_thong"},
+    {"id": "t1", "type": "service", "name": "Tìm thiết bị đến hạn bảo trì trong 15 ngày (BR-004)", "lane": "he_thong"},
+    {"id": "g1", "type": "xor", "name": "Có thiết bị đến hạn?", "lane": "he_thong"},
+    {"id": "end_none", "type": "end", "name": "Không cần cảnh báo", "lane": "he_thong"},
+    {"id": "p1", "type": "and", "name": "", "lane": "he_thong"},
+    {"id": "t2", "type": "send", "name": "Cảnh báo Phòng Vật tư", "lane": "he_thong", "row": 1},
+    {"id": "t3", "type": "send", "name": "Cảnh báo khoa sở hữu thiết bị", "lane": "he_thong", "row": 2},
+    {"id": "p2", "type": "and", "name": "", "lane": "he_thong", "row": 1},
+    {"id": "t4", "type": "user", "name": "Lên lịch với kỹ sư bảo trì", "lane": "vat_tu"},
+    {"id": "t5", "type": "user", "name": "Bảo trì thiết bị, ghi kết quả", "lane": "ky_su"},
+    {"id": "end", "type": "end", "name": "Lịch bảo trì đã cập nhật", "lane": "ky_su"}
+  ],
+  "flows": [
+    ["start", "t1"],
+    ["t1", "g1"],
+    ["g1", "end_none", "Không"],
+    ["g1", "p1", "Có"],
+    ["p1", "t2"],
+    ["p1", "t3"],
+    ["t2", "p2"],
+    ["t3", "p2"],
+    ["p2", "t4"],
+    ["t4", "t5"],
+    ["t5", "end"]
+  ]
+}

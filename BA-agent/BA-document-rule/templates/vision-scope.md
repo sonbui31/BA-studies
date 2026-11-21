@@ -105,16 +105,17 @@ TẠI SAO?          AI LIÊN QUAN?     TÁC ĐỘNG GÌ?     TÍNH NĂNG ĐÁP �
 
 ## 5. Sơ đồ tương tác tổng quan (Context Diagram)
 
-> Xem `core/diagram-guide.md` để biết cách vẽ.
+> Cách vẽ Context Diagram: `BA-agent/so_do.md` mục 5.
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 graph TB
     %% Actors
-    A1("👤 {{Actor 1}}") -->|"{{Tương tác}}"| HT
-    A2("👤 {{Actor 2}}") -->|"{{Tương tác}}"| HT
+    A1("{{Actor 1}}") -->|"{{Tương tác}}"| HT
+    A2("{{Actor 2}}") -->|"{{Tương tác}}"| HT
 
     %% Hệ thống chính
-    HT[["🖥️ {{TÊN HỆ THỐNG}}"]]
+    HT[["{{TÊN HỆ THỐNG}}"]]
 
     %% Hệ thống ngoài
     HT -->|"{{Dữ liệu}}"| EXT1[["{{Hệ thống ngoài 1}}"]]
@@ -136,12 +137,14 @@ graph TB
 ## 7. Lộ trình triển khai tổng quan
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 gantt
-    title Timeline dự án — {{Tên dự án}}
+    title Timeline dự án
     dateFormat YYYY-MM-DD
+    %% Thay 2026-01-05 bằng ngày bắt đầu thật và điều chỉnh số ngày từng giai đoạn
 
     section Khởi động
-        Khởi động & chốt phạm vi :a1, {{start_date}}, 14d
+        Khởi động & chốt phạm vi :a1, 2026-01-05, 14d
 
     section Khám phá
         Phân tích nghiệp vụ :b1, after a1, 21d

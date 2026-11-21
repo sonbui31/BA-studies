@@ -57,6 +57,7 @@
 #### Diagram (Mermaid)
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 flowchart TD
     Start(("●")) --> A["Tiếp nhận BN"]
     
@@ -83,9 +84,9 @@ flowchart TD
     subgraph "Điều trị"
         H --> K["Kê đơn thuốc"]
         K --> L{"DDI Check?"}
-        L -->|"🔴 Tương tác"| M["Cảnh báo BS"]
+        L -->|"Tương tác"| M["Cảnh báo BS"]
         M --> K
-        L -->|"✅ OK"| N["Dược sĩ duyệt"]
+        L -->|"OK"| N["Dược sĩ duyệt"]
     end
 
     N --> O["Cấp phát thuốc"]

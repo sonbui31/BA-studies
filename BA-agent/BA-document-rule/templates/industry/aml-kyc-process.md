@@ -20,29 +20,30 @@
 ### 1.2 eKYC Flow (Tier 1 — Phổ biến nhất)
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 flowchart TD
     A["User đăng ký"] --> B["Nhập thông tin cơ bản"]
     B --> C["Upload CCCD (mặt trước + sau)"]
     C --> D{"OCR extract thành công?"}
     
-    D -->|"❌ Fail"| E["Yêu cầu chụp lại"]
+    D -->|"Fail"| E["Yêu cầu chụp lại"]
     E --> C
     
-    D -->|"✅ OK"| F["Chụp Selfie"]
+    D -->|"OK"| F["Chụp Selfie"]
     F --> G{"Face match > {{85%}}?"}
     
-    G -->|"❌ Fail"| H["Thử lại (max 3 lần)"]
+    G -->|"Fail"| H["Thử lại (max 3 lần)"]
     H --> F
     H -->|"3 lần fail"| I["Chuyển Manual Review"]
     
-    G -->|"✅ OK"| J{"Liveness check pass?"}
+    G -->|"OK"| J{"Liveness check pass?"}
     
-    J -->|"❌ Fail"| K["Nghi ngờ ảnh giả → Manual"]
-    J -->|"✅ OK"| L["Kiểm tra Blacklist/Sanctions"]
+    J -->|"Fail"| K["Nghi ngờ ảnh giả → Manual"]
+    J -->|"OK"| L["Kiểm tra Blacklist/Sanctions"]
     
     L --> M{"Match?"}
-    M -->|"✅ Match"| N["🔴 BLOCK + Alert Compliance"]
-    M -->|"❌ No match"| O["✅ KYC APPROVED → Tier 1"]
+    M -->|"Match"| N["BLOCK + Alert Compliance"]
+    M -->|"No match"| O["KYC APPROVED → Tier 1"]
 ```
 
 ### 1.3 eKYC Data Captured

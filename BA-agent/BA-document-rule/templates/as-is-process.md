@@ -35,6 +35,7 @@ Tài liệu hóa quy trình **hiện tại** (As-Is) mà tổ chức đang vận
 **Swimlane Diagram (As-Is):**
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 graph LR
     subgraph "KTTS"
         A1["Nhận biên bản<br/>mua sắm (giấy)"] --> A2["Ghi vào sổ<br/>quản lý tài sản"]
@@ -125,18 +126,19 @@ graph LR
 ## 7. Dual Swimlane (As-Is vs To-Be Comparison)
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 graph LR
     subgraph "AS-IS: Nhập Tài sản"
-        A1["📝 Ghi sổ tay"] --> A2["📊 Copy vào Excel"]
-        A2 --> A3["📨 Gửi email phê duyệt"]
+        A1["Ghi sổ tay"] --> A2["Copy vào Excel"]
+        A2 --> A3["Gửi email phê duyệt"]
         A3 --> A4["⏳ Chờ ký (1-3 ngày)"]
     end
     
     subgraph "TO-BE: Nhập Tài sản"
-        B1["📱 Nhập trên PM"]
-        B1 --> B2["🤖 Auto-validate + QR"]
-        B2 --> B3["🔔 Push notification phê duyệt"]
-        B3 --> B4["✅ Phê duyệt online (real-time)"]
+        B1["Nhập trên PM"]
+        B1 --> B2["Auto-validate + QR"]
+        B2 --> B3["Push notification phê duyệt"]
+        B3 --> B4["Phê duyệt online (real-time)"]
     end
 ```
 

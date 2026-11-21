@@ -1,6 +1,6 @@
-# NGUYÊN TẮC & MÔ HÌNH CỐT LÕI CỦA BA 3.8
+# NGUYÊN TẮC & MÔ HÌNH CỐT LÕI CỦA BA 3.10
 
-> **Phiên bản:** 3.8 | **Ngày:** 21/11/2026
+> **Phiên bản:** 3.10 | **Ngày:** 21/11/2026
 > **Đặc điểm:** Multi-LLM Orchestrated (Gemini 3, Claude 4.6, GPT-5 & o4), Data-Driven, Hybrid Agile
 
 ---

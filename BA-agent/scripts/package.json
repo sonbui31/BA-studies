@@ -1,0 +1,11 @@
+{
+  "name": "ba-agent-diagram-tools",
+  "private": true,
+  "description": "Optional Node tools for BA-agent: render BPMN 2.0 (bpmn_render.mjs) and Mermaid diagrams to images. Install: npm install --prefix BA-agent/scripts (set PUPPETEER_SKIP_DOWNLOAD=1 to reuse an installed Chrome/Edge via --browser).",
+  "type": "module",
+  "dependencies": {
+    "@mermaid-js/mermaid-cli": "11.4.2",
+    "bpmn-js": "17.11.1",
+    "puppeteer-core": "23.11.1"
+  }
+}

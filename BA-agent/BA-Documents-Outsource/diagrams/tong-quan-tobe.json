@@ -1,0 +1,35 @@
+{
+  "id": "tong_quan_tobe",
+  "name": "Tổng quan To-Be: Vòng đời tài sản",
+  "pool": "Bệnh viện Đa khoa An Phúc",
+  "lanes": [
+    {"id": "vat_tu", "name": "Phòng Vật tư"},
+    {"id": "khoa", "name": "Khoa sử dụng"},
+    {"id": "he_thong", "name": "Hệ thống quản lý tài sản"}
+  ],
+  "nodes": [
+    {"id": "start", "type": "start", "name": "Có tài sản mới", "lane": "vat_tu"},
+    {"id": "t1", "type": "user", "name": "Tạo hồ sơ tài sản, gán mã và barcode (BR-001)", "lane": "vat_tu"},
+    {"id": "t2", "type": "manual", "name": "Sử dụng tài sản tại khoa", "lane": "khoa"},
+    {"id": "g1", "type": "or", "name": "Phát sinh nghiệp vụ nào?", "lane": "khoa"},
+    {"id": "sp1", "type": "subprocess", "name": "P1 Điều chuyển tài sản", "lane": "khoa"},
+    {"id": "sp3", "type": "subprocess", "name": "P3 Cảnh báo và bảo trì", "lane": "he_thong"},
+    {"id": "sp2", "type": "subprocess", "name": "P2 Kiểm kê theo đợt", "lane": "vat_tu"},
+    {"id": "g2", "type": "or", "name": "", "lane": "khoa"},
+    {"id": "t3", "type": "service", "name": "Cập nhật dashboard điều hành", "lane": "he_thong"},
+    {"id": "end", "type": "end", "name": "Ban điều hành có số liệu gần thời gian thực", "lane": "he_thong"}
+  ],
+  "flows": [
+    ["start", "t1"],
+    ["t1", "t2"],
+    ["t2", "g1"],
+    ["g1", "sp1", "Cần chuyển khoa"],
+    ["g1", "sp3", "Đến hạn bảo trì"],
+    ["g1", "sp2", "Đến kỳ kiểm kê"],
+    ["sp1", "g2"],
+    ["sp3", "g2"],
+    ["sp2", "g2"],
+    ["g2", "t3"],
+    ["t3", "end"]
+  ]
+}

@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" id="Definitions_p2_kiem_ke_asis" targetNamespace="http://bpmn.io/schema/bpmn" exporter="BA-agent bpmn_tool.py" exporterVersion="1.0">
+  <bpmn:collaboration id="Collaboration_p2_kiem_ke_asis">
+    <bpmn:participant id="Participant_p2_kiem_ke_asis" name="Bệnh viện Đa khoa An Phúc" processRef="Process_p2_kiem_ke_asis" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_p2_kiem_ke_asis" name="P2 As-Is: Kiểm kê tài sản cuối tháng" isExecutable="false">
+    <bpmn:laneSet id="LaneSet_p2_kiem_ke_asis">
+      <bpmn:lane id="vat_tu" name="Phòng Vật tư">
+        <bpmn:flowNodeRef>start</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a1</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a3</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>end</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="nv_vat_tu" name="Nhân viên Vật tư">
+        <bpmn:flowNodeRef>a2</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="start" name="Cuối tháng">
+      <bpmn:outgoing>Flow_1</bpmn:outgoing>
+      <bpmn:timerEventDefinition id="start_def" />
+    </bpmn:startEvent>
+    <bpmn:task id="a1" name="In danh sách tài sản từ file Excel từng khoa">
+      <bpmn:incoming>Flow_1</bpmn:incoming>
+      <bpmn:outgoing>Flow_2</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="a2" name="Đếm và đánh dấu tay tại từng khoa (PD-01)">
+      <bpmn:incoming>Flow_2</bpmn:incoming>
+      <bpmn:outgoing>Flow_3</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="a3" name="Gộp kết quả, dò chênh lệch bằng tay (PD-03)">
+      <bpmn:incoming>Flow_3</bpmn:incoming>
+      <bpmn:outgoing>Flow_4</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:endEvent id="end" name="Báo cáo kiểm kê sau khoảng 3 ngày">
+      <bpmn:incoming>Flow_4</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:sequenceFlow id="Flow_1" sourceRef="start" targetRef="a1" />
+    <bpmn:sequenceFlow id="Flow_2" sourceRef="a1" targetRef="a2" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="a2" targetRef="a3" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="a3" targetRef="end" />
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_p2_kiem_ke_asis">
+    <bpmndi:BPMNPlane id="BPMNPlane_p2_kiem_ke_asis" bpmnElement="Collaboration_p2_kiem_ke_asis">
+      <bpmndi:BPMNShape id="Participant_p2_kiem_ke_asis_di" bpmnElement="Participant_p2_kiem_ke_asis" isHorizontal="true">
+        <dc:Bounds x="160" y="80" width="900" height="400" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="vat_tu_di" bpmnElement="vat_tu" isHorizontal="true">
+        <dc:Bounds x="190" y="80" width="870" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="nv_vat_tu_di" bpmnElement="nv_vat_tu" isHorizontal="true">
+        <dc:Bounds x="190" y="280" width="870" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="start_di" bpmnElement="start">
+        <dc:Bounds x="287" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="250" y="202" width="110" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="a1_di" bpmnElement="a1">
+        <dc:Bounds x="390" y="140" width="130" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="a2_di" bpmnElement="a2" bioc:stroke="#C53030" bioc:fill="#FFF5F5" color:border-color="#C53030" color:background-color="#FFF5F5">
+        <dc:Bounds x="580" y="340" width="130" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="a3_di" bpmnElement="a3" bioc:stroke="#C53030" bioc:fill="#FFF5F5" color:border-color="#C53030" color:background-color="#FFF5F5">
+        <dc:Bounds x="770" y="140" width="130" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="end_di" bpmnElement="end">
+        <dc:Bounds x="967" y="162" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="930" y="202" width="110" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
+        <di:waypoint x="323" y="180" />
+        <di:waypoint x="390" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_2_di" bpmnElement="Flow_2">
+        <di:waypoint x="520" y="180" />
+        <di:waypoint x="535" y="180" />
+        <di:waypoint x="535" y="380" />
+        <di:waypoint x="580" y="380" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3">
+        <di:waypoint x="710" y="380" />
+        <di:waypoint x="725" y="380" />
+        <di:waypoint x="725" y="180" />
+        <di:waypoint x="770" y="180" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4">
+        <di:waypoint x="900" y="180" />
+        <di:waypoint x="967" y="180" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

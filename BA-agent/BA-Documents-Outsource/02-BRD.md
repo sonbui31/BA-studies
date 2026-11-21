@@ -294,9 +294,9 @@ _(Chi tiết: xem `03-Stakeholder-Map.md` và `../BA-document-rule/core/stakehol
 
 ### 6.1. Quy trình hiện tại (As-Is) — Tóm tắt
 
-```
-Khoa phát sinh tài sản mới -> gửi email/phiếu cho Phòng Vật tư -> Vật tư cập nhật file Excel tổng -> tài sản được sử dụng tại khoa -> điều chuyển ghi tay/email -> cuối tháng kiểm kê từng khoa -> Vật tư tổng hợp chênh lệch và làm báo cáo Excel
-```
+![Tổng quan As-Is: Vòng đời tài sản](diagrams/tong-quan-asis.png)
+
+Bản chuẩn BPMN 2.0: [`diagrams/tong-quan-asis.bpmn`](diagrams/tong-quan-asis.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Sinh lại (chạy trong thư mục bộ tài liệu): `python ../scripts/bpmn_tool.py build diagrams/tong-quan-asis.json --png diagrams/tong-quan-asis.png`. Ô viền đỏ là bước gây điểm nghẽn bên dưới.
 
 **Điểm nghẽn chính:**
 1. 🔴 Không có mã duy nhất nên một tài sản có thể xuất hiện dưới nhiều tên khác nhau.
@@ -305,9 +305,11 @@ Khoa phát sinh tài sản mới -> gửi email/phiếu cho Phòng Vật tư -> 
 
 ### 6.2. Quy trình tương lai (To-Be) — Tóm tắt
 
-```
-Tạo hồ sơ tài sản trong hệ thống -> gán khoa sở hữu và barcode -> sử dụng/vận hành tại khoa -> điều chuyển qua workflow 2 bước -> theo dõi bảo trì/cảnh báo -> kiểm kê theo đợt -> dashboard điều hành cập nhật theo thời gian gần thực
-```
+![Tổng quan To-Be: Vòng đời tài sản](diagrams/tong-quan-tobe.png)
+
+Bản chuẩn BPMN 2.0: [`diagrams/tong-quan-tobe.bpmn`](diagrams/tong-quan-tobe.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Sinh lại (chạy trong thư mục bộ tài liệu): `python ../scripts/bpmn_tool.py build diagrams/tong-quan-tobe.json --png diagrams/tong-quan-tobe.png`.
+
+Sơ đồ To-Be là tổng quan: ba ô có dấu + là quy trình con thu gọn (P1 Điều chuyển, P2 Kiểm kê, P3 Bảo trì), vẽ chi tiết trong `04-Process-Flow.md`; cổng hình tròn là cổng bao hàm, một hoặc nhiều nghiệp vụ có thể phát sinh trong cùng kỳ.
 
 **Cải tiến:**
 - ✅ Kiểm kê tháng giảm từ 3 ngày xuống còn 1 ngày.

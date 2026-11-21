@@ -14,16 +14,22 @@ from __future__ import annotations
 
 import argparse
 import datetime as _dt
+import hashlib
 import io
+import json
+import os
 import posixpath
 import re
+import shutil
 import struct
+import subprocess
 import sys
+import tempfile
 import urllib.parse
 import zipfile
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Callable, Dict, List, Optional, Tuple
 from xml.etree import ElementTree as ET
 
 
@@ -69,6 +75,12 @@ BODY_FONT = "Times New Roman"
 HEADING_FONT = "Arial"
 TEXT_WIDTH_TWIPS = 9638  # A4 (11906) minus 2 x 2 cm margins
 MAX_IMAGE_EMU = 16 * 360000  # 16 cm
+EMU_PER_TWIP = 635
+# A diagram this wide (BPMN with lanes, long flowcharts) is unreadable on a portrait page:
+# it goes on a landscape page of its own.
+WIDE_IMAGE_RATIO = 1.3
+WIDE_IMAGE_MIN_PX = 1400
+IMAGE_ONLY_PARA = re.compile(r"^!\[([^\]]*)\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)$")
 EMU_PER_PX = 9525  # 96 dpi
 
 # Logical style -> canonical Word style name (used to find localized style ids in templates).
@@ -520,6 +532,57 @@ def image_info(data: bytes) -> Optional[Tuple[str, int, int]]:
 # Styles and numbering
 # --------------------------------------------------------------------------------------------
 
+class MermaidRenderer:
+    """Render Mermaid code to PNG with mermaid-cli (mmdc). Optional: without mmdc, diagrams stay code.
+
+    mmdc is a Node tool (npm i -g @mermaid-js/mermaid-cli). It drives a headless browser; when its
+    bundled Chromium is not installed, pass an installed Chrome/Edge with --browser.
+    """
+
+    def __init__(self, mmdc: str, browser: Optional[str] = None, scale: float = 2.0) -> None:
+        self.mmdc = mmdc
+        self.browser = browser
+        self.scale = scale
+        self.cache: Dict[str, Optional[bytes]] = {}
+        self.errors: List[str] = []
+
+    @staticmethod
+    def find(explicit: Optional[str] = None) -> Optional[str]:
+        local = Path(__file__).resolve().parent / "node_modules" / ".bin" / ("mmdc.cmd" if os.name == "nt" else "mmdc")
+        for candidate in (explicit, os.environ.get("BA_MMDC"), "mmdc", str(local)):
+            if not candidate:
+                continue
+            found = shutil.which(candidate) or (candidate if Path(candidate).is_file() else None)
+            if found:
+                return found
+        return None
+
+    def __call__(self, code: str) -> Optional[bytes]:
+        key = hashlib.sha1(code.encode("utf-8")).hexdigest()
+        if key in self.cache:
+            return self.cache[key]
+        png: Optional[bytes] = None
+        with tempfile.TemporaryDirectory() as tmp:
+            src, out = Path(tmp) / "d.mmd", Path(tmp) / "d.png"
+            src.write_text(code, encoding="utf-8")
+            cmd = [self.mmdc, "-i", str(src), "-o", str(out), "-b", "white", "-s", str(self.scale), "-q"]
+            if self.browser:
+                config = Path(tmp) / "puppeteer.json"
+                config.write_text(json.dumps({"executablePath": self.browser, "args": ["--no-sandbox"]}), encoding="utf-8")
+                cmd += ["-p", str(config)]
+            try:
+                proc = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=120)
+                if proc.returncode == 0 and out.is_file():
+                    png = out.read_bytes()
+                else:
+                    message = (proc.stderr or proc.stdout or "").strip().splitlines()
+                    self.errors.append(message[0] if message else f"mmdc exit {proc.returncode}")
+            except (OSError, subprocess.TimeoutExpired) as exc:
+                self.errors.append(str(exc))
+        self.cache[key] = png
+        return png
+
+
 def _style(sid: str, kind: str, name: str, based: Optional[str], body: str, extra: str = "") -> str:
     based_xml = f'<w:basedOn w:val="{esc(based, True)}"/>' if based else ""
     return (
@@ -744,7 +807,13 @@ class Template:
 # --------------------------------------------------------------------------------------------
 
 class DocxWriter:
-    def __init__(self, md_path: Path, template: Optional[Template] = None) -> None:
+    def __init__(
+        self,
+        md_path: Path,
+        template: Optional[Template] = None,
+        diagram_renderer: Optional[Callable[[str], Optional[bytes]]] = None,
+    ) -> None:
+        self.diagram_renderer = diagram_renderer
         self.md_path = md_path
         self.base_dir = md_path.parent
         self.template = template
@@ -755,7 +824,8 @@ class DocxWriter:
         self.copied: Dict[str, str] = {}
         self.link_rids: Dict[str, str] = {}
         self.image_rids: Dict[str, Tuple[str, int, int]] = {}
-        self.counts = {"headings": 0, "tables": 0, "images": 0}
+        self.counts = {"headings": 0, "tables": 0, "images": 0, "diagrams": 0, "diagrams_as_code": 0, "landscape_pages": 0}
+        self.max_image_emu = MAX_IMAGE_EMU
         self.title: Optional[str] = None
         self.drawing_id = 0
         self.ordered_nums: List[Tuple[int, int, int]] = []
@@ -897,12 +967,72 @@ class DocxWriter:
                 return self._text_run(placeholder)
         except (OSError, ValueError):
             return self._text_run(placeholder)
-        key = str(path)
+        drawing = self._drawing_run(str(path), path.read_bytes, alt, path.name)
+        return drawing if drawing else self._text_run(placeholder)
+
+    def _image_paragraph(self, text: str) -> Optional[str]:
+        """A paragraph holding only a local PNG/JPEG: centred, landscape page when wide."""
+        match = IMAGE_ONLY_PARA.match(text)
+        if not match:
+            return None
+        alt, src = match.group(1), urllib.parse.unquote(match.group(2))
+        if re.match(r"(?i)^(https?|data|ftp):", src):
+            return None
+        try:
+            path = (self.base_dir / src).resolve()
+            if path.suffix.lower() not in (".png", ".jpg", ".jpeg") or not path.is_file():
+                return None
+            info = image_info(path.read_bytes())
+        except (OSError, ValueError):
+            return None
+        if not info:
+            return None
+        _, width, height = info
+        return self._wide_picture_xml(lambda: self._drawing_run(str(path), path.read_bytes, alt or path.name, path.name), width, height)
+
+    def _landscape_sect(self) -> str:
+        """The current section properties turned to landscape (headers, footers, margins kept)."""
+        sect = re.sub(r"\s+w:rsid\w*=\"[^\"]*\"", "", self.sect_pr)
+        match = re.search(r'<w:pgSz\b[^>]*/>', sect)
+        if not match:
+            return sect
+        width = re.search(r'w:w="(\d+)"', match.group(0))
+        height = re.search(r'w:h="(\d+)"', match.group(0))
+        if not (width and height):
+            return sect
+        w, h = int(width.group(1)), int(height.group(1))
+        size = f'<w:pgSz w:w="{max(w, h)}" w:h="{min(w, h)}" w:orient="landscape"/>'
+        return sect[: match.start()] + size + sect[match.end():]
+
+    def _wide_picture_xml(self, drawing: Callable[[], Optional[str]], width_px: int, height_px: int) -> Optional[str]:
+        """Picture paragraph; wide pictures get a landscape page between two section breaks."""
+        if width_px < WIDE_IMAGE_MIN_PX or width_px / max(height_px, 1) < WIDE_IMAGE_RATIO:
+            run = drawing()
+            return f'<w:p><w:pPr><w:jc w:val="center"/></w:pPr>{run}</w:p>' if run else None
+        portrait = re.sub(r"\s+w:rsid\w*=\"[^\"]*\"", "", self.sect_pr)
+        landscape = self._landscape_sect()
+        previous = self.max_image_emu
+        self.max_image_emu = text_width(landscape) * EMU_PER_TWIP
+        try:
+            run = drawing()
+        finally:
+            self.max_image_emu = previous
+        if not run:
+            return None
+        self.counts["landscape_pages"] += 1
+        return (
+            f"<w:p><w:pPr>{portrait}</w:pPr></w:p>"
+            f'<w:p><w:pPr><w:jc w:val="center"/></w:pPr>{run}</w:p>'
+            f"<w:p><w:pPr>{landscape}</w:pPr></w:p>"
+        )
+
+    def _drawing_run(self, key: str, load: Callable[[], bytes], alt: str, file_name: str) -> Optional[str]:
+        """Inline picture run for PNG/JPEG bytes (embedded once per key), or None if not an image."""
         if key not in self.image_rids:
-            data = path.read_bytes()
+            data = load()
             info = image_info(data)
             if not info:
-                return self._text_run(placeholder)
+                return None
             ext, width, height = info
             name = f"media/md_image{len(self.image_rids) + 1}.{ext}"
             self.parts["word/" + name] = data
@@ -911,9 +1041,9 @@ class DocxWriter:
             self.counts["images"] += 1
         rid, width, height = self.image_rids[key]
         cx, cy = width * EMU_PER_PX, height * EMU_PER_PX
-        if cx > MAX_IMAGE_EMU:
-            cy = int(cy * MAX_IMAGE_EMU / cx)
-            cx = MAX_IMAGE_EMU
+        if cx > self.max_image_emu:
+            cy = int(cy * self.max_image_emu / cx)
+            cx = self.max_image_emu
         self.drawing_id += 1
         did = self.drawing_id
         alt_attr = esc(alt, True)
@@ -924,7 +1054,7 @@ class DocxWriter:
             f'<wp:docPr id="{did}" name="Picture {did}" descr="{alt_attr}"/>'
             '<wp:cNvGraphicFramePr><a:graphicFrameLocks noChangeAspect="1"/></wp:cNvGraphicFramePr>'
             '<a:graphic><a:graphicData uri="http://schemas.openxmlformats.org/drawingml/2006/picture">'
-            f'<pic:pic><pic:nvPicPr><pic:cNvPr id="{did}" name="{esc(path.name, True)}" descr="{alt_attr}"/><pic:cNvPicPr/></pic:nvPicPr>'
+            f'<pic:pic><pic:nvPicPr><pic:cNvPr id="{did}" name="{esc(file_name, True)}" descr="{alt_attr}"/><pic:cNvPicPr/></pic:nvPicPr>'
             f'<pic:blipFill><a:blip r:embed="{rid}"/><a:stretch><a:fillRect/></a:stretch></pic:blipFill>'
             f'<pic:spPr><a:xfrm><a:off x="0" y="0"/><a:ext cx="{cx}" cy="{cy}"/></a:xfrm>'
             '<a:prstGeom prst="rect"><a:avLst/></a:prstGeom></pic:spPr></pic:pic>'
@@ -1021,7 +1151,8 @@ class DocxWriter:
                     style = "Title"
                 out.append(self.paragraph(block.text, self.style_ids[style]))
             elif block.kind == "para":
-                out.append(self.paragraph(block.text))
+                picture = self._image_paragraph(block.text.strip())
+                out.append(picture if picture else self.paragraph(block.text))
             elif block.kind == "list":
                 out.append(self.list_xml(block))
             elif block.kind == "table":
@@ -1030,6 +1161,19 @@ class DocxWriter:
             elif block.kind == "code":
                 code_style = self.style_ids["Code"]
                 if block.lang == "mermaid":
+                    code = "\n".join(block.lines or [])
+                    png = self.diagram_renderer(code) if self.diagram_renderer else None
+                    picture = None
+                    info = image_info(png) if png else None
+                    if png and info:
+                        key = "mermaid:" + hashlib.sha1(code.encode("utf-8")).hexdigest()
+                        picture = self._wide_picture_xml(lambda: self._drawing_run(key, lambda: png, "Sơ đồ", "diagram.png"), info[1], info[2])
+                    if picture:
+                        self.counts["diagrams"] += 1
+                        out.append(picture)
+                        previous = block.kind
+                        continue
+                    self.counts["diagrams_as_code"] += 1
                     out.append(f'<w:p>{self._text_run(Run("text", MERMAID_NOTE, italic=True))}</w:p>')
                 out.extend(self.literal_paragraph(line, code_style) for line in block.lines or [""])
             elif block.kind == "quote":
@@ -1124,11 +1268,16 @@ class DocxWriter:
         return buffer.getvalue()
 
 
-def convert(md_path: Path, out_path: Path, template_path: Optional[Path] = None) -> Dict[str, int]:
-    """Convert one Markdown file; returns the heading/table/image counts."""
+def convert(
+    md_path: Path,
+    out_path: Path,
+    template_path: Optional[Path] = None,
+    diagram_renderer: Optional[Callable[[str], Optional[bytes]]] = None,
+) -> Dict[str, int]:
+    """Convert one Markdown file; returns the heading/table/image/diagram counts."""
     template = Template(template_path) if template_path else None
     try:
-        writer = DocxWriter(md_path, template)
+        writer = DocxWriter(md_path, template, diagram_renderer)
         data = writer.build(md_path.read_text(encoding="utf-8"))
     finally:
         if template:
@@ -1148,7 +1297,24 @@ def main(argv: Optional[List[str]] = None) -> int:
     parser.add_argument("--out-dir", type=Path, default=None, help="Thư mục ghi .docx (mặc định: cạnh file nguồn)")
     parser.add_argument("--template", type=Path, default=None, help="File .docx/.dotx mẫu của khách hàng")
     parser.add_argument("--force", action="store_true", help="Ghi đè file .docx đã có")
+    parser.add_argument(
+        "--diagrams",
+        choices=["auto", "image", "code"],
+        default="auto",
+        help="Sơ đồ Mermaid: image = vẽ thành ảnh (cần mermaid-cli), code = giữ mã, auto = ảnh nếu có mermaid-cli",
+    )
+    parser.add_argument("--mmdc", default=None, help="Đường dẫn mmdc (mặc định: biến BA_MMDC hoặc mmdc trong PATH)")
+    parser.add_argument("--browser", default=None, help="Chrome/Edge đã cài, khi mmdc không có Chromium riêng (hoặc biến BA_MERMAID_BROWSER)")
     args = parser.parse_args(argv)
+
+    renderer: Optional[MermaidRenderer] = None
+    if args.diagrams != "code":
+        mmdc = MermaidRenderer.find(args.mmdc)
+        if mmdc:
+            renderer = MermaidRenderer(mmdc, args.browser or os.environ.get("BA_MERMAID_BROWSER"))
+        elif args.diagrams == "image":
+            print("LỖI: --diagrams image cần mermaid-cli (npm i -g @mermaid-js/mermaid-cli) hoặc --mmdc <đường dẫn>")
+            return 2
 
     target: Path = args.target
     if target.is_dir():
@@ -1175,12 +1341,24 @@ def main(argv: Optional[List[str]] = None) -> int:
             status = 1
             continue
         try:
-            counts = convert(source, out_path, args.template)
+            counts = convert(source, out_path, args.template, renderer)
         except Exception as exc:  # report and continue with the other files
             print(f"LỖI: {source}: {exc}")
             status = 1
             continue
-        print(f"OK: {out_path} (heading: {counts['headings']}, bảng: {counts['tables']}, ảnh: {counts['images']})")
+        print(
+            f"OK: {out_path} (heading: {counts['headings']}, bảng: {counts['tables']}, ảnh: {counts['images']}, "
+            f"sơ đồ thành ảnh: {counts['diagrams']}, sơ đồ giữ mã: {counts['diagrams_as_code']}, "
+            f"trang ngang: {counts['landscape_pages']})"
+        )
+        if counts["diagrams_as_code"]:
+            if args.diagrams == "code":
+                reason = "đã chọn --diagrams code"
+            elif renderer is None:
+                reason = "không tìm thấy mermaid-cli"
+            else:
+                reason = "mermaid-cli báo lỗi: " + "; ".join(renderer.errors[-2:])
+            print(f"  CẢNH BÁO: {counts['diagrams_as_code']} sơ đồ xuất dạng mã ({reason}). Khách sẽ thấy mã, không thấy hình.")
     return status
 
 

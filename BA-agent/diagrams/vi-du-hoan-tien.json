@@ -1,0 +1,46 @@
+{
+  "id": "vi_du_hoan_tien",
+  "name": "Ví dụ: Duyệt hoàn tiền đơn hàng",
+  "pool": "Cửa hàng trực tuyến",
+  "lanes": [
+    {"id": "cskh", "name": "Chăm sóc khách hàng"},
+    {"id": "quan_ly", "name": "Quản lý"},
+    {"id": "he_thong", "name": "Hệ thống bán hàng"}
+  ],
+  "nodes": [
+    {"id": "start", "type": "start_message", "name": "Nhận yêu cầu hoàn tiền", "lane": "cskh"},
+    {"id": "t1", "type": "user", "name": "Kiểm tra yêu cầu và đơn hàng", "lane": "cskh"},
+    {"id": "g1", "type": "xor", "name": "Giá trị đơn trên 1 triệu?", "lane": "cskh"},
+    {"id": "t2", "type": "user", "name": "Duyệt hoàn tiền", "lane": "quan_ly"},
+    {"id": "timer", "type": "boundary_timer", "name": "Quá 24 giờ", "attached_to": "t2", "interrupting": false},
+    {"id": "t_remind", "type": "send", "name": "Nhắc Quản lý duyệt", "lane": "quan_ly", "row": 1},
+    {"id": "end_remind", "type": "end", "name": "Đã nhắc", "lane": "quan_ly", "row": 1},
+    {"id": "g2", "type": "xor", "name": "Đồng ý?", "lane": "quan_ly"},
+    {"id": "t_reject", "type": "send", "name": "Gửi thư từ chối kèm lý do", "lane": "he_thong", "row": 1},
+    {"id": "end_rejected", "type": "end", "name": "Yêu cầu bị từ chối", "lane": "he_thong", "row": 1},
+    {"id": "m1", "type": "xor", "name": "", "lane": "cskh"},
+    {"id": "p1", "type": "and", "name": "", "lane": "he_thong"},
+    {"id": "t3", "type": "service", "name": "Hoàn tiền về tài khoản khách", "lane": "he_thong"},
+    {"id": "t4", "type": "send", "name": "Gửi thư xác nhận hoàn tiền", "lane": "he_thong", "row": 2},
+    {"id": "p2", "type": "and", "name": "", "lane": "he_thong"},
+    {"id": "end_done", "type": "end", "name": "Khách đã được hoàn tiền", "lane": "he_thong"}
+  ],
+  "flows": [
+    ["start", "t1"],
+    ["t1", "g1"],
+    ["g1", "t2", "Có"],
+    ["g1", "m1", "Không"],
+    ["timer", "t_remind"],
+    ["t_remind", "end_remind"],
+    ["t2", "g2"],
+    ["g2", "t_reject", "Từ chối"],
+    ["g2", "m1", "Đồng ý"],
+    ["t_reject", "end_rejected"],
+    ["m1", "p1"],
+    ["p1", "t3"],
+    ["p1", "t4"],
+    ["t3", "p2"],
+    ["t4", "p2"],
+    ["p2", "end_done"]
+  ]
+}

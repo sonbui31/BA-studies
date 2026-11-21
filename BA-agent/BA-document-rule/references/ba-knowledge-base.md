@@ -76,7 +76,7 @@ Phần này chỉ ghi lại kiến thức đã được lấy từ vùng nào c�
 | Portfolio BA | Section 6.2, 6.4, 6.6 + templates trong `BA-agent/BA-document-rule/templates/` |
 | BRD/SRS/RTM/UAT | `DOCUMENT-MAP.md`, `Curated templates/01-BRD-Template.md`, `02-SRS-Template.md`, `templates/uat-plan.md`, `core/traceability-validator.md` |
 | User Story/AC | `Curated templates/03-User-Story-Template.md`, `04-Acceptance-Criteria-Template.md`, `core/writing-guide.md`, `references/writing-examples.md` (Story Map bổ trợ: `templates/user-story-map.md`) |
-| BPMN/UML/DFD | `templates/bpmn-modeling-standard.md`, `core/diagram-guide.md`, `core/process-decomposition-guide.md` |
+| BPMN/UML/DFD | `templates/bpmn-modeling-standard.md`, `BA-agent/so_do.md`, `core/process-decomposition-guide.md` |
 | Product/SaaS | Section 6.7 + `overlays/product/overlay-config.md`, `templates/product-analytics-spec.md` |
 | Data/BI/Reporting | `templates/reporting-specification.md`, `templates/data-governance-plan.md`, `templates/data-model.md` |
 | AI/ML feature | Section 6.8 + `templates/ai-feature-spec.md` |

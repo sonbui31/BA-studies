@@ -26,6 +26,7 @@
 - ❌ {{Pain point 2}}
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 flowchart TD
     Start(("● Bắt đầu")) --> A
 
@@ -62,6 +63,7 @@ flowchart TD
 - ✅ {{Cải tiến 2}}
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 flowchart TD
     Start(("● Bắt đầu")) --> A
 
@@ -87,7 +89,7 @@ flowchart TD
 
 ## 3. Quy ước sơ đồ
 
-> Xem `core/diagram-guide.md` để biết chi tiết Mermaid syntax.
+> Ký hiệu BPMN-lite và khi nào phải dùng BPMN 2.0: `BA-agent/so_do.md` mục 4.
 
 | Thành phần | Hình | Dùng cho |
 |-----------|------|---------|

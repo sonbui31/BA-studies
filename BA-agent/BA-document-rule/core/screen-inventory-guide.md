@@ -71,11 +71,12 @@ Agent tự trigger khi gặp screen cần wireframe:
 ### Option B: Mermaid Mockup (Cho low-fidelity nhanh)
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 graph TD
     subgraph "SCR-02: Danh sách Tài sản"
-        Header["🔍 Search + Filter Bar"]
-        Table["📋 Table: Mã TS | Tên | Loại | Phòng | Trạng thái"]
-        Actions["➕ Thêm mới | 📥 Import | 📤 Export"]
+        Header["Search + Filter Bar"]
+        Table["Table: Mã TS | Tên | Loại | Phòng | Trạng thái"]
+        Actions["Thêm mới | Import | Export"]
         Pagination["◀ Trang 1/50 ▶"]
     end
     Header --> Table --> Pagination

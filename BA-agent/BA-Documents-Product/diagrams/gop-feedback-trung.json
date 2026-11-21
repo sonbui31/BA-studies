@@ -1,0 +1,28 @@
+{
+  "id": "gop_feedback_trung",
+  "name": "Gộp feedback trùng",
+  "pool": "SignalDesk",
+  "lanes": [
+    {"id": "pm", "name": "Product Manager hoặc Admin"},
+    {"id": "he_thong", "name": "Hệ thống SignalDesk"}
+  ],
+  "nodes": [
+    {"id": "start", "type": "start", "name": "Feedback mới vào inbox", "lane": "pm"},
+    {"id": "t1", "type": "user", "name": "Mở chi tiết feedback", "lane": "pm"},
+    {"id": "t2", "type": "service", "name": "Gợi ý các mục có thể trùng", "lane": "he_thong"},
+    {"id": "g1", "type": "xor", "name": "Chấp nhận gộp?", "lane": "pm"},
+    {"id": "end_keep", "type": "end", "name": "Giữ hai mục riêng", "lane": "pm"},
+    {"id": "t3", "type": "user", "name": "Chọn mục cha, xem trước kết quả gộp", "lane": "pm", "row": 1},
+    {"id": "t4", "type": "service", "name": "Chuyển phiếu bầu, người theo dõi, lịch sử; mục con thành Merged (BR-002)", "lane": "he_thong"},
+    {"id": "end_merged", "type": "end", "name": "Đã gộp, có nhật ký thao tác", "lane": "he_thong"}
+  ],
+  "flows": [
+    ["start", "t1"],
+    ["t1", "t2"],
+    ["t2", "g1"],
+    ["g1", "end_keep", "Không"],
+    ["g1", "t3", "Có"],
+    ["t3", "t4"],
+    ["t4", "end_merged"]
+  ]
+}

@@ -72,12 +72,13 @@ CR: "Thay đổi kiến trúc từ Monolith sang Microservices"
 ### Template Mermaid
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 graph TD
-    CR["🔄 CR: Thêm field\nNgày bảo hành"] -->|"L2"| SRS["📋 SRS\nFR-AST-01\n+ 1 field"]
-    CR -->|"L4"| DM["🗄️ Data Model\nALTER TABLE\n+ 1 column"]
-    SRS -->|"L3"| USM["📝 Story Map\nUS-AST-001\n+ 2 ACs"]
-    DM -->|"L5"| UAT["🧪 UAT\n+ 3 Test Cases"]
-    DM -->|"L6"| CODE["💻 Code\nAsset form\n+ API + Migration"]
+    CR["CR: Thêm field<br/>Ngày bảo hành"] -->|"L2"| SRS["SRS<br/>FR-AST-01<br/>+ 1 field"]
+    CR -->|"L4"| DM["Data Model<br/>ALTER TABLE<br/>+ 1 column"]
+    SRS -->|"L3"| USM["Story Map<br/>US-AST-001<br/>+ 2 ACs"]
+    DM -->|"L5"| UAT["UAT<br/>+ 3 Test Cases"]
+    DM -->|"L6"| CODE["Code<br/>Asset form<br/>+ API + Migration"]
     USM --> UAT
     
     style CR fill:#ffeb3b
@@ -106,24 +107,25 @@ graph TD
 ## 5. Change Decision Flowchart ⭐ NEW v3.3
 
 ```mermaid
+%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
 graph TD
     A["CR nhận được"] --> B["Tính Impact Score"]
     B --> C{"Score?"}
-    C -->|"1-9 🟢"| D["BA tự xử lý\nUpdate docs + log"]
-    C -->|"10-25 🟡"| E["PM Review"]
-    C -->|"26-50 🔴"| F["Sponsor Approval"]
-    C -->|"51+ ⚫"| G["Stop Sprint\nChange Control Board"]
+    C -->|"1-9 "| D["BA tự xử lý<br/>Update docs + log"]
+    C -->|"10-25 "| E["PM Review"]
+    C -->|"26-50 "| F["Sponsor Approval"]
+    C -->|"51+ "| G["Stop Sprint<br/>Change Control Board"]
     
     E --> H{"Approve?"}
     F --> H
     G --> H
     
-    H -->|"Yes"| I["Estimate effort\n+ Regression map"]
-    H -->|"No"| J["Defer to\nnext release"]
-    H -->|"Need more info"| K["BA investigate\nvà re-submit"]
+    H -->|"Yes"| I["Estimate effort<br/>+ Regression map"]
+    H -->|"No"| J["Defer to<br/>next release"]
+    H -->|"Need more info"| K["BA investigate<br/>và re-submit"]
     
-    I --> L["Execute changes\n+ Run regression tests"]
-    L --> M["Update Change Log\n+ Notify stakeholders"]
+    I --> L["Execute changes<br/>+ Run regression tests"]
+    L --> M["Update Change Log<br/>+ Notify stakeholders"]
 ```
 
 ---

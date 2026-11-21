@@ -128,7 +128,7 @@
 |---|---|
 | **Hậu quả** | Dev hiểu sai. Phải hỏi đi hỏi lại. Multiple iterations |
 | **Cách tránh** | **Visual First** — Mỗi feature ≥ 1 diagram. Screen Inventory bắt buộc |
-| **Tham chiếu** | `core/screen-inventory-guide.md`, `core/diagram-guide.md` |
+| **Tham chiếu** | `core/screen-inventory-guide.md`, `BA-agent/so_do.md` |
 
 ---
 

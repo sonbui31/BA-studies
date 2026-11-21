@@ -123,13 +123,13 @@ Lệch thì báo bằng bảng `| Loại lệch | Tài liệu | ID | Đề xuấ
 
 ## 5. Sơ đồ
 
-Chuẩn hình khối Mermaid, ví dụ và checklist 10 tiêu chuẩn: **`BA-agent/so_do.md`** (mở khi cần vẽ).
+Chuẩn vẽ duy nhất: **`BA-agent/so_do.md`** (mở khi cần vẽ). **Quy trình nghiệp vụ vẽ bằng BPMN 2.0** (mục 4): file `.bpmn` mở được bằng bpmn.io / Camunda Modeler, sinh từ bản mô tả `.json` và kiểm tra bằng `bpmn_tool.py`, ảnh PNG chèn vào tài liệu; Mermaid BPMN-lite chỉ để phác thảo trong lúc trao đổi. Các sơ đồ khác vẽ bằng Mermaid với khối khai báo chung, kiểm tra bằng `diagram_check.py`. Quy trình mẫu: `BA-Documents-Outsource/04-Process-Flow.md`.
 
 | Level | Loại | Mermaid | Đặt ở |
 |---|---|---|---|
-| 0 | Context | `graph TB` | Vision, BRD |
-| 1 | Use Case (tối đa 7–10 UC) | `graph LR` | BRD, SRS |
-| 2 | Activity / Swimlane (1 Lane = 1 Stakeholder) | `flowchart TD` | Process Flow, BRD, SRS |
+| 0 | Context | `flowchart TB` | Vision, BRD |
+| 1 | Use Case (tối đa 8 UC mỗi sơ đồ) | `flowchart LR` | BRD, SRS |
+| 2 | Quy trình nghiệp vụ BPMN 2.0 (pool, lane, sự kiện, cổng) | file `.bpmn` (bpmn_tool.py) | Process Flow, BRD |
 | 3 | Sequence (có `alt` cho luồng lỗi) | `sequenceDiagram` | SRS |
 | 3 | State (tên trạng thái viết HOA) | `stateDiagram-v2` | SRS, Data Model |
 | 3 | ERD (PK, FK, kiểu dữ liệu) | `erDiagram` | SRS, Data Model |
@@ -225,6 +225,8 @@ Mô tả đúng phạm vi, tham số và mã thoát của từng script: **`BA-a
 | Sau review vai trò | `persona_review_check.py <báo-cáo>` |
 | Tài liệu sửa nhiều lần, số bị nhảy | `reindex_markdown.py <thư-mục>` (xem trước), thêm `--apply` để ghi |
 | Sửa curated template / ảnh | `template_schema_check.py "BA-agent/Curated templates"`, `media_audit.py "BA-agent/Curated templates"` |
+| Sau khi vẽ hoặc sửa sơ đồ | `bpmn_tool.py check <thư-mục>` (BPMN), `diagram_check.py <file-hoặc-thư-mục> --strict` (Mermaid, thêm `--render` nếu có mermaid-cli) |
+| Vẽ quy trình BPMN 2.0 | `bpmn_tool.py build diagrams/<tên>.json --png diagrams/<tên>.png` |
 | Đánh giá độ phủ control theo loại dự án | `ba_response_eval.py <file> --scenario <loại>` |
 | Bảo trì skill | `ba_bundle_audit.py`, `python -m unittest discover -s BA-agent/tests` |
 

@@ -8,3 +8,7 @@
 __pycache__/
 *.py[cod]
 /BA-agent/knowledge-index/chunks.jsonl
+
+# Optional Node tools for diagrams (npm install --prefix BA-agent/scripts)
+BA-agent/scripts/node_modules/
+BA-agent/scripts/package-lock.json

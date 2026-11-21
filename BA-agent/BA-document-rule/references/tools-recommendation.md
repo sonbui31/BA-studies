@@ -65,4 +65,4 @@
 | Gantt | `` ```mermaid gantt `` | Timeline |
 | Journey | `` ```mermaid journey `` | User Journey |
 
-> Chi tiết cú pháp: xem `core/diagram-guide.md`
+> Chuẩn vẽ và cú pháp: `BA-agent/so_do.md`; kiểm tra bằng `scripts/diagram_check.py`
