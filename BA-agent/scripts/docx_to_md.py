@@ -96,6 +96,7 @@ class Converter:
         self.docx_path = docx_path
         self.output_path = output_path
         self.media_dir = media_dir
+        self.label_by_rid: dict[str, int] = {}
         self.doc_stem = sanitize_filename(docx_path.name)
         self.image_count = 0
         self.copied_by_rid: dict[str, str] = {}
@@ -199,6 +200,7 @@ class Converter:
 
         if rid not in self.copied_by_rid:
             self.image_count += 1
+            self.label_by_rid[rid] = self.image_count
             output_name = image_label(self.doc_stem, rid, target, self.image_count)
             self.media_dir.mkdir(parents=True, exist_ok=True)
             out_path = self.media_dir / output_name
@@ -207,7 +209,7 @@ class Converter:
             self.copied_by_rid[rid] = os.path.relpath(out_path, self.output_path.parent)
 
         rel_path = self.copied_by_rid[rid].replace(os.sep, "/")
-        return f"\n\n![Sơ đồ/Hình {self.image_count}]({rel_path})\n\n"
+        return f"\n\n![Sơ đồ/Hình {self.label_by_rid[rid]}]({rel_path})\n\n"
 
     def cell_to_text(self, cell: ET.Element, zf: zipfile.ZipFile) -> str:
         parts: list[str] = []
@@ -222,7 +224,20 @@ class Converter:
         for tr in tbl.findall("w:tr", NS):
             row: list[str] = []
             for tc in tr.findall("w:tc", NS):
-                row.append(md_escape_cell(self.cell_to_text(tc, zf)))
+                tc_pr = tc.find("w:tcPr", NS)
+                span = 1
+                continued = False
+                if tc_pr is not None:
+                    grid = tc_pr.find("w:gridSpan", NS)
+                    if grid is not None:
+                        span = max(1, int(grid.get(f"{{{NS['w']}}}val", "1")))
+                    vmerge = tc_pr.find("w:vMerge", NS)
+                    # A vMerge without val="restart" continues the cell above: keep the column, leave it empty.
+                    continued = vmerge is not None and vmerge.get(f"{{{NS['w']}}}val") != "restart"
+                text = "" if continued else md_escape_cell(self.cell_to_text(tc, zf))
+                # Horizontally merged cells keep their text in the first column and pad the rest,
+                # so later columns stay aligned with the header.
+                row.extend([text] + [""] * (span - 1))
             if any(row):
                 rows.append(row)
         if not rows:
@@ -246,6 +261,7 @@ def main() -> None:
     parser.add_argument("docx", nargs="+", type=Path)
     parser.add_argument("--out-dir", type=Path, default=None)
     parser.add_argument("--media-dir-name", default="media")
+    parser.add_argument("--force", action="store_true", help="Overwrite an existing <name>.md")
     args = parser.parse_args()
 
     for docx_path in args.docx:
@@ -253,6 +269,9 @@ def main() -> None:
         out_dir.mkdir(parents=True, exist_ok=True)
         output_path = out_dir / f"{Path(docx_path).stem}.md"
         media_dir = out_dir / args.media_dir_name
+        if output_path.exists() and not args.force:
+            print(f"SKIP: {output_path} đã tồn tại; dùng --force để ghi đè")
+            continue
         Converter(docx_path, output_path, media_dir).convert()
         print(output_path)
 

@@ -1,0 +1,9 @@
+{
+  "_comment": "Fixture: định dạng ID riêng của một dự án thật giả lập. Xem BA-agent/scripts/README.md mục ba-scheme.json.",
+  "ids": {
+    "business": ["Rule-\\d+", "BR-[A-Z]{2,4}-\\d{3}"],
+    "functional": ["FR-[A-Z]+-\\d{2}"],
+    "story": ["US\\d{2}"],
+    "test": ["TC-\\d{2}-[A-Z]", "AC\\d{1,2}-[A-Z]"]
+  }
+}

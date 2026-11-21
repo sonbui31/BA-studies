@@ -1,7 +1,7 @@
 # BA KNOWLEDGE BASE
 
 > **Mục đích:** Lưu kiến thức BA đã chắt lọc từ kho học liệu `BA/` để BA-agent dùng độc lập khi tạo, review, hoặc audit tài liệu BA.
-> **Cập nhật:** 14/11/2026 (phần bổ sung nguồn hiện hành; lớp tri thức từ folder BA gốc vẫn là bản 25/05/2026)
+> **Cập nhật:** 21/11/2026 (phần bổ sung nguồn hiện hành; lớp tri thức từ folder BA gốc vẫn là bản 25/05/2026)
 > **Phạm vi:** Self-contained knowledge base. Không cần folder `BA/` tồn tại lúc runtime.
 
 ---
@@ -232,3 +232,11 @@ Khung nền của nghề BA, dùng khi cần chọn kỹ thuật, kiểm tra tà
 ### 6.11 Cập nhật nguồn chính thức đến 14/11/2026
 
 Đọc [`knowledge-source/ba-update-2026-11-14.md`](../../knowledge-source/ba-update-2026-11-14.md) khi gặp câu hỏi về The Business Analysis Standard của IIBA, Scrum, AC/Gherkin, ISO/IEC 25010:2023, WCAG 2.2 hoặc AI tạo sinh. Phân biệt điều chuẩn quy định với quy ước của repo; không biến con số ví dụ hay ngưỡng Tier thành yêu cầu bắt buộc của tiêu chuẩn.
+
+### 6.12 Bổ sung đến 21/11/2026
+
+Đọc [`knowledge-source/ba-update-2026-11-21.md`](../../knowledge-source/ba-update-2026-11-21.md) khi cần lập BA Work Plan, hướng dẫn ôn ECBA theo blueprint hiện hành hoặc phân biệt WCAG 3 Working Draft với WCAG 2.2 Recommendation. Bản 21/11 bổ sung cho bản 14/11; không thay đổi ngày kiểm tra của tài liệu cũ.
+
+### 6.13 Review tài liệu theo vai trò
+
+Dùng [`core/persona-simulation.md`](../core/persona-simulation.md) với **từng tài liệu** trước khi gửi cho người thật duyệt. Kiểm tra các vai trò bắt buộc theo Tier (Tier 1: R-BA và vai trò theo loại tài liệu; Tier 2: thêm 6 vai trò; Tier 3: đủ 21), ghi PASS/ISSUE/N/A và căn cứ cho mỗi vai trò; N/A cần lý do, vai trò liên quan được review sâu theo loại tài liệu và Tier. Chạy `scripts/persona_review_check.py` trên báo cáo riêng của từng tài liệu để xác nhận độ phủ. Mỗi phát hiện phải gắn vị trí/ID, tác động, loại bằng chứng và người cần xác nhận. Mô phỏng không tạo ý kiến thật hoặc sign-off của stakeholder.

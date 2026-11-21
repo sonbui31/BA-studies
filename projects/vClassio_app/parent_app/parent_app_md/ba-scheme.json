@@ -1,0 +1,29 @@
+{
+  "_comment": "Định dạng ID riêng của vClassio parent app. SR-xx là Stakeholder Requirement (BRD), BRULE-xxx là quy tắc nghiệp vụ, FR-xx.y là FR con của SR.",
+  "ids": {
+    "business": [
+      "BRULE-\\d{3}",
+      "SR-\\d{2}"
+    ],
+    "functional": [
+      "FR-\\d{2}(?:\\.\\d{1,2})?"
+    ],
+    "nonfunctional": [
+      "NFR-\\d{2}"
+    ],
+    "story": [
+      "US-\\d{2}"
+    ],
+    "test": [
+      "AC-\\d{2}"
+    ]
+  },
+  "actors": [
+    "phụ huynh",
+    "giáo viên",
+    "học sinh",
+    "parent",
+    "teacher",
+    "school admin"
+  ]
+}

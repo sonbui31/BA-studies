@@ -1,5 +1,5 @@
 {
-  "version": "3.5.2",
+  "version": "3.5.5",
   "purpose": "Self-contained retrieval cards distilled from the BA learning repository. Use these cards before drafting or reviewing BA artifacts.",
   "cards": [
     {
@@ -256,10 +256,10 @@
       "title": "Product Quality and WCAG 2.2 Accessibility",
       "aliases": ["iso 25010", "nfr", "non-functional requirement", "wcag 2.2", "accessibility", "khả năng tiếp cận"],
       "tags": ["nfr", "quality", "accessibility", "wcag"],
-      "summary": "Use ISO/IEC 25010:2023's nine product quality characteristics as an NFR checklist. For web accessibility, agree the WCAG 2.2 conformance target and test scope with stakeholders; turn relevant criteria into measurable requirements and acceptance checks.",
+      "summary": "Use ISO/IEC 25010:2023's nine product quality characteristics as an NFR checklist. For web accessibility, agree the WCAG 2.2 conformance target and test scope with stakeholders. WCAG 3 is a September 2026 Working Draft, not a replacement conformance target.",
       "use_when": ["Writing SRS quality requirements", "Reviewing web or mobile accessibility"],
       "quality_checks": ["Metric, conditions and owner are specified", "WCAG target and scope are explicit", "Legal applicability is checked separately"],
-      "sources": ["knowledge-source/ba-update-2026-11-14.md"]
+      "sources": ["knowledge-source/ba-update-2026-11-14.md", "knowledge-source/ba-update-2026-11-21.md"]
     },
     {
       "id": "KB-GENAI-BA-2026-001",
@@ -270,6 +270,36 @@
       "use_when": ["Specifying an AI feature", "Reviewing AI-generated BA artifacts", "Choosing auto-accept behavior"],
       "quality_checks": ["Threshold owner approves risk", "Evaluation has independent labeled samples", "Sensitive data access is authorized", "Human override and appeal are defined"],
       "sources": ["knowledge-source/ba-update-2026-11-14.md", "BA-document-rule/templates/ai-feature-spec.md"]
+    },
+    {
+      "id": "KB-BA-PLAN-2026-001",
+      "title": "Plan Business Analysis Work for an Initiative",
+      "aliases": ["ba work plan", "business analysis approach", "kế hoạch công việc ba", "lập kế hoạch ba", "plan stakeholder engagement"],
+      "tags": ["planning", "iiba", "governance", "stakeholders"],
+      "summary": "IIBA's Plan Business Analysis Approach task produces an approach with planned activities, tasks and deliverables. For the repo, record need, decision owner, stakeholders, task depth, near-term milestones, open questions and a way to assess BA work; revisit the plan each iteration.",
+      "use_when": ["Starting an initiative", "Choosing BA deliverables", "A project has scope confusion or missed stakeholders"],
+      "quality_checks": ["Approach fits project Tier and context", "Deliverables have consumers and decision dates", "Assumptions and changes have owners", "Near-term plan is reviewed as knowledge grows"],
+      "sources": ["knowledge-source/ba-update-2026-11-21.md", "knowledge-source/babok-v3-framework.md"]
+    },
+    {
+      "id": "KB-ECBA-2026-001",
+      "title": "ECBA Current Exam Blueprint and BACCM",
+      "aliases": ["ecba exam", "ecba blueprint", "9 domains", "chứng chỉ ecba", "baccm exam"],
+      "tags": ["ecba", "certification", "iiba", "baccm"],
+      "summary": "The updated English ECBA exam uses nine domains: three foundations and the six BACCM concepts. IIBA emphasizes situational application and references both The Business Analysis Standard and BABOK Guide; check language, blueprint and handbook before study planning.",
+      "use_when": ["Preparing for ECBA", "Designing BA study exercises", "Comparing ECBA domains with BABOK knowledge areas"],
+      "quality_checks": ["Do not confuse nine ECBA domains with six BABOK knowledge areas", "Exam language and blueprint version are confirmed", "Current IIBA exam resources are checked"],
+      "sources": ["knowledge-source/ba-update-2026-11-21.md"]
+    },
+    {
+      "id": "KB-PERSONA-REVIEW-001",
+      "title": "Stakeholder Perspective Review of BA Documents",
+      "aliases": ["persona simulation", "stakeholder review", "đóng vai sếp", "nhân viên review", "user lười", "người dùng ít thời gian", "review theo vai trò"],
+      "tags": ["review", "stakeholder", "persona", "quality"],
+      "summary": "Review every BA document through the roles its Tier requires (Tier 1: R-BA plus the deep-read roles of the document type; Tier 2: six more; Tier 3: all 21; sensitive data adds privacy and security). Record one PASS, ISSUE or N/A with evidence or a specific reason for each role; examine relevant roles in depth based on document type and Tier. Every finding needs a document reference, evidence type, impact and decision owner; simulated reviewers never sign off.",
+      "use_when": ["After creating or materially revising each BA document", "Before human sign-off", "A BA document is hard for its intended reader to use"],
+      "quality_checks": ["Every role required by the Tier has exactly one result and a rationale pointing to a location", "N/A states why the role is outside scope", "ISSUE links to a documented finding", "Fact, inference and open question are separated", "Critical issues are not overridden by majority vote"],
+      "sources": ["BA-document-rule/core/persona-simulation.md", "BA-document-rule/core/evaluation-protocol.md"]
     },
     {
       "id": "KB-VN-REG-001",

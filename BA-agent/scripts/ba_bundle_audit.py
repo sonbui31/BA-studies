@@ -4,6 +4,11 @@ import sys
 from pathlib import Path
 
 
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except Exception:
+    pass
+
 ROOT = Path(__file__).resolve().parents[1]
 CHANGELOG = ROOT / "CHANGELOG.md"
 
@@ -41,12 +46,27 @@ REQUIRED_FILES = [
     ROOT / "scripts" / "ba_response_eval.py",
     ROOT / "scripts" / "eval_golden_cases.py",
     ROOT / "scripts" / "ai_smell_scan.py",
+    ROOT / "scripts" / "persona_review_check.py",
     ROOT / "knowledge-source" / "babok-v3-framework.md",
     ROOT / "knowledge-source" / "ba-update-2026-11-14.md",
+    ROOT / "knowledge-source" / "ba-update-2026-11-21.md",
     ROOT / "BA-document-rule" / "core" / "rigor-tiers.md",
     ROOT / "BA-document-rule" / "core" / "strategy-analysis-guide.md",
     ROOT / "BA-document-rule" / "core" / "solution-evaluation-guide.md",
     ROOT / "BA-document-rule" / "core" / "senior-ba-rubric.md",
+    ROOT / "BA-document-rule" / "core" / "persona-simulation.md",
+    ROOT / "BA-document-rule" / "core" / "document-rulebook.md",
+    ROOT / "BA-document-rule" / "core" / "intake-triage.md",
+    ROOT / "BA-document-rule" / "core" / "evidence-source-gate.md",
+    ROOT / "BA-document-rule" / "core" / "slice-baselining.md",
+    ROOT / "BA-document-rule" / "core" / "human-accountability.md",
+    ROOT / "BA-document-rule" / "core" / "pilot-protocol.md",
+    ROOT / "scripts" / "id_migrate.py",
+    ROOT / "scripts" / "md_to_docx.py",
+    ROOT / "scripts" / "docx_feedback.py",
+    ROOT / "tests" / "fixtures" / "real_world_patterns" / "ba-scheme.json",
+    ROOT / "tests" / "golden" / "real_project_tool_run_2026-11-21.md",
+    ROOT / "scripts" / "README.md",
     ROOT / "BA-document-rule" / "references" / "elicitation-playbook.md",
     ROOT / "BA-document-rule" / "references" / "senior-ba-soft-skills.md",
     ROOT / "BA-document-rule" / "references" / "case-study-parent-app.md",
@@ -79,6 +99,111 @@ def scan_versions(text: str):
     return sorted(versions)
 
 
+HEADER_VERSIONED_FILES = [
+    ROOT / "USER-GUIDE.md",
+    ROOT / "DOCUMENT-MAP.md",
+    ROOT / "agents" / "ba-specialist.md",
+    ROOT / "workflows" / "ba-workflow.md",
+    ROOT / "BA-document-rule" / "README.md",
+    ROOT / "BA-document-rule" / "core" / "principles.md",
+    ROOT / "BA-document-rule" / "core" / "traceability-validator.md",
+]
+HEADER_VERSION_PATTERN = re.compile(r"\b(\d+)\.(\d+)(?:\.\d+)?\b")
+
+
+def stale_header_versions(release_tuple, release_text):
+    """The title / 'Phiên bản:' line of a current-state document must name the current MAJOR.MINOR."""
+    errors = []
+    for path in HEADER_VERSIONED_FILES:
+        if not path.exists():
+            continue
+        lines = path.read_text(encoding="utf-8").splitlines()[:8]
+        header_lines = [line for line in lines if line.startswith("# ") or "Phiên bản:" in line]
+        for line in header_lines:
+            for match in HEADER_VERSION_PATTERN.finditer(line):
+                major, minor = int(match.group(1)), int(match.group(2))
+                if major == release_tuple[0] and minor != release_tuple[1]:
+                    errors.append(
+                        f"{path.relative_to(ROOT)} header says {match.group(0)} but the release is {release_text}: {line.strip()}"
+                    )
+    return errors
+
+
+def missing_agent_skills():
+    """Agent frontmatter must not reference skills that do not exist."""
+    errors = []
+    for path in (ROOT / "agents").glob("*.md"):
+        text = path.read_text(encoding="utf-8")
+        match = re.search(r"^skills:\s*\[([^\]]*)\]", text, re.MULTILINE)
+        if not match:
+            continue
+        for name in [item.strip() for item in match.group(1).split(",") if item.strip()]:
+            candidates = list(ROOT.parent.glob(f"**/skills/{name}/SKILL.md")) + list(ROOT.glob(f"**/{name}/SKILL.md"))
+            if not candidates:
+                errors.append(f"{path.relative_to(ROOT)} references missing skill '{name}'")
+    return errors
+
+
+SKILL_PATH_PATTERN = re.compile(r"`((?:BA-agent/)?[\w\-./ ]+?\.(?:md|py|json|jsonl|pdf|docx))`")
+
+
+def broken_skill_paths():
+    """Every file path written in backticks in SKILL.md must exist."""
+    errors = []
+    skill = ROOT / "SKILL.md"
+    if not skill.exists():
+        return errors
+    bases = [ROOT, ROOT / "BA-document-rule", ROOT / "scripts", ROOT / "Curated templates", ROOT / "knowledge-source"]
+    for match in SKILL_PATH_PATTERN.finditer(skill.read_text(encoding="utf-8")):
+        raw = match.group(1)
+        rel = raw[len("BA-agent/"):] if raw.startswith("BA-agent/") else raw
+        if any(token in rel for token in ("<", "*")) or "/" not in rel and not rel.endswith(".py"):
+            # bare file names like `02-BRD.md` are output names, not references
+            if not rel.endswith(".py"):
+                continue
+        if not any((base / rel).exists() for base in bases):
+            errors.append(f"SKILL.md references a file that does not exist: {raw}")
+    return sorted(set(errors))
+
+
+RULE_FILES_GLOBS = ["SKILL.md", "agents/*.md", "workflows/*.md", "BA-document-rule/core/*.md"]
+MIN_DUPLICATE_CHARS = 120
+
+
+def _normalize_rule_line(line: str) -> str:
+    text = re.sub(r"[`*_>#|]", " ", line)
+    text = re.sub(r"^\s*(?:[-+]|\d+[.)]|[A-Z]\d+\.)\s+", "", text)
+    text = re.sub(r"\(?(?:\.\./)*[\w\-./]+\.(?:md|py|json)\)?", " ", text)  # paths differ by ../ prefix
+    return re.sub(r"\s+", " ", text).strip().lower()
+
+
+def duplicated_rule_text():
+    """A rule sentence copied into several rule files drifts apart over time (one owner per rule).
+
+    Flags any normalized line of at least MIN_DUPLICATE_CHARS characters that appears in more than
+    one of SKILL.md, agents/, workflows/ and BA-document-rule/core/. Point to the owner instead.
+    """
+    seen = {}
+    for pattern in RULE_FILES_GLOBS:
+        for path in sorted(ROOT.glob(pattern)):
+            in_fence = False
+            for line in path.read_text(encoding="utf-8").splitlines():
+                if line.lstrip().startswith(("```", "~~~")):
+                    in_fence = not in_fence
+                    continue
+                if in_fence or re.fullmatch(r"\s*\|?[\s:|-]+\|?\s*", line):
+                    continue
+                key = _normalize_rule_line(line)
+                if len(key) < MIN_DUPLICATE_CHARS:
+                    continue
+                seen.setdefault(key, set()).add(str(path.relative_to(ROOT)))
+    return sorted(
+        f"Rule text copied in {', '.join(sorted(paths))}: \"{key[:90]}...\" (keep it in one owner file and point to it)"
+        for key, paths in seen.items()
+        if len(paths) > 1
+    )
+
+
 def main():
     errors = []
     warnings = []
@@ -105,9 +230,17 @@ def main():
                 f"{path.relative_to(ROOT)} contains future version markers beyond {release_text}: {', '.join(sorted(future_versions))}"
             )
 
+    errors.extend(stale_header_versions(release_tuple, release_text))
+    errors.extend(missing_agent_skills())
+    errors.extend(broken_skill_paths())
+    errors.extend(duplicated_rule_text())
+
     legacy_story_refs = []
     legacy_story_pattern = re.compile(r"\bUS\d{2,3}\b")
+    fixtures = ROOT / "tests"
     for path in ROOT.rglob("*.md"):
+        if fixtures in path.parents:
+            continue  # fixtures and pilot records quote real projects' legacy IDs on purpose
         text = path.read_text(encoding="utf-8")
         if legacy_story_pattern.search(text):
             legacy_story_refs.append(path.relative_to(ROOT))

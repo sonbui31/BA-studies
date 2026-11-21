@@ -1,0 +1,23 @@
+{
+  "_comment": "Định dạng ID riêng của vClassio Feature Expansion: BRQ và BR có mã module (BRQ-TEA-005, BR-SRS-003). File BACCM đóng vai BRD.",
+  "ids": {
+    "business": [
+      "BRQ-[A-Z]{2,4}-\\d{3}",
+      "BR-[A-Z]{2,4}-\\d{3}"
+    ],
+    "feature": [
+      "F-[A-Z]{2,4}-\\d{3}"
+    ]
+  },
+  "files": {
+    "01-baccm-feature-expansion.md": "brd"
+  },
+  "actors": [
+    "kế toán",
+    "quản lý trung tâm",
+    "phụ huynh",
+    "giáo viên",
+    "marketing",
+    "học sinh"
+  ]
+}

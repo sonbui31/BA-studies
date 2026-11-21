@@ -1,189 +1,164 @@
-# GIAO THỨC MÔ PHỎNG PERSONA (Stakeholder Simulation v3.4)
+# REVIEW TÀI LIỆU THEO GÓC NHÌN STAKEHOLDER
 
-> **BABOK KA:** Elicitation & Collaboration + Requirements Life Cycle Management
-> **Mục đích:** "Stress-test" yêu cầu nghiệp vụ thông qua góc nhìn của các Stakeholder khác nhau **trước khi** trình bày thực tế.
-> **Triết lý:** Phát hiện 80% phản đối từ trước khi ngồi xuống bàn họp — tiết kiệm 1-2 vòng review.
-
----
-
-## 1. Danh sách Persona AI
-
-| # | Persona | Vai trò | Trọng tâm Audit | "Tính cách" AI | Câu hỏi đặc trưng |
-|---|---------|---------|-----------------|----------------|-------------------|
-| 1 | **Skeptic CFO** | Giám đốc tài chính | ROI, Chi phí, Rủi ro tài chính | Khắt khe, thực tế | "Tiền ở đâu? Bao lâu hoàn vốn?" |
-| 2 | **Grumpy Architect** | Kiến trúc sư trưởng | Tech Debt, Scalability, Security | Thẳng thắn, bi quan | "Cái này scale được không? 5 năm nữa thì sao?" |
-| 3 | **Lazy End-User** | Người dùng cuối | Usability, Số bước, Học phí | Dễ nản, muốn nhanh | "Mấy bước? Nhiều quá, tôi quay lại Excel" |
-| 4 | **Rigid Compliance** | Chuyên gia pháp chế | PDPA/GDPR, Audit trail | Cẩn thận, bám luật | "Điều khoản nào cho phép lưu dữ liệu này?" |
-| 5 | **Hostile Sponsor** | Ban lãnh đạo (không ủng hộ) | Timeline, Scope, Resource | Thiếu kiên nhẫn | "Sao lâu thế? Cắt bớt scope được không?" |
-| 6 | **Silent Department Head** | Trưởng phòng (ít nói) | Impact to team, Change mgmt | Thụ động, lo ngại | *Im lặng — cần chủ động hỏi cụ thể* |
+> **Mục đích:** Dùng các góc nhìn có nhiệm vụ rõ ràng để tìm chỗ tài liệu chưa đủ cho quyết định, triển khai, sử dụng và vận hành. Đây là **mô phỏng để chuẩn bị review**; kết luận nghiệp vụ, pháp lý, kỹ thuật và sign-off thuộc người có thẩm quyền.
+> **Nguồn nền:** [IIBA — nhóm stakeholder trong Core Standard](https://www.iiba.org/globalassets/standards-and-resources/core-standard/iiba-core-standard.pdf), [IIBA — Plan Stakeholder Engagement](https://www.iiba.org/contentassets/68282b0837a84197a67ff3aa7c828488/task-card-plan-stakeholder-engagement.pdf). IIBA không yêu cầu dự án nào cũng có đủ mọi vai trò. Một người có thể đảm nhận nhiều vai trò. Các vai trò như Product Owner, người dùng ít thời gian và người dùng cần hỗ trợ tiếp cận là cách repo chia nhỏ góc nhìn để review, không phải danh mục chuẩn của IIBA.
+> **Quan hệ:** Bổ sung cho `evaluation-protocol.md`, `senior-ba-rubric.md` và `references/communication-packaging.md`. Không thay thế kiểm tra ID, đánh giá chất lượng requirement hay UAT với người dùng thật.
+> **Đây là tự rà soát.** Cùng một mô hình vừa viết vừa đóng vai người đọc thì không phải review độc lập. Review độc lập (người thật, hoặc phiên AI riêng với Tier 2) theo `human-accountability.md` H4; Tier 3 cần ít nhất một người thật ghi tên vào báo cáo.
 
 ---
 
-## 2. Quy Trình Mô Phỏng — "The Gauntlet"
+## 1. Ba góc nhìn về quyết định và sử dụng
 
-### 2.1 Protocol 4 bước
+| Mã | Vai trò review | Mục tiêu và giới hạn | Câu hỏi kiểm tra | Tài liệu thường đọc |
+|---|---|---|---|---|
+| `R-SPONSOR` | **Sếp / Sponsor ra quyết định** | Cần hiểu giá trị, chi phí, rủi ro và quyết định đang chờ; không tự đi vào API hay database | Vấn đề có bằng chứng? Có baseline, phương án, chi phí và điều kiện dừng? Tôi phải duyệt điều gì, trước ngày nào? | Vision, Business Case, BRD, Executive Summary |
+| `R-STAFF` | **Nhân viên trực tiếp làm việc** | Cần thực hiện quy trình hàng ngày với đúng quyền và trách nhiệm | Tôi bắt đầu từ đâu, nhập gì, bàn giao cho ai? Thiếu dữ liệu, bị từ chối hoặc bị gián đoạn thì làm gì? | As-Is/To-Be, User Story, SRS liên quan, UAT, hướng dẫn sử dụng |
+| `R-TIME` | **Người dùng ít thời gian / ít kiên nhẫn** | Muốn hoàn thành tác vụ chính nhanh; phản ánh chi phí thao tác, không gán tính cách tiêu cực cho người dùng | Tôi có hiểu bước tiếp theo trong lần đầu dùng? Bước nào lặp, trường nào không cần, lỗi nào khiến tôi bỏ cuộc? Có cách tiếp tục khi dừng giữa chừng? | User Flow, prototype, User Story, AC, Quick Start |
 
-```
-┌──────────────┐     ┌──────────────┐     ┌──────────────┐     ┌──────────────┐
-│  1. INPUT    │────▶│ 2. SIMULATE  │────▶│ 3. REBUTTAL  │────▶│ 4. VERDICT   │
-│              │     │              │     │              │     │              │
-│ Cung cấp     │     │ Persona hỏi  │     │ BA trả lời   │     │ Approve /    │
-│ BRD/SRS      │     │ ≥ 3 câu hóc  │     │ hoặc sửa doc │     │ Revise       │
-└──────────────┘     └──────────────┘     └──────────────┘     └──────────────┘
-```
+`R-SPONSOR` là người giữ góc nhìn quyết định; nếu quyết định về ngân sách hoặc phạm vi thuộc người khác thì ghi đúng **decision owner** trong dự án. `R-STAFF` có thể là nhân viên nội bộ, đại lý hoặc người vận hành nghiệp vụ. `R-TIME` là **bối cảnh sử dụng**, có thể trùng với `R-STAFF` hoặc khách hàng; nó không tự đại diện cho toàn bộ người dùng.
 
-### 2.2 Chi tiết từng bước
+## 2. Các góc nhìn chuyên môn và kiểm soát
 
-**Bước 1 — INPUT:**
-- BA cung cấp section/feature cần test
-- Chỉ định persona (1 hoặc nhiều)
-- Mục tiêu: "tìm điểm yếu" hoặc "validate tổng thể"
+Đây là 18 góc nhìn còn lại trong danh mục 21 vai trò. Số vai trò bắt buộc cho từng tài liệu phụ thuộc Tier (mục 3). Không dựng phản đối chỉ để đủ số vai.
 
-**Bước 2 — SIMULATE:**
-- Persona đặt **≥ 3 câu hỏi hóc búa** dựa trên trọng tâm audit
-- Câu hỏi phải **cụ thể, có reference đến nội dung document**
-- Không hỏi chung chung ("có risk không?") — phải chỉ rõ ("BR-003 nói xử lý 100 đơn/ngày, nhưng NFR-PERF-001 chỉ yêu cầu 50 concurrent users — mâu thuẫn?")
+| Mã | Vai trò | Khi cần review sâu | Câu hỏi chính |
+|---|---|---|---|
+| `R-CFO` | Tài chính / CFO | Có ngân sách, ROI, tiết kiệm hoặc chi phí vận hành | Chi phí vòng đời và giả định tài chính có nguồn? Nếu lợi ích không đạt thì quyết định ra sao? |
+| `R-MANAGER` | Trưởng bộ phận / chủ quy trình | Đổi phân công, kiểm soát, SLA nội bộ | Ai chịu trách nhiệm từng bước? Quy trình mới tạo thêm việc hay điểm nghẽn nào? |
+| `R-PO` | Product Owner / chủ sản phẩm | Có backlog, MVP, ưu tiên hoặc thử nghiệm | Story nào tạo giá trị trước? Có thể hoãn gì mà vẫn đạt mục tiêu? |
+| `R-CUSTOMER` | Khách hàng / người mua dịch vụ | Bán hàng, hợp đồng, cam kết dịch vụ | Phạm vi và kết quả cam kết có rõ? Cách khiếu nại, hủy hoặc đổi yêu cầu có rõ? |
+| `R-SME` | Chuyên gia nghiệp vụ | Quy tắc ngành, ngoại lệ, thuật ngữ đặc thù | Rule có đúng thực tế? Có trường hợp hiếm nào làm sai kết luận? |
+| `R-PM` | Quản lý dự án / delivery | Có mốc phụ thuộc, nguồn lực hoặc bàn giao nhiều bên | Ai cung cấp đầu vào và khi nào? Quyết định trễ ảnh hưởng mốc nào? |
+| `R-TECH` | Kiến trúc sư / Dev Lead | SRS, API, dữ liệu, tích hợp, NFR | Có đủ điều kiện, trạng thái, lỗi và ngưỡng để thiết kế, ước lượng và xây dựng? |
+| `R-QA` | QA / người kiểm thử | FR, AC, UAT, nghiệm thu | Kết quả đạt/trượt có quan sát được? Có dữ liệu test, boundary, quyền và ngoại lệ liên quan? |
+| `R-PARTNER` | Nhà cung cấp / đối tác tích hợp | API, dữ liệu hoặc SLA qua ranh giới tổ chức | Ai sở hữu hợp đồng, phiên bản, timeout, lỗi, đối soát và trách nhiệm khi sự cố? |
+| `R-OPS` | Vận hành hệ thống | Go-live, monitoring, cutover, sự cố | Cần theo dõi gì, khôi phục ra sao, ai trực và khi nào rollback? |
+| `R-SUPPORT` | Hỗ trợ khách hàng / helpdesk | Người dùng cần hỗ trợ hoặc có nhiều lỗi thao tác | Khi nhận ticket, tôi biết trạng thái, nguyên nhân có thể và tuyến chuyển tiếp không? |
+| `R-TRAINER` | Đào tạo / quản lý thay đổi | Quy trình mới ảnh hưởng nhiều nhân viên | Ai cần học gì, khi nào; làm sao biết họ thực hiện được sau đào tạo? |
+| `R-DATA` | Chủ dữ liệu / người làm báo cáo | Báo cáo, KPI, migration, dữ liệu nhạy cảm | Định nghĩa chỉ số, nguồn chuẩn, chất lượng, quyền truy cập và thời hạn lưu có rõ? |
+| `R-SEC` | Bảo mật | Xác thực, phân quyền, tích hợp, dữ liệu nhạy cảm | Tài sản cần bảo vệ, quyền tối thiểu, abuse case, log và phản ứng sự cố đã được nêu? |
+| `R-PRIVACY` | Pháp chế / quyền riêng tư / compliance nội bộ | Dữ liệu cá nhân, nghĩa vụ hợp đồng hoặc pháp lý | Căn cứ nào cần kiểm chứng? Ai xác nhận, dữ liệu dùng cho mục đích nào và lưu bao lâu? |
+| `R-REGULATOR` | Cơ quan quản lý / bên kiểm toán bên ngoài | Dự án có yêu cầu kiểm toán hoặc nghĩa vụ báo cáo được xác nhận | Chứng cứ, quyền phê duyệt và lịch sử thay đổi có truy được? Điều khoản áp dụng do ai xác nhận? |
+| `R-ACCESS` | Người dùng cần hỗ trợ tiếp cận | Sản phẩm dùng qua web/app, đặc biệt tác vụ thiết yếu | Có làm được bằng bàn phím và công nghệ hỗ trợ? Thông tin lỗi, tiêu điểm, thời hạn thao tác có cản trở không? |
+| `R-BA` | BA reviewer độc lập | Trước sign-off hoặc khi các vai trò đưa nhận xét mâu thuẫn | Phát hiện nào có bằng chứng? FR/US/AC/KPI có cùng nghĩa? Ai có quyền chốt xung đột? |
 
-**Bước 3 — REBUTTAL:**
-- BA trả lời từng câu hỏi
-- Nếu không trả lời được → **cập nhật document** ngay
-- Mỗi câu trả lời phải có evidence (dữ liệu, reference doc, stakeholder quote)
+Các vai trò `R-PRIVACY` và `R-REGULATOR` đặt **câu hỏi cần xác minh**; mô phỏng không được khẳng định dự án tuân thủ luật. `R-ACCESS` nêu rủi ro trong tài liệu; mức đáp ứng accessibility phải được kiểm tra trên sản phẩm bởi người/công cụ phù hợp.
 
-**Bước 4 — VERDICT:**
-- Persona đưa ra 1 trong 3 kết quả:
+## 3. Quy tắc bắt buộc cho từng tài liệu
 
-| Verdict | Ý nghĩa | Hành động |
-|---------|---------|-----------|
-| ✅ **APPROVED** | Không có vấn đề nghiêm trọng | Tiến hành bước tiếp |
-| 🟡 **CONDITIONALLY APPROVED** | Có vấn đề nhỏ, chấp nhận nếu fix | Fix → re-submit section đó |
-| 🔴 **REJECTED** | Có lỗ hổng nghiêm trọng | Rewrite section → re-run full Gauntlet |
+1. Với **mỗi tài liệu BA được tạo hoặc sửa đáng kể**, ghi tên/đường dẫn, phiên bản, loại tài liệu, Tier, có dữ liệu nhạy cảm hay không và người thật có quyền duyệt. Một bộ nhiều tài liệu cần **một bảng đánh giá riêng cho từng tài liệu**.
+2. **Số vai trò bắt buộc theo Tier** (Tier lấy từ `rigor-tiers.md`, ghi ở đầu tài liệu):
 
----
+   | Tier | Vai trò bắt buộc trong ma trận |
+   |---|---|
+   | Tier 1 | `R-BA` + nhóm vai trò đọc sâu theo loại tài liệu (bảng dưới) |
+   | Tier 2 | Tier 1 + `R-SPONSOR`, `R-STAFF`, `R-TIME`, `R-QA`, `R-SEC`, `R-PM` |
+   | Tier 3 | Đủ 21 vai trò ở mục 1–2 |
+   | Mọi Tier, khi có dữ liệu cá nhân nhạy cảm | Thêm `R-PRIVACY`, `R-SEC` |
 
-## 3. Scoring Matrix — C-R-F Model
+   Mỗi vai trò bắt buộc có đúng một dòng với kết quả `PASS`, `ISSUE` hoặc `N/A`. Căn cứ của `PASS`/`ISSUE` phải trỏ tới vị trí (mục, bảng, dòng hoặc ID). `N/A` chỉ dùng sau khi đã xét phạm vi và nêu lý do cụ thể, không dùng vì thiếu thời gian. Có thể thêm vai trò không bắt buộc khi thấy liên quan; vai trò được thêm cũng phải đủ căn cứ. Báo cáo không ghi Tier được kiểm như Tier 3.
+3. Với vai trò có liên quan, đọc sâu phần phù hợp, đặt nhiệm vụ thực tế, đối chiếu ID/đoạn và ghi phát hiện có bằng chứng. `ISSUE` phải trỏ tới ID phát hiện ở bảng bên dưới, và mỗi phát hiện phải được ít nhất một vai trò trỏ tới.
+4. Sau khi sửa, kiểm tra lại vai trò bị ảnh hưởng; cập nhật ma trận cho **phiên bản tài liệu cuối**. Thiếu vai trò bắt buộc, `PENDING`, căn cứ trống hoặc `ISSUE` không có phát hiện tương ứng thì chưa được báo hoàn tất. `BLOCK` và `ASK` chưa được giải quyết phải được nêu rõ khi bàn giao, không được biến thành `PASS`.
 
-Mỗi persona đánh giá 3 tiêu chí:
+| Loại tài liệu (ghi ở dòng `Loại tài liệu:`) | Vai trò đọc sâu, bắt buộc từ Tier 1 |
+|---|---|
+| Vision, Business Case, BRD | `R-CFO`, `R-PO`, `R-MANAGER`, `R-CUSTOMER` |
+| BPMN, quy trình, SOP | `R-MANAGER`, `R-SME`, `R-TRAINER` |
+| SRS, API, Data Model | `R-TECH`, `R-DATA`, `R-SEC`, `R-PARTNER` |
+| User Story, AC, UAT | `R-PO`, `R-QA`, `R-SME`, `R-ACCESS` |
+| Go-live, handover, manual | `R-OPS`, `R-SUPPORT`, `R-TRAINER`, `R-ACCESS` |
+| Dữ liệu cá nhân, tài chính, sức khỏe, trẻ em (`Dữ liệu nhạy cảm: Có`) | `R-PRIVACY`, `R-SEC`; thêm `R-REGULATOR` khi có nghĩa vụ được xác nhận |
 
-| Tiêu chí | Mô tả | Thang điểm |
-|----------|-------|:----------:|
-| **C — Completeness** | Có đủ thông tin cho persona ra quyết định? | 1-5 |
-| **R — Risk Coverage** | Rủi ro liên quan đến persona đã address chưa? | 1-5 |
-| **F — Feasibility** | Phương án có khả thi từ góc nhìn persona? | 1-5 |
+Một vai trò có thể có hai cách dùng: **người thật tham gia review** hoặc **AI mô phỏng trước buổi review**. Ghi rõ cách dùng trong báo cáo. AI mô phỏng không tạo ra ý kiến thật của nhân viên, khách hàng hoặc cơ quan quản lý. Ma trận đủ vai trò bắt buộc chứng minh **độ phủ đánh giá**, không chứng minh mọi stakeholder đã đồng ý.
 
-**Quy tắc:**
-- **≥ 12/15:** APPROVED
-- **9-11/15:** CONDITIONALLY APPROVED
-- **≤ 8/15:** REJECTED
+## 4. Giao thức đánh giá 4 bước
 
----
+### Bước 1 — Chuẩn bị
 
-## 4. Ví dụ Output — CFO Audit BRD
+- Đọc tài liệu mục tiêu và các tài liệu liên kết cần thiết; ghi phiên bản, phạm vi, Tier.
+- Xác định vai trò bắt buộc theo Tier và loại tài liệu (mục 3); viết một nhiệm vụ cụ thể cho vai trò cần review sâu. Ví dụ `R-STAFF`: "xử lý một đơn bị từ chối sau khi đã nhập xong"; `R-TIME`: "hoàn thành tác vụ chính lần đầu mà không đọc manual".
+- Không tự tạo dữ liệu sản phẩm, lời nói stakeholder, chi phí, luật áp dụng hoặc hành vi giao diện chưa có bằng chứng.
 
-### Input
-> "Audit BRD dự án QLTS — focus mục 3 (Luận chứng kinh doanh) và mục 4 (Phạm vi)"
+### Bước 2 — Đọc và đặt câu hỏi
 
-### CFO Simulation
+Với từng vai trò, hỏi: **Tôi cần quyết định/làm gì? Tài liệu đã cho đủ thông tin chưa? Nếu làm sai sẽ ảnh hưởng gì?** Mỗi phát hiện trỏ tới heading, ID, dòng hoặc đoạn cụ thể. Phân loại `FACT` (mâu thuẫn/thiếu rõ trong tài liệu), `INFERENCE` (rủi ro suy ra), `OPEN QUESTION` (cần người thật xác nhận). Không có bằng chứng thì đưa vào Open Questions, không ghi thành lỗi chắc chắn.
 
-**Câu 1:** *"Mục 3.4 ghi ROI 3 năm = 180%. Nhưng chi phí bảo trì hàng năm (mục 3.2 dòng 6) ghi '$[___]' — chưa điền. Nếu bảo trì là 20% chi phí phát triển/năm thì ROI giảm còn bao nhiêu?"*
+### Bước 3 — Phản hồi và sửa
 
-**Câu 2:** *"BR-005 yêu cầu dashboard realtime. NFR-03 yêu cầu ≥500 concurrent users. Hai cái này kết hợp cần infra mạnh hơn — chi phí hosting (mục 3.2 dòng 3) có tính chưa?"*
+- Gộp phát hiện trùng nhau, nhưng giữ tên các vai trò bị ảnh hưởng.
+- BA kiểm tra lại tài liệu nguồn; sửa lỗi mô tả có căn cứ. Quy tắc nghiệp vụ, mức chấp nhận rủi ro, luật hoặc phạm vi chưa rõ thì chuyển **decision owner** xác nhận trước khi chốt.
+- Nếu hai vai trò mâu thuẫn, dùng `stakeholder-conflict-resolution.md`; không lấy đa số phiếu để ghi đè một rủi ro nghiêm trọng.
+- Tổng hợp thành một bản tài liệu phù hợp với **mục đích và người đọc chính**: quyết định nào cần thấy trước, nhân viên cần làm được việc gì, người dùng ít thời gian cần giảm bước nào, nhóm triển khai cần mức chi tiết nào. Ghi rõ lựa chọn, đánh đổi, tác động và người có quyền quyết; sửa bản tài liệu rồi review lại các vai trò bị ảnh hưởng.
 
-**Câu 3:** *"Mục 3.3 dòng 3 ghi 'Giảm 2 nhân sự thủ công' = tiết kiệm X triệu/năm. Nhân sự đó sẽ sa thải hay chuyển vị trí? Nếu chuyển vị trí thì tiết kiệm = 0, ROI sai."*
+### Bước 4 — Báo cáo và kiểm tra độ phủ
 
-### Scoring
-| Tiêu chí | Điểm | Lý do |
-|----------|:----:|-------|
-| Completeness | 3/5 | Chi phí bảo trì chưa điền, hosting chưa tính realtime |
-| Risk Coverage | 2/5 | Không có sensitivity analysis, không có worst-case scenario |
-| Feasibility | 4/5 | ROI logic hợp lý nếu số liệu đúng |
-| **TOTAL** | **9/15** | **🟡 CONDITIONALLY APPROVED** |
+| Mức | Ý nghĩa | Xử lý |
+|---|---|---|
+| `BLOCK` | Mâu thuẫn hoặc thiếu thông tin khiến quyết định/triển khai không an toàn, không kiểm thử được, hoặc có rủi ro pháp lý/bảo mật cần xác nhận | Chuyển người có quyền quyết; chưa ghi tài liệu là đã duyệt |
+| `FIX` | Có lỗi rõ trong tài liệu nhưng có thể sửa bằng thông tin đã xác nhận | Sửa đúng mục và review lại phần bị ảnh hưởng |
+| `ASK` | Có câu hỏi hợp lý nhưng chưa đủ bằng chứng kết luận | Ghi Open Question, owner, hạn trả lời |
+| `NOTE` | Cải tiến cách trình bày hoặc trải nghiệm, không chặn quyết định hiện tại | Đưa vào backlog hoặc hướng dẫn viết |
 
-### Recommendations
-1. Điền chi phí bảo trì → tính lại ROI
-2. Thêm sensitivity analysis (best/worst/expected case)
-3. Clarify "giảm nhân sự" = sa thải hay chuyển vị trí
+**Trạng thái của lượt mô phỏng:** `Không phát hiện vấn đề`, `Cần sửa`, hoặc `Chờ quyết định`. Đây là trạng thái review của BA-agent, **không phải phê duyệt hay sign-off của stakeholder**. Không chấm điểm tổng hoặc bỏ phiếu đa số để xóa một mục `BLOCK`.
 
----
+Chạy `python BA-agent/scripts/persona_review_check.py <bao-cao-review.md>` cho **từng báo cáo của từng tài liệu**. Lệnh đọc `Tier`, `Loại tài liệu` và `Dữ liệu nhạy cảm` ở đầu báo cáo, rồi trả mã lỗi khi thiếu vai trò bắt buộc, lặp, sai kết quả, căn cứ không trỏ tới vị trí, N/A chung chung, `ISSUE` không có ID phát hiện hoặc phát hiện không vai trò nào trỏ tới. Gate này chỉ kiểm tra hình thức và độ phủ; BA vẫn phải đọc chất lượng căn cứ và xử lý rủi ro.
 
-## 5. Multi-Persona Session — "Board Meeting"
-
-### Khi nào dùng
-- Trước sign-off BRD/SRS
-- Khi document ảnh hưởng ≥ 3 departments
-- Khi có conflict giữa stakeholders (CFO muốn cắt scope, PO muốn thêm feature)
-
-### Protocol
-
-```
-1. BA trình bày Executive Summary (3-5 phút)
-2. Mỗi persona hỏi 2 câu (rotation — CFO → Architect → User → Compliance)
-3. BA trả lời tất cả
-4. Round 2: Personas challenge CÂU TRẢ LỜI (cross-examination)
-5. Vote: mỗi persona cho Approve/Conditional/Reject
-6. Majority rule: ≥ 3/4 Approve → PASS
-```
-
-### Output Template
+## 5. Mẫu báo cáo ngắn
 
 ```markdown
-## 🏛️ BOARD MEETING SIMULATION REPORT
+# Review tài liệu theo vai trò: [Tên tài liệu, phiên bản]
+Tài liệu: [đường dẫn file và phiên bản] | Loại tài liệu: [BRD / SRS / User Story / ...] | Tier: [1/2/3] | Dữ liệu nhạy cảm: [Có/Không] | Người duyệt thật: [Vai trò/tên]
+Loại rà soát: [Tự rà soát (AI) / Review độc lập (phiên AI riêng) / Review độc lập (người thật: tên, vai trò)]; ghi rõ cho từng vai trò nếu khác nhau
+Trạng thái: [Không phát hiện vấn đề / Cần sửa / Chờ quyết định]
 
-**Tài liệu:** [BRD/SRS v1.0]
-**Personas:** CFO, Architect, End-User, Compliance
-**Ngày:** [DD/MM/YYYY]
+## Độ phủ vai trò
 
-### Kết quả bỏ phiếu
-| Persona | Vote | C | R | F | Tổng |
-|---------|:----:|:-:|:-:|:-:|:----:|
-| CFO | 🟡 | 3 | 2 | 4 | 9 |
-| Architect | ✅ | 4 | 4 | 3 | 11 |
-| End-User | ✅ | 5 | 3 | 4 | 12 |
-| Compliance | 🔴 | 2 | 1 | 3 | 6 |
+> Ví dụ dưới đây là Tier 3 (đủ 21 dòng). Tier 1/2 chỉ cần các vai trò bắt buộc ở mục 3.
 
-**Kết quả:** 2 Approve, 1 Conditional, 1 Reject → **🟡 CONDITIONAL**
+| Mã vai trò | Kết quả | Căn cứ / lý do | ID phát hiện |
+|---|---|---|---|
+| R-SPONSOR | PASS | [Mục/ID tài liệu và lý do đủ cho quyết định] | — |
+| R-STAFF | ISSUE | [Vị trí tài liệu và tác động] | RV-01 |
+| R-TIME | PASS | [Tác vụ chính, vị trí kiểm tra] | — |
+| R-CFO | N/A | [Lý do tài liệu không chứa quyết định tài chính] | — |
+| R-MANAGER | PENDING | [Điền sau khi đánh giá] | — |
+| R-PO | PENDING | [Điền sau khi đánh giá] | — |
+| R-CUSTOMER | PENDING | [Điền sau khi đánh giá] | — |
+| R-SME | PENDING | [Điền sau khi đánh giá] | — |
+| R-PM | PENDING | [Điền sau khi đánh giá] | — |
+| R-TECH | PENDING | [Điền sau khi đánh giá] | — |
+| R-QA | PENDING | [Điền sau khi đánh giá] | — |
+| R-PARTNER | PENDING | [Điền sau khi đánh giá] | — |
+| R-OPS | PENDING | [Điền sau khi đánh giá] | — |
+| R-SUPPORT | PENDING | [Điền sau khi đánh giá] | — |
+| R-TRAINER | PENDING | [Điền sau khi đánh giá] | — |
+| R-DATA | PENDING | [Điền sau khi đánh giá] | — |
+| R-SEC | PENDING | [Điền sau khi đánh giá] | — |
+| R-PRIVACY | PENDING | [Điền sau khi đánh giá] | — |
+| R-REGULATOR | PENDING | [Điền sau khi đánh giá] | — |
+| R-ACCESS | PENDING | [Điền sau khi đánh giá] | — |
+| R-BA | PENDING | [Điền sau khi đánh giá] | — |
 
-### Top 3 Issues phải fix
-1. [Issue từ Compliance — thiếu consent management]
-2. [Issue từ CFO — ROI chưa tính bảo trì]
-3. [Issue từ Architect — không có fallback cho API integration]
+## Phát hiện
 
-### Action Items
-- [ ] Fix issue 1 → re-submit cho Compliance
-- [ ] Fix issue 2 → update mục 3.4
-- [ ] Fix issue 3 → thêm NFR fallback
+| ID | Vai trò | Mức | Loại bằng chứng | Vị trí/ID tài liệu | Phát hiện và tác động | Đề xuất | Owner/hạn |
+|---|---|---|---|---|---|---|---|
+| RV-01 | R-STAFF, R-TIME | ASK | OPEN QUESTION | US-ORD-01, AC-ORD-01 | Chưa thấy cách tiếp tục sau khi mạng mất lúc xác nhận | Hỏi PO và nhân viên quy trình; bổ sung AC nếu cần | PO / [ngày] |
+
+Quyết định cần người thật xác nhận: [Danh sách hoặc "Không có"]
+Phần đã sửa và cần review lại: [Danh sách hoặc "Không có"]
+Lựa chọn tối ưu cho người đọc chính và đánh đổi: [Nêu thay đổi, lợi ích, chi phí/rủi ro và decision owner]
+Giới hạn mô phỏng: [Thiếu prototype, chưa phỏng vấn người dùng, ...]
 ```
 
----
+Ví dụ `RV-01` chỉ minh họa cấu trúc báo cáo; không phải kết luận về một dự án trong repo.
 
-## 6. Lệnh Kích Hoạt
+## 6. Lệnh sử dụng
 
-### Single Persona
-```
-@ba-specialist hãy đóng vai CFO để phản biện BRD mục 3 (Luận chứng kinh doanh)
-@ba-specialist dùng Grumpy Architect mode — tìm rủi ro kỹ thuật trong SRS mục 2
-@ba-specialist mô phỏng Lazy End-User — review User Story US-ORD-001 đến US-ORD-005
-```
-
-### Multi-Persona (Board Meeting)
-```
-@ba-specialist chạy Board Meeting với CFO + Architect + End-User cho BRD v1.0
-@ba-specialist stress-test SRS với đủ 6 personas — focus mục 3 (FR) và mục 4 (NFR)
+```text
+@ba-specialist review BRD này theo vai trò bắt buộc của Tier 2; xuất ma trận PASS/ISSUE/N/A có căn cứ và xử lý phát hiện.
+@ba-specialist review SRS thanh toán (Tier 3, dữ liệu nhạy cảm) qua đủ 21 vai trò; đọc sâu R-TECH, R-QA, R-SEC và R-OPS.
+@ba-specialist kiểm tra độ phủ vai trò cho từng tài liệu UAT; không bàn giao nếu còn thiếu vai trò bắt buộc hoặc PENDING.
 ```
 
-### Quick Validation
-```
-@ba-specialist quick persona check: BRD mục 4.2 (phạm vi) — CFO + PO
-```
-
----
-
-## 7. Tham Chiếu Chéo
-
-| Persona gặp vấn đề | Tham chiếu đến |
-|---------------------|---------------|
-| CFO hỏi về ROI | `templates/brd.md` → §3.4, `core/decision-analysis-framework.md` |
-| Architect hỏi về scalability | `templates/srs.md` → §4 (NFR), `core/nfr-discovery-guide.md` |
-| End-User phàn nàn UX | `core/writing-guide.md` → §5 (UX Metrics), `core/screen-inventory-guide.md` |
-| Compliance hỏi về data | Healthcare: `overlays/healthcare/overlay-config.md` → §3 (PHI) |
-| Hostile Sponsor | `core/customer-intelligence-guide.md` → §6.2 (Hostile Stakeholder) |
-| Nhiều personas mâu thuẫn nhau | `core/stakeholder-conflict-resolution.md` |
+Khi không có tài liệu dự án thật, có thể dùng tình huống giả lập để luyện phản biện nhưng phải gắn nhãn `[VÍ DỤ GIẢ ĐỊNH]` cho mọi dữ liệu và kết luận.

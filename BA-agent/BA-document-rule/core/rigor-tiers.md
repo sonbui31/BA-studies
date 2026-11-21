@@ -41,14 +41,17 @@ Ghi đè: câu 2 hoặc câu 3 có điểm thì tối thiểu là Tier 2. Dự �
 | NFR | Hiệu năng cơ bản | NFR định lượng theo mục chính | NFR đầy đủ + threat/privacy review + kiểm thử NFR |
 | Traceability | `US → AC` | Chuỗi canonical đủ | Canonical strict + đối chiếu hai chiều + Conflict Log |
 | Benefit Register | KPI chính | Benefit Register (`solution-evaluation-guide.md`) | Benefit Register + guardrail + review 30/60/90 |
-| Review | BA tự rà bằng checklist | BA + 1 người khác | BA + SME + pháp lý/bảo mật + Sponsor ký |
-| Script bắt buộc | `preflight_check`, `ai_smell_scan` | + `quality_rubric`, `traceability_scan` | + toàn bộ audit |
+| Review người thật | BA tự rà bằng checklist | BA + 1 người khác | BA + SME + pháp lý/bảo mật + Sponsor ký |
+| Review vai trò (`persona-simulation.md`) | R-BA + vai trò theo loại tài liệu | + R-SPONSOR, R-STAFF, R-TIME, R-QA, R-SEC, R-PM | Đủ 21 vai trò |
+| Nguồn yêu cầu (`evidence-source-gate.md`) | Cột "Nguồn" trong bảng Fact; nguồn trực tiếp cho quy tắc nhánh rẽ và phạm vi | Sổ nguồn + kế hoạch elicitation; nguồn trực tiếp cho cả 5 nhóm nhận định trọng yếu | Như Tier 2, baseline và con số Business Case ở E3 trở lên |
+| Cách chốt | Agile Lite | Theo tài liệu hoặc theo lát cắt (`slice-baselining.md`) | Theo tài liệu hoặc theo lát cắt; trình duyệt trọn bộ nếu hợp đồng/cơ quan quản lý yêu cầu |
+| Kiểm tra sau mỗi tài liệu | Checklist Anti-AI, `preflight_check`, `ai_smell_scan` | + `quality_rubric`, `traceability_scan --strict`, `persona_review_check` | + đối chiếu nghĩa hai chiều, Conflict Log |
 
 ---
 
 ## 3. Điều không được nới ở bất kỳ Tier nào
 
-1. Phân biệt Fact, Assumption, Open Question; không bịa số liệu.
+1. Phân biệt Fact, Assumption, Open Question; không bịa số liệu; không ghi "đã chốt" cho quy tắc nhánh rẽ hoặc phạm vi khi chỉ có nguồn gián tiếp.
 2. Mỗi User Story có ít nhất một Acceptance Criteria quan sát được và đo được.
 3. Mọi yêu cầu truy được về một mục tiêu hoặc nhu cầu.
 4. Nhãn `[AI-Drafted]` cho đến khi người thật xác nhận.
@@ -76,3 +79,4 @@ Khi nới so với chuẩn, ghi lý do ngắn. Khi tăng Tier giữa chừng (ph
 - `SKILL.md`: Hard Gate 1–2 áp dụng cho lối đầy đủ; Tier 1 có thể đi Lối Agile Lite.
 - `Curated templates/04-Acceptance-Criteria-Template.md`: bốn kịch bản là ví dụ cho một giao dịch; áp dụng số kịch bản theo Tier và rule thực tế trong bảng trên.
 - `traceability_scan.py --strict`: dùng cho Tier 2 và 3.
+- `intake-triage.md`: Tier chọn độ chặt, lối (L0–L4) chọn quy trình. Một việc nhỏ (L2) vẫn có thể là Tier 3.

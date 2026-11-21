@@ -91,7 +91,7 @@ Khách hàng đề xuất thay đổi
 
 ## 6. Hành vi hiện tại (SRS Baseline)
 [Hệ thống hiện tại / đặc tả hiện tại hoạt động thế nào]
-**Tham chiếu SRS:** FR-[XXX] / Mục [X.X]
+**Tham chiếu SRS:** FR-[MOD]-[XXX] / Mục [X.X]
 
 ## 7. Hành vi mong muốn
 [Sau thay đổi, mong muốn hệ thống hoạt động thế nào]

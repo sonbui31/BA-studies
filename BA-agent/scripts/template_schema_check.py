@@ -52,7 +52,7 @@ TEMPLATE_SCHEMAS: Dict[str, Dict[str, object]] = {
             "## 2.9 Giao diện người dùng",
             "## 2.10 Ma trận truy xuất",
         ],
-        "must_include": ["FR-MODA-001", "NFR", "BRQ-01", "AC-MODA-001"],
+        "must_include": ["FR-MODA-001", r"re:\bNFR-[A-Z]{2,10}-\d{3}\b", "BRQ-01", "AC-MODA-001"],
         "must_not_include": [r"\bBRULE-\d+", r"\bSR-\d+", r"\bFR-[A-Z]\d{2}\b"],
     },
     "03-User-Story-Template.md": {
@@ -108,10 +108,14 @@ def evaluate_template(path: Path, schema: Dict[str, object]) -> Dict[str, object
     text = read_text(path)
 
     for section in schema.get("sections", []):
-        if section not in text:
+        # Match a heading line exactly at that level ("### 1.1" must not satisfy "## 1.1").
+        if not re.search(rf"^{re.escape(section)}(?![\w])", text, re.MULTILINE):
             errors.append(f"Missing section: {section}")
     for token in schema.get("must_include", []):
-        if str(token) not in text:
+        token = str(token)
+        # "re:<pattern>" is a regex marker; anything else must appear as a whole token.
+        pattern = token[3:] if token.startswith("re:") else rf"(?<![\w-]){re.escape(token)}(?![\w])"
+        if not re.search(pattern, text):
             errors.append(f"Missing required marker: {token}")
     for pattern in schema.get("must_not_include", []):
         if re.search(str(pattern), text):

@@ -1,0 +1,60 @@
+# Scripts audit của BA-agent
+
+Chạy từ thư mục gốc repo (`python BA-agent/scripts/<script>.py ...`). Cần Python 3.11 trở lên, không cần thư viện ngoài (trừ `build_knowledge_index.py`, xem `requirements-knowledge-index.txt`).
+
+**Giới hạn chung:** các script kiểm tra hình thức (ID, cấu trúc, từ khóa). Chúng không hiểu nghĩa. PASS không có nghĩa là ngưỡng, actor và điều kiện giữa FR, US, AC đã khớp nhau; phần đó vẫn phải đối chiếu tay theo `BA-document-rule/core/senior-ba-rubric.md` mục 5.
+
+**Tên file quyết định vai trò.** Script nhận vai trò tài liệu từ tên file: `brd` → BRD; `srs`, `prd`, `requirement`, `yeu-cau` → SRS; `uat`, `acceptance`, `criteria`, `test`, `beta` → UAT/AC; `story`/`stories` → User Story; `feature` → Feature Map. File không khớp được coi là "other": ID trong đó chỉ được tính là tham chiếu, không phải định nghĩa.
+
+**Định nghĩa ID** là ID mở đầu một dòng bảng (ô đầu tiên), một heading (`### US-AUTH-001: ...`), một mục list hoặc một dòng, hoặc ô thứ hai của bảng thuộc tính (`| ID | FR-PAY-003 |`), trong file đúng vai trò. ID trong khối code (``` hoặc ~~~) bị bỏ qua. ID con `FR-TEA-003.1` thuộc ID cha `FR-TEA-003`.
+
+**Không tính là định nghĩa trùng:** dòng ma trận truy vết (bảng dưới heading "Truy vết / Ma trận / Traceability", hoặc header nêu từ 3 loại ID), danh sách tổng quan cộng heading chi tiết, bảng nhóm theo cột đầu (`| F05 | EX-1A |`, `| F05 | EX-1B |` dưới header "Module"). Số thứ tự và trùng giữa các file chỉ xét ở tài liệu gốc của loại ID (BRQ/BR ở BRD, FR/NFR ở SRS, US ở Story, AC/TC ở UAT).
+
+**Liên kết được đọc:** cùng dòng; dòng dưới một định nghĩa (heading sở hữu các dòng tới heading cùng cấp kế tiếp, mục list sở hữu tới định nghĩa kế tiếp); dòng ma trận nối cả chuỗi dù nằm ở file nào; trong ma trận, thứ tự cột là thứ tự chuỗi (`BR | SR | FR`).
+
+## ba-scheme.json: ID riêng của dự án
+
+Dự án đang dở thường có ID riêng (`F14`, `Rule-4`, `TC-03-A`, `SR-01`, `BRULE-001`, `BRQ-TEA-005`). Đặt `ba-scheme.json` trong thư mục bộ tài liệu (hoặc thư mục cha một cấp); `traceability_scan.py`, `preflight_check.py`, `quality_rubric.py`, `reindex_markdown.py`, `docx_feedback.py` tự đọc, hoặc truyền `--config`.
+
+```json
+{
+  "ids": {
+    "business": ["Rule-\\d+", "SR-\\d{2}"],
+    "functional": ["FR-[A-Z][A-Z0-9]*(?:-[A-Z0-9]+)*-\\d{2}"],
+    "story": ["US\\d{2}"],
+    "test": ["TC-\\d{2}-[A-Z]"]
+  },
+  "files": {"01-baccm-feature-expansion.md": "brd"},
+  "actors": ["KTTS", "phụ huynh"],
+  "migrate": {"US(\\d{2})": "US-QLTS-0\\1"}
+}
+```
+
+- `ids`: regex khớp **cả** ID, theo loại `business`, `functional`, `nonfunctional`, `story`, `test`, `feature`. Định dạng khai báo thắng cách đọc mặc định (trong QLTS, `F14` có thể khai báo là `functional`).
+- `files`: glob tên file (không phân biệt hoa thường) → vai trò `brd`, `srs`, `story`, `uat`, `feature`, `other`.
+- `actors`: tác nhân của ngành để rubric không báo Missing Actor.
+- `migrate`: chỉ `id_migrate.py` dùng.
+- Với `--scheme project`, mọi định dạng đang dùng phải khai báo; ID không khớp canonical hay khai báo là `OFF_SCHEME_ID`.
+
+| Script | Lệnh | Kiểm tra gì | Mã thoát |
+|---|---|---|---|
+| `traceability_scan.py` | `traceability_scan.py <thư-mục> --scheme canonical --strict` (ID riêng: `--scheme project --strict`, `--config <ba-scheme.json>`) | Chuỗi `BRQ/BR → FR/NFR → Feature → US → AC/TC`. Báo: BRQ/BR mồ côi (`ORPHAN_BRQ`, `ORPHAN_BR`), FR không tới US, US không tới AC/TC, NFR không có test, FR không có BRQ, tham chiếu tới ID chưa định nghĩa (`STALE_REF`), ID trùng, nhảy số. Feature chỉ bắt buộc khi bộ tài liệu có Feature Map. `--strict` với canonical: FR→US và US→AC/TC phải nối trực tiếp (cùng dòng), mọi ID sai scheme (`OFF_SCHEME_ID`) là lỗi nghiêm trọng. `--one-to-one`: cấm một FR nối nhiều US hoặc một US nối nhiều AC/TC. Thư mục rỗng hoặc không có định nghĩa BRQ/FR cũng là lỗi. `ORPHAN_BRQ` nêu FR mà BRQ trỏ tới nếu FR đó chưa được định nghĩa. | 0 = không có lỗi nghiêm trọng; 1 = có; 2 = thư mục hoặc cấu hình sai |
+| `preflight_check.py` | `preflight_check.py <thư-mục>` | Checklist theo loại tài liệu (BRD, SRS, Story, UAT): placeholder còn sót, tiếng Việt có dấu, heading Glossary / As-Is / Traceability, Stakeholder ≥ 3 dòng, KPI có số, giá trị MoSCoW trong bảng, Business Rules, Giả định và Ràng buộc, đánh số, và `Evidence Sources` cho BRD (đọc `Tier:` ở đầu tài liệu; Tier 1 cần cột Nguồn hoặc trích `SRC-xx`, Tier 2–3 cần Sổ nguồn và Fact trích nguồn; không ghi Tier → N/A). Câu phủ định ("chưa có glossary") không được tính là có. Từ "ai" (đại từ) không kích hoạt checklist AI; chỉ "AI", "ML", "LLM", "OCR", "NLP", "học máy"... mới kích hoạt. Ký tự trong inline code không bị tính là placeholder. `Human Sign-off` (mọi loại tài liệu): tài liệu tự nhận đã chốt (dòng `Trạng thái:` ghi Baseline/Approved/Đã phê duyệt/Đã chốt, hoặc dòng lịch sử phiên bản ghi đã phê duyệt có người duyệt) phải có bảng Phê duyệt với ít nhất một dòng có ngày và không còn `[CẦN XÁC NHẬN`; tài liệu khác là N/A. | 0 = không FAIL; 1 = có FAIL hoặc không tìm thấy tài liệu nào |
+| `quality_rubric.py` | `quality_rubric.py <file-hoặc-thư-mục>` | Chấm từng dòng FR/NFR/BR 1–5 và bắt 8 smell: Vague Adjective, Passive Voice, Missing Actor, Compound Requirement, Implementation Bias, Missing Boundary, Untestable NFR, Orphan Requirement. Dòng tiêu đề (`- **FR-QR-01: Quét mã QR**`, `### FR-01.1 — ...`) được chấm cùng mô tả và Actor viết bên dưới; dòng chỉ nhắc tới ID trong câu không bị chấm. Tác nhân lấy từ danh sách chung, `actors` trong `ba-scheme.json` và trường Actor tường minh. Đạt khi điểm trung bình ≥ 3.0 và không dòng nào dưới 3. Không phát hiện mâu thuẫn giữa các yêu cầu; 6 mẫu mâu thuẫn trong `writing-guide.md` §12 phải rà tay. | 0 = đạt; 1 = không đạt |
+| `reindex_markdown.py` | `reindex_markdown.py <thư-mục>` (thêm `--apply` để ghi) | Đánh lại số heading (`1.`, `1.2`) và ID có lỗ hổng. Chỉ đổi nhóm có lỗ hổng, giữ thứ tự và số bắt đầu. Không đổi nhóm có ID định nghĩa trong tài liệu đã ký (`Đã phê duyệt`, `Chốt phạm vi`, `Trạng thái: Baseline` ở 40 dòng đầu) hoặc nhóm có ID trùng. BRQ con (`BRQ-03.1`) đổi theo BRQ cha. Giữ nguyên kiểu xuống dòng. Heading như `## 2024 Roadmap` không bị coi là số mục. | 0 = không cần đổi / đã ghi; 1 = dry run thấy cần đổi, hoặc có ID trùng cần sửa tay |
+| `persona_review_check.py` | `persona_review_check.py <báo-cáo-review.md>` | Đọc `Tier`, `Loại tài liệu`, `Dữ liệu nhạy cảm` ở đầu báo cáo và kiểm tra ma trận có đủ vai trò bắt buộc (Tier 1: R-BA + vai trò theo loại tài liệu; Tier 2: thêm 6 vai trò; Tier 3: đủ 21). Căn cứ PASS/ISSUE phải trỏ tới vị trí; N/A phải có lý do cụ thể; ISSUE phải có `RV-xx` tồn tại; mỗi phát hiện phải có vai trò trỏ tới. Không ghi Tier → kiểm như Tier 3. Tier 3 cần `Loại rà soát: ... (người thật: <tên, vai trò>)`: mô phỏng của AI là tự rà soát, không thay review độc lập. | 0 = đạt; 1 = thiếu; 2 = không đọc được file |
+| `template_schema_check.py` | `template_schema_check.py "BA-agent/Curated templates"` | 4 curated template có đủ heading bắt buộc (đúng cấp heading), marker ID canonical, không còn marker legacy, bảng Markdown không lệch cột. | 0 / 1 |
+| `media_audit.py` | `media_audit.py "BA-agent/Curated templates"` | Link ảnh local bị gãy, ảnh có trong `media/` nhưng không khai báo trong `media/README.md`. Bỏ qua URL, data URI và phần `"title"` của link. | 0 / 1 |
+| `ai_smell_scan.py` | `ai_smell_scan.py <file-hoặc-thư-mục> [--strict]` | Mẫu "mùi AI" tiếng Việt và tiếng Anh theo `Anti_ai_writing_rules.md`. Mặc định chỉ cảnh báo. | 0; `--strict`: 1 khi có phát hiện |
+| `ba_response_eval.py` | `ba_response_eval.py <file.md hoặc -> --scenario outsource` (một file, không nhận thư mục) | Độ phủ control theo loại dự án (outsource, product, fintech, healthcare, government, startup-mvp, inhouse) bằng từ khóa. Từ viết tắt dễ trùng từ thường (PHI, HIS, CR, KT) chỉ khớp khi viết HOA. | 0 / 1 |
+| `ba_bundle_audit.py` | `ba_bundle_audit.py` | Bảo trì repo: file bắt buộc tồn tại, không có version marker vượt bản phát hành, tiêu đề agent đúng phiên bản, đường dẫn script/core trong SKILL.md tồn tại, không có câu luật dài (≥ 120 ký tự) bị chép sang nhiều file trong `SKILL.md`, `agents/`, `workflows/`, `BA-document-rule/core/`. | 0 / 1 |
+| `knowledge_search.py` | `knowledge_search.py "<chủ đề>"` | Tra knowledge cards đã track trong git. | 0 |
+| `knowledge_index_search.py`, `semantic_index_search.py` | `... "<câu hỏi>"` | Tra index cục bộ (chỉ có trên máy đã build index). | 0; 2 khi thiếu index |
+| `build_knowledge_index.py`, `build_semantic_index.py` | `... --source <thư-mục-nguồn>` | Build index cục bộ từ tài liệu nguồn (không track trong git). | 0 |
+| `docx_to_md.py` | `docx_to_md.py <file.docx> [--out-dir DIR] [--force]` | Chuyển Word sang Markdown, tách ảnh ra `media/`. Không ghi đè file `.md` đã có nếu thiếu `--force`. Ô gộp ngang được đệm cột trống để giữ thẳng cột. | 0 |
+| `md_to_docx.py` | `md_to_docx.py <file.md hoặc thư-mục> [--out-dir DIR] [--template mẫu.docx/.dotx] [--force]` | Xuất Word: heading, bảng (header lặp lại), list lồng nhau, code, blockquote, link, ảnh PNG/JPEG. `--template` lấy style, theme, font, header/footer, numbering và khổ giấy của mẫu khách; không chép nội dung thân mẫu (trang bìa, mục lục). Sơ đồ Mermaid xuất dạng code kèm ghi chú, không vẽ thành hình. Không hỗ trợ bảng lồng, gộp ô, footnote. Nên mở thử bản xuất trong Word trước khi gửi. | 0; 1 = có file bị từ chối ghi đè hoặc lỗi; 2 = đường dẫn/mẫu sai |
+| `docx_feedback.py` | `docx_feedback.py <file-khách-gửi-lại.docx> [--baseline file.md] [--out báo-cáo.md]` | Liệt kê Track Changes (thêm, xóa, di chuyển, định dạng) và comment kèm tác giả, ngày; gắn mỗi mục về ID trong đoạn hoặc dòng bảng, không có ID thì về heading gần nhất. `--baseline` so văn bản Word (đã chấp nhận mọi thay đổi) với bản Markdown theo ID: ID thêm, mất, đổi nội dung; bắt được cả chỗ sửa không bật Track Changes. Không đọc header/footer, footnote, text box; reply của comment hiện như comment riêng. | 0; 2 = file không đọc được |
+| `id_migrate.py` | `id_migrate.py <thư-mục> [--config ba-scheme.json] [--apply] [--include-baseline]` | Đổi ID riêng sang canonical theo `migrate` trong `ba-scheme.json`; ID con đi theo ID cha. Chặn khi hai ID cũ đổi về một ID mới, ID mới đã có với nghĩa khác, hoặc ID mới script không đọc được. Bỏ qua tài liệu đã ký trừ khi `--include-baseline`. `--apply` ghi file và sinh `ID-MIGRATION.md` (bảng ID cũ → mới; các script bỏ qua file này). | 0 = đã ghi hoặc không có gì đổi; 1 = xem trước có thay đổi, hoặc có xung đột; 2 = thư mục/cấu hình sai |
+| `eval_golden_cases.py` | `eval_golden_cases.py` | Chạy golden cases trong `tests/golden/`. | 0 / 1 |
+
+Chạy toàn bộ test: `python -m unittest discover -s BA-agent/tests`.

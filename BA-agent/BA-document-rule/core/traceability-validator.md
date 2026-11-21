@@ -1,4 +1,4 @@
-# TRACEABILITY VALIDATOR (v3.4)
+# TRACEABILITY VALIDATOR (v3.8)
 
 > **Mục đích:** Tự động phát hiện gaps trong cross-document traceability.
 > **Trigger:** Chạy SAU khi sinh xong bộ tài liệu (hoặc khi user yêu cầu audit).
@@ -9,11 +9,11 @@
 ## 1. Mô hình Chuỗi Truy vết (Traceability Chain)
 
 ```text
-FR Chain:  BRQ-ID (BRD) → FR-ID (SRS) → Feature-ID (Feature Map) → US-ID (Story Map) → AC/TC-ID
+FR Chain:  BRQ-ID (BRD) → FR-ID (SRS) → [Feature-ID (Feature Map), khi có] → US-ID (Story) → AC/TC-ID
 NFR Chain: BRQ-ID (BRD) → NFR-ID (SRS) → AC/TC-ID (Acceptance Criteria / UAT Plan)
 ```
 
-Mỗi BRQ-ID phải có **ít nhất 1 đường đi hoàn chỉnh**. Với dự án canonical, strict mode còn yêu cầu mỗi FR map trực tiếp tới đúng 1 US, và mỗi US map trực tiếp tới đúng 1 AC/TC. NFR cũng PHẢI có Test Case hoặc Acceptance Criteria tương ứng (Performance test, Security test, etc.).
+Mỗi BRQ-ID phải có **ít nhất 1 đường đi hoàn chỉnh**. Mỗi FR phải tới ≥ 1 US và mỗi US tới ≥ 1 AC/TC (quan hệ N:M được phép). Với dự án canonical, strict mode yêu cầu các liên kết FR → US và US → AC/TC là trực tiếp (cùng dòng bảng) và coi ID sai scheme là lỗi; `--one-to-one` thêm ràng buộc đúng 1 US cho mỗi FR và đúng 1 AC/TC cho mỗi US khi hợp đồng yêu cầu. NFR cũng PHẢI có Test Case hoặc Acceptance Criteria tương ứng (Performance test, Security test, etc.).
 
 ---
 
@@ -28,6 +28,10 @@ Mỗi BRQ-ID phải có **ít nhất 1 đường đi hoàn chỉnh**. Với dự
 | Feature Spec | `Fxx` | F01, F16, F20 |
 | Story Map | `US-MOD-XXX` | US-ORD-001, US-CAP-013 |
 | Acceptance Criteria / UAT Plan | `AC-MOD-XXX`, `TC-MOD-XXX` | AC-ORD-001, TC-CAP-011 |
+
+Yêu cầu con dùng hậu tố `.n` (`FR-TEA-003.1` thuộc `FR-TEA-003`). Dự án đang dở dùng ID riêng thì khai báo trong `ba-scheme.json` (`scripts/README.md`).
+
+Scanner đọc được các cách viết liên kết thường gặp: cùng dòng; dòng dưới định nghĩa (`### US-AUTH-001: ...` rồi `> Related BRQ-ID: BRQ-01`); bảng thuộc tính (`| ID | FR-PAY-003 |`, `| Truy vết | BRQ-02 |`); ma trận truy vết có cột tên, nằm ở bất kỳ tài liệu nào.
 
 ### Step 2: Build Traceability Matrix tự động
 
@@ -44,17 +48,21 @@ Mỗi BRQ-ID phải có **ít nhất 1 đường đi hoàn chỉnh**. Với dự
 | Gap Type | Mô tả | Severity |
 |---|---|---|
 | **ORPHAN_BRQ** | BRQ tồn tại trong BRD nhưng không có FR nào trong SRS | 🔴 Critical |
-| **ORPHAN_FR** | FR tồn tại trong SRS nhưng không có BRQ nào trong BRD | 🟡 Warning (có thể là NFR) |
+| **ORPHAN_BR** | Business rule (BR-xxx) không được FR/NFR nào enforce | 🔴 Critical ⭐ NEW v3.6 |
+| **ORPHAN_FR** | FR tồn tại trong SRS nhưng không có BRQ nào trong BRD | 🔴 Critical |
 | **MISSING_STORY** | BRQ có FR nhưng không có User Story | 🔴 Critical |
 | **MISSING_TC** | User Story tồn tại nhưng không có Test Case | 🔴 Critical |
-| **BROKEN_CHAIN** | Chuỗi đứt ở giữa (có BRQ + FR + US nhưng không có Feature) | 🟡 Warning |
+| **BROKEN_CHAIN** | Bộ tài liệu có Feature Map nhưng chuỗi BRQ + FR + US không đi qua Feature nào | 🔴 Critical |
 | **DUPLICATE_MAP** | 2 BRQs cùng map tới 1 FR mà logic khác nhau | 🟡 Warning |
 | **ORPHAN_NFR** | NFR tồn tại trong SRS nhưng không có NFR-TC trong UAT Plan | 🔴 Critical ⭐ NEW v3.2 |
-| **STALE_REF** | TC reference một US đã bị xóa/deprecated | 🟡 Warning ⭐ NEW v3.2 |
-| **MISSING_US_FOR_FR** | Canonical strict: FR không có US trực tiếp | 🔴 Critical ⭐ NEW v3.4.3 |
-| **MULTIPLE_US_FOR_FR** | Canonical strict: FR map tới nhiều hơn 1 US trực tiếp | 🔴 Critical ⭐ NEW v3.4.3 |
-| **MISSING_AC_FOR_US** | Canonical strict: US không có AC/TC trực tiếp | 🔴 Critical ⭐ NEW v3.4.3 |
-| **MULTIPLE_AC_FOR_US** | Canonical strict: US map tới nhiều hơn 1 AC/TC trực tiếp | 🔴 Critical ⭐ NEW v3.4.3 |
+| **STALE_REF** | TC tham chiếu US, Story tham chiếu FR, hoặc SRS tham chiếu BRQ chưa được định nghĩa | 🔴 Critical ⭐ v3.6 mở rộng |
+| **MISSING_US_FOR_FR** | FR không tới US nào (strict canonical: không có US trực tiếp) | 🔴 Critical |
+| **MULTIPLE_US_FOR_FR** | Chỉ khi `--one-to-one`: FR map tới nhiều hơn 1 US trực tiếp | 🔴 Critical |
+| **MISSING_AC_FOR_US** | US không tới AC/TC nào (strict canonical: không có AC/TC trực tiếp) | 🔴 Critical |
+| **MULTIPLE_AC_FOR_US** | Chỉ khi `--one-to-one`: US map tới nhiều hơn 1 AC/TC trực tiếp | 🔴 Critical |
+| **OFF_SCHEME_ID** | ID không đúng scheme đang kiểm (ví dụ `FR-001` khi `--scheme canonical`); bị bỏ qua khi nối chuỗi | 🔴 Critical ở strict, 🟡 Warning khi không strict ⭐ NEW v3.6 |
+| **NO_FILES / NO_DEFINITIONS** | Thư mục không có Markdown, hoặc không tìm thấy định nghĩa BRQ/BR/FR/NFR (thường do tên file không chứa BRD/SRS/Story/UAT) | 🔴 Critical ⭐ NEW v3.6 |
+| **UNCLASSIFIED_FILE** | File có ID nhưng tên không cho biết vai trò; ID trong đó chỉ được tính là tham chiếu | ℹ️ Info ⭐ NEW v3.6 |
 | **INDEX_SKIP** | ID numbering nhảy cóc (VD: BRQ-01 → BRQ-03, thiếu BRQ-02) | 🔴 Critical ⭐ NEW v3.4 |
 | **INDEX_DUPLICATE** | 2+ items cùng ID (VD: 2 cái US-ORD-001 hoặc 2 cái TC-ORD-003) | 🔴 Critical ⭐ NEW v3.4 |
 | **HEADING_SKIP** | Section numbering nhảy cóc (VD: §2.1 → §2.3, thiếu §2.2) | 🟡 Warning ⭐ NEW v3.4 |
@@ -112,9 +120,10 @@ python .\scripts\traceability_scan.py <project-folder>
 python .\scripts\traceability_scan.py <project-folder> --output-md traceability-report.md --output-json traceability-report.json
 python .\scripts\traceability_scan.py <project-folder> --scheme legacy
 python .\scripts\traceability_scan.py <project-folder> --scheme canonical --strict
+python .\scripts\traceability_scan.py <project-folder> --scheme project --strict
 ```
 
-> Dự án mới nên dùng `--scheme canonical --strict`. Legacy mode chỉ dùng cho bundle cũ có ID dạng `BRD-101 / FR-101 / US-001 / UAT-001`.
+> Dự án mới nên dùng `--scheme canonical --strict`. Dự án đang dở có ID riêng dùng `--scheme project --strict` với `ba-scheme.json`. Legacy mode chỉ dùng cho bundle cũ có ID dạng `BRD-101 / FR-101 / US-001 / UAT-001`.
 
 > Nếu tài liệu đang có drift về heading hoặc ID, chạy thêm:
 
@@ -138,11 +147,13 @@ Khi phát hiện gap, agent đề xuất fix cụ thể:
 | BROKEN_CHAIN | Tìm Feature phù hợp nhất và suggest mapping |
 | ORPHAN_NFR | Sinh draft NFR-TC (Performance test / Security test / Load test) ⭐ NEW v3.2 |
 | STALE_REF | Flag TC cho review, suggest remove hoặc re-link ⭐ NEW v3.2 |
-| MISSING_US_FOR_FR | Sinh hoặc link đúng 1 US cho FR đang thiếu ⭐ NEW v3.4.3 |
-| MULTIPLE_US_FOR_FR | Tách FR hoặc chọn 1 US owner, các US còn lại chuyển dependency ⭐ NEW v3.4.3 |
-| MISSING_AC_FOR_US | Sinh hoặc link đúng 1 AC/TC cho US đang thiếu ⭐ NEW v3.4.3 |
-| MULTIPLE_AC_FOR_US | Gộp/tách AC để mỗi US có đúng 1 artifact nghiệm thu owner ⭐ NEW v3.4.3 |
-| INDEX_SKIP | Quét tất cả ID cùng prefix → Re-number tuần tự → Cập nhật cross-references ⭐ NEW v3.4 |
+| MISSING_US_FOR_FR | Sinh hoặc link US cho FR đang thiếu |
+| MULTIPLE_US_FOR_FR | (Chỉ `--one-to-one`) Tách FR hoặc chọn 1 US owner, các US còn lại chuyển dependency |
+| MISSING_AC_FOR_US | Sinh hoặc link AC/TC cho US đang thiếu |
+| MULTIPLE_AC_FOR_US | (Chỉ `--one-to-one`) Gộp/tách AC để mỗi US có đúng 1 artifact nghiệm thu owner |
+| OFF_SCHEME_ID | Đổi ID sang scheme của dự án (canonical: `FR-[MODULE]-001`...) ở mọi file |
+| NO_DEFINITIONS | Đặt tên file theo vai trò (`02-BRD.md`, `05-SRS.md`...) và định nghĩa ID ở ô đầu bảng hoặc heading |
+| INDEX_SKIP | `reindex_markdown.py` (xem trước, rồi `--apply`): đánh lại số nhóm có lỗ hổng, cập nhật cross-references; nhóm định nghĩa trong tài liệu đã ký bị khóa |
 | INDEX_DUPLICATE | Flag 2 items trùng ID → Đề xuất rename item sau → Cập nhật cross-references ⭐ NEW v3.4 |
 | HEADING_SKIP | Quét heading tree → Re-number tuần tự ⭐ NEW v3.4 |
 

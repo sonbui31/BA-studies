@@ -20,10 +20,10 @@ SCENARIOS = {
             "stakeholders": ["stakeholder", "raci", "owner", "approver", "người phê duyệt"],
             "scope": ["scope", "in scope", "out of scope", "phạm vi"],
             "assumptions_constraints": ["assumption", "constraint", "giả định", "ràng buộc"],
-            "change_control": ["change request", "cr", "change control", "quản lý thay đổi"],
+            "change_control": ["change request", "CR", "change control", "quản lý thay đổi", "yêu cầu thay đổi"],
             "uat_acceptance": ["uat", "acceptance", "sign-off", "nghiệm thu", "tiêu chí chấp nhận"],
             "traceability": ["traceability", "rtm", "brq", "fr-", "us-", "tc-", "truy vết"],
-            "handover": ["handover", "knowledge transfer", "kt", "warranty", "bàn giao"],
+            "handover": ["handover", "knowledge transfer", "KT", "warranty", "bàn giao"],
         },
     },
     "product": {
@@ -53,11 +53,11 @@ SCENARIOS = {
         "threshold": 0.84,
         "checks": {
             "clinical_workflow": ["clinical workflow", "quy trình lâm sàng", "clinician", "bác sĩ", "điều dưỡng"],
-            "privacy_consent": ["phi", "pii", "consent", "đồng ý", "privacy", "quyền riêng tư"],
+            "privacy_consent": ["PHI", "PII", "consent", "đồng ý xử lý dữ liệu", "privacy", "quyền riêng tư", "dữ liệu sức khỏe"],
             "standards": ["hl7", "fhir", "icd", "dicom"],
             "access_audit": ["audit", "access control", "phân quyền", "encryption", "mã hóa"],
             "clinical_validation": ["clinical validation", "patient safety", "an toàn người bệnh", "thẩm định lâm sàng"],
-            "integration": ["his", "emr", "ehr", "lis", "pacs", "integration", "tích hợp"],
+            "integration": ["HIS", "EMR", "EHR", "LIS", "PACS", "integration", "tích hợp"],
             "uat_traceability": ["uat", "traceability", "rtm", "acceptance", "nghiệm thu"],
         },
     },
@@ -102,8 +102,14 @@ def normalize(text: str) -> str:
     return re.sub(r"\s+", " ", text.lower())
 
 
-def term_in_text(needle: str, lowered: str) -> bool:
-    """Match short tokens (cr, kt, kyc, aml, sla, his...) on word boundaries so that "description" does not satisfy "cr"."""
+def term_in_text(needle: str, lowered: str, original: str = None) -> bool:
+    """Match short tokens (cr, kt, kyc, aml, sla...) on word boundaries so that "description" does not satisfy "cr".
+
+    Needles written in UPPERCASE are acronyms that collide with ordinary words (PHI vs Vietnamese
+    "phi" in "phi chức năng", HIS vs English "his"); they match case-sensitively on the original text.
+    """
+    if needle.isupper() and original is not None:
+        return re.search(r"(?<![0-9A-Za-zÀ-ỹ])" + re.escape(needle) + r"(?![0-9A-Za-zÀ-ỹ])", original) is not None
     needle = needle.lower()
     if len(needle) > 4 and not needle.endswith("-"):
         return needle in lowered
@@ -121,7 +127,7 @@ def evaluate_text(text: str, scenario: str) -> Dict[str, object]:
     checks: List[Dict[str, object]] = []
     passed_count = 0
     for check_id, needles in profile["checks"].items():
-        matched = [needle for needle in needles if term_in_text(needle, lowered)]
+        matched = [needle for needle in needles if term_in_text(needle, lowered, text)]
         passed = bool(matched)
         passed_count += 1 if passed else 0
         checks.append(

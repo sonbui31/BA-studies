@@ -14,7 +14,7 @@ Mỗi tài liệu được chấm trên thang điểm 10 dựa trên 4 trụ c�
 | **Completeness (C)** | 30% | Độ đầy đủ so với template, Pre-Flight Checklist, và yêu cầu thực tế |
 | **Clarity & SMART (S)** | 30% | Sự rõ ràng, không mơ hồ, **Requirement Quality Rubric ≥ 3/5**, **Không lỗi chính tả (Zero-Tolerance)** |
 | **Consistency (K)** | 20% | Nhất quán nội tại + cross-document + **Trật tự chỉ mục/đánh số chuẩn** + **Conflict Detection** |
-| **Actionability (A)** | 20% | Dev có code được không? QC có test được không? **AC ≥ 4 loại cho Must stories** |
+| **Actionability (A)** | 20% | Dev có triển khai được không? QC có kiểm tra được không? AC bao phủ quy tắc và rủi ro theo Tier của repo |
 
 **Xếp hạng:**
 - **9.0 - 10:** Xuất sắc (Production Ready)
@@ -46,7 +46,7 @@ Sau mỗi major section khi sinh tài liệu, agent thực hiện **quick C-S-K-
 **v3.3 Additions:**
 - Chạy **Requirement Quality Rubric** score cho mỗi FR/NFR vừa viết
 - Chạy **Conflict Detection** scan sau mỗi nhóm FRs liên quan
-- Check **AC Coverage** ≥ 4 loại cho Must stories
+- Check **AC Coverage** theo rule và Tier; không ép đủ bốn loại tình huống khi không áp dụng
 
 ### 2.2 Full Audit (Chạy SAU KHI hoàn tất document)
 
@@ -58,7 +58,7 @@ Khi nhận yêu cầu đánh giá toàn bộ, @ba-specialist thực hiện:
    - Verify Pre-Flight Checklist items đều PASS
 
 2. **Phase 2: Logic Audit (OpenAI o4)**
-   - Tìm contradictions giữa requirements — **dùng 6 Conflict Detection Patterns** (`writing-guide.md` §12)
+   - Tìm contradictions giữa requirements — **dùng 6 Conflict Detection Patterns** (`writing-guide.md` §12), rà bằng đọc hiểu vì script không tự phát hiện mâu thuẫn
    - Phát hiện edge cases chưa xử lý — **check AC coverage 8 loại** (`writing-guide.md` §11)
    - Verify Business Rules không mâu thuẫn
    - **v3.3:** Validate assumptions đã được verify (`writing-guide.md` §13)
@@ -77,13 +77,20 @@ Khi nhận yêu cầu đánh giá toàn bộ, @ba-specialist thực hiện:
 
 ---
 
+### 2.3 Review theo vai trò trước khi người thật duyệt
+
+Sau Full Audit, dùng `persona-simulation.md` để kiểm tra **vai trò bắt buộc theo Tier trên từng tài liệu** (Tier 3 đủ 21), với một dòng PASS/ISSUE/N/A và căn cứ cho từng vai trò; đọc sâu các vai trò liên quan theo loại tài liệu/Tier. N/A cần lý do cụ thể. Chạy `persona_review_check.py` trên báo cáo của từng tài liệu; thiếu vai trò hoặc còn PENDING thì chưa hoàn tất. Báo cáo riêng từng phát hiện với bằng chứng, tác động, đề xuất và decision owner. Mục `BLOCK` cần người có quyền xác nhận; không lấy điểm C-S-K-A hoặc phiếu đa số để tự duyệt. Vai trò AI là mô phỏng phục vụ review, không thay ý kiến thật của stakeholder.
+
+---
+
 ## 3. Format Báo cáo Đánh giá (Output Format)
 
 ```markdown
 # 🔍 BÁO CÁO ĐÁNH GIÁ: [Tên Tài Liệu]
-> **Phiên bản Agent:** 3.3 | **Trạng thái:** [Pass/Fail/Pending]
+> **Phiên bản Agent:** 3.5.5 | **Trạng thái:** [Pass/Fail/Pending]
 > **Pre-Flight Status:** [X/Y PASS] | **Traceability:** [Full/Partial/Broken]
-> **Rubric Avg:** [X.X/5] | **Conflicts:** [N detected] | **AC Coverage:** [X/8 types]
+> **Rubric Avg:** [X.X/5] | **Conflicts:** [N detected] | **AC Coverage:** [Các rule và rủi ro liên quan đã bao phủ / còn thiếu]
+> **Review theo vai trò:** [N/N vai trò bắt buộc của Tier đã kiểm tra] | [Không phát hiện vấn đề / Cần sửa / Chờ quyết định] — báo cáo riêng theo `persona-simulation.md`
 
 ## 📊 Tổng điểm: [X.X] / 10
 

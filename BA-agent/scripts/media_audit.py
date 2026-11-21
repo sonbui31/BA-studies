@@ -43,6 +43,13 @@ def extract_image_links(root: Path = CURATED) -> List[Dict[str, object]]:
         for line_no, line in enumerate(read_text(path).splitlines(), start=1):
             for match in IMAGE_LINK_PATTERN.finditer(line):
                 ref = match.group(1).strip()
+                # ![alt](path "title") and ![alt](<path with spaces>) are valid Markdown.
+                title = re.match(r"^(<[^>]+>|\S+)\s+[\"'(].*$", ref)
+                if title:
+                    ref = title.group(1)
+                ref = ref.strip("<>")
+                if re.match(r"^(?:[a-z][a-z0-9+.-]*:|//|#)", ref, re.IGNORECASE):
+                    continue  # remote URL, data URI or anchor: not a local file
                 resolved = (path.parent / ref).resolve()
                 links.append(
                     {

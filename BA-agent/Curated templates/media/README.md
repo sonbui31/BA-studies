@@ -23,8 +23,8 @@ Các ảnh này giữ nguyên tên file gốc để bảo đảm tính tương t
 
 | Tên file                               | Loại sơ đồ       | Chi tiết nghiệp vụ                                                                                         | Vị trí trong Docs    |
 | -------------------------------------- | ---------------- | ---------------------------------------------------------------------------------------------------------- | -------------------- |
-| `BRD_BPMN_XinNghi_ToBe.jpg`            | BPMN / Flowchart | Quy trình phụ huynh gửi đơn xin nghỉ → hệ thống validate → giáo viên duyệt/từ chối → thông báo phụ huynh   | BRD Mục 7.2          |
-| `SRS_Hinh1_UseCase_TongQuan.jpg`       | Use Case Diagram | Use Case tổng quan phân rã theo 3 Actor chính: Phụ huynh, Giáo viên, School Admin                          | SRS Mục 3.1 (Hình 1) |
+| `Template-tai-lieu-BA-BRD-SRS-UserStory-AC_done_image_01.png` (dùng chung với mục 1) | BPMN / Flowchart | Quy trình phụ huynh gửi đơn xin nghỉ → hệ thống validate → giáo viên duyệt/từ chối → thông báo phụ huynh   | BRD Mục 7.2          |
+| `Template-tai-lieu-BA-BRD-SRS-UserStory-AC_done_image_02.png` (dùng chung với mục 1) | Use Case Diagram | Use Case tổng quan phân rã theo 3 Actor chính: Phụ huynh, Giáo viên, School Admin                          | SRS Mục 3.1 (Hình 1) |
 | `SRS_Hinh3_UseCase_XinNghi.jpg`        | Use Case Diagram | Use Case chi tiết phân hệ Xin nghỉ (Validate, Duyệt, Báo kết quả)                                          | SRS Mục 3.3 (Hình 3) |
 | `SRS_Hinh4_Activity_DiemDanh.jpg`      | Activity Diagram | Sơ đồ hoạt động quy trình điểm danh có rẽ nhánh Consent & kiểm tra ngưỡng nhận diện khuôn mặt              | SRS Mục 3.4 (Hình 4) |
 | `SRS_Hinh6_Activity_DangKyKhoaHoc.jpg` | Activity Diagram | Luồng đăng ký khóa học: kiểm tra slot (DB transaction), xử lý race condition, duyệt qua Vclassio           | SRS Mục 3.6 (Hình 6) |

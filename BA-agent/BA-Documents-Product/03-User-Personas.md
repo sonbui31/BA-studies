@@ -140,9 +140,9 @@
 | Area | Stakeholders | Risk | Handling approach |
 |------|--------------|------|-------------------|
 | Portal friction vs spam control | Product, Growth, Tech | Medium | A/B test email verification and rate-limit threshold |
-| Status transparency vs commitment risk | Product, CS, Leadership | High | Use controlled public statuses defined in BR `BIZ-03` |
+| Status transparency vs commitment risk | Product, CS, Leadership | High | Use controlled public statuses defined in BR `BR-003` |
 | Duplicate threshold aggressiveness | PM, Engineering, CS | Medium | Start suggestion-only, no forced auto-merge |
-| Event coverage vs implementation scope | Growth, Engineering | Medium | Prioritize events in `BR-005` and `NFR-007` for P0 only |
+| Event coverage vs implementation scope | Growth, Engineering | Medium | Prioritize events in `BRQ-05` and `NFR-EVT-001` for P0 only |
 
 ---
 
@@ -182,6 +182,6 @@
 
 | Persona | Requirement ưu tiên | Vì sao |
 |---------|---------------------|--------|
-| Product Manager | `BR-001`, `BR-002`, `BR-005` | Cần inbox sạch, merge được duplicate và có dữ liệu để defend roadmap |
-| CS Lead | `BR-003`, `BR-004` | Cần trả lời khách hàng nhanh bằng status và release proof |
-| Customer Champion | `BR-001`, `BR-003`, `BIZ-03` | Cần gửi feedback dễ, thấy được status công khai và cập nhật đúng lúc |
+| Product Manager | `BRQ-01`, `BRQ-02`, `BRQ-05` | Cần inbox sạch, merge được duplicate và có dữ liệu để defend roadmap |
+| CS Lead | `BRQ-03`, `BRQ-04` | Cần trả lời khách hàng nhanh bằng status và release proof |
+| Customer Champion | `BRQ-01`, `BRQ-03`, `BR-003` | Cần gửi feedback dễ, thấy được status công khai và cập nhật đúng lúc |

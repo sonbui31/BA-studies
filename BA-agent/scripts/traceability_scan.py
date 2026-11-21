@@ -6,20 +6,31 @@ import sys
 from collections import defaultdict, deque
 from datetime import datetime
 from pathlib import Path
-from typing import Dict, Iterable, List, Set, Tuple
+from typing import Dict, Iterable, List, Optional, Set, Tuple
 
 from ba_id_utils import (
     MarkdownId,
     classify_file,
     collect_markdown_files,
+    definition_blocks,
+    definition_ids,
     detect_id_meta,
+    duplicate_definitions,
     extract_headings,
     extract_ids,
     extract_ids_from_line,
+    find_project_scheme,
+    get_project_scheme,
     heading_gaps,
+    id_kind,
+    is_primary,
     iter_non_fenced_lines,
+    load_project_scheme,
+    matrix_lines,
+    parent_id,
     read_text,
     sequence_gaps,
+    set_project_scheme,
 )
 
 
@@ -30,19 +41,7 @@ except Exception:
 
 
 def normalize_kind(raw: str) -> str:
-    if raw.startswith(("BRQ-", "BRD-", "BR-")):
-        return "business"
-    if raw.startswith("FR-"):
-        return "functional"
-    if raw.startswith("NFR-"):
-        return "nonfunctional"
-    if raw.startswith("US"):
-        return "story"
-    if raw.startswith(("AC-", "TC-", "UAT-")):
-        return "test"
-    if (raw.startswith("F") and raw[1:].isdigit()) or re.match(r"^F-\d{3}$", raw):
-        return "feature"
-    return "other"
+    return id_kind(raw)
 
 
 ROLE_DEFINITION_KINDS = {
@@ -55,11 +54,11 @@ ROLE_DEFINITION_KINDS = {
 
 
 CANONICAL_PATTERNS = {
-    "business": re.compile(r"^(?:BRQ-\d+(?:\.\d+)?|BR-\d{3})$"),
-    "functional": re.compile(r"^FR-[A-Z]{2,10}-\d{3}$"),
-    "nonfunctional": re.compile(r"^NFR-[A-Z]{2,10}-\d{3}$"),
-    "story": re.compile(r"^US-[A-Z]{2,10}-\d{3}$"),
-    "test": re.compile(r"^(?:AC|TC)-[A-Z]{2,10}-\d{3}$"),
+    "business": re.compile(r"^(?:BRQ-\d+(?:\.\d+)?|BR-\d{3}(?:\.\d{1,2})?)$"),
+    "functional": re.compile(r"^FR-[A-Z][A-Z0-9]{1,9}-\d{3,4}(?:\.\d{1,2})?$"),
+    "nonfunctional": re.compile(r"^NFR-[A-Z][A-Z0-9]{1,9}-\d{3,4}(?:\.\d{1,2})?$"),
+    "story": re.compile(r"^US-[A-Z][A-Z0-9]{1,9}-\d{3,4}(?:\.\d{1,2})?$"),
+    "test": re.compile(r"^(?:AC|TC)-[A-Z][A-Z0-9]{1,9}-\d{3,4}(?:\.\d{1,2})?$"),
     "feature": re.compile(r"^(?:F\d{2}|F-\d{3})$"),
 }
 
@@ -122,14 +121,30 @@ def token_allowed(token: str, scheme: str) -> bool:
     kind = normalize_kind(token)
     if kind == "other":
         return False
+    if scheme == "project":
+        project = get_project_scheme()
+        if project and project.kind_of(token):
+            return True
+        pattern = CANONICAL_PATTERNS.get(kind)
+        return bool(pattern and pattern.match(token))
     patterns = CANONICAL_PATTERNS if scheme == "canonical" else LEGACY_PATTERNS
     pattern = patterns.get(kind)
     return bool(pattern and pattern.match(token))
 
 
-def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tuple[dict, int]:
+def build_report(
+    target: Path,
+    scheme: str = "auto",
+    strict: bool = False,
+    one_to_one: bool = False,
+    config: Optional[Path] = None,
+) -> Tuple[dict, int]:
     if not target.exists():
         raise FileNotFoundError(f"Target does not exist: {target}")
+    scheme_path = config or find_project_scheme(target)
+    set_project_scheme(load_project_scheme(scheme_path) if scheme_path else None)
+    if scheme == "project" and not scheme_path:
+        raise ValueError("--scheme project needs a ba-scheme.json in the bundle folder or --config PATH")
     files = collect_markdown_files(target)
     graph: Dict[str, Set[str]] = defaultdict(set)
     reverse_graph: Dict[str, Set[str]] = defaultdict(set)
@@ -203,60 +218,15 @@ def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tu
         return classify_file(path)
 
     def definition_ids_for_role(text: str, role: str) -> List[MarkdownId]:
-        ids: List[MarkdownId] = []
-        def ids_from_cell(cell: str, line_no: int) -> List[MarkdownId]:
-            found: List[MarkdownId] = []
-            for token in extract_ids_from_line(cell):
-                meta = detect_id_meta(token, line_no)
-                if meta:
-                    found.append(meta)
-            return found
+        """Definitions that create an ID: matrix rows only count in the family's own document."""
+        return [item.meta for item in definition_ids(text, role) if not item.matrix_row or is_primary(item, role)]
 
-        for line_no, line in iter_non_fenced_lines(text):
-            stripped = line.lstrip()
-            if role == "brd":
-                if stripped.startswith("| BRQ-") or stripped.startswith("| BRD-") or stripped.startswith("| BR-"):
-                    first_cell = stripped.strip().strip("|").split("|")[0].strip()
-                    ids.extend(ids_from_cell(first_cell, line_no))
-                elif stripped.startswith("- BRQ-") or stripped.startswith("- BR-"):
-                    ids.extend(ids_from_cell(line, line_no))
-                elif re.match(r"^(BRQ-\d+(?:\.\d+)?|BRD-\d{3}|BR-\d{3})\b", stripped):
-                    first_token = stripped.split()[0]
-                    ids.extend(ids_from_cell(first_token, line_no))
-            elif role == "srs":
-                if stripped.startswith("| FR-") or stripped.startswith("| NFR-"):
-                    cells = [cell.strip() for cell in stripped.strip().strip("|").split("|")]
-                    first_cell = cells[0] if cells else ""
-                    if first_cell.startswith("NFR-") and any("UAT-NFR-" in cell for cell in cells):
-                        continue
-                    if first_cell.startswith("NFR-") and len(cells) < 5:
-                        continue
-                    ids.extend(ids_from_cell(first_cell, line_no))
-                elif re.match(r"^(FR-\d{3}|NFR-\d{2,3})\b", stripped):
-                    first_token = stripped.split()[0]
-                    ids.extend(ids_from_cell(first_token, line_no))
-            elif role == "story":
-                if stripped.startswith("| US-") or stripped.startswith("| US"):
-                    first_cell = stripped.strip().strip("|").split("|")[0].strip()
-                    ids.extend(ids_from_cell(first_cell, line_no))
-                elif re.match(r"^(US-\d{3}|US\d{2,3})\b", stripped):
-                    first_token = stripped.split()[0]
-                    ids.extend(ids_from_cell(first_token, line_no))
-            elif role == "uat":
-                if stripped.startswith("| AC-") or stripped.startswith("| UAT-") or stripped.startswith("| TC-") or stripped.startswith("| IT-"):
-                    first_cell = stripped.strip().strip("|").split("|")[0].strip()
-                    ids.extend(ids_from_cell(first_cell, line_no))
-                elif re.match(r"^(AC-\d{2,3}|UAT-\d{3}|TC-\d{3}|TC-\d{2}-[A-Z])\b", stripped):
-                    first_token = stripped.split()[0]
-                    ids.extend(ids_from_cell(first_token, line_no))
-            elif role == "feature":
-                if stripped.startswith("| F"):
-                    first_cell = stripped.strip().strip("|").split("|")[0].strip()
-                    ids.extend(ids_from_cell(first_cell, line_no))
-                elif re.match(r"^(?:F\d{2}|F-\d{3})\b", stripped):
-                    first_token = stripped.split()[0]
-                    ids.extend(ids_from_cell(first_token, line_no))
-        return ids
+    def minted_ids(text: str, role: str) -> List[MarkdownId]:
+        """IDs minted by this document: numbering gaps are judged only here."""
+        return [item.meta for item in definition_ids(text, role) if is_primary(item, role)]
+
+    off_scheme: Dict[str, Set[str]] = defaultdict(set)
+    unclassified: List[str] = []
 
     for path in files:
         role = normalize_role(path)
@@ -264,15 +234,44 @@ def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tu
         text = read_text(path)
 
         headings_report.extend(f"{path.name}: {gap}" for gap in heading_gaps(extract_headings(text)))
-        duplicates, skips = sequence_gaps(definition_ids_for_role(text, role))
-        index_duplicates.extend(f"{path.name}: {item}" for item in duplicates)
+        duplicates = duplicate_definitions(definition_ids(text, role))
+        _, skips = sequence_gaps(minted_ids(text, role))
+        index_duplicates.extend(
+            f"{path.name}: INDEX_DUPLICATE {value} at lines {', '.join(str(line) for line in lines)}"
+            for value, lines in duplicates.items()
+        )
         index_skips.extend(f"{path.name}: {item}" for item in skips)
 
-        for _, line in iter_non_fenced_lines(text):
-            ids = [token for token in extract_ids_from_line(line) if token_allowed(token, scheme)]
+        has_ids = False
+        block_owner = definition_blocks(text, role)
+        matrix_rows = set(matrix_lines(text))
+        for line_no, line in iter_non_fenced_lines(text):
+            raw_ids = extract_ids_from_line(line)
+            has_ids = has_ids or bool(raw_ids)
+            if scheme != "auto":
+                for token in raw_ids:
+                    if not token_allowed(token, scheme):
+                        off_scheme[token].add(path.name)
+            ids = [token for token in raw_ids if token_allowed(token, scheme)]
             if not ids:
                 continue
             add_trace_edges(role, ids, feature_definition_row=line.lstrip().startswith("| F"))
+            if line_no in matrix_rows:
+                # A matrix row states the chain explicitly, whatever document it sits in.
+                add_trace_edges("other", ids)
+                # Column order is chain order: "BR | SR | FR" links business level to business level.
+                business_columns = [
+                    [token for token in extract_ids_from_line(cell) if token in ids and normalize_kind(token) == "business"]
+                    for cell in line.strip().strip("|").split("|")
+                ]
+                business_columns = [column for column in business_columns if column]
+                for index, left_column in enumerate(business_columns):
+                    for right_column in business_columns[index + 1:]:
+                        add_edges(left_column, right_column)
+            owner = block_owner.get(line_no)
+            if owner and owner not in ids and token_allowed(owner, scheme):
+                # Links written under a definition belong to it (see definition_blocks).
+                add_trace_edges(role, [owner] + ids)
             if role == "uat":
                 for token in ids:
                     if normalize_kind(token) in {"story", "functional", "nonfunctional", "business"}:
@@ -287,8 +286,32 @@ def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tu
                         references["srs"].add(token)
         for token in [item for item in definition_ids_for_role(text, role) if token_allowed(item.value, scheme)]:
             definitions[normalize_kind(token.value)].add(token.value)
+        project = get_project_scheme()
+        if role == "other" and has_ids and not (project and project.role_of(path)):
+            unclassified.append(path.name)
 
     add_test_alias_edges(graph, set(graph.keys()) | {token for values in definitions.values() for token in values})
+
+    # Sub-requirements (FR-TEA-003.1) belong to their parent. A child reaches what its parent
+    # reaches, and a parent counts as defined when only its children are written out.
+    known_tokens = set(graph.keys()) | set(reverse_graph.keys()) | {t for values in definitions.values() for t in values}
+    for values in list(references.values()):
+        known_tokens |= values
+    parent_of: Dict[str, str] = {}
+    for token in sorted(known_tokens):
+        parent = parent_id(token)
+        if not parent:
+            continue
+        parent_of[token] = parent
+        graph[parent].add(token)
+        if normalize_kind(token) != "business":
+            graph[token].add(parent)
+    for kind in list(definitions.keys()):
+        for token in list(definitions[kind]):
+            parent = parent_of.get(token)
+            if parent and kind != "business":
+                definitions[kind].add(parent)
+
     for left, rights in graph.items():
         for right in rights:
             reverse_graph[right].add(left)
@@ -313,9 +336,19 @@ def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tu
 
         status = "FULL"
         if not frs and not nfrs:
-            status = "ORPHAN_BRQ"
+            status = "ORPHAN_BR" if business_id.startswith("BR-") else "ORPHAN_BRQ"
             critical_count += 1
-            gaps.append({"type": "ORPHAN_BRQ", "item": business_id, "detail": "No FR/NFR linked"})
+            detail = "Business rule not enforced by any FR/NFR" if status == "ORPHAN_BR" else "No FR/NFR linked"
+            undefined = sorted(
+                item
+                for item in graph.get(business_id, set())
+                if normalize_kind(item) in {"functional", "nonfunctional"}
+                and item not in functional_ids
+                and item not in nonfunctional_ids
+            )
+            if undefined:
+                detail += "; links only to FR/NFR not defined in the SRS: " + ", ".join(undefined)
+            gaps.append({"type": status, "item": business_id, "detail": detail})
         elif frs and not stories:
             status = "MISSING_STORY"
             critical_count += 1
@@ -324,7 +357,7 @@ def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tu
             status = "MISSING_TC"
             critical_count += 1
             gaps.append({"type": "MISSING_TC", "item": business_id, "detail": "Story/NFR exists but no test linked"})
-        elif (strict or feature_ids) and frs and stories and not features:
+        elif feature_ids and frs and stories and not features:
             status = "BROKEN_CHAIN"
             critical_count += 1
             gaps.append({"type": "BROKEN_CHAIN", "item": business_id, "detail": "Feature link missing"})
@@ -341,17 +374,18 @@ def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tu
             }
         )
 
+    direct_mode = strict and scheme in ("canonical", "project")
     for fr_id in sorted(functional_ids):
         reverse = bfs(reverse_graph, fr_id)
         if not any(item in business_ids for item in reverse):
             critical_count += 1
             gaps.append({"type": "ORPHAN_FR", "item": fr_id, "detail": "No business requirement linked"})
-        if strict and scheme == "canonical":
-            linked_stories = sorted(graph.get(fr_id, set()) & story_ids)
+        if direct_mode:
+            linked_stories = sorted((graph.get(fr_id, set()) | graph.get(parent_of.get(fr_id, ""), set())) & story_ids)
             if not linked_stories:
                 critical_count += 1
                 gaps.append({"type": "MISSING_US_FOR_FR", "item": fr_id, "detail": "FR has no direct US link"})
-            elif len(linked_stories) > 1:
+            elif one_to_one and len(linked_stories) > 1:
                 critical_count += 1
                 gaps.append(
                     {
@@ -360,14 +394,17 @@ def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tu
                         "detail": "FR links to multiple US: " + ", ".join(linked_stories),
                     }
                 )
+        elif story_ids and not (bfs(graph, fr_id) & story_ids):
+            critical_count += 1
+            gaps.append({"type": "MISSING_US_FOR_FR", "item": fr_id, "detail": "FR does not reach any US"})
 
-    if strict and scheme == "canonical":
-        for story_id in sorted(story_ids):
-            linked_tests = sorted(graph.get(story_id, set()) & test_ids)
+    for story_id in sorted(story_ids):
+        if direct_mode:
+            linked_tests = sorted((graph.get(story_id, set()) | graph.get(parent_of.get(story_id, ""), set())) & test_ids)
             if not linked_tests:
                 critical_count += 1
                 gaps.append({"type": "MISSING_AC_FOR_US", "item": story_id, "detail": "US has no direct AC/TC link"})
-            elif len(linked_tests) > 1:
+            elif one_to_one and len(linked_tests) > 1:
                 critical_count += 1
                 gaps.append(
                     {
@@ -376,6 +413,9 @@ def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tu
                         "detail": "US links to multiple AC/TC: " + ", ".join(linked_tests),
                     }
                 )
+        elif test_ids and not (bfs(graph, story_id) & test_ids):
+            critical_count += 1
+            gaps.append({"type": "MISSING_AC_FOR_US", "item": story_id, "detail": "US does not reach any AC/TC"})
 
     for nfr_id in sorted(nonfunctional_ids):
         forward = bfs(graph, nfr_id)
@@ -389,6 +429,47 @@ def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tu
             critical_count += 1
             gaps.append({"type": "STALE_REF", "item": story_ref, "detail": "Referenced in UAT but not defined in story docs"})
 
+    if functional_ids:
+        for ref in sorted(token for token in references["story"] if normalize_kind(token) == "functional"):
+            if ref not in functional_ids:
+                critical_count += 1
+                gaps.append({"type": "STALE_REF", "item": ref, "detail": "Referenced in story docs but not defined in SRS"})
+    if business_ids:
+        for ref in sorted(references["srs"] - set(business_ids)):
+            critical_count += 1
+            gaps.append({"type": "STALE_REF", "item": ref, "detail": "Referenced in SRS but not defined in BRD"})
+
+    if not files:
+        critical_count += 1
+        gaps.append({"type": "NO_FILES", "item": str(target), "detail": "No markdown files found"})
+    elif not business_ids and not functional_ids:
+        critical_count += 1
+        gaps.append(
+            {
+                "type": "NO_DEFINITIONS",
+                "item": str(target),
+                "detail": "No BRQ/BR or FR/NFR definitions found; check file names (BRD/SRS/Story/UAT) and ID scheme",
+            }
+        )
+    for token in sorted(off_scheme):
+        if strict:
+            critical_count += 1
+        gaps.append(
+            {
+                "type": "OFF_SCHEME_ID",
+                "item": token,
+                "detail": f"Not a valid {scheme} ID (ignored for linking) in: " + ", ".join(sorted(off_scheme[token])),
+            }
+        )
+    for name in unclassified:
+        gaps.append(
+            {
+                "type": "UNCLASSIFIED_FILE",
+                "item": name,
+                "detail": "File name does not say BRD/SRS/Story/UAT/Feature; its IDs are treated as references only",
+            }
+        )
+
     for item in index_duplicates:
         critical_count += 1
         gaps.append({"type": "INDEX_DUPLICATE", "item": item, "detail": "Duplicate ID detected"})
@@ -401,6 +482,7 @@ def build_report(target: Path, scheme: str = "auto", strict: bool = False) -> Tu
     report = {
         "generated_at": datetime.now().isoformat(timespec="seconds"),
         "target": str(target.resolve()),
+        "project_scheme": str(scheme_path.resolve()) if scheme_path else None,
         "files_scanned": [str(path.resolve()) for path in files],
         "metrics": {
             "business_total": len(business_ids),
@@ -421,6 +503,8 @@ def render_markdown(report: dict) -> str:
     lines.append("# TRACEABILITY SCAN REPORT")
     lines.append(f"> Target: `{report['target']}`")
     lines.append(f"> Generated: `{report['generated_at']}`")
+    if report.get("project_scheme"):
+        lines.append(f"> Project scheme: `{report['project_scheme']}`")
     lines.append("")
     lines.append("## Summary")
     lines.append("")
@@ -457,12 +541,37 @@ def main() -> int:
     parser.add_argument("target", nargs="?", default=".", help="Project folder or markdown file")
     parser.add_argument("--output-json", help="Write JSON report to this file")
     parser.add_argument("--output-md", help="Write markdown report to this file")
-    parser.add_argument("--scheme", choices=["auto", "legacy", "canonical"], default="auto", help="ID scheme to validate")
-    parser.add_argument("--strict", action="store_true", help="Require full feature links where the chain model expects them")
+    parser.add_argument(
+        "--scheme",
+        choices=["auto", "legacy", "canonical", "project"],
+        default="auto",
+        help="ID scheme to validate; 'project' = canonical plus the formats declared in ba-scheme.json",
+    )
+    parser.add_argument("--config", help="Path to ba-scheme.json (default: looked up in the bundle folder)")
+    parser.add_argument(
+        "--strict",
+        action="store_true",
+        help="Canonical/project: require direct FR->US and US->AC/TC links; any off-scheme ID is critical",
+    )
+    parser.add_argument(
+        "--one-to-one",
+        action="store_true",
+        help="With --strict --scheme canonical, also reject an FR mapped to several US or a US mapped to several AC/TC",
+    )
     args = parser.parse_args()
 
     target = Path(args.target).resolve()
-    report, critical_count = build_report(target, scheme=args.scheme, strict=args.strict)
+    try:
+        report, critical_count = build_report(
+            target,
+            scheme=args.scheme,
+            strict=args.strict,
+            one_to_one=args.one_to_one,
+            config=Path(args.config).resolve() if args.config else None,
+        )
+    except (FileNotFoundError, ValueError) as exc:
+        print(f"ERROR: {exc}", file=sys.stderr)
+        return 2
     markdown = render_markdown(report)
     print(markdown)
 

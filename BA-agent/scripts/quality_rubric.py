@@ -7,7 +7,16 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Tuple
 
-from ba_id_utils import classify_file, collect_markdown_files, iter_non_fenced_lines, read_text
+from ba_id_utils import (
+    classify_file,
+    collect_markdown_files,
+    find_project_scheme,
+    get_project_scheme,
+    iter_non_fenced_lines,
+    load_project_scheme,
+    read_text,
+    set_project_scheme,
+)
 
 
 try:
@@ -68,7 +77,11 @@ ACTOR_WORDS = (
     "quản trị",
 )
 METRIC_PATTERNS = (
-    re.compile(r"\b\d+\s*(ms|s|giây|phút|giờ|ngày|tháng|năm|%|mb|gb|rps|rows|records|users?)\b", re.IGNORECASE),
+    # "%" is not a word character, so it cannot be followed by \b; match it on its own branch.
+    re.compile(
+        r"\b\d+(?:[.,]\d+)?\s*(?:(?:ms|s|giây|phút|giờ|ngày|tháng|năm|mb|gb|rps|rows|records|users?|bản ghi|người dùng|lần)\b|%)",
+        re.IGNORECASE,
+    ),
     re.compile(r"\b(p95|rto|rpo|wcag|owasp|tls)\b", re.IGNORECASE),
 )
 VERIFIABLE_CONTROL_PATTERNS = (
@@ -76,7 +89,22 @@ VERIFIABLE_CONTROL_PATTERNS = (
     re.compile(r"\b(kiểm thử|kiểm tra|quét|báo cáo|rà soát|monitoring|review)\b", re.IGNORECASE),
 )
 TRACE_PATTERN = re.compile(r"\b(BRQ-\d+(?:\.\d+)?|BRD-\d{3}|BR-\d{3}).*(TC-[A-Z0-9-]+|UAT-[A-Z0-9-]+)\b", re.IGNORECASE)
-REQ_ID_PATTERN = re.compile(r"\b(FR(?:-[A-Z]{2,10})?-\d{1,3}|NFR(?:-[A-Z]{2,10})?-\d{1,3}|BRQ-\d+(?:\.\d+)?|BRD-\d{3}|BR-\d{3})\b")
+REQ_ID_PATTERN = re.compile(
+    r"\b(FR(?:-[A-Z][A-Z0-9]{1,9})*-\d{1,4}(?:\.\d{1,2})?|NFR(?:-[A-Z][A-Z0-9]{1,9})?-\d{1,4}(?:\.\d{1,2})?"
+    r"|BRQ-\d+(?:\.\d+)?|BRD-\d{3,4}|BR-\d{3,4})\b"
+)
+# A title line ("- **FR-QR-01: Quét mã QR**", "### FR-01.1 — Xem sổ liên lạc") states no requirement;
+# the requirement sits in the lines under it ("Mô tả: ...", "| Mô tả | ... |", "| Actor | Parent |").
+# "cần" is left out on purpose: it is also part of nouns ("chuyên cần").
+MODAL_PATTERN = re.compile(r"\b(phải|cho phép|có thể|được|không được|shall|must|should|allow|allows)\b", re.IGNORECASE)
+TITLE_LINE = re.compile(r"^\s*(?:#{1,6}\s+|[-*+]\s+)")
+DESCRIPTION_LABEL = re.compile(r"^(?:mô tả|description|yêu cầu|requirement|nội dung)$", re.IGNORECASE)
+ACTOR_LABEL = re.compile(r"^(?:actor|tác nhân|vai trò|người dùng|role)$", re.IGNORECASE)
+
+
+def contains_word(lowered: str, words) -> bool:
+    """Whole-word match (Unicode aware), so "pm" does not match "development"."""
+    return any(re.search(r"(?<![\w])" + re.escape(word) + r"(?![\w])", lowered) for word in words)
 
 
 @dataclass
@@ -88,6 +116,19 @@ class RequirementAssessment:
     family: str
 
 
+# No square brackets: should_skip_candidate treats [..] as a template placeholder.
+EXPLICIT_ACTOR = "tác nhân » "
+
+
+def has_actor(lowered: str) -> bool:
+    """Generic actor words, actors the project declares in ba-scheme.json, or an explicit Actor field."""
+    if EXPLICIT_ACTOR in lowered:
+        return True
+    project = get_project_scheme()
+    words = ACTOR_WORDS + tuple(project.actors) if project else ACTOR_WORDS
+    return contains_word(lowered, words)
+
+
 def detect_smells(text: str, family: str = "SRS") -> List[str]:
     lowered = text.lower()
     smells: List[str] = []
@@ -95,23 +136,23 @@ def detect_smells(text: str, family: str = "SRS") -> List[str]:
     has_metric = any(pattern.search(text) for pattern in METRIC_PATTERNS)
     has_verifiable_control = any(pattern.search(text) for pattern in VERIFIABLE_CONTROL_PATTERNS)
 
-    if any(word in lowered for word in VAGUE_WORDS) and not has_metric:
+    if contains_word(lowered, VAGUE_WORDS) and not has_metric:
         smells.append("Vague Adjective")
     if re.search(r"\b(được|is|are)\b", lowered) and re.search(r"\b(gửi|xử lý|lưu|hiển thị|validated?|sent|processed)\b", lowered):
         smells.append("Passive Voice")
-    if family not in {"NFR", "BRD", "BR"} and not any(actor in lowered for actor in ACTOR_WORDS):
+    if family not in {"NFR", "BRD", "BR"} and not has_actor(lowered):
         smells.append("Missing Actor")
     if family not in {"NFR", "BRD", "BR"} and (
         len(re.findall(r"\b(và|and)\b", lowered)) >= 2 or len(re.findall(r"\b(phải|shall|must)\b", lowered)) >= 2
     ):
         smells.append("Compound Requirement")
-    if any(word in lowered for word in IMPLEMENTATION_WORDS):
+    if contains_word(lowered, IMPLEMENTATION_WORDS):
         smells.append("Implementation Bias")
-    if any(word in lowered for word in ("nhiều", "lớn", "tối đa", "minimum", "maximum", "hỗ trợ")) and not any(
+    if contains_word(lowered, ("nhiều", "lớn", "tối đa", "minimum", "maximum", "hỗ trợ")) and not any(
         pattern.search(text) for pattern in METRIC_PATTERNS
     ):
         smells.append("Missing Boundary")
-    if any(word in lowered for word in ("an toàn", "sẵn sàng", "mở rộng", "bảo mật")) and not (
+    if contains_word(lowered, ("an toàn", "sẵn sàng", "mở rộng", "bảo mật")) and not (
         has_metric or has_verifiable_control
     ):
         smells.append("Untestable NFR")
@@ -125,7 +166,7 @@ def score_requirement(text: str, smells: List[str], family: str = "SRS") -> int:
     lowered = text.lower()
     score = 5
 
-    if family not in {"NFR", "BRD", "BR"} and not any(actor in lowered for actor in ACTOR_WORDS):
+    if family not in {"NFR", "BRD", "BR"} and not has_actor(lowered):
         score -= 1
     obligation_words = ("phải", "shall", "must", "có thể", "cần", "cho phép", "i want", "so that")
     if not any(word in lowered for word in obligation_words):
@@ -195,16 +236,54 @@ def should_skip_candidate(req_id: str, text: str) -> bool:
     return False
 
 
+def _label_and_value(line: str) -> Tuple[str, str]:
+    """('mô tả', 'text') from "| Mô tả | text |", "- **Mô tả:** text" or "Mô tả: text"."""
+    stripped = line.strip()
+    if stripped.startswith("|"):
+        cells = [cell.strip(" *`") for cell in stripped.strip("|").split("|")]
+        if len(cells) >= 2:
+            return cells[0], cells[1]
+        return "", ""
+    match = re.match(r"^[-*+]?\s*\**([^:*]{2,30}?)\**\s*:\s*\**\s*(.+)$", stripped)
+    if match:
+        return match.group(1).strip(), match.group(2).strip()
+    return "", ""
+
+
+def block_requirement_text(lines: List[str], start: int) -> str:
+    """Description and actor written under a title line, up to the next heading or requirement ID."""
+    description = actor = ""
+    for line in lines[start + 1:start + 30]:
+        stripped = line.strip()
+        if stripped.startswith("#") or REQ_ID_PATTERN.match(stripped.lstrip("-*+| `")):
+            break
+        label, value = _label_and_value(stripped)
+        if not value:
+            continue
+        if not description and DESCRIPTION_LABEL.match(label):
+            description = value
+        elif not actor and ACTOR_LABEL.match(label):
+            actor = value
+    if not description:
+        return ""
+    # An explicit Actor field names who acts, even when the role is domain-specific ("KTTS", "Parent").
+    return f"{EXPLICIT_ACTOR}{actor}: {description}" if actor else description
+
+
 def extract_requirement_candidates(text: str, doc_role: str = "srs") -> List[Tuple[str, str, str]]:
     if doc_role not in {"brd", "srs", "story"}:
         return []
     candidates: List[Tuple[str, str, str]] = []
-    for _, line in iter_non_fenced_lines(text):
+    lines = [line for _, line in iter_non_fenced_lines(text)]
+    for index, line in enumerate(lines):
         match = REQ_ID_PATTERN.search(line)
         if not match:
             continue
         req_id = match.group(1)
         stripped = line.strip()
+        if not stripped.startswith("|") and not stripped.lstrip("#-*+> `").startswith(req_id):
+            # "- Camera ... (FR-04.1)": a mention inside prose or a list, not the requirement itself.
+            continue
         if req_id.startswith(("FR-", "NFR-")) and stripped.startswith("|") and not stripped.startswith(f"| {req_id}"):
             continue
         if req_id.startswith("NFR-") and line.strip().startswith("| NFR-") and line.count("|") <= 4:
@@ -217,6 +296,10 @@ def extract_requirement_candidates(text: str, doc_role: str = "srs") -> List[Tup
             continue
         family = "BR" if req_id.startswith("BR-") else ("BRD" if req_id.startswith(("BRQ-", "BRD-")) else ("NFR" if req_id.startswith("NFR-") else "SRS"))
         clean = normalize_candidate_line(req_id, line).replace("  ", " ")
+        if TITLE_LINE.match(line) and not MODAL_PATTERN.search(clean):
+            body = block_requirement_text(lines, index)
+            if body:
+                clean = f"{clean.strip('#-*+ ')} — {body}"
         if should_skip_candidate(req_id, clean):
             continue
         candidates.append((req_id, clean, family))
@@ -260,6 +343,8 @@ def main() -> int:
     args = parser.parse_args()
 
     target = Path(args.target).resolve()
+    scheme_path = find_project_scheme(target)
+    set_project_scheme(load_project_scheme(scheme_path) if scheme_path else None)
     reports = []
     for path in collect_markdown_files(target):
         result = evaluate_text(read_text(path), doc_role=classify_file(path))

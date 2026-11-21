@@ -2,7 +2,9 @@
 # SignalDesk
 
 > **Phiên bản:** 1.0 | **Ngày:** 12/05/2026
-> **Trạng thái:** Draft | **Tham chiếu:** BRD v1.0
+> **Trạng thái:** Draft | **Tham chiếu:** BRD v0.2 (trình duyệt)
+> **Tier:** 2 — điểm rủi ro 2/7 (câu 6, 7): hai PM có thể merge cùng một feedback và merge khó đảo ngược; email thông báo và release note công khai đã gửi ra ngoài thì không thu hồi được
+> **Nhãn:** [TÀI LIỆU MẪU] — ví dụ minh họa cấu trúc, không phải dự án thật
 
 > ⚠️ **Product Note:** Tài liệu này chỉ cover các feature phức tạp hơn user story thường: duplicate merge, notification, release note linking, analytics events.
 
@@ -45,10 +47,10 @@ flowchart LR
 
 | Actor | Goal | Key flows |
 |---|---|---|
-| Portal User | Submit feedback, upvote, subscribe | FR-101, FR-102 |
-| Product Manager | Triage, merge, publish | FR-201, FR-202, FR-301 |
-| Customer Success Lead | Share status and release proof | FR-202, FR-302 |
-| System Scheduler | Trigger notifications and release publication | FR-302 |
+| Portal User | Submit feedback, upvote, subscribe | FR-POR-001, FR-POR-002 |
+| Product Manager | Triage, merge, publish | FR-TRI-001, FR-TRI-002, FR-STS-001 |
+| Customer Success Lead | Share status and release proof | FR-TRI-002, FR-STS-002 |
+| System Scheduler | Trigger notifications and release publication | FR-STS-002 |
 
 ---
 
@@ -56,10 +58,10 @@ flowchart LR
 
 ### 2.1. Feedback portal submission
 
-| Mã | Requirement | Mô tả chi tiết | Ref BRD | Actor | Ref Story |
+| Mã | Requirement | Mô tả chi tiết | Ref BRQ / BR | Actor | Ref Story |
 |---|---|---|---|---|---|
-| FR-101 | Submit feedback item | Precondition: portal public đang active. Trigger: portal user gửi feedback. Main flow: nhập title, description, category, email. Exception: thiếu title hoặc email invalid. Postcondition: hệ thống tạo feedback ở status `New` và phát event `feedback_submitted`. | BR-001 | Portal User | US-001 |
-| FR-102 | Upvote existing feedback | Precondition: feedback item đang public. Trigger: portal user nhấn upvote. Main flow: hệ thống kiểm tra unique vote theo workspace và email/account. Exception: user đã upvote trước đó. Postcondition: hệ thống tăng vote_count lên 1. Postcondition 2: hệ thống ghi event `feedback_upvoted`. | BR-001, BIZ-01 | Portal User | US-002 |
+| FR-POR-001 | Submit feedback item | Precondition: portal public đang active. Trigger: portal user gửi feedback. Main flow: nhập title, description, category, email. Exception: thiếu title hoặc email invalid. Postcondition: hệ thống tạo feedback ở status `New` và phát event `feedback_submitted`. | BRQ-01 | Portal User | US-POR-001 |
+| FR-POR-002 | Upvote existing feedback | Precondition: feedback item đang public. Trigger: portal user nhấn upvote. Main flow: hệ thống kiểm tra unique vote theo workspace và email/account. Exception: user đã upvote trước đó. Postcondition: hệ thống tăng vote_count lên 1. Postcondition 2: hệ thống ghi event `feedback_upvoted`. | BRQ-01, BR-001 | Portal User | US-POR-002 |
 
 **Validation Rules**
 - VR-101: `title` từ 5 đến 120 ký tự.
@@ -86,18 +88,18 @@ sequenceDiagram
 
 ### 2.2. Duplicate merge & triage
 
-| Mã | Requirement | Mô tả chi tiết | Ref BRD | Actor | Ref Story |
+| Mã | Requirement | Mô tả chi tiết | Ref BRQ / BR | Actor | Ref Story |
 |---|---|---|---|---|---|
-| FR-201 | Suggest duplicate candidates | Precondition: feedback mới vào inbox. Trigger: PM mở feedback detail. Main flow: hệ thống hiển thị candidate duplicates theo title similarity, shared tags, semantic keywords. Exception: score dưới threshold thì không gợi ý. Postcondition: PM thấy danh sách candidate kèm confidence score. | BR-002 | Product Manager | US-003 |
-| FR-202 | Merge duplicate feedback | Precondition: PM có quyền merge. Trigger: PM chọn parent item và child item. Main flow: hệ thống chuyển vote, subscriber, link history từ child sang parent; hệ thống đóng child với trạng thái `Merged`. Exception: PM chọn 2 item ở 2 workspace khác nhau. Postcondition: chỉ còn parent item active, audit history đầy đủ, event `feedback_merged` được phát. | BR-002, BIZ-02 | Product Manager | US-003 |
+| FR-TRI-001 | Suggest duplicate candidates | Precondition: feedback mới vào inbox. Trigger: PM mở feedback detail. Main flow: hệ thống hiển thị candidate duplicates theo title similarity, shared tags, semantic keywords. Exception: score dưới threshold thì không gợi ý. Postcondition: PM thấy danh sách candidate kèm confidence score. | BRQ-02 | Product Manager | US-TRI-001 |
+| FR-TRI-002 | Merge duplicate feedback | Precondition: PM có quyền merge. Trigger: PM chọn parent item và child item. Main flow: hệ thống chuyển vote, subscriber, link history từ child sang parent; hệ thống đóng child với trạng thái `Merged`. Exception: PM chọn 2 item ở 2 workspace khác nhau. Postcondition: chỉ còn parent item active, audit history đầy đủ, event `feedback_merged` được phát. | BRQ-02, BR-002 | Product Manager | US-TRI-002 |
 
 ### 2.3. Status notification & release notes
 
-| Mã | Requirement | Mô tả chi tiết | Ref BRD | Actor | Ref Story |
+| Mã | Requirement | Mô tả chi tiết | Ref BRQ / BR | Actor | Ref Story |
 |---|---|---|---|---|---|
-| FR-301 | Update public status | Precondition: feedback item đang active. Trigger: PM đổi status. Main flow: hệ thống kiểm tra status hợp lệ, lưu status history, cập nhật public portal. Exception: người dùng không có quyền public-facing status. Postcondition: hệ thống phát event `feedback_status_changed` và lưu audit log. | BR-003, BIZ-03, BIZ-05 | Product Manager | US-005 |
-| FR-302 | Notify subscribers on status change | Precondition: feedback item có subscriber. Trigger: FR-301 thành công. Main flow: hệ thống tạo notification job; hệ thống gửi email hoặc in-app update. Exception: email bounce hoặc unsubscribed. Postcondition: hệ thống lưu notification status để retry/reporting. | BR-003 | System Scheduler | US-005 |
-| FR-303 | Link release note to delivered feedback | Precondition: PM tạo release note draft. Trigger: PM publish release note. Main flow: PM chọn feedback items đã `Released`; hệ thống gắn release note; hệ thống set `publish_at`; hệ thống phát event `release_note_published`. Exception: feedback chưa ở trạng thái Released. Postcondition: release note public hiển thị linked feedback trên portal. | BR-004, BR-005, BIZ-04 | Product Manager | US-006 |
+| FR-STS-001 | Update public status | Precondition: feedback item đang active. Trigger: PM đổi status. Main flow: hệ thống kiểm tra status hợp lệ, lưu status history, cập nhật public portal. Exception: người dùng không có quyền public-facing status. Postcondition: hệ thống phát event `feedback_status_changed` và lưu audit log. | BRQ-03, BR-003, BR-005 | Product Manager | US-STS-001 |
+| FR-STS-002 | Notify subscribers on status change | Precondition: feedback item có subscriber. Trigger: FR-STS-001 thành công. Main flow: hệ thống tạo notification job; hệ thống gửi email hoặc in-app update. Exception: email bounce hoặc unsubscribed. Postcondition: hệ thống lưu notification status để retry/reporting. | BRQ-03 | System Scheduler | US-STS-001 |
+| FR-REL-001 | Link release note to delivered feedback | Precondition: PM tạo release note draft. Trigger: PM publish release note. Main flow: PM chọn feedback items đã `Released`; hệ thống gắn release note; hệ thống set `publish_at`; hệ thống phát event `release_note_published`. Exception: feedback chưa ở trạng thái Released. Postcondition: release note public hiển thị linked feedback trên portal. | BRQ-04, BRQ-05, BR-004 | Product Manager | US-REL-001 |
 
 ### 2.4. Data model summary
 
@@ -122,29 +124,39 @@ stateDiagram-v2
     Released --> Archived
 ```
 
+### 2.6. Ma trận thực thi quy tắc nghiệp vụ (BR → FR → TC)
+
+| Mã BR | Quy tắc (tóm tắt) | FR thực thi | Cách thực thi | Kịch bản kiểm chứng |
+|---|---|---|---|---|
+| BR-001 | Mỗi user chỉ upvote một feedback item một lần | FR-POR-002 | VR-103 kiểm tra vote duy nhất theo workspace và email/account | TC-POR-002 |
+| BR-002 | Merge không làm mất vote, subscriber, audit history | FR-TRI-002 | Chuyển vote, subscriber, history từ child sang parent trong cùng giao dịch | TC-TRI-002 |
+| BR-003 | Chỉ status `Planned`, `In Progress`, `Released` hiển thị công khai | FR-STS-001 | Portal ẩn status `New`, `Reviewed`, `Merged` | TC-STS-002 |
+| BR-004 | Release note chỉ hiển thị public sau `publish_at` | FR-REL-001 | Hệ thống set `publish_at` khi publish; portal chỉ hiển thị khi đã qua thời điểm này | TC-REL-001 |
+| BR-005 | Mọi transition status phải ghi event analytics và audit log | FR-STS-001 | Phát event `feedback_status_changed` và ghi audit log cho mỗi lần đổi status | TC-STS-001 |
+
 ---
 
 ## 3. Yêu cầu Phi chức năng (NFR)
 
-| ID | Loại | Yêu cầu | Chỉ tiêu | Cách xác minh |
-|----|------|---------|----------|---------------|
-| NFR-001 | Performance | Portal feedback submit phải phản hồi trong ngưỡng chấp nhận | ≤ 300ms p95 | Load test |
-| NFR-002 | Performance | Duplicate candidate list phải load được với 5.000 feedback items | ≤ 2 giây | Benchmark |
-| NFR-003 | Availability | Trong giờ vận hành, public portal phải phục vụ thành công >= 99.9% request hợp lệ mỗi tháng | ≥ 99.9% | Monitoring |
-| NFR-004 | Security | Portal public phải chống spam mức cơ bản | Rate limit + email verification | Abuse test |
-| NFR-005 | Security | Khi user không thuộc vai trò PM/Admin, hệ thống phải chặn thao tác merge hoặc publish | RBAC enforced | Permission tests |
-| NFR-006 | Audit | Mọi status transition và merge phải có log | 100% mutation logged | Audit review |
-| NFR-007 | Eventing | Mọi flow chính phải phát tracking event đúng schema | 100% required events present | Analytics QA |
-| NFR-008 | Data | Notification retries phải tránh gửi trùng quá 1 lần cho cùng event | Idempotent delivery key | Integration test |
-| NFR-009 | Compliance | Portal user phải có thể unsubscribe notification | 1-click unsubscribe | UX + integration test |
+| ID | Loại | Yêu cầu | Chỉ tiêu | Cách xác minh | Nguồn BRQ |
+|----|------|---------|----------|---------------|-----------|
+| NFR-PERF-001 | Performance | Portal feedback submit phải phản hồi trong ngưỡng chấp nhận | ≤ 300ms p95 | Load test | BRQ-01 |
+| NFR-PERF-002 | Performance | Duplicate candidate list phải load được với 5.000 feedback items | ≤ 2 giây | Benchmark | BRQ-02 |
+| NFR-AVL-001 | Availability | Trong giờ vận hành, public portal phải phục vụ thành công >= 99.9% request hợp lệ mỗi tháng | ≥ 99.9% | Monitoring | BRQ-01 |
+| NFR-SEC-001 | Security | Portal public phải chống spam mức cơ bản | Rate limit + email verification | Abuse test | BRQ-01 |
+| NFR-SEC-002 | Security | Khi user không thuộc vai trò PM/Admin, hệ thống phải chặn thao tác merge hoặc publish | RBAC enforced | Permission tests | BRQ-02, BRQ-04 |
+| NFR-AUD-001 | Audit | Mọi status transition và merge phải có log | 100% mutation logged | Audit review | BRQ-02, BRQ-03 |
+| NFR-EVT-001 | Eventing | Mọi flow chính phải phát tracking event đúng schema | 100% required events present | Analytics QA | BRQ-05 |
+| NFR-DATA-001 | Data | Notification retries phải tránh gửi trùng quá 1 lần cho cùng event | Idempotent delivery key | Integration test | BRQ-03 |
+| NFR-COMP-001 | Compliance | Portal user phải có thể unsubscribe notification | 1-click unsubscribe | UX + integration test | BRQ-03 |
 
 ### 3.1. NFR Applicability
 
-| NFR | Applies to | Risk if unmet |
+| Applies to | NFR | Risk if unmet |
 |---|---|---|
-| NFR-001, NFR-002 | Portal, inbox, merge | Activation drop, PM churn |
-| NFR-004, NFR-005, NFR-006 | Portal, admin flows | Spam, data trust issues |
-| NFR-007, NFR-008, NFR-009 | Notification, release notes, analytics | Không đo được value, user distrust |
+| Portal, inbox, merge | NFR-PERF-001, NFR-PERF-002 | Activation drop, PM churn |
+| Portal, admin flows | NFR-SEC-001, NFR-SEC-002, NFR-AUD-001 | Spam, data trust issues |
+| Notification, release notes, analytics | NFR-EVT-001, NFR-DATA-001, NFR-COMP-001 | Không đo được value, user distrust |
 
 ---
 

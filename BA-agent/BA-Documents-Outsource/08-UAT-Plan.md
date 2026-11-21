@@ -82,45 +82,47 @@
 
 ### 5.1. Module 1: Danh mục tài sản
 
-| Mã KT | Kịch bản | Điều kiện tiên quyết | Các bước | Kết quả mong đợi | Kết quả | Ref BRD | Ref FR | Ref Story |
+| Mã KT | Kịch bản | Điều kiện tiên quyết | Các bước | Kết quả mong đợi | Kết quả | Ref BRQ | Ref FR | Ref Story |
 |-------|----------|---------------------|----------|-------------------|---------|---------|--------|-----------|
-| UAT-001 | **Tạo tài sản mới** | Tài khoản Vật tư có quyền tạo tài sản | 1. Mở form tạo tài sản<br>2. Nhập đủ trường bắt buộc<br>3. Lưu hồ sơ | - Tài sản mới được tạo<br>- Có mã tài sản duy nhất<br>- Có audit log tạo mới | ☐ | BRD-101 | FR-101 | US-001 |
-| UAT-002 | **Từ chối mã tài sản trùng** | Đã tồn tại tài sản AP-TS-0001 | 1. Tạo tài sản mới<br>2. Nhập mã AP-TS-0001<br>3. Lưu hồ sơ | - Hệ thống chặn lưu<br>- Hiển thị thông báo trùng mã<br>- Không phát sinh bản ghi mới | ☐ | BRD-102 | FR-102 | US-002 |
-| UAT-003 | **Bắt buộc chu kỳ bảo trì với thiết bị quan trọng** | Tài khoản Vật tư có quyền tạo | 1. Chọn nhóm thiết bị y tế quan trọng<br>2. Để trống chu kỳ bảo trì<br>3. Lưu hồ sơ | - Hệ thống yêu cầu nhập chu kỳ bảo trì | ☐ | BRD-103 | FR-103 | US-003 |
-| UAT-004 | **Chặn truy cập trái quyền** | Đăng nhập bằng vai trò Người dùng khoa | 1. Mở màn hình cấu hình danh mục | - Hệ thống từ chối truy cập | ☐ | BRD-201 | FR-105 | US-005 |
+| TC-AST-001 | **Tạo tài sản mới** | Tài khoản Vật tư có quyền tạo tài sản | 1. Mở form tạo tài sản<br>2. Nhập đủ trường bắt buộc<br>3. Lưu hồ sơ | - Tài sản mới được tạo<br>- Có mã tài sản duy nhất<br>- Có audit log tạo mới | ☐ | BRQ-01 | FR-AST-001 | US-AST-001 |
+| TC-AST-002 | **Từ chối mã tài sản trùng** | Đã tồn tại tài sản AP-TS-0001 | 1. Tạo tài sản mới<br>2. Nhập mã AP-TS-0001<br>3. Lưu hồ sơ | - Hệ thống chặn lưu<br>- Hiển thị thông báo trùng mã<br>- Không phát sinh bản ghi mới | ☐ | BRQ-02 | FR-AST-002 | US-AST-002 |
+| TC-AST-003 | **Bắt buộc chu kỳ bảo trì với thiết bị quan trọng** | Tài khoản Vật tư có quyền tạo | 1. Chọn nhóm thiết bị y tế quan trọng<br>2. Để trống chu kỳ bảo trì<br>3. Lưu hồ sơ | - Hệ thống yêu cầu nhập chu kỳ bảo trì | ☐ | BRQ-03 | FR-AST-003 | US-AST-003 |
+| TC-ADM-001 | **Chặn vô hiệu hóa danh mục đang được tham chiếu** | Tài khoản Quản trị có quyền cấu hình; nhóm tài sản `Thiết bị y tế` đang có tài sản active | 1. Mở màn hình cấu hình danh mục<br>2. Chọn vô hiệu hóa nhóm `Thiết bị y tế`<br>3. Lưu | - Hệ thống chặn thao tác<br>- Hiển thị số tài sản active đang tham chiếu<br>- Danh mục giữ trạng thái hiệu lực | ☐ | BRQ-01 | FR-ADM-001 | US-ADM-001 |
+| TC-ADM-002 | **Chặn truy cập trái quyền** | Đăng nhập bằng vai trò Người dùng khoa | 1. Mở màn hình cấu hình danh mục | - Hệ thống từ chối truy cập | ☐ | BRQ-04 | FR-ADM-002 | US-ADM-002 |
 
 ### 5.2. Module 2: Điều chuyển và Kiểm kê
 
-| Mã KT | Kịch bản | Điều kiện tiên quyết | Các bước | Kết quả mong đợi | Kết quả | Ref BRD | Ref FR | Ref Story |
+| Mã KT | Kịch bản | Điều kiện tiên quyết | Các bước | Kết quả mong đợi | Kết quả | Ref BRQ | Ref FR | Ref Story |
 |-------|----------|---------------------|----------|-------------------|---------|---------|--------|-----------|
-| UAT-011 | **Tạo yêu cầu điều chuyển** | Tài sản đang Active, user khoa có quyền tạo yêu cầu | 1. Chọn tài sản<br>2. Chọn khoa nhận<br>3. Nhập lý do<br>4. Gửi yêu cầu | - Yêu cầu ở trạng thái Pending Approval | ☐ | BRD-201 | FR-201 | US-011 |
-| UAT-012 | **Xác nhận giao và nhận tài sản** | Yêu cầu điều chuyển đã duyệt | 1. Bên giao xác nhận<br>2. Bên nhận xác nhận | - Khoa sở hữu mới được cập nhật<br>- Có lịch sử điều chuyển | ☐ | BRD-201 | FR-202 | US-012 |
-| UAT-021 | **Mở đợt kiểm kê và ghi nhận lệch** | Danh sách tài sản khoa Nội đã sẵn sàng | 1. Tạo đợt kiểm kê<br>2. Quét barcode 3 tài sản<br>3. Đánh dấu 1 tài sản sai vị trí | - Đợt kiểm kê được tạo<br>- Tài sản lệch được phân loại `Sai vị trí` | ☐ | BRD-202, BRD-203 | FR-203 | US-021, US-022 |
+| TC-TRF-001 | **Tạo yêu cầu điều chuyển** | Tài sản đang Active, user khoa có quyền tạo yêu cầu | 1. Chọn tài sản<br>2. Chọn khoa nhận<br>3. Nhập lý do<br>4. Gửi yêu cầu | - Yêu cầu ở trạng thái Pending Approval | ☐ | BRQ-04 | FR-TRF-001 | US-TRF-001 |
+| TC-TRF-002 | **Xác nhận giao và nhận tài sản** | Yêu cầu điều chuyển đã duyệt | 1. Bên giao xác nhận<br>2. Bên nhận xác nhận | - Khoa sở hữu mới được cập nhật<br>- Có lịch sử điều chuyển | ☐ | BRQ-04 | FR-TRF-002 | US-TRF-002 |
+| TC-TRF-003 | **Chặn điều chuyển tài sản chờ thanh lý** | Tài sản AP-TS-0105 ở trạng thái `PendingDisposal` | 1. Chọn tài sản AP-TS-0105<br>2. Chọn khoa nhận<br>3. Gửi yêu cầu điều chuyển | - Hệ thống chặn tạo yêu cầu<br>- Thông báo nêu rõ tài sản đang chờ thanh lý (BR-003)<br>- Không phát sinh bản ghi điều chuyển | ☐ | BRQ-04 | FR-TRF-001 | US-TRF-001 |
+| TC-INV-001 | **Mở đợt kiểm kê và ghi nhận lệch** | Danh sách tài sản khoa Nội đã sẵn sàng | 1. Tạo đợt kiểm kê<br>2. Quét barcode 3 tài sản<br>3. Đánh dấu 1 tài sản sai vị trí | - Đợt kiểm kê được tạo<br>- Tài sản lệch được phân loại `Sai vị trí` | ☐ | BRQ-05, BRQ-06 | FR-INV-001 | US-INV-001, US-INV-002 |
 
 ### 5.3. Kịch bản tích hợp
 
 | Mã KT | Kịch bản | Hệ thống liên quan | Các bước | Kết quả mong đợi | Đ/K |
 |-------|----------|-------------------|----------|-------------------|-----|
-| UAT-INT-01 | **Gửi email cảnh báo bảo trì** | Tài sản có lịch bảo trì đến hạn, cấu hình email đã sẵn sàng | 1. Đẩy ngày hệ thống tới mốc cảnh báo<br>2. Chạy scheduler | - Email cảnh báo được gửi đúng người nhận | ☐ |
-| UAT-INT-02 | **Đăng nhập qua SSO** | SSO test account khả dụng | 1. Chọn đăng nhập SSO<br>2. Xác thực thành công | - Người dùng vào hệ thống đúng vai trò | ☐ |
+| TC-INT-001 | **Gửi email cảnh báo bảo trì** | Tài sản có lịch bảo trì đến hạn, cấu hình email đã sẵn sàng | 1. Đẩy ngày hệ thống tới mốc cảnh báo<br>2. Chạy scheduler | - Email cảnh báo được gửi đúng người nhận | ☐ |
+| TC-INT-002 | **Đăng nhập qua SSO** | SSO test account khả dụng | 1. Chọn đăng nhập SSO<br>2. Xác thực thành công | - Người dùng vào hệ thống đúng vai trò | ☐ |
 
 **Module 3: Bảo trì và Dashboard**
 
-| Mã KT | Kịch bản | Điều kiện tiên quyết | Các bước | Kết quả mong đợi | Kết quả | Ref BRD | Ref FR | Ref Story |
+| Mã KT | Kịch bản | Điều kiện tiên quyết | Các bước | Kết quả mong đợi | Kết quả | Ref BRQ | Ref FR | Ref Story |
 |-------|----------|---------------------|----------|-------------------|---------|---------|--------|-----------|
-| UAT-031 | **Tạo cảnh báo bảo trì đến hạn** | Tài sản có chu kỳ bảo trì 30 ngày và sắp đến hạn 15 ngày | 1. Chạy scheduler<br>2. Mở danh sách cảnh báo | - Có work item bảo trì<br>- Có cảnh báo cho Vật tư | ☐ | BRD-301, BRD-302 | FR-301 | US-031 |
-| UAT-032 | **Cập nhật kết quả bảo trì** | Có work item bảo trì đang mở | 1. Mở phiếu bảo trì<br>2. Nhập kết quả<br>3. Lưu | - Lịch sử bảo trì được ghi nhận<br>- Ngày bảo trì kế tiếp được tính lại | ☐ | BRD-301, BRD-302 | FR-302 | US-032 |
-| UAT-033 | **Xem dashboard điều hành** | Tài khoản Ban điều hành có quyền dashboard | 1. Mở dashboard<br>2. Lọc theo khoa Nội | - Hiển thị tổng tài sản, trạng thái, tài sản đến hạn bảo trì, lệch kiểm kê | ☐ | BRD-303 | FR-303 | US-033 |
+| TC-MNT-001 | **Tạo cảnh báo bảo trì đến hạn** | Tài sản có chu kỳ bảo trì 30 ngày và sắp đến hạn 15 ngày | 1. Chạy scheduler<br>2. Mở danh sách cảnh báo | - Có work item bảo trì<br>- Có cảnh báo cho Vật tư | ☐ | BRQ-07, BRQ-08 | FR-MNT-001 | US-MNT-001 |
+| TC-MNT-002 | **Cập nhật kết quả bảo trì** | Có work item bảo trì đang mở | 1. Mở phiếu bảo trì<br>2. Nhập kết quả<br>3. Lưu | - Lịch sử bảo trì được ghi nhận<br>- Ngày bảo trì kế tiếp được tính lại | ☐ | BRQ-07, BRQ-08 | FR-MNT-002 | US-MNT-002 |
+| TC-RPT-001 | **Xem dashboard điều hành** | Tài khoản Ban điều hành có quyền dashboard | 1. Mở dashboard<br>2. Lọc theo khoa Nội | - Hiển thị tổng tài sản, trạng thái, tài sản đến hạn bảo trì, lệch kiểm kê | ☐ | BRQ-09 | FR-RPT-001 | US-RPT-001 |
 
 ### 5.4. Xác minh yêu cầu phi chức năng
 
 | Mã KT | Yêu cầu phi chức năng | Phương pháp | Tiêu chí chấp nhận | Kết quả | Đ/K |
 |-------|-----|-----------|---------------------|---------|-----|
-| UAT-NFR-01 | NFR-001, NFR-002, NFR-003: Hiệu năng dashboard/API/tải đồng thời | Kiểm tra Lighthouse, synthetic, K6/JMeter | Dashboard ≤ 3 giây; API p95 ≤ 500ms; 250 người dùng đồng thời | — | ☐ |
-| UAT-NFR-02 | NFR-004, NFR-013, NFR-014: Khả dụng, sao lưu, phục hồi | Monitoring, backup restore test, DR drill | Uptime ≥ 99.5%; backup hằng ngày; RTO ≤ 4 giờ; RPO ≤ 1 giờ | — | ☐ |
-| UAT-NFR-03 | NFR-006, NFR-007, NFR-008, NFR-009, NFR-010, NFR-017: Bảo mật, phân quyền, audit, tuân thủ | MFA/RBAC test, encryption review, OWASP ZAP, audit log review | Không có lỗi Critical/High; role trái quyền bị chặn; log lưu đúng retention | — | ☐ |
-| UAT-NFR-04 | NFR-011, NFR-012: Responsive và đa trình duyệt | Kiểm thử thủ công trên mobile/tablet/desktop | Chrome, Safari, Firefox, Edge OK; bố cục không vỡ | — | ☐ |
-| UAT-NFR-05 | NFR-005, NFR-015, NFR-016: Mở rộng và bảo trì | Benchmark dữ liệu lớn, SonarQube, CI coverage report | Tra cứu ≤ 3 giây ở 150.000 tài sản; Quality Gate đạt; unit test ≥ 80% | — | ☐ |
+| TC-NFR-001 | NFR-PERF-001, NFR-PERF-002, NFR-PERF-003: Hiệu năng dashboard/API/tải đồng thời | Kiểm tra Lighthouse, synthetic, K6/JMeter | Dashboard ≤ 3 giây; API p95 ≤ 500ms; 250 người dùng đồng thời | — | ☐ |
+| TC-NFR-002 | NFR-AVL-001, NFR-REL-001, NFR-REL-002: Khả dụng, sao lưu, phục hồi | Monitoring, backup restore test, DR drill | Uptime ≥ 99.5%; backup hằng ngày; RTO ≤ 4 giờ; RPO ≤ 1 giờ | — | ☐ |
+| TC-NFR-003 | NFR-SEC-001, NFR-SEC-002, NFR-SEC-003, NFR-SEC-004, NFR-AUD-001, NFR-COMP-001: Bảo mật, phân quyền, audit, tuân thủ | MFA/RBAC test, encryption review, OWASP ZAP, audit log review | Không có lỗi Critical/High; role trái quyền bị chặn; log lưu đúng retention | — | ☐ |
+| TC-NFR-004 | NFR-USAB-001, NFR-USAB-002: Responsive và đa trình duyệt | Kiểm thử thủ công trên mobile/tablet/desktop | Chrome, Safari, Firefox, Edge OK; bố cục không vỡ | — | ☐ |
+| TC-NFR-005 | NFR-SCAL-001, NFR-MAINT-001, NFR-MAINT-002: Mở rộng và bảo trì | Benchmark dữ liệu lớn, SonarQube, CI coverage report | Tra cứu ≤ 3 giây ở 150.000 tài sản; Quality Gate đạt; unit test ≥ 80% | — | ☐ |
 
 ---
 
@@ -131,11 +133,11 @@
 - **Người báo cáo:** [Tên] — [KH/NCC]
 - **Mức nghiêm trọng:** Nghiêm trọng / Lớn / Nhỏ / Giao diện
 - **Module:** [Tên module]
-- **Kịch bản kiểm thử:** UAT-[NNN]
+- **Kịch bản kiểm thử:** TC-[MOD]-[NNN]
 - **Ngày:** [DD/MM/YYYY]
 - **Môi trường:** [URL/phiên bản UAT]
 
-**Tham chiếu SRS/BRD:** [FR-XXX / BRD-XXX / US-XXX]
+**Tham chiếu SRS/BRD:** [FR-MOD-XXX / BRQ-XX / US-MOD-XXX]
 → Đây là Lỗi / CR? [BA phân loại]
 
 **Mô tả:**

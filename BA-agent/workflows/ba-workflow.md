@@ -1,14 +1,18 @@
 ---
-description: Business Analysis Workflow 3.4.0 - Advanced Analysis, Sequential Validation, and Industry Routing
+description: Business Analysis Workflow 3.8.0 - các bước lối L4, định tuyến theo ngành, rollback và ước lượng công
 ---
 
-# BA Workflow Protocol 3.4.0
+# BA Workflow Protocol 3.8.0
 
-This workflow automates BA documentation using the full v3.4 skill suite (21 skills) with **mandatory gates** + **Requirement Quality Engine** + **Sequential Index Validation** + **Industry Routing** (Government / Healthcare / Fintech) to ensure "Think Deeper, Write Better" output across all project types.
+Các bước chi tiết của lối L4: định tuyến theo loại dự án và ngành (Government / Healthcare / Fintech), tài liệu phụ theo tín hiệu nghiệp vụ, rollback và ước lượng công.
+
+> **File này không chép lại luật.** Nguyên tắc viết (tiếng Việt có dấu, chỉ dùng curated template, độc giả từng tài liệu, văn phong chống "mùi AI"): `../SKILL.md` mục 1–2. Hard Gate 1–8 và checkpoint: `../SKILL.md` mục 10. Việc người phải làm (H1–H6): `../BA-document-rule/core/human-accountability.md`. Khi file này và SKILL.md nói khác nhau, SKILL.md đúng.
 
 // turbo-all
 
 ## Steps
+
+> **Workflow này dành cho lối L4 (dự án/epic mới)** và phần thay đổi của lối L3. Trước Step 0, phân loại yêu cầu theo `../BA-document-rule/core/intake-triage.md`: hỏi đáp (L0), review một artifact (L1) hay viết một artifact lẻ (L2) thì xử lý ngay, không chạy các step dưới đây.
 
 ### 🚪 MANDATORY GATES (Không bỏ qua)
 
@@ -22,9 +26,11 @@ This workflow automates BA documentation using the full v3.4 skill suite (21 ski
    - Sinh Interview Questionnaire theo stakeholder roles (sử dụng `../BA-document-rule/core/customer-intelligence-guide.md`)
    - Yêu cầu user trả lời hoặc cung cấp transcript phỏng vấn
    - Extract: Pain Points, Hidden Needs, Constraints, Assumptions
-   - **Output:** Insight Cards + Pain Point Map
+   - **Sổ nguồn và kế hoạch elicitation** (`../BA-document-rule/core/evidence-source-gate.md`): mỗi insight ghi nguồn (`SRC-xx`, trực tiếp/gián tiếp) và mức E1–E4; thông tin từ người chat ghi `SRC-CHAT`. Liệt kê nhận định trọng yếu và người là nguồn trực tiếp cho từng nhận định
+   - **Người chịu trách nhiệm tài liệu (H1):** hỏi tên và vai trò ngay từ đầu
+   - **Output:** Insight Cards + Pain Point Map + Sổ nguồn + Kế hoạch elicitation
    - **Gate Rule:** Nếu user không cung cấp bất kỳ input nào → STOP, không tiếp tục
-   - **LLM:** Claude 4.6 — sinh câu hỏi sắc bén, empathetic
+   - **Trọng tâm:** câu hỏi sắc, đồng cảm với người được hỏi
 
 1. **Strategic Vision & Risk Register**
    - Create or update the strategic vision layer before BRD/SRS planning
@@ -33,12 +39,12 @@ This workflow automates BA documentation using the full v3.4 skill suite (21 ski
    - Identify goals, stakeholders, OKRs
    - **Risk Scan (o4):** Phân tích input → phát hiện patterns rủi ro → sinh Risk Register skeleton
    - Template: `../BA-document-rule/templates/risk-register.md`
-   - **LLM:** OpenAI o4 — reasoning edge cases, "What if" scenarios
+   - **Trọng tâm:** edge case và kịch bản "nếu... thì"; có thể giao một lượt review độc lập (`../agents/ba-specialist.md` mục Review độc lập)
 
 2. **Customer Intelligence & Deep Elicitation**
    - Run `../BA-document-rule/core/customer-intelligence-guide.md` — deep probing
    - Extract hidden needs, analyze stakeholder psychology, build Insight Cards
-   - **LLM:** Claude 4.6 — nuanced analysis, empathetic probing
+   - **Trọng tâm:** phân tích tinh tế, hỏi sâu có đồng cảm
 
 ### 📄 AS-IS DOCUMENTATION (Trước To-Be)
 
@@ -53,12 +59,8 @@ This workflow automates BA documentation using the full v3.4 skill suite (21 ski
 
 3. **Initialize Workspace & Project Type Routing**
    - Xác định loại dự án → Chọn overlay → Load industry templates (nếu có)
-   - Load Curated templates (DUY NHẤT cho BRD/SRS/User Story/AC) từ `../Curated templates/`:
-     - `01-BRD-Template.md` → sinh BRD dự án.
-     - `02-SRS-Template.md` → sinh SRS dự án. Reference bổ trợ: `SRS.pdf`.
-     - `03-User-Story-Template.md` → sinh User Story dự án.
-     - `04-Acceptance-Criteria-Template.md` → sinh AC dự án.
-   - **TUYỆT ĐỐI KHÔNG** dùng `../BA-document-rule/templates/brd.md`, `srs.md`, `user-story-map.md` để sinh 4 tài liệu cốt lõi. Các template trong `BA-document-rule/templates/` chỉ dùng cho tài liệu phụ trợ (risk-register, rbac-matrix, raid-log, business-case, v.v.).
+   - Template cho 4 tài liệu cốt lõi theo `../SKILL.md` mục 1 (nguyên tắc 4) và mục 3; template trong `BA-document-rule/templates/` chỉ dùng cho tài liệu phụ chọn ở danh sách dưới
+   - Dự án đang dở dùng ID riêng: tạo `ba-scheme.json` ở thư mục bộ tài liệu (`../scripts/README.md`), không ép đổi ID khách đã đọc
    - Reconfirm the Project Classification Summary before choosing templates:
      ```text
      Project classification: <type> + <add-ons>
@@ -156,37 +158,33 @@ This workflow automates BA documentation using the full v3.4 skill suite (21 ski
 
 5. **Document Generation, Auto-Diagram & Visual Prototyping**
    - **⚡ PRE-FLIGHT:** Chạy `../BA-document-rule/core/pre-flight-checklist.md` TRƯỚC mỗi document
-   - **Language Rule:** Nội dung tài liệu tiếng Việt phải được viết bằng tiếng Việt có dấu chuẩn Unicode. Không viết thân tài liệu kiểu "tieng Viet khong dau"; chỉ giữ ASCII/không dấu cho ID, tên file, code/API/database tokens, URL, command.
-   - **Exclusive Curated Template Rule:** Với BRD/SRS/User Story/AC, draft **BẮT BUỘC CHỈ DÙNG DUY NHẤT** template tương ứng từ `../Curated templates/` (`01-BRD-Template.md`, `02-SRS-Template.md`, `03-User-Story-Template.md`, `04-Acceptance-Criteria-Template.md`) về mục lục, bảng bắt buộc, ví dụ thực chiến và mức chi tiết; sau đó map về ID scheme và traceability chain của repo.
+   - **Luật viết:** `../SKILL.md` mục 1–2 (mở trước tài liệu đầu tiên của phiên)
    - **Automation:** Chạy `../scripts/preflight_check.py <project-folder>` trước khi draft hoặc approve artifact
      - Nếu FAIL ≥ 5 items → STOP, yêu cầu user bổ sung
      - Nếu FAIL 1-4 items → Cảnh báo, tự fill nếu được
-   - Generate BRD → SRS → Feature Spec → Story Map → UAT Plan
+   - Generate theo thứ tự BRD → SRS → User Story → Acceptance Criteria (4 tài liệu cốt lõi, `../SKILL.md` mục 3); Feature Map và UAT Plan là tài liệu bổ sung khi dự án cần
+   - **Chốt theo tài liệu hoặc theo lát cắt** (`../BA-document-rule/core/slice-baselining.md`): với Tier 2–3 có thể chốt nền chung của BRD trước, rồi đưa từng lát cắt dọc (một luồng/module, đủ BRQ → FR → US → AC) qua gate độc lập; ghi trạng thái trong Sổ lát cắt
+   - **Gate nguồn và ký (Hard Gate 7–8):** xem `../SKILL.md` mục 10; AI ghi `Trình duyệt`, chỉ người ký mới chuyển sang `Baseline`
    - Generate supporting artifacts đã chọn ở Step 3, không ép mọi dự án phải có đủ 10 tài liệu mới
    - **Industry Documents (nếu Step 3.5 đã chạy):**
      - 🏛️ Gov → Tích hợp HSMT specs vào SRS phụ lục + Nghiệm thu protocol → UAT
      - 🏥 HC → Tích hợp Clinical Workflow vào Process Flow + PHI NFRs vào SRS + DDI specs
      - 💰 FT → Tích hợp Transaction State Machine vào SRS + AML rules vào Feature Spec
    - **Auto-Diagram:** Parse raw input → auto-select diagram type → generate Mermaid
-   - **Wireframes:** Generate via `StitchMCP` hoặc Mermaid mockup cho screens trong Inventory
-   - **Target Audience & Language Calibration Enforcement:**
-     - **BRD:** 100% Ngôn ngữ Nghiệp vụ & Người dùng cuối (Business & End-User Language). Giải thích *What* & *Why*. **CẤM TUYỆT ĐỐI** nhồi nhét thuật ngữ kỹ thuật (API, SQL, DB table, endpoint, JSON payload, class, server architecture, code). Có Glossary cho thuật ngữ ngành.
-     - **SRS:** Ngôn ngữ Kỹ thuật Chính xác (Technical / Engineering Language) cho Dev & Tester: field validation, kiểu dữ liệu, API contract, logic xử lý, state machine, NFRs đo lường được. Cấm từ ngữ cảm tính ("nhanh", "dễ dùng").
-     - **UAT Plan:** Ngôn ngữ Kịch bản Thao tác Thực tế (Scenario-Based): mô tả hành động bấm nút, nhập liệu, kết quả hiển thị trên màn hình. Cấm bước test kỹ thuật sâu.
-      - **Anti-AI Writing Rules (MANDATORY ZERO-TOLERANCE):** Tuân thủ tuyệt đối 100% Bộ 27 Điều và Checklist 13 bước trong `../Anti_ai_writing_rules.md`. Cấm từ vựng sáo rỗng (`crucial`, `robust`, `delve`, `enhance`), câu chuyển ý dập khuôn (`Additionally`, `In summary`), đối lập giả, "Rule of Three" máy móc, đuôi `-ing` rỗng sau fact, giọng chatbot phục vụ (`Of course!`, `Certainly!`), định dạng ChatGPT máy móc và placeholder chưa xóa.
+   - **Wireframes:** Mermaid mockup cho screens trong Inventory; dùng công cụ thiết kế nếu môi trường có
    - **Requirement Quality Engine (NEW v3.3):**
      - Áp dụng 4 Decomposition Patterns (`../BA-document-rule/core/writing-guide.md` §10)
      - Khám phá NFR qua 7 câu hỏi (`../BA-document-rule/core/nfr-discovery-guide.md`)
      - Phân rã quy trình L0→L3 (`../BA-document-rule/core/process-decomposition-guide.md`)
      - **Automation:** Chạy `../scripts/quality_rubric.py <file-or-project-folder>` để score requirement thực tế
-   - **LLM:** GPT-5 — technical SRS drafting | Claude 4.6 — User Stories & AC
-   - **Inline Audit:** Sau mỗi section, tính điểm 5-point rubric + bắt 8 Smells + bắt 6 Conflict Patterns
+   - **Trọng tâm:** SRS chính xác kỹ thuật; User Story và AC theo góc nhìn người dùng
+   - **Inline Audit:** Sau mỗi section, tính điểm 5-point rubric + bắt 8 Smells (`quality_rubric.py`) + rà tay 6 mẫu mâu thuẫn (`writing-guide.md` §12, script không tự phát hiện)
 
 ### ✅ VALIDATION (Multi-Layer)
 
 6. **AI Quality Gate & Traceability Audit**
    - Run C-S-K-A Matrix evaluation (`../BA-document-rule/core/evaluation-protocol.md`)
-   - **LLM:** Gemini 3 Pro — full context scan | o4 — logic contradiction check
+   - **Review độc lập:** đọc toàn bộ ngữ cảnh và rà mâu thuẫn logic trong một lượt riêng
    - Requirement-to-Code Audit nếu project có source code (`../BA-document-rule/core/code-traceability-audit.md`)
 
 6.5. **Pre-Flight Verification (Post-Gen)**
@@ -203,8 +201,7 @@ This workflow automates BA documentation using the full v3.4 skill suite (21 ski
        - **Test Group scan:** Test Group 2.1 → 2.2 → 2.3... tuần tự
        - **Cross-doc ID consistency:** ID cùng entity phải khớp giữa BRD ↔ SRS ↔ Feature Spec ↔ Story Map ↔ UAT Plan
      - **Gap Types:** `INDEX_SKIP` (nhảy cóc) | `INDEX_DUPLICATE` (lặp) | `HEADING_SKIP` (heading nhảy)
-     - Nếu phát hiện gap → **Auto-fix re-index toàn bộ** → Re-scan → Verify PASS
-     - Nếu re-index thay đổi ID → CẬP NHẬT cross-references ở tất cả tài liệu liên quan
+     - Nếu phát hiện gap → chạy `reindex_markdown.py` ở chế độ xem trước. Script chỉ đổi nhóm có lỗ hổng, cập nhật tham chiếu ở mọi file, **bỏ qua tài liệu đã ký** và nhóm có ID trùng (ID trùng sửa tay). Không đánh lại số trong tài liệu khách đã ký: ghi lỗ hổng vào Change Log thay vì đổi ID
      - **Gate Rule:** 0 INDEX_SKIP + 0 INDEX_DUPLICATE + 0 HEADING_SKIP trước khi sang Step 6.7
      - Áp dụng quy tắc chi tiết: `../BA-document-rule/core/writing-guide.md` §1.1 rule 3
      - **Automation:** Ưu tiên chạy `../scripts/reindex_markdown.py <project-folder>` ở chế độ dry-run trước. Nếu kết quả hợp lý mới chạy `--apply`.
@@ -213,20 +210,22 @@ This workflow automates BA documentation using the full v3.4 skill suite (21 ski
      - Run `../BA-document-rule/core/traceability-validator.md`
      - **Automation:** Chạy `../scripts/traceability_scan.py <project-folder>` để sinh report markdown/json trước khi kết luận thủ công
      - Scan: BRQ-ID → FR/NFR-ID → Feature-ID → US-ID → AC/TC-ID
-     - Với dự án mới, chạy `../scripts/traceability_scan.py <project-folder> --scheme canonical --strict`; strict mode bắt mỗi FR có đúng 1 US trực tiếp và mỗi US có đúng 1 AC/TC trực tiếp.
+     - Với dự án mới, chạy `../scripts/traceability_scan.py <project-folder> --scheme canonical --strict`; strict mode bắt mỗi FR nối trực tiếp tới ≥ 1 US, mỗi US tới ≥ 1 AC/TC, và coi ID sai scheme là lỗi. Thêm `--one-to-one` khi hợp đồng yêu cầu ánh xạ 1:1.
+     - Dự án có `ba-scheme.json` (ID riêng): `--scheme project --strict`. Liên kết viết ở dòng dưới định nghĩa (`> Related BRQ-ID: ...`) và ma trận truy vết có cột tên đều được đọc.
      - **Industry Traceability (nếu Gov/HC/FT):**
        - 🏛️ Gov: FR → Regulation (Luật/NĐ/TT) mapping validated
        - 🏥 HC: FR → Clinical Pathway → DDI rule traceability
        - 💰 FT: FR → Transaction State → AML Rule → Recon flow traceability
      - Output: Full Chain Report + Missing Items + Regulatory Gaps (nếu industry)
-     - **Gate Rule:** Nếu có ≥ 1 `ORPHAN_BRQ`, `MISSING_TC`, `MISSING_US_FOR_FR`, `MULTIPLE_US_FOR_FR`, `MISSING_AC_FOR_US`, hoặc `MULTIPLE_AC_FOR_US` → agent PHẢI fix trước khi báo hoàn tất
+     - **Gate Rule:** Scanner trả mã 1 (có `ORPHAN_BRQ`, `ORPHAN_BR`, `MISSING_TC`, `MISSING_US_FOR_FR`, `MISSING_AC_FOR_US`, `ORPHAN_NFR`, `STALE_REF`, `OFF_SCHEME_ID` ở strict, ...) → agent PHẢI fix trước khi báo hoàn tất
      - **Gate Rule (Industry):** Nếu có FR chưa map → Regulation → BLOCK until mapped
-     - **LLM:** Gemini 3 Pro — massive cross-doc scan
+     - **Review độc lập:** đối chiếu nghĩa giữa các tài liệu (phần scanner không kiểm được)
 
 7. **Impact Analysis & Stakeholder Simulation**
    - Cross-file dependency scan (`../BA-document-rule/core/impact-analysis-guide.md`)
      - Dùng Impact Scoring Matrix + định tuyến Decision Flowchart
-   - Persona roleplay stress-test (`../BA-document-rule/core/persona-simulation.md`)
+   - Tự rà soát từng tài liệu theo vai trò bắt buộc của Tier (`../SKILL.md` mục 6, ý 8; `../BA-document-rule/core/persona-simulation.md`), chạy `persona_review_check.py` cho từng báo cáo
+   - Review độc lập theo Tier (H4): Tier 2 một lượt người thật hoặc phiên AI riêng; Tier 3 có ít nhất một người thật ghi tên vào báo cáo
    - Nếu có stakeholder conflict, chạy `../BA-document-rule/core/stakeholder-conflict-resolution.md` để chốt decision owner, conflict log, và artifacts phải cập nhật
    - Cập nhật Risk Register nếu phát hiện risks mới
    - **Decision Analysis (NEW v3.3):** Dùng Weighted Scoring/Decision Tree nếu có 2+ options
@@ -243,10 +242,12 @@ This workflow automates BA documentation using the full v3.4 skill suite (21 ski
 
 ### 📊 FINAL REPORT
 
-8. **Final v3.4 Report**
+8. **Final Report**
+   - Trạng thái từng tài liệu: Nháp AI / BA đã rà / Trình duyệt / Baseline (ai ký, ngày); bước H1–H6 còn thiếu
    - Scorecard: Điểm Rubric trung bình + C-S-K-A
    - Auto-Generated Diagrams summary
-   - Wireframe Links (StitchMCP)
+   - Wireframe links (nếu có)
+   - Bản Word đã xuất (`md_to_docx.py --template <mẫu khách>`) và cách gửi góp ý (`docx_feedback.py`)
    - Screen Inventory summary
    - Risk Register summary (incl. Response Strategies)
    - Traceability Validation Report (Full Chain + NFR Chain + Gaps)
@@ -275,6 +276,7 @@ Step 5 FAIL (pre-flight TRƯỚC doc)    → Quay lại Step 0/2 (bổ sung inpu
 Step 4 FAIL (screens không map)       → Quay lại Step 3 (review feature → screen mapping)
 Step 3.5 FAIL (industry gate)         → Quay lại Step 0/2 (bổ sung domain expertise) [INDUSTRY]
 Step 2.5 FAIL (không có As-Is info)   → Quay lại Step 0 (hỏi KH về quy trình hiện tại)
+Gate 8 FAIL (ghi Baseline chưa có ký) → Đổi trạng thái về Trình duyệt; chờ người có thẩm quyền ký
 ```
 
 **Quy tắc rollback:**

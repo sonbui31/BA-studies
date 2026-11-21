@@ -1,4 +1,4 @@
-# HƯỚNG DẪN BỘ TÀI LIỆU BA (Document Map v3.4)
+# HƯỚNG DẪN BỘ TÀI LIỆU BA (Document Map v3.8)
 
 > **Mục đích:** Giải thích chức năng và nội dung từng file trong hệ thống BA-agent
 > **Cập nhật:** 12/05/2026 — v3.4 (đóng gói skill + đồng bộ numbering/validation)
@@ -91,7 +91,13 @@
 | `glossary.md` | Thuật ngữ BA A-Z (AC, BABOK, BRD, CR, DoD, Epic, SRS, UAT...) | |
 | `evaluation-protocol.md` | C-S-K-A Matrix 3.2: **inline audit** + Multi-LLM phases + Pre-Flight cross-check | ⬆ Updated |
 | `impact-analysis-guide.md` | Phân tích ảnh hưởng: cross-file dependency scan, downstream risk | |
-| `persona-simulation.md` | Mô phỏng stakeholder persona: đóng vai CFO, Architect, End-User để stress-test | |
+| `persona-simulation.md` | Giao thức review vai trò cho từng tài liệu, số vai trò bắt buộc theo Tier (Tier 3 đủ 21); PASS/ISSUE/N/A có căn cứ, phát hiện có bằng chứng và decision owner | |
+| `human-accountability.md` | Phân vai AI và người, 6 bước bắt buộc có người (H1–H6), trạng thái tài liệu, Hard Gate 8 | Từ lượt đầu của lối L4 đến lúc ký baseline |
+| `pilot-protocol.md` | Cách chạy thử công cụ (P1) và quy trình (P2) trên dự án thật, chỉ số đo | Trước khi áp dụng cho dự án mới, khi gặp cảnh báo sai |
+| `intake-triage.md` | Phân loại yêu cầu thành 5 lối (hỏi đáp, review, viết artifact lẻ, Change Request, dự án mới) và mức kiểm tra của từng lối | Lượt đầu tiên của mọi yêu cầu |
+| `evidence-source-gate.md` | Sổ nguồn, nguồn trực tiếp/gián tiếp, nhận định trọng yếu, Hard Gate 7, kế hoạch elicitation | Bước 1 và trước mọi checkpoint chốt |
+| `slice-baselining.md` | Chốt theo lát cắt dọc: nền chung, gate theo lát, Sổ lát cắt, thay đổi lan sang lát đã chốt | Dự án Tier 2–3 muốn giao sớm từng phần |
+| `document-rulebook.md` | Ma trận độc giả, Stakeholder Map 7 cột, quy tắc BPMN, Data Dictionary 7 cột, đặc tả AI và giao diện | Khi bắt đầu viết một loại tài liệu |
 | `stakeholder-conflict-resolution.md` | ⭐ Protocol xử lý conflict requirement: decision owner, conflict log, update rules | ⭐ NEW v3.4 |
 | `code-traceability-audit.md` | Đối soát Requirement vs Code 3.0: **actionable output format** + full chain | ⬆ Updated |
 | `predictive-ba-guide.md` | Risk Management 3.0: **pattern-based detection** từ tài liệu thực tế | ⬆ Updated |
@@ -186,18 +192,19 @@
 | `case-study-parent-app.md` | Nhận xét kiểu Senior trên bộ tài liệu Parent App | ⭐ NEW v3.5.0 |
 | `vn-regulatory-watchlist.md` | Chủ đề pháp luật Việt Nam cần hỏi khi đặc tả (chưa xác minh) | ⭐ NEW v3.5.0 |
 
-### 📁 scripts/ — Audit Scripts & Công cụ Tự động hóa (16 files)
+### 📁 scripts/ — Audit Scripts & Công cụ Tự động hóa (19 files)
 
 | File | Mô tả | Khi nào dùng |
 |------|-------|-------------|
 | `preflight_check.py` | Kiểm tra tính đầy đủ tài liệu: placeholder `{{...}}`, tiếng Việt có dấu, Glossary, Stakeholder Map, Business Rules, numbering | Sau khi draft xong BRD/SRS/Story/UAT |
-| `quality_rubric.py` | Chấm điểm chất lượng yêu cầu 1-5, bắt 8 Smells + 6 Conflict patterns | Sau khi viết FR/NFR hoặc User Story |
-| `traceability_scan.py` | Quét chuỗi `BRQ→FR/NFR→Feature→US→AC/TC`, phát hiện orphan, gãy ID và cardinality mismatch trong canonical strict mode | Bước 4 (Validation) và trước bàn giao |
+| `quality_rubric.py` | Chấm điểm chất lượng yêu cầu 1-5, bắt 8 smell (không tự phát hiện mâu thuẫn giữa yêu cầu) | Sau khi viết FR/NFR hoặc User Story |
+| `traceability_scan.py` | Quét chuỗi `BRQ→FR/NFR→Feature→US→AC/TC`, phát hiện orphan, FR không tới US, US không tới AC/TC, tham chiếu chưa định nghĩa, ID sai scheme; `--scheme project` cho dự án có `ba-scheme.json`; `--one-to-one` khi cần ánh xạ 1:1 | Bước 4 (Validation) và trước bàn giao |
 | `reindex_markdown.py` | Audit & tự sửa thứ tự heading §1→§2→§3 và ID tuần tự | Khi tài liệu có nhiều lần sửa |
 | `template_schema_check.py` | Kiểm tra 4 curated templates cốt lõi: section bắt buộc, marker canonical, legacy marker, bảng Markdown lệch cột | Khi chỉnh BRD/SRS/Story/AC template |
 | `media_audit.py` | Kiểm tra `Curated templates/media`: broken image links, file chưa khai báo, khai báo stale, reference-only images | Khi thêm/sửa/xóa hình minh họa |
 | `ba_response_eval.py` | Đánh giá bao phủ controls theo loại dự án (Outsource/Product/Fintech) | Trước khi nghiệm thu |
 | `ba_bundle_audit.py` | Audit toàn vẹn phiên bản hệ thống BA-agent | Khi bảo trì/nâng cấp skill |
+| `persona_review_check.py` | Chặn báo cáo review thiếu vai trò bắt buộc của Tier, căn cứ không trỏ tới vị trí hoặc thiếu ID phát hiện | Sau review từng tài liệu |
 | `knowledge_search.py` | Tìm kiếm tri thức BA từ knowledge cards | Khi cần tra cứu kiến thức |
 | `knowledge_index_search.py` | BM25 + Hybrid search trên knowledge index | Khi cần search sâu |
 | `build_knowledge_index.py` | Rebuild knowledge index từ sources | Khi cập nhật knowledge |
@@ -207,6 +214,9 @@
 | `ai_smell_scan.py` | Quét mẫu "mùi AI" tiếng Việt và tiếng Anh trong Markdown | Trước khi gửi tài liệu |
 | `eval_golden_cases.py` | Chạy golden test cases cho quality assurance | Khi kiểm tra regression |
 | `docx_to_md.py` | Chuyển đổi file DOCX sang Markdown | Khi cần convert tài liệu |
+| `md_to_docx.py` | Xuất Markdown sang Word, theo mẫu Word của khách (`--template`) | Khi giao tài liệu cho khách |
+| `docx_feedback.py` | Gom Track Changes và comment trong file Word khách gửi lại, gắn về ID; `--baseline` so với bản Markdown | Khi khách gửi góp ý bằng Word |
+| `id_migrate.py` | Đổi ID riêng của dự án sang ID canonical theo quy tắc trong `ba-scheme.json`, sinh `ID-MIGRATION.md` | Khi chuẩn hóa ID của dự án đang dở |
 
 ### 📁 knowledge-index/ — Self-contained source index
 

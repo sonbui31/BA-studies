@@ -1,7 +1,7 @@
 # BA-DOCUMENT-RULE
 ## Bộ quy tắc & Template tài liệu Business Analysis
 
-> **Phiên bản:** 3.4 | **Ngày:** 12/05/2026
+> **Phiên bản:** 3.8 | **Ngày:** 21/11/2026
 > **Kiến trúc:** Layered OS (Core + Templates + Overlays)
 > **Áp dụng:** Mọi loại dự án
 
@@ -52,7 +52,13 @@ BA-document-rule/
 │   ├── glossary.md                   Thuật ngữ BA
 │   ├── evaluation-protocol.md        C-S-K-A Matrix 3.3: inline audit + Multi-LLM phases
 │   ├── impact-analysis-guide.md      Phân tích ảnh hưởng: Scoring + Ripple Effect + Regression Map
-│   ├── persona-simulation.md         Mô phỏng stakeholder persona
+│   ├── persona-simulation.md         Review vai trò trên từng tài liệu; số vai trò bắt buộc theo Tier (Tier 3 đủ 21)
+│   ├── document-rulebook.md          Ma trận độc giả và quy chuẩn từng loại tài liệu
+│   ├── intake-triage.md              Phân loại yêu cầu thành lối L0–L4
+│   ├── evidence-source-gate.md       Sổ nguồn, gate bằng chứng, kế hoạch elicitation
+│   ├── slice-baselining.md           Chốt theo lát cắt dọc
+│   ├── human-accountability.md       Việc người phải làm (H1–H6), Hard Gate 8
+│   ├── pilot-protocol.md             Chạy thử trên dự án thật
 │   ├── stakeholder-conflict-resolution.md ⭐ Conflict protocol + decision ownership matrix (v3.4)
 │   ├── code-traceability-audit.md    Đối soát Requirement vs Code
 │   ├── predictive-ba-guide.md        Risk Management: pattern-based detection
@@ -163,5 +169,6 @@ BA-document-rule/
 | **Ops / Support** | `templates/operational-readiness-checklist.md` → `templates/handover-checklist.md` |
 | **Trainer** | `core/principles.md` (BACCM, models) → `core/quality-checklist.md` (DoR/DoD) |
 | **BA knowledge curator** | `references/ba-knowledge-base.md` |
-| **Cập nhật chuẩn BA đến 14/11/2026** | `../knowledge-source/ba-update-2026-11-14.md` (nguồn và cách áp dụng) |
+| **Review tài liệu theo vai trò** | `core/persona-simulation.md` — vai trò bắt buộc theo Tier trên từng tài liệu (Tier 3 đủ 21); PASS/ISSUE/N/A có căn cứ, phát hiện có bằng chứng và người cần xác nhận |
+| **Cập nhật chuẩn BA đến 21/11/2026** | `../knowledge-source/ba-update-2026-11-21.md` và bản nền `ba-update-2026-11-14.md` (nguồn và cách áp dụng) |
 | **Agent/runtime retrieval** | `references/ba-knowledge-cards.json` qua `scripts/knowledge_search.py` |

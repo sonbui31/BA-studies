@@ -1,9 +1,12 @@
 # TÀI LIỆU YÊU CẦU NGHIỆP VỤ (BRD)
 # Epic: Feedback Portal & Triage Loop
 
-> **Phiên bản:** 1.0 | **Ngày:** 12/05/2026
-> **Product:** SignalDesk | **Trạng thái:** Draft
+> **Phiên bản:** 0.2 | **Ngày:** 12/05/2026
+> **Product:** SignalDesk | **Trạng thái:** Trình duyệt (chưa ký; còn 1 nhận định trọng yếu chờ nguồn trực tiếp)
+> **Người chịu trách nhiệm:** PM/BA của epic
 > **Tham chiếu:** Vision & Scope v1.0
+> **Tier:** 2 — điểm rủi ro 2/7 (câu 6, 7): hai PM có thể merge cùng một feedback và merge khó đảo ngược; email thông báo và release note công khai đã gửi ra ngoài thì không thu hồi được
+> **Nhãn:** [TÀI LIỆU MẪU] — ví dụ minh họa cấu trúc, không phải dự án thật
 
 ---
 
@@ -12,15 +15,15 @@
 > **Vấn đề người dùng gặp phải:**
 > PM và CS teams đang thu feedback từ nhiều nguồn nhưng không có một luồng thống nhất để biến feedback thành roadmap decisions.
 
-> **Bằng chứng / Số liệu:**
+> **Bằng chứng / Số liệu:** mỗi dòng dưới đây ghi nguồn và mức bằng chứng; Sổ nguồn ở mục 8.
 
 ### 1.1. Pain Points / Vấn đề hiện tại
 
-| # | Vấn đề hiện tại | Ảnh hưởng | Mức độ |
-|---|----------------------|-----------|--------|
-| 1 | 43% feedback mới đang nằm trong Slack hoặc email, không vào backlog | PM không thấy toàn cảnh nhu cầu khách hàng | 🔴 Cao |
-| 2 | 31% khách hàng beta nói họ không biết request của mình đang ở trạng thái nào | CS mất thời gian trả lời thủ công | 🟠 Cao |
-| 3 | 22% feedback bị trùng nội dung nhưng không được gộp | Roadmap bị noisy, vote count không đáng tin | 🟠 Cao |
+| # | Vấn đề hiện tại | Ảnh hưởng | Mức độ | Nguồn · Mức |
+|---|----------------------|-----------|--------|-------------|
+| 1 | 43% feedback mới đang nằm trong Slack hoặc email, không vào backlog | PM không thấy toàn cảnh nhu cầu khách hàng | 🔴 Cao | SRC-02 · E3 |
+| 2 | 31% khách hàng beta nói họ không biết request của mình đang ở trạng thái nào | CS mất thời gian trả lời thủ công | 🟠 Cao | SRC-01 · E2, gián tiếp (PM/CS thuật lại) — `[CẦN XÁC NHẬN: hỏi trực tiếp khách hàng beta trong khảo sát tuần 2, PO]` |
+| 3 | 22% feedback bị trùng nội dung nhưng không được gộp | Roadmap bị noisy, vote count không đáng tin | 🟠 Cao | SRC-02 · E3 |
 
 ### 1.2. Glossary
 
@@ -68,9 +71,21 @@ Customer gửi feedback -> Workspace inbox nhận feedback -> PM review và gắ
 -> Khi release, PM publish changelog gắn với feedback liên quan
 ```
 
-**As-Is / Hiện trạng**
-- Feedback đang nằm ở Slack, Intercom, email, spreadsheet.
-- Không có một current-state workflow thống nhất giữa PM và CS.
+#### 4.2.1. Quy trình hiện tại (As-Is)
+
+```
+Khách hàng gửi feedback qua Slack / Intercom / email -> CS chép tay vào spreadsheet (khi nhớ)
+-> PM đọc spreadsheet theo đợt, tự gộp nội dung trùng -> quyết định roadmap
+-> Khách hàng hỏi lại CS về trạng thái -> CS hỏi PM rồi trả lời thủ công
+```
+
+| Bước | Ai làm | Điểm nghẽn (số liệu ở mục 1.1) |
+|---|---|---|
+| Thu feedback | Khách hàng, CS | 43% feedback mới nằm lại ở Slack/email, không vào backlog |
+| Gộp nội dung trùng | PM | 22% feedback trùng nhưng không được gộp, vote count không đáng tin |
+| Báo trạng thái | CS | 31% khách hàng beta không biết request đang ở trạng thái nào |
+
+Chưa có quy trình hiện tại thống nhất giữa PM và CS; mỗi team giữ nguồn riêng.
 
 ### 4.3. Giao diện phác thảo
 > Link Figma: Figma / SignalDesk Beta / Portal-v5
@@ -83,21 +98,23 @@ Customer gửi feedback -> Workspace inbox nhận feedback -> PM review và gắ
 
 | Mã | Yêu cầu nghiệp vụ | Mô tả | Bên liên quan |
 |----|-------------------|-------|---------------|
-| BR-001 | Public portal nhận feedback | Khách hàng có thể gửi feedback và xem status của feedback đã gửi | End User, PM |
-| BR-002 | Feedback trùng phải được gợi ý merge | PM phải thấy candidate duplicates để tránh vote bị phân mảnh | PM |
-| BR-003 | Status update phải phản hồi lại cho người theo dõi | Khi PM đổi status, subscriber phải được thông báo | PM, CS Lead |
-| BR-004 | Release notes phải nối với feedback đã ship | Product team cần chứng minh “feedback -> delivered value” | PM, Founder |
-| BR-005 | Portal phải đo activation và engagement | Mọi luồng chính phải phát analytics events để đo activation | PM, Growth |
+| BRQ-01 | Public portal nhận feedback | Khách hàng có thể gửi feedback và xem status của feedback đã gửi | End User, PM |
+| BRQ-02 | Feedback trùng phải được gợi ý merge | PM phải thấy candidate duplicates để tránh vote bị phân mảnh | PM |
+| BRQ-03 | Status update phải phản hồi lại cho người theo dõi | Khi PM đổi status, subscriber phải được thông báo | PM, CS Lead |
+| BRQ-04 | Release notes phải nối với feedback đã ship | Product team cần chứng minh “feedback -> delivered value” | PM, Founder |
+| BRQ-05 | Portal phải đo activation và engagement | Mọi luồng chính phải phát analytics events để đo activation | PM, Growth |
 
 ### 5.2. Quy tắc nghiệp vụ (Business Rules)
 
-| Mã | Quy tắc | Áp dụng cho |
-|----|---------|-------------|
-| BIZ-01 | Một user chỉ được upvote một feedback item một lần trong cùng workspace | Portal |
-| BIZ-02 | Merge feedback không được mất vote count, subscriber list, hay audit history | Triage |
-| BIZ-03 | Chỉ feedback ở trạng thái `Planned`, `In Progress`, `Released` mới được hiển thị status công khai | Portal |
-| BIZ-04 | Release note chỉ hiển thị public sau `publish_at` | Changelog |
-| BIZ-05 | Mọi transition status phải ghi event analytics và audit log | Triage / Analytics |
+| Mã | Quy tắc | Áp dụng cho | Nguồn · Mức |
+|----|---------|-------------|-------------|
+| BR-001 | Một user chỉ được upvote một feedback item một lần trong cùng workspace | Portal | SRC-01, SRC-03 · E2 |
+| BR-002 | Merge feedback không được mất vote count, subscriber list, hay audit history | Triage | SRC-01 · E2 |
+| BR-003 | Chỉ feedback ở trạng thái `Planned`, `In Progress`, `Released` mới được hiển thị status công khai | Portal | SRC-04 · E1 (quyết định của PO) |
+| BR-004 | Release note chỉ hiển thị public sau `publish_at` | Changelog | SRC-04 · E1 (quyết định của PO) |
+| BR-005 | Mọi transition status phải ghi event analytics và audit log | Triage / Analytics | SRC-04 · E1 (quyết định của PO) |
+
+> Mỗi BR được thực thi bởi ít nhất một FR và kiểm chứng bởi ít nhất một kịch bản TC. Ma trận BR → FR → TC: xem `05-SRS-Lite.md` Mục 2.6.
 
 ### 5.3. Business Rule Architecture
 
@@ -123,22 +140,22 @@ Customer gửi feedback -> Workspace inbox nhận feedback -> PM review và gắ
 
 | ID | Tính năng | Mô tả nhu cầu | Phân loại giá trị | Giai đoạn |
 |----|-----------|---------------|-------------------|----------|
-| F-001 | Public feedback portal | Khách hàng gửi feedback và xem trạng thái | Nâng cao (Performance) | GĐ1 |
-| F-002 | Feedback inbox & triage | PM xem feedback, tag, đổi status | Nâng cao (Performance) | GĐ1 |
-| F-003 | Duplicate merge | PM gộp feedback trùng và giữ vote/history | Nâng cao (Performance) | GĐ1 |
+| F01 | Public feedback portal | Khách hàng gửi feedback và xem trạng thái | Nâng cao (Performance) | GĐ1 |
+| F02 | Feedback inbox & triage | PM xem feedback, tag, đổi status | Nâng cao (Performance) | GĐ1 |
+| F03 | Duplicate merge | PM gộp feedback trùng và giữ vote/history | Nâng cao (Performance) | GĐ1 |
 
 ### 🟡 NÊN CÓ (Should)
 
 | ID | Tính năng | Mô tả nhu cầu | Phân loại giá trị | Giai đoạn |
 |----|-----------|---------------|-------------------|----------|
-| F-004 | Status notification | Subscriber nhận email khi feedback đổi trạng thái | Gây ấn tượng (Attractive) | GĐ2 |
-| F-005 | Release notes feed | PM publish changelog gắn với delivered feedback | Gây ấn tượng (Attractive) | GĐ2 |
+| F04 | Status notification | Subscriber nhận email khi feedback đổi trạng thái | Gây ấn tượng (Attractive) | GĐ2 |
+| F05 | Release notes feed | PM publish changelog gắn với delivered feedback | Gây ấn tượng (Attractive) | GĐ2 |
 
 ### 🔵 CÓ THỂ (Could)
 
 | ID | Tính năng | Mô tả nhu cầu | Phân loại giá trị | Giai đoạn |
 |----|-----------|---------------|-------------------|----------|
-| F-006 | Saved filters | PM lưu view theo tag/status | Gây ấn tượng (Attractive) | GĐ3+ |
+| F06 | Saved filters | PM lưu view theo tag/status | Gây ấn tượng (Attractive) | GĐ3+ |
 
 ### ❌ CHƯA LÀM (Won't)
 
@@ -171,6 +188,17 @@ Customer gửi feedback -> Workspace inbox nhận feedback -> PM review và gắ
 - 12 cuộc phỏng vấn với PM và CS leads tại startup SaaS 10-80 nhân sự.
 - 37 đoạn hội thoại support được audit để phân loại feedback requests.
 - 3 prototype tests cho portal public và feedback inbox.
+
+### Sổ nguồn (Source Register)
+
+| Mã nguồn | Loại | Người / đơn vị | Vai trò stakeholder | Trực tiếp / Gián tiếp | Ngày | Ghi chú |
+|---|---|---|---|---|---|---|
+| SRC-01 | Phỏng vấn (12 buổi) | PM và CS lead tại startup SaaS 10–80 nhân sự | Direct User | Trực tiếp với nỗi đau của PM/CS; gián tiếp với trải nghiệm của khách hàng cuối | 05/2026 | Ghi chú phỏng vấn trong thư mục discovery |
+| SRC-02 | Audit dữ liệu | 37 hội thoại support | — | Trực tiếp (E3, mẫu nhỏ) | 05/2026 | Nguồn của tỷ lệ 43% và 22% |
+| SRC-03 | Prototype test (3 buổi) | End User / Customer Champion | Direct User | Trực tiếp (E3, mẫu nhỏ) | 05/2026 | Portal public và feedback inbox |
+| SRC-04 | Quyết định sản phẩm | Product Owner | Người quyết định phạm vi | Trực tiếp | 12/05/2026 | Duyệt bản 1.0 |
+
+**Nhận định trọng yếu còn thiếu nguồn trực tiếp:** tỷ lệ 31% khách hàng không biết trạng thái request (mục 1.1, dòng 2) đang dựa trên lời PM/CS thuật lại. Nhận định này không dùng làm baseline KPI; PO xác nhận bằng khảo sát khách hàng beta tuần 2 (`08-Beta-Testing-Plan.md` mục 3.2).
 
 ### System Memory / Historical Data
 
@@ -213,11 +241,18 @@ Customer gửi feedback -> Workspace inbox nhận feedback -> PM review và gắ
 
 ## 12. Ma trận truy vết (RTM — Requirement Traceability Matrix)
 
-| Goal Ref | Yêu cầu liên quan | Tính năng | Story | Test / Beta |
-|-------------|-------------|---------|-------|-------------|
-| O1-KR1 | BR-001, BR-002 | F-001, F-002, F-003 | US-001, US-002, US-003 | UAT-001, UAT-002, IT-001 |
-| O2-KR3 | BR-003 | F-004 | US-004 | UAT-004, IT-004 |
-| O3-KR4 | BR-004, BR-005 | F-005 | US-005 | UAT-005, UAT-NFR-001 |
+| Goal Ref | BRQ | FR/NFR | Tính năng | Story | Test / Beta |
+|----------|-----|--------|-----------|-------|-------------|
+| O1-KR1 | BRQ-01 | FR-POR-001 | F01 | US-POR-001 | TC-POR-001, IT-001 |
+| O1-KR1 | BRQ-01 | FR-POR-002 | F01 | US-POR-002 | TC-POR-002, IT-002 |
+| O1-KR2 | BRQ-02 | FR-TRI-001 | F02 | US-TRI-001 | TC-TRI-001 |
+| O2-KR3 | BRQ-02 | FR-TRI-002 | F03 | US-TRI-002 | TC-TRI-002, IT-003 |
+| O2-KR3 | BRQ-03 | FR-STS-001 | F04 | US-STS-001 | TC-STS-001, TC-STS-002, IT-004 |
+| O2-KR3 | BRQ-03 | FR-STS-002 | F04 | US-STS-001 | TC-STS-001 |
+| O3-KR4 | BRQ-04, BRQ-05 | FR-REL-001 | F05 | US-REL-001 | TC-REL-001, IT-005 |
+| O3-KR4 | BRQ-05 | NFR-EVT-001 | — | — | TC-NFR-001 |
+
+> `IT-xxx` là mã kiểm thử nội bộ của QA (`08-Beta-Testing-Plan.md` Mục 2.2), không thuộc chuỗi canonical; kịch bản nghiệm thu dùng `TC-<MODULE>-xxx`.
 
 ---
 
@@ -237,4 +272,4 @@ Customer gửi feedback -> Workspace inbox nhận feedback -> PM review và gắ
 | Phiên bản | Ngày | Thay đổi | Người |
 |-----------|------|----------|-------|
 | 0.1 | 05/05/2026 | Draft đầu tiên | PM/BA |
-| 1.0 | 12/05/2026 | Approved cho discovery build | PM/BA |
+| 0.2 | 12/05/2026 | Trình duyệt cho discovery build; chờ xác nhận số liệu 31% trước khi ký mục 13 | PM/BA |

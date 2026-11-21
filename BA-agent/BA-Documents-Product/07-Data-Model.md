@@ -44,17 +44,17 @@ AuditLog và AnalyticsEvent là cross-cutting entities ghi nhận mutation và h
 
 | Entity | Vai trò | Ref |
 |--------|---------|-----|
-| `Workspace` | Tenant gốc cho toàn bộ dữ liệu | `BR-001` đến `BR-005` |
-| `WorkspaceMember` | Quy định quyền nội bộ như Admin, PM, CS Lead | `NFR-005` |
-| `FeedbackItem` | Đơn vị feedback chính được submit, triage, gắn status | `FR-101`, `FR-201`, `FR-301` |
-| `FeedbackVote` | Lưu từng lượt upvote để enforce one-vote-per-user/email | `FR-102`, `BIZ-01` |
-| `FeedbackSubscriber` | Lưu người theo dõi để gửi status/release updates | `FR-302`, `NFR-009` |
-| `FeedbackMerge` | Ghi parent-child merge history | `FR-202`, `BIZ-02` |
-| `FeedbackStatusHistory` | Ghi timeline status công khai và nội bộ | `FR-301`, `NFR-006` |
-| `ReleaseNote` | Changelog public sau khi publish | `FR-303`, `BIZ-04` |
-| `ReleaseNoteFeedback` | Bảng nối giữa release note và delivered feedback | `FR-303` |
-| `AnalyticsEvent` | Lưu hoặc chuyển tiếp event cho activation/engagement | `BR-005`, `NFR-007` |
-| `AuditLog` | Ghi lại các mutation quan trọng để điều tra và trust | `BIZ-05`, `NFR-006` |
+| `Workspace` | Tenant gốc cho toàn bộ dữ liệu | `BRQ-01` đến `BRQ-05` |
+| `WorkspaceMember` | Quy định quyền nội bộ như Admin, PM, CS Lead | `NFR-SEC-002` |
+| `FeedbackItem` | Đơn vị feedback chính được submit, triage, gắn status | `FR-POR-001`, `FR-TRI-001`, `FR-STS-001` |
+| `FeedbackVote` | Lưu từng lượt upvote để enforce one-vote-per-user/email | `FR-POR-002`, `BR-001` |
+| `FeedbackSubscriber` | Lưu người theo dõi để gửi status/release updates | `FR-STS-002`, `NFR-COMP-001` |
+| `FeedbackMerge` | Ghi parent-child merge history | `FR-TRI-002`, `BR-002` |
+| `FeedbackStatusHistory` | Ghi timeline status công khai và nội bộ | `FR-STS-001`, `NFR-AUD-001` |
+| `ReleaseNote` | Changelog public sau khi publish | `FR-REL-001`, `BR-004` |
+| `ReleaseNoteFeedback` | Bảng nối giữa release note và delivered feedback | `FR-REL-001` |
+| `AnalyticsEvent` | Lưu hoặc chuyển tiếp event cho activation/engagement | `BRQ-05`, `NFR-EVT-001` |
+| `AuditLog` | Ghi lại các mutation quan trọng để điều tra và trust | `BR-005`, `NFR-AUD-001` |
 
 ---
 
@@ -130,7 +130,7 @@ AuditLog và AnalyticsEvent là cross-cutting entities ghi nhận mutation và h
 | `created_at` | TIMESTAMP | DEFAULT NOW | |
 
 **Unique constraint**
-- `(workspace_id, feedback_id, voter_key)` để enforce `BIZ-01`
+- `(workspace_id, feedback_id, voter_key)` để enforce `BR-001`
 
 ### 2.6. FeedbackSubscribers
 
@@ -141,7 +141,7 @@ AuditLog và AnalyticsEvent là cross-cutting entities ghi nhận mutation và h
 | `feedback_id` | UUID | FK -> FeedbackItems | |
 | `subscriber_key` | VARCHAR(180) | NOT NULL | Email hoặc account key |
 | `channel` | ENUM | NOT NULL | `EMAIL`, `IN_APP` |
-| `is_unsubscribed` | BOOLEAN | DEFAULT FALSE | Phục vụ `NFR-009` |
+| `is_unsubscribed` | BOOLEAN | DEFAULT FALSE | Phục vụ `NFR-COMP-001` |
 | `subscribed_at` | TIMESTAMP | DEFAULT NOW | |
 | `unsubscribed_at` | TIMESTAMP | NULL | |
 
@@ -219,11 +219,11 @@ AuditLog và AnalyticsEvent là cross-cutting entities ghi nhận mutation và h
 | `workspace_created` | Workspace được tạo | `workspace_id`, `plan_code` | Activation |
 | `feedback_imported` | Import CSV thành công | `workspace_id`, `import_count`, `source_type` | Activation |
 | `portal_published` | Portal chuyển sang `PUBLISHED` | `workspace_id`, `theme_variant` | `O1-KR1` |
-| `feedback_submitted` | Submit feedback thành công | `workspace_id`, `feedback_id`, `category_code`, `source_type` | `FR-101` |
-| `feedback_upvoted` | Upvote thành công | `workspace_id`, `feedback_id`, `voter_type` | `FR-102` |
-| `feedback_merged` | Merge thành công | `workspace_id`, `parent_feedback_id`, `child_feedback_id`, `merged_by_role` | `FR-202` |
-| `feedback_status_changed` | Public status đổi | `workspace_id`, `feedback_id`, `from_status`, `to_status` | `FR-301` |
-| `release_note_published` | Release note được publish | `workspace_id`, `release_note_id`, `linked_feedback_count` | `FR-303` |
+| `feedback_submitted` | Submit feedback thành công | `workspace_id`, `feedback_id`, `category_code`, `source_type` | `FR-POR-001` |
+| `feedback_upvoted` | Upvote thành công | `workspace_id`, `feedback_id`, `voter_type` | `FR-POR-002` |
+| `feedback_merged` | Merge thành công | `workspace_id`, `parent_feedback_id`, `child_feedback_id`, `merged_by_role` | `FR-TRI-002` |
+| `feedback_status_changed` | Public status đổi | `workspace_id`, `feedback_id`, `from_status`, `to_status` | `FR-STS-001` |
+| `release_note_published` | Release note được publish | `workspace_id`, `release_note_id`, `linked_feedback_count` | `FR-REL-001` |
 | `notification_delivery_failed` | Notification fail sau retry | `workspace_id`, `feedback_id`, `channel`, `failure_type` | Operations |
 
 ### 3.2. Dashboard Map
@@ -237,7 +237,7 @@ AuditLog và AnalyticsEvent là cross-cutting entities ghi nhận mutation và h
 
 ### 3.3. Event QA Rules
 
-- Mọi event trong `BR-005` phải có `workspace_id`.
+- Mọi event trong `BRQ-05` phải có `workspace_id`.
 - Các event mutation quan trọng phải có `entity_id` tương ứng.
 - Event retries không được ghi trùng user-facing outcomes.
 - Event names dùng `snake_case`, không đổi nghĩa giữa beta và GA.

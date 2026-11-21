@@ -1,4 +1,4 @@
-# HƯỚNG DẪN SỬ DỤNG BỘ KIT BA 3.4 (ADVANCED ANALYSIS & WRITING QUALITY ENGINE)
+# HƯỚNG DẪN SỬ DỤNG BỘ KIT BA 3.8 (ADVANCED ANALYSIS & WRITING QUALITY ENGINE)
 
 > **Chào mừng bạn đến với BA-Agent 3.4!**
 > Bộ kit "Layered OS" v3.4 — **"Think Deeper, Write Better"**: Advanced Analysis + Requirement Quality Engine.
@@ -49,14 +49,38 @@ Step 5 FAIL (pre-flight trước doc) → Quay lại Step 0/2 (bổ sung input)
 
 ---
 
-## 🆕 Có gì mới trong v3.4?
+## 🆕 Có gì mới trong v3.8?
+
+- **Scripts đọc đúng tài liệu thật.** Chạy lên ba bộ tài liệu thật (QLTS, vClassio) cho thấy phần lớn cảnh báo của bản 3.7 là sai: ma trận có cột tên, ID con `FR-TEA-003.1`, liên kết viết ở dòng dưới định nghĩa, bảng nhóm, bảng thuộc tính. Đã sửa 15 mẫu viết; bản ghi: `tests/golden/real_project_tool_run_2026-11-21.md`.
+- **Dự án đang dở giữ ID riêng:** khai báo định dạng ID, vai trò file và tác nhân trong `ba-scheme.json`, chạy `traceability_scan.py --scheme project`. Muốn chuyển sang ID canonical: `id_migrate.py` (có bảng đổi ID).
+- **Bản Word cho khách và nhận góp ý:** `md_to_docx.py --template <mẫu của khách>` xuất Word theo mẫu; `docx_feedback.py` gom Track Changes và comment của khách về đúng ID.
+- **Việc người phải làm (H1–H6) và Hard Gate 8:** người chịu trách nhiệm tài liệu, xác nhận bằng văn bản cho nhận định trọng yếu, review độc lập theo Tier, chỉ người ký mới chuyển tài liệu sang Baseline. Preflight có check `Human Sign-off`. Xem `BA-document-rule/core/human-accountability.md`.
+- **Mỗi luật một file chủ:** agent và workflow trỏ về `SKILL.md` thay vì chép lại; `ba_bundle_audit.py` báo lỗi khi một câu luật bị chép sang file khác.
+- **Giao thức chạy thử trên dự án thật:** `BA-document-rule/core/pilot-protocol.md`.
+
+## Có gì mới trong v3.7
+
+- **Phân loại yêu cầu (lối L0–L4):** câu hỏi nhanh, review hay viết một artifact lẻ được xử lý ngay; chỉ dự án/epic mới mới chạy đủ 6 bước và Hard Gate. Xem `BA-document-rule/core/intake-triage.md`.
+- **Nguồn yêu cầu và Hard Gate 7:** mỗi Fact ghi nguồn và mức E1–E4; thông tin từ người chat ghi `SRC-CHAT`; không chốt khi nhận định trọng yếu chỉ có nguồn gián tiếp. BRD Tier 2+ có Sổ nguồn và kế hoạch elicitation; preflight có check `Evidence Sources`. Xem `BA-document-rule/core/evidence-source-gate.md`.
+- **Chốt theo lát cắt:** chốt nền chung của BRD rồi đưa từng luồng/module (đủ BRQ → FR → US → AC) qua gate độc lập, theo dõi trong Sổ lát cắt. Xem `BA-document-rule/core/slice-baselining.md`.
+- **Kiểm tra theo Tier:** Tier 1 chỉ chạy checklist Anti-AI, preflight, ai_smell_scan; Tier 2–3 thêm rubric, traceability, review vai trò (`rigor-tiers.md` mục 2).
+
+## Có gì mới trong v3.6
+
+- **Script audit tin cậy hơn:** `traceability_scan.py` không còn PASS giả (đọc định nghĩa ở heading, báo thư mục rỗng, báo ID sai scheme ở strict, kiểm tra từng FR); `reindex_markdown.py` không còn sửa hỏng tài liệu đã ký, heading kiểu `## 2024 Roadmap` hay dãy số đang đúng. Chi tiết từng script: `scripts/README.md`.
+- **Truy vết N:M:** mỗi FR cần ≥ 1 US, mỗi US cần ≥ 1 AC/TC; ánh xạ 1:1 chỉ kiểm khi bật `--one-to-one`. Feature chỉ bắt buộc khi bộ tài liệu có Feature Map.
+- **Review vai trò theo Tier:** Tier 1 gồm R-BA và vai trò theo loại tài liệu, Tier 2 thêm 6 vai trò, Tier 3 đủ 21.
+- **Tài liệu mẫu chuyển sang scheme canonical** và đạt `--scheme canonical --strict`.
+- **SKILL.md gọn hơn:** quy chuẩn từng loại tài liệu chuyển sang `BA-document-rule/core/document-rulebook.md`.
+
+## Có gì mới trong v3.4
 
 | Feature | v3.3 | v3.4 |
 |---------|------|------|
 | **Requirement Decomposition** | BA tự tách ad-hoc | ⭐ 4 patterns: CRUD/Lifecycle/Actor/Integration |
 | **AC Coverage** | 2 scenarios (Happy + Unhappy) | ⭐ 8 loại (thêm Boundary, Permission, Concurrency, Data Volume...) |
 | **Requirement Quality** | Chấm điểm mức document | ⭐ Chấm mức **từng câu** (5-point rubric + 8 Smell Detector) |
-| **Conflict Detection** | Phát hiện thủ công | ⭐ 6 patterns auto-scan: Contradictory, Overlapping, Boundary... |
+| **Conflict Detection** | Phát hiện thủ công | ⭐ 6 mẫu rà mâu thuẫn (Contradictory, Overlapping, Boundary...) trong `writing-guide.md` §12; rà bằng đọc hiểu |
 | **Decision Analysis** | Không có | ⭐ 4 tools: Weighted Scoring, Pugh, CBA, Decision Tree |
 | **NFR Discovery** | Fill template sẵn | ⭐ 7 câu hỏi + 5 kỹ thuật phát hiện NFR specific |
 | **Process Decomposition** | 1 level swimlane | ⭐ L0→L1→L2→L3 hierarchy + rules khi nào dừng |
@@ -82,7 +106,7 @@ Step 5 FAIL (pre-flight trước doc) → Quay lại Step 0/2 (bổ sung input)
 | **Auto-Diagram Engine** | `@ba-specialist vẽ [loại] cho [quy trình]` | Mermaid diagram tự động | — |
 | **Code-to-Req Audit** | `@ba-specialist đối soát SRS với code` | Audit Report + Match/Mismatch | Claude + o4 |
 | **Impact Analysis** | `@ba-specialist phân tích ảnh hưởng thay đổi X` | Dependency scan | Gemini 3 |
-| **Persona Simulation** | `@ba-specialist đóng vai CFO phản biện` | Stress-test report | o4 |
+| **Review theo vai trò** | `@ba-specialist review BRD bằng vai trò sếp, nhân viên và người dùng ít thời gian` | Báo cáo phát hiện theo ID, bằng chứng, tác động và người cần quyết định; có thể thêm CFO, QA, Ops, bảo mật... theo rủi ro | — |
 | **AI Prototyping** | `@ba-specialist tạo wireframe cho feature X` | StitchMCP wireframe | — |
 | **AI/ML Feature Spec** | `@ba-specialist tạo AI spec cho feature [X]` | AI Behavior + Confidence Matrix + Fallbacks | Claude + o4 |
 | **Decision Analysis** ⭐ | `@ba-specialist phân tích quyết định: A vs B` | Weighted Scoring / CBA / Decision Tree | — |
@@ -155,13 +179,13 @@ BA-agent/
 
 ---
 
-## 📈 5 Nguyên tắc cốt lõi v3.4
+## 📈 5 Nguyên tắc cốt lõi
 
 1. **Right First Time** — Pre-Flight + Inline Audit = giảm iterations từ 4+ → ≤ 2
 2. **Facts, not Theory** — Risk Register từ patterns thực tế, không predict từ "hàng ngàn mẫu"
 3. **Visual First** — Screen Inventory + Wireframe TRƯỚC khi code. Diagram tốt hơn 1000 chữ
-4. **Reviewer-role Precision** — phân vai drafter/reviewer theo loại việc; chỉ dùng nhiều LLM khi workflow thực tế có công cụ/model tương ứng
-5. **Complete Traceability** — BRQ→FR/NFR→Feature→US→AC/TC, canonical strict bắt FR→US và US→AC/TC đúng 1:1
+4. **Review độc lập** — lượt review chạy với bối cảnh sạch, nhận tài liệu và tiêu chí chứ không nhận kết luận của lượt viết
+5. **Complete Traceability** — BRQ→FR/NFR→(Feature)→US→AC/TC; canonical strict bắt mỗi FR nối trực tiếp ≥ 1 US và mỗi US ≥ 1 AC/TC
 
 ---
 
@@ -185,6 +209,7 @@ Chạy các script này trước khi kết luận bundle đã đạt chất lư�
 ```powershell
 python .\scripts\preflight_check.py <project-folder>
 python .\scripts\quality_rubric.py <project-folder-or-file>
+python .\scripts\persona_review_check.py <bao-cao-review-cua-mot-tai-lieu.md>
 python .\scripts\traceability_scan.py <project-folder> --scheme legacy
 python .\scripts\traceability_scan.py <project-folder> --scheme canonical --strict
 python .\scripts\reindex_markdown.py <project-folder>
@@ -192,13 +217,13 @@ python .\scripts\template_schema_check.py ".\Curated templates"
 python .\scripts\media_audit.py ".\Curated templates"
 ```
 
-**Legacy bundle** dùng ID như `BRD-101 / FR-101 / US-001 / UAT-001`. Với dạng này, chạy `--scheme legacy` là mặc định an toàn. Chỉ thêm `--strict` nếu tài liệu cũng có Feature ID và mapping Feature.
+Mỗi tài liệu BA được tạo hoặc sửa đáng kể cần báo cáo review riêng theo `BA-document-rule/core/persona-simulation.md`. Ghi `Loại tài liệu`, `Tier`, `Dữ liệu nhạy cảm` ở đầu báo cáo; điền các vai trò bắt buộc của Tier (Tier 3: đủ 21) với `PASS`, `ISSUE` hoặc `N/A` và căn cứ trỏ tới vị trí; chạy `persona_review_check.py` trên từng báo cáo trước khi bàn giao. `N/A` là kết quả sau khi đã xét phạm vi, không phải bỏ qua vai trò.
 
-**Canonical bundle** dùng ID như `BRQ-01 / FR-MOD-001 / US-MOD-001 / AC-MOD-001` hoặc `TC-MOD-001`. Với dạng này, chạy `--scheme canonical --strict`; strict mode yêu cầu chain đầy đủ `BRQ -> FR/NFR -> Feature -> US -> AC/TC` và bắt cardinality trực tiếp `FR -> đúng 1 US`, `US -> đúng 1 AC/TC`.
+**Legacy bundle** dùng ID như `BRD-101 / FR-101 / US-001 / UAT-001`. Với dạng này, chạy `--scheme legacy`.
 
-Nếu `--strict` báo `BROKEN_CHAIN`, có hai hướng xử lý:
-- Bổ sung Feature ID và mapping vào BRD/SRS/Story/UAT nếu dự án yêu cầu traceability đầy đủ.
-- Bỏ `--strict` nếu đang kiểm tra legacy/outsource bundle mà Feature traceability được chủ đích loại khỏi phạm vi.
+**Canonical bundle** dùng ID như `BRQ-01 / FR-MOD-001 / US-MOD-001 / AC-MOD-001` hoặc `TC-MOD-001`. Với dạng này, chạy `--scheme canonical --strict`; strict mode yêu cầu FR nối trực tiếp tới ≥ 1 US, US tới ≥ 1 AC/TC, và coi mọi ID sai scheme là lỗi. Thêm `--one-to-one` khi dự án yêu cầu ánh xạ 1:1.
+
+`BROKEN_CHAIN` chỉ xuất hiện khi bộ tài liệu có Feature Map nhưng một chuỗi BRQ không đi qua Feature nào: bổ sung mapping Feature cho chuỗi đó, hoặc bỏ Feature Map nếu dự án không dùng tầng Feature.
 
 ---
 

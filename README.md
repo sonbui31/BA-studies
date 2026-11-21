@@ -21,14 +21,14 @@ Hệ thống AI Agent đóng vai Business Analyst — thu thập yêu cầu, ph�
 | Thành phần | Mô tả |
 |---|---|
 | [SKILL.md](BA-agent/SKILL.md) | Entrypoint cho skill system |
-| [Cập nhật BA đến 14/11/2026](BA-agent/knowledge-source/ba-update-2026-11-14.md) | Tóm tắt có dẫn nguồn IIBA, Scrum, Gherkin, ISO, W3C và NIST; hướng dẫn áp dụng vào tài liệu dự án |
+| [Cập nhật BA đến 21/11/2026](BA-agent/knowledge-source/ba-update-2026-11-21.md) | Bổ sung kế hoạch BA, ECBA và trạng thái WCAG 3; liên kết bản nền 14/11 có nguồn IIBA, Scrum, Gherkin, ISO, W3C và NIST |
 | [USER-GUIDE.md](BA-agent/USER-GUIDE.md) | Hướng dẫn sử dụng |
 | [DOCUMENT-MAP.md](BA-agent/DOCUMENT-MAP.md) | Bản đồ toàn bộ tài liệu BA |
 | [Anti_ai_writing_rules.md](BA-agent/Anti_ai_writing_rules.md) | Bộ quy tắc viết văn chống "mùi AI" (24 Điều cấm & Checklist) |
 | [so_do.md](BA-agent/so_do.md) | Quy chuẩn vẽ sơ đồ Mermaid Level 0→3 |
 | `agents/` | Agent persona (ba-specialist) |
 | `workflows/` | Quy trình BA workflow |
-| `scripts/` | 14 scripts tự động: preflight, quality rubric, traceability, knowledge search... |
+| `scripts/` | 19 scripts: preflight, quality rubric, traceability (cả ID riêng của dự án qua `ba-scheme.json`), xuất Word theo mẫu khách và gom góp ý Track Changes, knowledge search... |
 | `BA-document-rule/` | Bộ rule, template, overlay theo loại dự án |
 | `Curated templates/` | Template thực chiến BRD/SRS/User Story |
 | `BA-Documents-Outsource/` | Bộ tài liệu mẫu dự án outsource |
@@ -219,7 +219,7 @@ Bạn không cần tự chạy workflow. Chỉ cần yêu cầu BA-agent đi the
 5. Chọn overlay và curated/markdown templates phù hợp
 6. Đề xuất bộ tài liệu cần làm theo từng lớp: Product, Business, Process, Requirement, UX, AI/Data, Technical, QA/UAT, Delivery
 7. Làm từng tài liệu một
-8. Review gap sau mỗi tài liệu
+8. Review từng tài liệu theo vai trò bắt buộc của Tier (Tier 3 đủ 21 vai trò); ghi PASS/ISSUE/N/A có căn cứ, xử lý phát hiện và kiểm tra độ phủ trước khi làm tài liệu tiếp theo
 9. Kiểm tra traceability giữa các tài liệu
 10. Chốt bản hoàn chỉnh
 ```
@@ -240,6 +240,7 @@ Các script BA-agent có thể tự chọn:
 | Cần tra cứu nhanh kiến thức BA | `knowledge_search.py` |
 | Cần tra cứu sâu trong knowledge index | `knowledge_index_search.py` |
 | Cần kiểm tra tài liệu đủ input chưa | `preflight_check.py` |
+| Cần kiểm tra độ phủ vai trò (theo Tier) cho một tài liệu | `persona_review_check.py` |
 | Cần chấm requirement rõ/testable không | `quality_rubric.py` |
 | Cần kiểm tra traceability | `traceability_scan.py` |
 | Cần kiểm tra/sửa numbering, ID | `reindex_markdown.py` |
@@ -858,7 +859,8 @@ Nếu là BRD/SRS/User Story/AC, hãy áp dụng Curated templates và viết ti
 ### Review tài liệu
 
 ```text
-Hãy review tài liệu sau như BA senior, chỉ ra gap và cách sửa.
+Hãy review tài liệu sau theo các vai trò bắt buộc của Tier trong persona-simulation.md (Tier 3: đủ 21 vai trò).
+Với từng vai trò, ghi PASS/ISSUE/N/A có căn cứ; chỉ ra gap và cách sửa để bản cuối phù hợp với người đọc chính.
 ```
 
 ### Kiểm tra yêu cầu

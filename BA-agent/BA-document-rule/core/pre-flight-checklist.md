@@ -62,7 +62,7 @@ INPUT nhận được → Chọn document type → Chạy Pre-Flight Checklist t
 | 10 | **Sequence Diagram** | ≥ 2 luồng phức tạp có Sequence Diagram | Sinh Sequence cho top 2 complex flows |
 | 11 | **Decomposition Pattern** ⭐ v3.3 | Mỗi BRQ "Quản lý [X]" đã decompose theo CRUD/Lifecycle/Actor/Integration | Áp dụng `writing-guide.md` §10 → decompose |
 | 12 | **Requirement Quality Gate** ⭐ v3.3 | Mọi FR/NFR đạt Rubric ≥ 3/5 (Smell Detector PASS) | Chạy `requirement-quality-rubric.md` → fix smells |
-| 13 | **Conflict Scan** ⭐ v3.3 | 0 Contradictory + 0 Overlapping conflicts detected | Chạy 6 Conflict Detection patterns (`writing-guide.md` §12) |
+| 13 | **Conflict Scan** ⭐ v3.3 | 0 Contradictory + 0 Overlapping conflicts detected | Rà tay 6 Conflict Detection patterns (`writing-guide.md` §12); script chỉ báo Compound Requirement |
 | 14 | **Sequential Numbering** ⭐ v3.4 | FR-ID tuần tự trong mỗi phân hệ. Heading numbering (§1, §2, §2.1...) liên tục. NFR-ID tuần tự. | Quét toàn bộ FR/NFR/heading → re-index |
 | 15 | **Vietnamese Diacritics** | Nội dung tiếng Việt dùng dấu chuẩn Unicode; không viết thân tài liệu kiểu "tieng Viet khong dau". | Rewrite các câu/đoạn tiếng Việt không dấu thành tiếng Việt có dấu; giữ nguyên ID/code/API/URL/tên file |
 | 16 | **Anti-AI Writing Compliance** | Không chứa từ vựng sáo rỗng, câu dập khuôn, phân tích rỗng, giọng trợ lý (`Anti_ai_writing_rules.md`) | Tự rà soát 13 bước Checklist và sửa toàn bộ lỗi trước khi xuất tài liệu |

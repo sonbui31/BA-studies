@@ -52,10 +52,10 @@ Subscriber / Customer Champion
 ```
 
 **Related requirements**
-- `BR-001` / `FR-101`, `FR-102`
-- `BR-002` / `FR-201`, `FR-202`
-- `BR-003` / `FR-301`, `FR-302`
-- `BR-004`, `BR-005` / `FR-303`
+- `BRQ-01` / `FR-POR-001`, `FR-POR-002`
+- `BRQ-02` / `FR-TRI-001`, `FR-TRI-002`
+- `BRQ-03` / `FR-STS-001`, `FR-STS-002`
+- `BRQ-04`, `BRQ-05` / `FR-REL-001`
 
 ---
 
@@ -155,25 +155,25 @@ Subscriber / Customer Champion
 
 | Scenario | Xử lý hệ thống | UX kỳ vọng | Ref |
 |----------|----------------|-----------|-----|
-| Title quá ngắn hoặc email invalid | Reject request, không tạo item | Inline validation rõ ràng | `FR-101`, `VR-101` |
-| Portal bị spam liên tục | Rate-limit theo IP/email, có thể yêu cầu verify | Friendly anti-abuse message | `NFR-004` |
-| User submit item trùng nội dung | Vẫn cho submit nhưng gợi ý item tương tự trước khi gửi | Suggest duplicate before final submit | `BR-002` |
+| Title quá ngắn hoặc email invalid | Reject request, không tạo item | Inline validation rõ ràng | `FR-POR-001`, `VR-101` |
+| Portal bị spam liên tục | Rate-limit theo IP/email, có thể yêu cầu verify | Friendly anti-abuse message | `NFR-SEC-001` |
+| User submit item trùng nội dung | Vẫn cho submit nhưng gợi ý item tương tự trước khi gửi | Suggest duplicate before final submit | `BRQ-02` |
 
 ### 4.2. Merge / Triage Errors
 
 | Scenario | Xử lý hệ thống | UX kỳ vọng | Ref |
 |----------|----------------|-----------|-----|
-| User không có quyền merge | Chặn action, ghi audit nếu cần | Permission message rõ | `FR-202`, `NFR-005` |
-| Chọn parent/child khác workspace | Chặn merge | Message nêu rõ data isolation rule | `BIZ-02` |
-| Merge xong thiếu vote/subscriber | Không commit giao dịch và raise alert | Admin-visible error | `NFR-006` |
+| User không có quyền merge | Chặn action, ghi audit nếu cần | Permission message rõ | `FR-TRI-002`, `NFR-SEC-002` |
+| Chọn parent/child khác workspace | Chặn merge | Message nêu rõ data isolation rule | `BR-002` |
+| Merge xong thiếu vote/subscriber | Không commit giao dịch và raise alert | Admin-visible error | `NFR-AUD-001` |
 
 ### 4.3. Notification / Release Errors
 
 | Scenario | Xử lý hệ thống | UX kỳ vọng | Ref |
 |----------|----------------|-----------|-----|
-| Subscriber đã unsubscribe | Skip send, vẫn giữ status history | Không hiện lỗi cho PM | `NFR-009` |
-| Email provider fail tạm thời | Retry async tối đa 2 lần | PM thấy trạng thái pending/retry | `FR-302` |
-| PM cố link feedback chưa `Released` vào release note | Block publish | Validation message trước khi publish | `FR-303`, `BIZ-04` |
+| Subscriber đã unsubscribe | Skip send, vẫn giữ status history | Không hiện lỗi cho PM | `NFR-COMP-001` |
+| Email provider fail tạm thời | Retry async tối đa 2 lần | PM thấy trạng thái pending/retry | `FR-STS-002` |
+| PM cố link feedback chưa `Released` vào release note | Block publish | Validation message trước khi publish | `FR-REL-001`, `BR-004` |
 
 ---
 

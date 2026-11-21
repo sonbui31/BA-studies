@@ -5,6 +5,112 @@
 
 ---
 
+## [3.8.0] — 2026-11-21
+
+Chạy scripts lên ba bộ tài liệu thật (`projects/QLTS`, `projects/vClassio_app`) cho thấy bản 3.7 chỉ đúng trên tài liệu mẫu do chính bộ kit viết: phần lớn cảnh báo trên tài liệu thật là sai, và strict canonical đếm 0 FR, 0 US, 0 TC cho dự án dùng ID riêng. Bản này sửa công cụ cho tài liệu thật và bổ sung phần việc của người.
+
+### Added
+- `ba-scheme.json` cho từng bộ tài liệu: định dạng ID riêng theo loại, vai trò file, tác nhân của dự án. `traceability_scan.py --scheme project` (canonical cộng định dạng đã khai báo); `preflight_check.py`, `quality_rubric.py`, `reindex_markdown.py`, `docx_feedback.py` đọc cùng file.
+- `scripts/id_migrate.py`: đổi ID riêng sang canonical theo quy tắc, xem trước mặc định, chặn khi hai ID đổi về một hoặc ID mới script không đọc được, bỏ qua tài liệu đã ký, sinh `ID-MIGRATION.md`.
+- `scripts/md_to_docx.py`: xuất Word theo mẫu của khách (`--template`: style, header/footer, khổ giấy, numbering), nhúng ảnh PNG/JPEG. `scripts/docx_feedback.py`: gom Track Changes và comment, gắn về ID; `--baseline` so với bản Markdown, bắt cả sửa không bật Track Changes.
+- `BA-document-rule/core/human-accountability.md`: phân vai AI và người, H1–H6 (người chịu trách nhiệm, xác nhận bằng văn bản, làm việc với người thật, review độc lập, ký baseline, duyệt CR), trạng thái tài liệu. **Hard Gate 8:** không ghi Baseline khi bảng Phê duyệt chưa có họ tên và ngày.
+- `preflight_check.py`: check `Human Sign-off` cho tài liệu tự nhận đã chốt. `persona_review_check.py`: báo cáo Tier 3 phải có người thật review (`Loại rà soát: ... người thật: <tên>`).
+- `BA-document-rule/core/pilot-protocol.md` (pilot công cụ P1, pilot quy trình P2) và bản ghi P1 `tests/golden/real_project_tool_run_2026-11-21.md`.
+- `ba_bundle_audit.py`: báo lỗi khi một câu luật dài bị chép sang nhiều file luật.
+- Fixture `tests/fixtures/real_world_patterns/` và 30 test mới (`test_real_world_patterns.py`, `test_docx_roundtrip.py`).
+
+### Fixed
+- Cảnh báo sai trên tài liệu thật (chi tiết 15 mẫu trong bản ghi pilot): ma trận có cột tên hoặc cột BR đứng đầu bị coi là định nghĩa trùng; ID con `FR-TEA-003.1` gộp thành ID cha; danh sách tổng quan cộng heading chi tiết bị báo trùng; bảng nhóm theo cột đầu; bảng thuộc tính `| ID | ... |` không được đọc; liên kết viết ở dòng dưới định nghĩa bị bỏ; ma trận trong file Story không nối BRQ → FR; chuỗi hai tầng BR → SR → FR; BR định nghĩa trong SRS; BRQ chép vào ma trận SRS che lỗi BRQ chưa định nghĩa.
+- `quality_rubric.py` chấm dòng tiêu đề thay cho mô tả bên dưới; chấm cả dòng chỉ nhắc tới ID; không nhận tác nhân của ngành.
+- `preflight_check.py` đếm ký tự trong inline code là placeholder; check "BRD Completed" chỉ dựa vào tên file.
+- Tài liệu mẫu: BRD và SRS Outsource ghi "Đã phê duyệt" trong lịch sử nhưng header ghi Draft và bảng ký để trống; nay là Baseline có chữ ký (dữ liệu minh họa). BRD Product ghi "Approved" khi còn nhận định chờ xác nhận; nay là Trình duyệt 0.2.
+- `workflows/ba-workflow.md` bước 6.6 bảo "auto-fix re-index toàn bộ", trái với việc reindex bỏ qua tài liệu đã ký.
+
+### Changed
+- `agents/ba-specialist.md` (22 KB → 9 KB) và `workflows/ba-workflow.md` không chép lại luật; trỏ về file chủ trong `SKILL.md`.
+- `extract_ids_from_line` trả ID theo thứ tự đọc và bỏ ID nằm lồng trong ID dài hơn.
+- Mô phỏng vai trò được gọi đúng tên là tự rà soát; review độc lập theo H4.
+
+---
+
+## [3.7.0] — 2026-11-21
+
+### Added
+- **Phân loại yêu cầu đầu vào** (`BA-document-rule/core/intake-triage.md`, `SKILL.md` mục 0): 5 lối L0 hỏi đáp, L1 review một artifact, L2 viết một artifact lẻ, L3 Change Request, L4 dự án mới. Lối L0–L2 xử lý ngay trong lượt đầu, dùng kiểm tra đầu vào thay cho Hard Gate; chỉ L4 chạy đủ 6 bước. Có quy tắc nâng lối khi việc nhỏ chạm tiền, quyền, dữ liệu nhạy cảm.
+- **Nguồn yêu cầu và Hard Gate 7** (`BA-document-rule/core/evidence-source-gate.md`): Sổ nguồn, phân biệt nguồn trực tiếp/gián tiếp bên cạnh mức E1–E4, thông tin người chat ghi `SRC-CHAT`, danh sách nhận định trọng yếu, kế hoạch elicitation ở Bước 1. Không ghi "đã chốt" khi nhận định trọng yếu chỉ có nguồn gián tiếp; gate chặn việc chốt, không chặn việc viết nháp.
+- **Chốt theo lát cắt** (`BA-document-rule/core/slice-baselining.md`): chốt nền chung của BRD, rồi từng lát cắt dọc qua Gate 1–4 và 7 độc lập; Sổ lát cắt; quy tắc khi thay đổi lan sang lát đã chốt; dự án outsource giá cố định vẫn ký phạm vi trên toàn bộ BRD.
+- `preflight_check.py`: check `Evidence Sources` cho BRD theo Tier.
+- 3 golden case phán đoán senior: viết AC nhanh không đòi bộ tài liệu, quy tắc chỉ có nguồn gián tiếp, chốt theo lát cắt khi một module còn chờ.
+- Tài liệu mẫu: Sổ nguồn và cột "Nguồn · Mức" trong BRD Outsource và Product, mỗi bộ có một nhận định gián tiếp được đánh dấu để minh họa gate.
+
+### Changed
+- `SKILL.md`: Bước 5 kiểm tra theo Tier thay vì chạy mọi kiểm tra cho mọi tài liệu; luồng theo lượt tách lối L0–L3 khỏi lối L4; checkpoint liệt kê nhận định trọng yếu còn thiếu nguồn trực tiếp trước khi đề xuất Duyệt.
+- `rigor-tiers.md` mục 2: thêm dòng review vai trò, nguồn yêu cầu, cách chốt, kiểm tra sau mỗi tài liệu.
+- `workflows/ba-workflow.md`, `agents/ba-specialist.md`: phân loại trước Step 0, Sổ nguồn ở Step 0, chốt theo lát cắt và gate nguồn ở Step 5.
+
+---
+
+## [3.6.0] — 2026-11-21
+
+### Fixed — scripts cho PASS giả hoặc sửa hỏng tài liệu
+- `reindex_markdown.py`: không còn đổi số heading kiểu `## 2024 Roadmap` / `### 3 bước` (chỉ số mục `1.`, `1.2` mới là số mục, và chỉ đổi phần cuối nên template `## 1.1`, `## 2.0` giữ nguyên scheme); không đánh lại dãy đang liên tục (trước đây US-010 → US-011 do gom nhóm theo hàng chục); khóa nhóm ID được định nghĩa trong tài liệu đã ký thay vì đổi tham chiếu ở file khác; BRQ con đổi theo BRQ cha; không gộp ID trùng; giữ kiểu xuống dòng; chỉ coi "Baseline" là dấu đã ký khi nằm ở phần đầu tài liệu; mã thoát phản ánh kết quả.
+- `traceability_scan.py`: đọc định nghĩa ID ở heading và list; thư mục rỗng hoặc không có định nghĩa → lỗi; `--strict --scheme canonical` báo ID sai scheme (`OFF_SCHEME_ID`) thay vì bỏ qua; kiểm tra từng FR tới US và từng US tới AC/TC ở mọi chế độ; báo Story tham chiếu FR chưa định nghĩa và SRS tham chiếu BRQ chưa định nghĩa (`STALE_REF`); nhận ID 4 chữ số và mã module có chữ số; bảng NFR 4 cột được tính là định nghĩa; bỏ qua khối `~~~`; `TC-NFR-001` không còn sinh ra `NFR-001` giả; BR chưa được enforce báo `ORPHAN_BR`.
+- `persona_review_check.py`: không còn crash `UnicodeEncodeError` trên console Windows; căn cứ PASS/ISSUE phải trỏ tới vị trí; phát hiện không có vai trò nào trỏ tới bị báo.
+- `preflight_check.py`: câu phủ định ("chưa có glossary") không còn được tính là có; Glossary, As-Is, Traceability phải có heading; MoSCoW đếm giá trị trong bảng; đại từ "ai" không kích hoạt checklist AI; thư mục không có tài liệu nhận diện được → FAIL; đổi tên "Conflict Scan" thành "Compound Requirement Scan" cho đúng việc nó làm.
+- `quality_rubric.py`: số phần trăm ("99.9%") được nhận là chỉ số đo; actor và từ mơ hồ khớp nguyên từ ("pm" không còn khớp "development").
+- `ba_response_eval.py`: từ viết tắt trùng từ thường (PHI, HIS, CR, KT) chỉ khớp khi viết HOA ("phi chức năng" không còn thỏa check quyền riêng tư).
+- `template_schema_check.py`: heading phải đúng cấp; marker NFR phải là ID thật. `media_audit.py`: bỏ qua URL và phần `"title"` của link ảnh. `docx_to_md.py`: không ghi đè file đã có khi thiếu `--force`, giữ thẳng cột với ô gộp, đánh số đúng ảnh dùng lại.
+- `ba_bundle_audit.py`: thêm kiểm tra tiêu đề phiên bản cũ, agent trỏ tới skill không tồn tại, đường dẫn gãy trong SKILL.md; không crash encoding.
+
+### Changed
+- **Truy vết N:M:** mỗi FR ≥ 1 US, mỗi US ≥ 1 AC/TC. Ràng buộc 1:1 chuyển sang cờ `--one-to-one`. Feature chỉ bắt buộc khi bộ tài liệu có Feature Map (khớp với bộ 4 tài liệu cốt lõi).
+- **Review vai trò theo Tier** thay cho 21 vai trò ở mọi tài liệu: Tier 1 = R-BA + vai trò theo loại tài liệu; Tier 2 thêm R-SPONSOR, R-STAFF, R-TIME, R-QA, R-SEC, R-PM; Tier 3 đủ 21; dữ liệu nhạy cảm thêm R-PRIVACY, R-SEC. Báo cáo ghi `Loại tài liệu`, `Tier`, `Dữ liệu nhạy cảm`.
+- **SKILL.md gọn lại** (55 KB → 24 KB): ma trận độc giả và quy chuẩn từng loại tài liệu chuyển sang `BA-document-rule/core/document-rulebook.md`; mô tả script chuyển sang `scripts/README.md`; bỏ phần nhắc lại toàn văn Anti-AI. Sửa mâu thuẫn: Stakeholder Map 7 cột (không còn chỗ ghi 6 cột), Data Dictionary 7 cột có đủ cột Độ nhạy cảm, luồng tương tác theo lượt đi đúng thứ tự BRD → SRS → Story → AC.
+- `agents/ba-specialist.md`: bỏ phần "điều phối Claude/o4/GPT-5/Gemini" (agent không làm được) và `skills:` trỏ tới skill không tồn tại; thay bằng lượt review độc lập; sửa đường dẫn file Word; sửa chữ bị hỏng trong mục Anti-AI. `workflows/ba-workflow.md`: cùng thay đổi, sửa thứ tự sinh tài liệu.
+- **Tài liệu mẫu** `BA-Documents-Outsource/` và `BA-Documents-Product/` chuyển sang scheme canonical (BRQ, FR-MOD, US-MOD, TC-MOD, F01), thêm Tier và nhãn `[TÀI LIỆU MẪU]`, bổ sung bảng BR → FR → TC; cả hai đạt `--scheme canonical --strict`.
+- CI chạy thêm template, media, preflight và traceability strict trên fixture và tài liệu mẫu.
+
+### Added
+- 33 test mới (tổng 76) cho các lỗi trên, gồm round-trip `reindex --apply`, CLI `persona_review_check` trên console cp1252, và kiểm tra hai bộ tài liệu mẫu đạt canonical strict.
+- `BA-document-rule/core/document-rulebook.md`, `scripts/README.md`.
+
+### Removed
+- Hai ảnh trùng byte trong `Curated templates/media/` (`BRD_BPMN_XinNghi_ToBe.jpg`, `SRS_Hinh1_UseCase_TongQuan.jpg`); `media/README.md` trỏ sang ảnh đang nhúng.
+- Bước CI tìm trong `knowledge-index/chunks.jsonl`: file này không track trong git nên bước đó luôn fail trên CI.
+
+---
+
+## [3.5.5] — 2026-11-21
+
+### Changed
+- Bắt buộc kiểm tra đủ 21 vai trò trên **từng tài liệu BA** được tạo hoặc sửa đáng kể; mỗi vai trò có PASS/ISSUE/N/A và căn cứ, vai trò không liên quan phải có lý do N/A.
+- Cập nhật protocol, workflow, skill và hướng dẫn để chặn bàn giao khi thiếu độ phủ; vai trò liên quan vẫn được review sâu theo tài liệu và Tier.
+
+### Added
+- `scripts/persona_review_check.py` kiểm tra ma trận 21 vai trò, căn cứ, mã phát hiện và liên kết `ISSUE` tới bảng phát hiện.
+
+---
+
+## [3.5.4] — 2026-11-21
+
+### Changed
+- `core/persona-simulation.md` — Tổng hợp 21 góc nhìn review tài liệu: 3 góc nhìn mặc định và 18 vai trò mở rộng; chọn theo tài liệu/Tier, ghi phát hiện có bằng chứng và decision owner.
+- `core/evaluation-protocol.md`, `SKILL.md`, workflow và hướng dẫn sử dụng — nối review theo vai trò vào trước bước bàn giao. Kết quả mô phỏng không thay người thật sign-off; bỏ logic PASS bằng đa số phiếu.
+- Thêm card truy xuất `KB-PERSONA-REVIEW-001` và yêu cầu file giao thức trong bundle audit.
+
+---
+
+## [3.5.3] — 2026-11-21
+
+### Added
+- `knowledge-source/ba-update-2026-11-21.md` — Bổ sung hướng dẫn lập BA Work Plan theo task card IIBA, cấu trúc ECBA hiện hành và trạng thái WCAG 3 Working Draft.
+- Hai card truy xuất mới cho BA Work Plan và ECBA; mở rộng card accessibility để phân biệt WCAG 2.2 và bản nháp WCAG 3.
+
+### Changed
+- Điểm tra cứu chính, source manifest và bundle audit trỏ đến bản cập nhật mới; giữ bản 14/11 làm mốc lịch sử.
+
+---
+
 ## [3.5.2] — 2026-11-14
 
 ### Added

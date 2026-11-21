@@ -59,7 +59,7 @@
 |---|:---:|---|
 | Acceptance Criteria không được runtime nhận diện | Done | `classify_file()` nhận `acceptance/criteria`; ID parser nhận `AC-*` |
 | Canonical traceability thiếu AC | Done | Chain mới: `BRQ→FR/NFR→Feature→US→AC/TC` |
-| Strict mode chưa bắt cardinality 1:1 | Done | Thêm `MISSING_US_FOR_FR`, `MULTIPLE_US_FOR_FR`, `MISSING_AC_FOR_US`, `MULTIPLE_AC_FOR_US` |
+| Strict mode chưa bắt cardinality | Done (3.6: đổi thành ≥ 1) | `MISSING_US_FOR_FR`, `MISSING_AC_FOR_US` luôn bật ở strict; `MULTIPLE_US_FOR_FR`, `MULTIPLE_AC_FOR_US` chỉ khi `--one-to-one` |
 | Template còn trộn `BR`, `SR`, `BRULE` | Done | Curated templates dùng `BRQ-*` cho yêu cầu, `BR-*` cho business rule |
 | Quality report gọi `BR-*` là `BRULE` | Done | `quality_rubric.py` xuất family `BR` |
 

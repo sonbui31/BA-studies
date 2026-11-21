@@ -28,8 +28,8 @@
 
 | Demo | Stories | Status | Feedback |
 |------|---------|--------|----------|
-| {{Feature A}} | US-001, US-002 | ✅ Done | {{Feedback}} |
-| {{Feature B}} | US-003 | 🔄 In Progress | {{Feedback}} |
+| {{Feature A}} | US-POR-001, US-POR-002 | ✅ Done | {{Feedback}} |
+| {{Feature B}} | US-TRI-001 | 🔄 In Progress | {{Feedback}} |
 
 **Key Decisions:**
 - {{Quyết định 1}}

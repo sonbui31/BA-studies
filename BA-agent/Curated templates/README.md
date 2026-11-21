@@ -28,6 +28,6 @@ Folder này chứa các template thực chiến dạng Markdown/DOCX/PDF để B
 | Nhóm ảnh | Trạng thái khai báo | Nơi sử dụng |
 |---|---|---|
 | `Template-tai-lieu-BA-BRD-SRS-UserStory-AC_done_image_01.png` → `..._06.png` | Đã nhúng trực tiếp | `Template-tai-lieu-BA-BRD-SRS-UserStory-AC_done.md` bằng relative path `media/...` |
-| `BRD_BPMN_XinNghi_ToBe.jpg` và `SRS_Hinh*.jpg` | Reference-only | Được mô tả trong `media/README.md`; dùng khi cần ví dụ sơ đồ chi tiết hơn cho BRD/SRS |
+| `SRS_Hinh*.jpg` | Reference-only | Được mô tả trong `media/README.md`; dùng khi cần ví dụ sơ đồ chi tiết hơn cho BRD/SRS |
 
 > Khi thêm ảnh ví dụ mới, phải khai báo ở `media/README.md` và nếu ảnh là minh họa bắt buộc cho template thì phải nhúng trực tiếp vào template tương ứng bằng đường dẫn tương đối `media/<ten-file>`.

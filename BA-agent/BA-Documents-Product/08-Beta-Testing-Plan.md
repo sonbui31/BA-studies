@@ -24,13 +24,22 @@ Internal testing -> Closed beta (5% workspace) -> Open beta (20% workspace) -> G
 
 ### 2.2. Test Plan
 
-| ID | Feature | Test Scenario | Ref BRD | Ref FR | Ref Story | Pass/Fail |
+| ID | Feature | Test Scenario | Ref BRQ | Ref FR | Ref Story | Pass/Fail |
 |----|---------|--------------|---------|--------|-----------|-----------|
-| IT-001 | Public portal | Submit feedback happy path | BR-001 | FR-101 | US-001 | ☐ |
-| IT-002 | Public portal | Upvote duplicate attempt blocked | BR-001 | FR-102 | US-002 | ☐ |
-| IT-003 | Duplicate merge | Merge keeps votes and history | BR-002 | FR-202 | US-004 | ☐ |
-| IT-004 | Status notification | Subscriber receives update on status change | BR-003 | FR-301, FR-302 | US-005 | ☐ |
-| IT-005 | Release notes | Published release note links delivered feedback | BR-004, BR-005 | FR-303 | US-006 | ☐ |
+| IT-001 | Public portal | Submit feedback happy path | BRQ-01 | FR-POR-001 | US-POR-001 | ☐ |
+| IT-002 | Public portal | Upvote duplicate attempt blocked | BRQ-01 | FR-POR-002 | US-POR-002 | ☐ |
+| IT-003 | Duplicate merge | Merge keeps votes and history | BRQ-02 | FR-TRI-002 | US-TRI-002 | ☐ |
+| IT-004 | Status notification | Subscriber receives update on status change | BRQ-03 | FR-STS-001, FR-STS-002 | US-STS-001 | ☐ |
+| IT-005 | Release notes | Published release note links delivered feedback | BRQ-04, BRQ-05 | FR-REL-001 | US-REL-001 | ☐ |
+
+### 2.2.1. Dữ liệu kiểm thử và môi trường
+
+| Hạng mục | Nội dung |
+|---|---|
+| Môi trường | Staging tách biệt production; email thông báo chỉ gửi tới hộp thư nội bộ |
+| Tài khoản thử | 3 workspace: Free, Pro, workspace đã tắt portal; mỗi workspace có 1 PM, 1 CS, 2 End User |
+| Dữ liệu thử | 60 feedback mẫu, trong đó 12 cặp trùng nội dung (để kiểm IT-003), 5 feedback có vote từ cùng một người (để kiểm IT-002) |
+| Dữ liệu cá nhân | Chỉ dùng dữ liệu giả lập; không sao chép feedback thật của khách hàng vào staging |
 
 ### 2.3. Exit Criteria
 - [ ] 100% happy path tests pass
@@ -79,14 +88,16 @@ Internal testing -> Closed beta (5% workspace) -> Open beta (20% workspace) -> G
 
 ## 4. Product Acceptance / Beta Scenarios
 
-| ID | Scenario | Ref BRD | Ref FR | Ref Story | Result |
+| ID | Scenario | Ref BRQ | Ref FR | Ref Story | Result |
 |---|---|---|---|---|---|
-| UAT-001 | Portal user submit feedback successfully | BR-001 | FR-101 | US-001 | ☐ |
-| UAT-002 | Portal user cannot upvote same feedback twice | BR-001 | FR-102 | US-002 | ☐ |
-| UAT-003 | PM merge duplicate feedback without losing vote/history | BR-002 | FR-201, FR-202 | US-003, US-004 | ☐ |
-| UAT-004 | Subscriber gets notification when feedback status changes | BR-003 | FR-301, FR-302 | US-005 | ☐ |
-| UAT-005 | Release note only publishes linked Released feedback | BR-004, BR-005 | FR-303 | US-006 | ☐ |
-| UAT-NFR-001 | NFR-001, NFR-002, NFR-003, NFR-004, NFR-005, NFR-006, NFR-007, NFR-008, NFR-009: Beta NFR coverage for performance, availability, security, audit, eventing, data, and unsubscribe | BR-001, BR-002, BR-003, BR-004, BR-005 | NFR-001, NFR-002, NFR-003, NFR-004, NFR-005, NFR-006, NFR-007, NFR-008, NFR-009 | US-001 to US-006 | ☐ |
+| TC-POR-001 | Portal user submit feedback successfully | BRQ-01 | FR-POR-001 | US-POR-001 | ☐ |
+| TC-POR-002 | Portal user cannot upvote same feedback twice | BRQ-01, BR-001 | FR-POR-002 | US-POR-002 | ☐ |
+| TC-TRI-001 | PM sees duplicate candidates with confidence score; no suggestion below threshold | BRQ-02 | FR-TRI-001 | US-TRI-001 | ☐ |
+| TC-TRI-002 | PM merge duplicate feedback without losing vote/history | BRQ-02, BR-002 | FR-TRI-002 | US-TRI-002 | ☐ |
+| TC-STS-001 | Subscriber gets notification when feedback status changes; event `feedback_status_changed` and audit log are recorded | BRQ-03, BR-005 | FR-STS-001, FR-STS-002 | US-STS-001 | ☐ |
+| TC-STS-002 | Feedback in `New` or `Reviewed` status does not show a public status on the portal | BRQ-03, BR-003 | FR-STS-001 | US-STS-001 | ☐ |
+| TC-REL-001 | Release note only publishes linked Released feedback and stays hidden before `publish_at` | BRQ-04, BRQ-05, BR-004 | FR-REL-001 | US-REL-001 | ☐ |
+| TC-NFR-001 | NFR-PERF-001, NFR-PERF-002, NFR-AVL-001, NFR-SEC-001, NFR-SEC-002, NFR-AUD-001, NFR-EVT-001, NFR-DATA-001, NFR-COMP-001: Beta NFR coverage for performance, availability, security, audit, eventing, data, and unsubscribe | BRQ-01, BRQ-02, BRQ-03, BRQ-04, BRQ-05 | NFR-PERF-001, NFR-PERF-002, NFR-AVL-001, NFR-SEC-001, NFR-SEC-002, NFR-AUD-001, NFR-EVT-001, NFR-DATA-001, NFR-COMP-001 | — | ☐ |
 
 ---
 

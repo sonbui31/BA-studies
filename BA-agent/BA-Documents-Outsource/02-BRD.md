@@ -3,9 +3,12 @@
 
 > **Phiên bản:** 1.0 | **Ngày:** 26/02/2026
 > **Tác giả:** Nguyễn Văn A — BA Lead, Nhà cung cấp
+> **Người chịu trách nhiệm:** Nguyễn Văn A — BA Lead (đã rà toàn bộ bản 1.0)
 > **Khách hàng:** Bệnh viện Đa khoa An Phúc
 > **Nhà cung cấp:** Công ty Giải pháp Số Sao Việt
-> **Trạng thái:** Draft
+> **Trạng thái:** Baseline 1.0 — đã ký mục 11 ngày 26/02/2026
+> **Tier:** 2 — điểm rủi ro 3/7 (câu 3, 5, 7): hợp đồng outsource giá cố định có mốc thanh toán gắn nghiệm thu, tích hợp SSO và máy in barcode chưa xác nhận; hệ thống không lưu dữ liệu sức khỏe người bệnh
+> **Nhãn:** [TÀI LIỆU MẪU] — ví dụ minh họa cấu trúc, không phải dự án thật
 > **⚠️ Tài liệu CHỐT PHẠM VI (Baseline) — mọi thay đổi sau khi phê duyệt phải qua quy trình Yêu cầu thay đổi (CR)**
 
 ---
@@ -57,12 +60,12 @@ Tài liệu này mô tả **yêu cầu kinh doanh** cho dự án Quản lý Tài
 - **Vị trí thị trường:** Bệnh viện tư nhân quy mô vừa, đang mở thêm cơ sở vệ tinh
 
 ### 2.2. Hiện trạng
-| # | Vấn đề hiện tại | Ảnh hưởng | Mức độ |
-|---|-----------------|-----------|--------|
-| 1 | Mỗi khoa giữ một file Excel riêng để theo dõi tài sản | Kiểm kê tháng mất 24-30 giờ công, sai lệch trung bình 12% | 🔴 Nghiêm trọng |
-| 2 | Không có mã định danh thống nhất cho tài sản khi điều chuyển giữa khoa | Mất dấu tài sản, phát sinh tranh cãi trách nhiệm bàn giao | 🟠 Cao |
-| 3 | Lịch bảo trì thiết bị theo dõi bằng email và lịch cá nhân | Bỏ lỡ 2-3 lịch bảo trì/tháng, tăng rủi ro dừng thiết bị | 🟠 Cao |
-| 4 | Ban điều hành không có dashboard tình trạng tài sản theo thời gian thực | Quyết định mua mới và thanh lý dựa trên báo cáo chậm 5-7 ngày | 🟡 Trung bình |
+| # | Vấn đề hiện tại | Ảnh hưởng | Mức độ | Nguồn · Mức |
+|---|-----------------|-----------|--------|-------------|
+| 1 | Mỗi khoa giữ một file Excel riêng để theo dõi tài sản | Kiểm kê tháng mất 24-30 giờ công, sai lệch trung bình 12% | 🔴 Nghiêm trọng | SRC-02 · E4 |
+| 2 | Không có mã định danh thống nhất cho tài sản khi điều chuyển giữa khoa | Mất dấu tài sản, phát sinh tranh cãi trách nhiệm bàn giao | 🟠 Cao | SRC-01 · E2 |
+| 3 | Lịch bảo trì thiết bị theo dõi bằng email và lịch cá nhân | Bỏ lỡ 2-3 lịch bảo trì/tháng, tăng rủi ro dừng thiết bị | 🟠 Cao | SRC-03 · E2 |
+| 4 | Ban điều hành không có dashboard tình trạng tài sản theo thời gian thực | Quyết định mua mới và thanh lý dựa trên báo cáo chậm 5-7 ngày | 🟡 Trung bình | SRC-01 · E1, gián tiếp (Phòng Vật tư thuật lại); xác nhận trực tiếp tại buổi duyệt BRD (SRC-04 · E1, XN: biên bản duyệt 26/02/2026) |
 
 ### 2.3. Trạng thái mong muốn
 ```
@@ -179,29 +182,29 @@ ROI (3 năm) = (Tổng lợi ích - Tổng chi phí) / Tổng chi phí × 100
 #### Nhóm chức năng 1: Danh mục và Đăng ký tài sản
 **Nhu cầu kinh doanh:** Chuẩn hóa nguồn dữ liệu gốc để mọi khoa dùng cùng một mã tài sản và trạng thái.
 
-| Mã BRD | Yêu cầu kinh doanh | Mô tả | Ưu tiên | Business outcome | Ref HĐ |
-|--------|---------------------|--------|---------|--------|
-| BRD-101 | Tạo hồ sơ tài sản tập trung | Mỗi tài sản có mã, loại, khoa sở hữu, trạng thái, ngày mua, bảo hành | Bắt buộc | Dữ liệu gốc thống nhất | HĐ 2.1 |
-| BRD-102 | Gắn mã định danh và barcode | Tài sản phải được gắn mã duy nhất để kiểm kê và tra cứu nhanh | Bắt buộc | Giảm thất lạc | HĐ 2.1 |
-| BRD-103 | Phân loại tài sản theo nhóm và mức độ quan trọng | Thiết bị y tế, CNTT, nội thất, vật tư giá trị cao có quy tắc quản lý khác nhau | Nên có | Báo cáo và SLA bảo trì chính xác | HĐ 2.1 |
+| Mã BRQ | Yêu cầu kinh doanh | Mô tả | Ưu tiên | Business outcome | Ref HĐ |
+|--------|---------------------|--------|---------|------------------|--------|
+| BRQ-01 | Tạo hồ sơ tài sản tập trung | Mỗi tài sản có mã, loại, khoa sở hữu, trạng thái, ngày mua, bảo hành | Bắt buộc | Dữ liệu gốc thống nhất | HĐ 2.1 |
+| BRQ-02 | Gắn mã định danh và barcode | Tài sản phải được gắn mã duy nhất để kiểm kê và tra cứu nhanh | Bắt buộc | Giảm thất lạc | HĐ 2.1 |
+| BRQ-03 | Phân loại tài sản theo nhóm và mức độ quan trọng | Thiết bị y tế, CNTT, nội thất, vật tư giá trị cao có quy tắc quản lý khác nhau | Nên có | Báo cáo và SLA bảo trì chính xác | HĐ 2.1 |
 
 #### Nhóm chức năng 2: Điều chuyển, bàn giao, và kiểm kê
 **Nhu cầu kinh doanh:** Kiểm soát trách nhiệm sở hữu tài sản theo khoa và theo người nhận bàn giao.
 
-| Mã BRD | Yêu cầu kinh doanh | Mô tả | Ưu tiên | Business outcome | Ref HĐ |
-|--------|---------------------|--------|---------|--------|
-| BRD-201 | Điều chuyển tài sản có phê duyệt | Mỗi lần chuyển khoa phải có người yêu cầu, người duyệt, người nhận và thời gian bàn giao | Bắt buộc | Giảm tranh chấp trách nhiệm | HĐ 2.2 |
-| BRD-202 | Kiểm kê theo khoa và đợt | Cho phép tạo đợt kiểm kê, chốt kết quả, và ghi nhận lệch | Bắt buộc | Rút ngắn kiểm kê tháng | HĐ 2.2 |
-| BRD-203 | Xử lý lệch kiểm kê | Cho phép ghi nhận mất, hỏng, chờ xác minh, và người chịu trách nhiệm | Nên có | Audit trail rõ | HĐ 2.2 |
+| Mã BRQ | Yêu cầu kinh doanh | Mô tả | Ưu tiên | Business outcome | Ref HĐ |
+|--------|---------------------|--------|---------|------------------|--------|
+| BRQ-04 | Điều chuyển tài sản có phê duyệt | Mỗi lần chuyển khoa phải có người yêu cầu, người duyệt, người nhận và thời gian bàn giao | Bắt buộc | Giảm tranh chấp trách nhiệm | HĐ 2.2 |
+| BRQ-05 | Kiểm kê theo khoa và đợt | Cho phép tạo đợt kiểm kê, chốt kết quả, và ghi nhận lệch | Bắt buộc | Rút ngắn kiểm kê tháng | HĐ 2.2 |
+| BRQ-06 | Xử lý lệch kiểm kê | Cho phép ghi nhận mất, hỏng, chờ xác minh, và người chịu trách nhiệm | Nên có | Audit trail rõ | HĐ 2.2 |
 
 #### Nhóm chức năng 3: Bảo trì và Báo cáo điều hành
 **Nhu cầu kinh doanh:** Giảm dừng thiết bị và giúp Ban điều hành ra quyết định ngân sách.
 
-| Mã BRD | Yêu cầu kinh doanh | Mô tả | Ưu tiên | Business outcome | Ref HĐ |
+| Mã BRQ | Yêu cầu kinh doanh | Mô tả | Ưu tiên | Business outcome | Ref HĐ |
 |--------|---------------------|--------|---------|------------------|--------|
-| BRD-301 | Quản lý lịch bảo trì | Theo dõi kỳ bảo trì định kỳ, trạng thái thực hiện, nhà cung cấp | Bắt buộc | Giảm dừng thiết bị | HĐ 2.3 |
-| BRD-302 | Cảnh báo tài sản đến hạn bảo trì/thanh lý | Gửi cảnh báo cho Vật tư và khoa sở hữu trước hạn | Bắt buộc | Chủ động vận hành | HĐ 2.3 |
-| BRD-303 | Dashboard điều hành | Tổng hợp tài sản theo khoa, trạng thái, giá trị, bảo trì, thất lạc | Nên có | Quyết định ngân sách nhanh | HĐ 2.3 |
+| BRQ-07 | Quản lý lịch bảo trì | Theo dõi kỳ bảo trì định kỳ, trạng thái thực hiện, nhà cung cấp | Bắt buộc | Giảm dừng thiết bị | HĐ 2.3 |
+| BRQ-08 | Cảnh báo tài sản đến hạn bảo trì/thanh lý | Gửi cảnh báo cho Vật tư và khoa sở hữu trước hạn | Bắt buộc | Chủ động vận hành | HĐ 2.3 |
+| BRQ-09 | Dashboard điều hành | Tổng hợp tài sản theo khoa, trạng thái, giá trị, bảo trì, thất lạc | Nên có | Quyết định ngân sách nhanh | HĐ 2.3 |
 
 ### 4.3. Ngoài phạm vi
 
@@ -236,13 +239,15 @@ ROI (3 năm) = (Tổng lợi ích - Tổng chi phí) / Tổng chi phí × 100
 
 ### 4.6. Business Rules & Decision Policies
 
-| Mã BR | Quy tắc nghiệp vụ | Lý do kinh doanh | Ảnh hưởng |
-|---|---|---|---|
-| BR-001 | Mỗi tài sản chỉ có một mã định danh duy nhất trên toàn viện | Tránh trùng lặp và lệch kiểm kê | Đăng ký, kiểm kê, báo cáo |
-| BR-002 | Điều chuyển tài sản giữa hai khoa chỉ hoàn tất khi có xác nhận của cả bên giao và bên nhận | Khóa trách nhiệm sở hữu | Điều chuyển, audit |
-| BR-003 | Tài sản đang ở trạng thái `Chờ thanh lý` không được cấp phát lại | Tránh dùng lại tài sản rủi ro | Điều chuyển, kiểm kê |
-| BR-004 | Thiết bị y tế mức độ quan trọng cao phải có lịch bảo trì bắt buộc và cảnh báo trước tối thiểu 15 ngày | Giảm dừng thiết bị | Bảo trì |
-| BR-005 | Mọi chênh lệch kiểm kê phải được phân loại `Mất / Hỏng / Sai vị trí / Chờ xác minh` trước khi chốt đợt kiểm kê | Chuẩn hóa xử lý lệch | Kiểm kê, dashboard |
+| Mã BR | Quy tắc nghiệp vụ | Lý do kinh doanh | Ảnh hưởng | Nguồn · Mức |
+|---|---|---|---|---|
+| BR-001 | Mỗi tài sản chỉ có một mã định danh duy nhất trên toàn viện | Tránh trùng lặp và lệch kiểm kê | Đăng ký, kiểm kê, báo cáo | SRC-01 · E2 |
+| BR-002 | Điều chuyển tài sản giữa hai khoa chỉ hoàn tất khi có xác nhận của cả bên giao và bên nhận | Khóa trách nhiệm sở hữu | Điều chuyển, audit | SRC-01, SRC-04 · E2 |
+| BR-003 | Tài sản đang ở trạng thái `Chờ thanh lý` không được cấp phát lại | Tránh dùng lại tài sản rủi ro | Điều chuyển, kiểm kê | SRC-04 · E1 (quyết định của Sponsor) |
+| BR-004 | Thiết bị y tế mức độ quan trọng cao phải có lịch bảo trì bắt buộc và cảnh báo trước tối thiểu 15 ngày | Giảm dừng thiết bị | Bảo trì | SRC-03 · E1 (kỹ sư thiết bị, người sở hữu quy trình bảo trì) |
+| BR-005 | Mọi chênh lệch kiểm kê phải được phân loại `Mất / Hỏng / Sai vị trí / Chờ xác minh` trước khi chốt đợt kiểm kê | Chuẩn hóa xử lý lệch | Kiểm kê, dashboard | SRC-01 · E2 |
+
+> Mỗi BR được thực thi bởi ít nhất một FR và kiểm chứng bởi ít nhất một kịch bản TC. Ma trận BR → FR → TC: xem `05-SRS.md` Mục 2.6.
 
 ### 4.7. Business Rule Architecture
 
@@ -271,6 +276,17 @@ ROI (3 năm) = (Tổng lợi ích - Tổng chi phí) / Tổng chi phí × 100
 - Kiểm soát nội bộ yêu cầu log đầy đủ; người dùng khoa muốn sửa nhanh hơn.
 
 _(Chi tiết: xem `03-Stakeholder-Map.md` và `../BA-document-rule/core/stakeholder-conflict-resolution.md`)_
+
+### 5.2. Sổ nguồn (Source Register)
+
+| Mã nguồn | Loại | Người / đơn vị | Vai trò stakeholder | Trực tiếp / Gián tiếp | Ngày | Ghi chú |
+|---|---|---|---|---|---|---|
+| SRC-01 | Workshop | Phòng Vật tư (Trưởng phòng + 2 nhân viên), Phòng CNTT | Product Owner nghiệp vụ, Direct User, giám sát kỹ thuật | Trực tiếp với quy trình Vật tư; gián tiếp với nhu cầu của Ban điều hành | 20/02/2026 | Kết quả đưa vào bản 0.2 |
+| SRC-02 | Dữ liệu hiện có | File Excel kiểm kê của các khoa, 6 đợt gần nhất | — | Trực tiếp (E4) | 20/02/2026 | Nguồn của số giờ công kiểm kê và tỷ lệ sai lệch 12% |
+| SRC-03 | Phỏng vấn | Kỹ sư thiết bị y tế | SME bảo trì | Trực tiếp | 20/02/2026 | Quy tắc lịch bảo trì và cảnh báo |
+| SRC-04 | Phê duyệt | Giám đốc vận hành | Sponsor, người quyết định phạm vi | Trực tiếp | 26/02/2026 | Duyệt bản 1.0; XN: biên bản duyệt BRD ký 26/02/2026, xác nhận thêm độ trễ báo cáo 5-7 ngày (vấn đề 4) |
+
+**Nhận định trọng yếu còn thiếu nguồn trực tiếp:** không còn. Nhận định "báo cáo chậm 5-7 ngày" (mục 2.2, dòng 4) đang là nguồn gián tiếp nhưng không quyết định phạm vi hay KPI; BA Lead xác nhận với Ban điều hành trước 06/03/2026.
 
 ---
 
@@ -306,13 +322,13 @@ _(Chi tiết: xem `04-Process-Flow.md`)_
 
 | Danh mục | Yêu cầu | Chỉ tiêu |
 |----------|---------|----------|
-| **Hiệu năng** | NFR-01, NFR-02 | Tải trang ≤ 3 giây, API p95 ≤ 500ms |
-| **Khả dụng** | NFR-04 | Uptime ≥ 99.5% |
-| **Bảo mật** | NFR-06, NFR-07, NFR-08 | JWT + RBAC + TLS/AES-256 |
-| **Kiểm toán** | NFR-10 | Log CRUD và điều chuyển/bàn giao |
-| **Mở rộng** | NFR-05 | Hỗ trợ tăng 10x số tài sản trong 3 năm |
-| **Tuân thủ** | NFR-17 | Bảo vệ dữ liệu và audit nội bộ |
-| **Khả dụng** | NFR-11, NFR-12 | Responsive + hỗ trợ đa trình duyệt |
+| **Hiệu năng** | NFR-PERF-001, NFR-PERF-002 | Tải trang ≤ 3 giây, API p95 ≤ 500ms |
+| **Khả dụng** | NFR-AVL-001 | Uptime ≥ 99.5% |
+| **Bảo mật** | NFR-SEC-001, NFR-SEC-002, NFR-SEC-003 | JWT + RBAC + TLS/AES-256 |
+| **Kiểm toán** | NFR-AUD-001 | Log CRUD và điều chuyển/bàn giao |
+| **Mở rộng** | NFR-SCAL-001 | Hỗ trợ tăng 10x số tài sản trong 3 năm |
+| **Tuân thủ** | NFR-COMP-001 | Bảo vệ dữ liệu và audit nội bộ |
+| **Khả năng sử dụng** | NFR-USAB-001, NFR-USAB-002 | Responsive + hỗ trợ đa trình duyệt |
 
 _(Chi tiết: xem `05-SRS.md` Mục 3)_
 
@@ -354,14 +370,21 @@ _(Chi tiết: xem `05-SRS.md` Mục 3)_
 
 ---
 
-## 10. Ma trận truy vết (BRD → SRS → HĐ)
+## 10. Ma trận truy vết (BRQ → SRS → HĐ)
 
-| Scope Item | Yêu cầu BRD | Tham chiếu SRS | Mục HĐ | User Story | Ưu tiên |
-|-------------|-------------|----------------|---------|------------|---------|
-| SCOPE-01 | BRD-101 | FR-101, FR-102 | HĐ 2.1 | US-001, US-002 | Bắt buộc |
-| SCOPE-02 | BRD-102 | FR-103 | HĐ 2.1 | US-003 | Bắt buộc |
-| SCOPE-03 | BRD-201 | FR-201 | HĐ 2.2 | US-011 | Nên có |
-| SCOPE-04 | BRD-202 | FR-202, FR-203 | HĐ 2.2 | US-012, US-013 | Có thể |
+| Scope Item | Yêu cầu BRQ | Tham chiếu SRS | Mục HĐ | User Story | Kịch bản KT | Ưu tiên |
+|-------------|-------------|----------------|---------|------------|-------------|---------|
+| SCOPE-01 | BRQ-01 | FR-AST-001 | HĐ 2.1 | US-AST-001 | TC-AST-001 | Bắt buộc |
+| SCOPE-02 | BRQ-01 | FR-ADM-001 | HĐ 2.1 | US-ADM-001 | TC-ADM-001 | Bắt buộc |
+| SCOPE-03 | BRQ-02 | FR-AST-002 | HĐ 2.1 | US-AST-002 | TC-AST-002 | Bắt buộc |
+| SCOPE-04 | BRQ-03 | FR-AST-003 | HĐ 2.1 | US-AST-003 | TC-AST-003 | Nên có |
+| SCOPE-05 | BRQ-04 | FR-TRF-001 | HĐ 2.2 | US-TRF-001 | TC-TRF-001, TC-TRF-003 | Bắt buộc |
+| SCOPE-06 | BRQ-04 | FR-TRF-002 | HĐ 2.2 | US-TRF-002 | TC-TRF-002 | Bắt buộc |
+| SCOPE-07 | BRQ-04 | FR-ADM-002 | HĐ 2.2 | US-ADM-002 | TC-ADM-002 | Bắt buộc |
+| SCOPE-08 | BRQ-05, BRQ-06 | FR-INV-001 | HĐ 2.2 | US-INV-001, US-INV-002 | TC-INV-001 | Bắt buộc |
+| SCOPE-09 | BRQ-07, BRQ-08 | FR-MNT-001 | HĐ 2.3 | US-MNT-001 | TC-MNT-001 | Bắt buộc |
+| SCOPE-10 | BRQ-07, BRQ-08 | FR-MNT-002 | HĐ 2.3 | US-MNT-002 | TC-MNT-002 | Bắt buộc |
+| SCOPE-11 | BRQ-09 | FR-RPT-001 | HĐ 2.3 | US-RPT-001 | TC-RPT-001 | Nên có |
 
 > **Truy vết đảm bảo:** Mọi yêu cầu kinh doanh đều được triển khai và kiểm thử
 
@@ -374,11 +397,13 @@ _(Chi tiết: xem `05-SRS.md` Mục 3)_
 
 | Vai trò | Bên | Họ tên | Chữ ký | Ngày |
 |---------|-----|--------|--------|------|
-| Nhà tài trợ (Sponsor) | Khách hàng | | | |
-| Người đại diện KH (Product Owner) | Khách hàng | | | |
-| Tài chính/Mua sắm | Khách hàng | | | |
-| Quản lý dự án (PM) | Nhà cung cấp | | | |
-| Trưởng nhóm Phân tích (BA Lead) | Nhà cung cấp | | | |
+| Nhà tài trợ (Sponsor) | Khách hàng | Trần Minh Đức — Giám đốc vận hành | Đã ký (bản giấy lưu PMO) | 26/02/2026 |
+| Người đại diện KH (Product Owner) | Khách hàng | Phạm Thu Hà — Trưởng phòng Vật tư | Đã ký (bản giấy lưu PMO) | 26/02/2026 |
+| Tài chính/Mua sắm | Khách hàng | Lê Quốc Bảo — Phó phòng Tài chính kế toán | Đã ký (bản giấy lưu PMO) | 26/02/2026 |
+| Quản lý dự án (PM) | Nhà cung cấp | Đỗ Thanh Tùng | Đã ký | 26/02/2026 |
+| Trưởng nhóm Phân tích (BA Lead) | Nhà cung cấp | Nguyễn Văn A | Đã ký | 26/02/2026 |
+
+> Tên người ký là dữ liệu minh họa của tài liệu mẫu. Ở dự án thật, chỉ ghi tên sau khi người đó ký (`BA-document-rule/core/human-accountability.md`, H5).
 
 ---
 
@@ -389,3 +414,20 @@ _(Chi tiết: xem `05-SRS.md` Mục 3)_
 - **Phụ lục C:** Chi tiết SRS → xem `05-SRS.md`
 - **Phụ lục D:** Hợp đồng → xem tài liệu hợp đồng riêng
 - **Phụ lục E:** Ghi chú phỏng vấn stakeholder
+
+### Phụ lục A — Bảng thuật ngữ (Glossary)
+
+| Thuật ngữ | Định nghĩa trong dự án này |
+|---|---|
+| Tài sản | Thiết bị y tế, thiết bị CNTT hoặc vật tư giá trị cao được Phòng Vật tư theo dõi theo từng chiếc, có mã định danh riêng |
+| Kiểm kê | Đợt đối chiếu định kỳ giữa danh sách tài sản trên hệ thống và tài sản thực tế tại từng khoa; kết quả ghi theo từng tài sản |
+| Điều chuyển | Việc chuyển một tài sản từ khoa/phòng này sang khoa/phòng khác; chỉ hoàn tất khi bên nhận xác nhận bàn giao |
+| Bàn giao | Bước bên nhận xác nhận đã nhận tài sản đúng tình trạng; là bằng chứng chuyển trách nhiệm quản lý |
+| Thanh lý | Đưa tài sản ra khỏi danh sách đang sử dụng sau khi có quyết định phê duyệt; hồ sơ tài sản vẫn được lưu để tra cứu |
+| Bảo trì định kỳ | Lịch bảo dưỡng theo chu kỳ của từng loại tài sản, có cảnh báo trước hạn |
+| Chênh lệch kiểm kê | Tài sản có trên hệ thống nhưng không thấy thực tế, hoặc ngược lại, hoặc sai vị trí/tình trạng |
+| Baseline | Phạm vi đã được phê duyệt tại mục 11; sau thời điểm này mọi thay đổi phải qua CR |
+| CR (Yêu cầu thay đổi) | Đề nghị thay đổi phạm vi, tiến độ hoặc chi phí sau Baseline; cần đánh giá tác động và phê duyệt trước khi làm |
+| HĐ | Hợp đồng giữa Bệnh viện và Nhà cung cấp; mã `HĐ x.y` trỏ tới điều khoản tương ứng |
+| SLA | Mức dịch vụ cam kết (thời gian phản hồi, thời gian khắc phục) ghi trong hợp đồng |
+| ROI | Tỷ suất hoàn vốn: lợi ích ròng chia cho chi phí đầu tư trong cùng kỳ (mục 3.4) |

@@ -13,16 +13,16 @@
 
 ### Feature 1.1: Public feedback portal
 
-| ID | User Story | Acceptance Criteria | Ref BRD | Ref FR | OKR | Sprint |
+| ID | User Story | Acceptance Criteria | Ref BRQ | Ref FR | OKR | Sprint |
 |----|-----------|---------------------|---------|--------|-----|--------|
-| US-001 | As a **Portal User**, I want **gửi feedback qua portal public** so that **tôi không phải email thủ công cho team sản phẩm** | **Happy:** Given portal đang public<br>When tôi nhập title, description, email và bấm Submit<br>Then feedback mới được tạo ở status `New`<br>And event `feedback_submitted` fired<br><br>**Negative:** Given title dưới 5 ký tự<br>When tôi submit<br>Then hệ thống báo validation error<br><br>**Boundary:** Given mô tả dài hơn 2.000 ký tự<br>When tôi submit<br>Then hệ thống chặn lưu | BR-001 | FR-101 | O1-KR1 | S1 |
-| US-002 | As a **Portal User**, I want **upvote feedback có sẵn** so that **team sản phẩm biết request nào được nhiều người quan tâm** | **Happy:** Given feedback item đang public<br>When tôi nhấn Upvote<br>Then vote_count tăng 1<br>And event `feedback_upvoted` fired<br><br>**Permission:** Given tôi đã upvote trước đó<br>When tôi nhấn lại<br>Then hệ thống không tăng vote_count | BR-001 | FR-102 | O1-KR1 | S1 |
+| US-POR-001 | As a **Portal User**, I want **gửi feedback qua portal public** so that **tôi không phải email thủ công cho team sản phẩm** | **Happy:** Given portal đang public<br>When tôi nhập title, description, email và bấm Submit<br>Then feedback mới được tạo ở status `New`<br>And event `feedback_submitted` fired<br><br>**Negative:** Given title dưới 5 ký tự<br>When tôi submit<br>Then hệ thống báo validation error<br><br>**Boundary:** Given mô tả dài hơn 2.000 ký tự<br>When tôi submit<br>Then hệ thống chặn lưu | BRQ-01 | FR-POR-001 | O1-KR1 | S1 |
+| US-POR-002 | As a **Portal User**, I want **upvote feedback có sẵn** so that **team sản phẩm biết request nào được nhiều người quan tâm** | **Happy:** Given feedback item đang public<br>When tôi nhấn Upvote<br>Then vote_count tăng 1<br>And event `feedback_upvoted` fired<br><br>**Permission:** Given tôi đã upvote trước đó<br>When tôi nhấn lại<br>Then hệ thống không tăng vote_count | BRQ-01 | FR-POR-002 | O1-KR1 | S1 |
 
 ### Feature 1.2: Workspace onboarding
 
-| ID | User Story | Acceptance Criteria | Ref BRD | Ref FR | OKR | Sprint |
+| ID | User Story | Acceptance Criteria | Ref BRQ | Ref FR | OKR | Sprint |
 |----|-----------|---------------------|---------|--------|-----|--------|
-| US-003 | As a **Product Manager**, I want **thấy duplicate candidates khi review feedback** so that **tôi không phải triage thủ công từng item trùng** | **Happy:** Given inbox có feedback mới<br>When tôi mở feedback detail<br>Then hệ thống hiển thị candidate duplicates với confidence score<br><br>**Exception:** Given score dưới threshold<br>When tôi mở detail<br>Then hệ thống không gợi ý duplicate | BR-002 | FR-201 | O1-KR2 | S2 |
+| US-TRI-001 | As a **Product Manager**, I want **thấy duplicate candidates khi review feedback** so that **tôi không phải triage thủ công từng item trùng** | **Happy:** Given inbox có feedback mới<br>When tôi mở feedback detail<br>Then hệ thống hiển thị candidate duplicates với confidence score<br><br>**Exception:** Given score dưới threshold<br>When tôi mở detail<br>Then hệ thống không gợi ý duplicate | BRQ-02 | FR-TRI-001 | O1-KR2 | S2 |
 
 ---
 
@@ -30,10 +30,10 @@
 
 ### Feature 2.1: Duplicate merge & public status
 
-| ID | User Story | Acceptance Criteria | Ref BRD | Ref FR | OKR | Sprint |
+| ID | User Story | Acceptance Criteria | Ref BRQ | Ref FR | OKR | Sprint |
 |----|-----------|---------------------|---------|--------|-----|--------|
-| US-004 | As a **Product Manager**, I want **merge feedback trùng** so that **vote count và history không bị phân mảnh** | **Happy:** Given tôi có quyền merge<br>When tôi merge 1 child vào 1 parent<br>Then vote, subscriber, history được chuyển sang parent<br>And child có trạng thái `Merged`<br><br>**Permission:** Given tôi không có quyền PM/Admin<br>When tôi cố merge<br>Then hệ thống từ chối | BR-002 | FR-202 | O2-KR3 | S3 |
-| US-005 | As a **Customer Success Lead**, I want **subscriber nhận status update** so that **khách hàng không cần hỏi thủ công trạng thái request** | **Happy:** Given feedback có subscriber<br>When PM đổi status sang `Planned` hoặc `Released`<br>Then subscriber nhận email update<br>And event `feedback_status_changed` fired<br><br>**Exception:** Given subscriber đã unsubscribe<br>When status đổi<br>Then hệ thống không gửi email | BR-003 | FR-301, FR-302 | O2-KR3 | S3 |
+| US-TRI-002 | As a **Product Manager**, I want **merge feedback trùng** so that **vote count và history không bị phân mảnh** | **Happy:** Given tôi có quyền merge<br>When tôi merge 1 child vào 1 parent<br>Then vote, subscriber, history được chuyển sang parent<br>And child có trạng thái `Merged`<br><br>**Permission:** Given tôi không có quyền PM/Admin<br>When tôi cố merge<br>Then hệ thống từ chối | BRQ-02 | FR-TRI-002 | O2-KR3 | S3 |
+| US-STS-001 | As a **Customer Success Lead**, I want **subscriber nhận status update** so that **khách hàng không cần hỏi thủ công trạng thái request** | **Happy:** Given feedback có subscriber<br>When PM đổi status sang `Planned` hoặc `Released`<br>Then subscriber nhận email update<br>And event `feedback_status_changed` fired<br><br>**Exception:** Given subscriber đã unsubscribe<br>When status đổi<br>Then hệ thống không gửi email | BRQ-03 | FR-STS-001, FR-STS-002 | O2-KR3 | S3 |
 
 ---
 
@@ -41,9 +41,9 @@
 
 ### Feature 3.1: Release notes linked to shipped work
 
-| ID | User Story | Acceptance Criteria | Ref BRD | Ref FR | OKR | Sprint |
+| ID | User Story | Acceptance Criteria | Ref BRQ | Ref FR | OKR | Sprint |
 |----|-----------|---------------------|---------|--------|-----|--------|
-| US-006 | As a **Product Manager**, I want **publish release note gắn với feedback đã ship** so that **khách hàng thấy feedback của họ dẫn tới outcome thực tế** | **Happy:** Given feedback đang ở trạng thái `Released`<br>When tôi publish release note<br>Then release note public hiển thị linked feedback<br>And event `release_note_published` fired<br><br>**Negative:** Given feedback chưa Released<br>When tôi cố link vào release note public<br>Then hệ thống chặn publish | BR-004, BR-005 | FR-303 | O3-KR4 | S4 |
+| US-REL-001 | As a **Product Manager**, I want **publish release note gắn với feedback đã ship** so that **khách hàng thấy feedback của họ dẫn tới outcome thực tế** | **Happy:** Given feedback đang ở trạng thái `Released`<br>When tôi publish release note<br>Then release note public hiển thị linked feedback<br>And event `release_note_published` fired<br><br>**Negative:** Given feedback chưa Released<br>When tôi cố link vào release note public<br>Then hệ thống chặn publish | BRQ-04, BRQ-05 | FR-REL-001 | O3-KR4 | S4 |
 
 ---
 
@@ -51,10 +51,10 @@
 
 | OKR | User Stories | Feature | Epic |
 |-----|-------------|---------|------|
-| O1-KR1 | US-001, US-002 | Public feedback portal | Feedback Capture |
-| O1-KR2 | US-003 | Duplicate candidates | Feedback Capture |
-| O2-KR3 | US-004, US-005 | Merge + status notification | Triage & Response |
-| O3-KR4 | US-006 | Release notes linked to feedback | Value Proof |
+| O1-KR1 | US-POR-001, US-POR-002 | Public feedback portal | Feedback Capture |
+| O1-KR2 | US-TRI-001 | Duplicate candidates | Feedback Capture |
+| O2-KR3 | US-TRI-002, US-STS-001 | Merge + status notification | Triage & Response |
+| O3-KR4 | US-REL-001 | Release notes linked to feedback | Value Proof |
 
 ---
 
@@ -73,12 +73,14 @@ And analytics or notification side-effect
 
 ## Traceability Matrix
 
-| Ref BRD | Ref FR | Story | Sprint | Test Ref |
+| Ref BRQ | Ref FR | Story | Sprint | Test Ref |
 |---|---|---|---|---|
-| BR-001 | FR-101, FR-102 | US-001, US-002 | S1 | IT-001, IT-002, UAT-001, UAT-002 |
-| BR-002 | FR-201, FR-202 | US-003, US-004 | S2-S3 | IT-003, UAT-003 |
-| BR-003 | FR-301, FR-302 | US-005 | S3 | IT-004, UAT-004 |
-| BR-004, BR-005 | FR-303 | US-006 | S4 | IT-005, UAT-005, UAT-NFR-001 |
+| BRQ-01 | FR-POR-001 | US-POR-001 | S1 | IT-001, TC-POR-001 |
+| BRQ-01 | FR-POR-002 | US-POR-002 | S1 | IT-002, TC-POR-002 |
+| BRQ-02 | FR-TRI-001 | US-TRI-001 | S2 | TC-TRI-001 |
+| BRQ-02 | FR-TRI-002 | US-TRI-002 | S3 | IT-003, TC-TRI-002 |
+| BRQ-03 | FR-STS-001, FR-STS-002 | US-STS-001 | S3 | IT-004, TC-STS-001, TC-STS-002 |
+| BRQ-04, BRQ-05 | FR-REL-001 | US-REL-001 | S4 | IT-005, TC-REL-001 |
 
 ---
 
