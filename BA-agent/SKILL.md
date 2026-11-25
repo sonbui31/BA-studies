@@ -125,7 +125,7 @@ Lệch thì báo bằng bảng `| Loại lệch | Tài liệu | ID | Đề xuấ
 
 Chuẩn vẽ duy nhất: **`BA-agent/so_do.md`** (mở khi cần vẽ). **Quy trình nghiệp vụ vẽ bằng BPMN 2.0** (mục 4): file `.bpmn` mở được bằng bpmn.io / Camunda Modeler, sinh từ bản mô tả `.json` và kiểm tra bằng `bpmn_tool.py`, ảnh PNG chèn vào tài liệu; Mermaid BPMN-lite chỉ để phác thảo trong lúc trao đổi. Các sơ đồ khác vẽ bằng Mermaid với khối khai báo chung, kiểm tra bằng `diagram_check.py`. Quy trình mẫu: `BA-Documents-Outsource/04-Process-Flow.md`.
 
-| Level | Loại | Mermaid | Đặt ở |
+| Level | Loại | Công cụ / định dạng | Đặt ở |
 |---|---|---|---|
 | 0 | Context | `flowchart TB` | Vision, BRD |
 | 1 | Use Case (tối đa 8 UC mỗi sơ đồ) | `flowchart LR` | BRD, SRS |

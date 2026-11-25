@@ -51,7 +51,7 @@ Các bước chi tiết của lối L4: định tuyến theo loại dự án và
 2.5. **As-Is Process Documentation (MANDATORY)**
     - Document quy trình hiện tại TRƯỚC khi viết To-Be
     - Template: `../BA-document-rule/templates/as-is-process.md`
-    - **Output:** As-Is Swimlanes + Pain Point Analysis + Gap Analysis + Metrics Baseline
+    - **Output:** sơ đồ As-Is BPMN 2.0 (`../so_do.md` mục 4) + Pain Point Analysis + Gap Analysis + Metrics Baseline
     - **Gate Rule:** Nếu không có thông tin As-Is, hỏi user: "Quy trình hiện tại vận hành thế nào?"
     - Nếu user xác nhận "không có quy trình" (greenfield) → ghi N/A + lý do → tiếp tục
 

@@ -1,6 +1,7 @@
 """BPMN 2.0 tooling (bpmn_tool.py), shipped BPMN diagrams, and wide diagrams in Word export."""
 import json
 import os
+import re
 import shutil
 import struct
 import subprocess
@@ -140,6 +141,86 @@ class BpmnBuildTests(unittest.TestCase):
         self.assertIn('bpmnElement="t1" bioc:stroke="#C53030"', xml)
 
 
+    def test_ids_are_valid_and_unique(self):
+        digits = json.loads(json.dumps(SPEC))
+        digits["nodes"][1]["id"] = "1"
+        digits["flows"] = [["start", "1"] if f == ["start", "t1"] else (["1", "t2"] if f == ["t1", "t2"] else f) for f in digits["flows"]]
+        xml = bpmn_tool.to_xml(model(digits))
+        self.assertIn('<bpmn:task id="_1"', xml)
+        lane_clash = json.loads(json.dumps(SPEC))
+        lane_clash["lanes"].append({"id": "n v", "name": "Nhân viên 2"})  # "n v" and "n_v" would both become n_v
+        lane_clash["lanes"].append({"id": "n_v", "name": "Nhân viên 3"})
+        with self.assertRaisesRegex(ValueError, "trùng"):
+            model(lane_clash)
+        node_vs_flow = json.loads(json.dumps(SPEC))
+        node_vs_flow["nodes"][1]["id"] = "Flow_1"
+        node_vs_flow["flows"] = [["start", "Flow_1"] if f == ["start", "t1"] else (["Flow_1", "t2"] if f == ["t1", "t2"] else f) for f in node_vs_flow["flows"]]
+        with self.assertRaisesRegex(ValueError, "trùng"):
+            model(node_vs_flow)
+
+    def test_bad_specs_exit_2_without_traceback(self):
+        no_lanes = json.loads(json.dumps(SPEC))
+        no_lanes["lanes"] = []
+        cases = {"lanes.json": no_lanes, "short.json": {**SPEC, "flows": [["start"]]}, "list.json": [SPEC]}
+        with tempfile.TemporaryDirectory() as tmp:
+            for name, spec in cases.items():
+                path = Path(tmp) / name
+                path.write_text(json.dumps(spec, ensure_ascii=False), encoding="utf-8")
+                self.assertIn(bpmn_tool.main(["build", str(path)]), (1, 2), name)
+            self.assertEqual(bpmn_tool.main(["check", tmp]), 2)  # no .bpmn in the folder
+            (Path(tmp) / "hong.bpmn").write_text("<bpmn:definitions", encoding="utf-8")
+            self.assertEqual(bpmn_tool.main(["check", str(Path(tmp) / "hong.bpmn")]), 2)
+
+    def test_layout_is_repeatable_and_respects_requested_rows(self):
+        spec = json.loads(json.dumps(SPEC))
+        built = model(spec)
+        self.assertEqual(bpmn_tool.to_xml(built), bpmn_tool.to_xml(built))
+        crowded = {
+            "id": "c", "name": "c", "pool": "p", "lanes": [{"id": "a", "name": "A"}],
+            "nodes": [
+                {"id": "s", "type": "start", "name": "Bắt đầu", "lane": "a"},
+                {"id": "p1", "type": "and", "lane": "a"},
+                {"id": "t1", "type": "task", "name": "Một", "lane": "a"},
+                {"id": "t2", "type": "task", "name": "Hai", "lane": "a", "row": 0},
+                {"id": "p2", "type": "and", "lane": "a"},
+                {"id": "e", "type": "end", "name": "Xong", "lane": "a"},
+            ],
+            "flows": [["s", "p1"], ["p1", "t1"], ["p1", "t2"], ["t1", "p2"], ["t2", "p2"], ["p2", "e"]],
+        }
+        laid = model(crowded)
+        bpmn_tool.layout(laid)
+        self.assertNotEqual((laid.nodes["t1"].x, laid.nodes["t1"].y), (laid.nodes["t2"].x, laid.nodes["t2"].y))
+        self.assertEqual(laid.nodes["t2"].row, 0)
+
+    def test_check_reads_what_modelers_save(self):
+        xml = """<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" id="d">
+  <collaboration id="c">
+    <participant id="p1" name="Khách" processRef="A" /><participant id="p2" name="Cửa hàng" processRef="B" />
+  </collaboration>
+  <process id="A">
+    <startEvent id="a_s" name="Bắt đầu" />
+    <eventBasedGateway id="a_g" />
+    <intermediateCatchEvent id="a_m" name="Nhận thư"><messageEventDefinition id="a_md" /></intermediateCatchEvent>
+    <intermediateCatchEvent id="a_t" name="Quá 1 ngày"><timerEventDefinition id="a_td" /></intermediateCatchEvent>
+    <endEvent id="a_e" name="Xong" />
+    <sequenceFlow id="f1" sourceRef="a_s" targetRef="a_g" /><sequenceFlow id="f2" sourceRef="a_g" targetRef="a_m" />
+    <sequenceFlow id="f3" sourceRef="a_g" targetRef="a_t" /><sequenceFlow id="f4" sourceRef="a_m" targetRef="a_e" />
+    <sequenceFlow id="f5" sourceRef="a_t" targetRef="a_e" />
+  </process>
+  <process id="B">
+    <startEvent id="b_s" name="Bắt đầu" /><task id="b_t" name="Bước lạc" /><endEvent id="b_e" name="Xong" />
+    <sequenceFlow id="g1" sourceRef="b_s" targetRef="b_e" />
+  </process>
+</definitions>"""
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "hai-pool.bpmn"
+            path.write_text(xml, encoding="utf-8")
+            first, second = bpmn_tool.models_from_bpmn(path)
+            self.assertEqual(bpmn_tool.validate(first)[0], [])  # event-based gateway is understood
+            self.assertTrue(any("b_t" in e for e in bpmn_tool.validate(second)[0]))  # second pool is checked too
+            self.assertEqual(bpmn_tool.main(["check", str(path)]), 1)
+
 class ShippedBpmnTests(unittest.TestCase):
     def test_sample_diagrams_are_valid_and_match_their_spec(self):
         folders = [ROOT / "BA-Documents-Outsource" / "diagrams", ROOT / "BA-Documents-Product" / "diagrams", ROOT / "diagrams"]
@@ -153,6 +234,26 @@ class ShippedBpmnTests(unittest.TestCase):
                 rebuilt = bpmn_tool.to_xml(bpmn_tool.model_from_spec(json.loads(spec.read_text(encoding="utf-8"))))
                 self.assertEqual(rebuilt, path.read_text(encoding="utf-8"), f"{path.name} is stale: rebuild from {spec.name}")
             self.assertTrue(path.with_suffix(".png").exists(), f"{path.name} has no exported PNG")
+
+    def test_no_flow_is_drawn_through_another_element(self):
+        folders = [ROOT / "BA-Documents-Outsource" / "diagrams", ROOT / "BA-Documents-Product" / "diagrams", ROOT / "diagrams"]
+        for spec in [path for folder in folders for path in sorted(folder.glob("*.json"))]:
+            model = bpmn_tool.model_from_spec(json.loads(spec.read_text(encoding="utf-8")))
+            waypoints = bpmn_tool.layout(model)
+            shapes = [n for n in model.nodes.values() if n.category != "boundary"]
+            for flow in model.flows:
+                pts = waypoints[flow.id]
+                for node in shapes:
+                    if node.id in (flow.source, flow.target):
+                        continue
+                    rect = (node.x, node.y, node.w, node.h)
+                    hit = any(bpmn_tool._hits_segment(rect, pts[i], pts[i + 1], pad=0) for i in range(len(pts) - 1))
+                    self.assertFalse(hit, f"{spec.name}: {flow.source}->{flow.target} passes through {node.id}")
+
+    def test_regenerate_command_stays_out_of_the_delivered_text(self):
+        for doc in ROOT.glob("BA-Documents-*/*.md"):
+            visible = md_to_docx.strip_html_comments(doc.read_text(encoding="utf-8"))
+            self.assertNotIn("bpmn_tool.py", visible, doc.name)
 
     def test_documents_link_the_bpmn_source_next_to_each_image(self):
         docs = [
@@ -199,6 +300,33 @@ class WideDiagramWordTests(unittest.TestCase):
             self.assertEqual(document.count('w:orient="landscape"'), 1)
             self.assertEqual(document.count("<w:sectPr"), 3)  # portrait break, landscape break, final section
             self.assertEqual(document.count("<w:drawing>"), 2)
+
+    def test_consecutive_and_final_wide_pictures_leave_no_blank_page(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "a.png").write_bytes(wide_png(1600, 600))
+            (root / "b.png").write_bytes(wide_png(1700, 600))
+            (root / "cao.png").write_bytes(wide_png(1430, 1100))  # ratio 1.3: too tall for a landscape page at full width
+            md = root / "doc.md"
+            md.write_text("# Q\n\nMở đầu\n\n![A](a.png)\n\n![B](b.png)\n\nGiữa\n\n![Cao](cao.png)\n", encoding="utf-8")
+            counts = md_to_docx.convert(md, root / "doc.docx")
+            self.assertEqual(counts["landscape_pages"], 3)
+            with zipfile.ZipFile(root / "doc.docx") as zf:
+                document = zf.read("word/document.xml").decode("utf-8")
+            # portrait end, A, B, portrait end, final section = the tall picture's landscape page
+            self.assertEqual(document.count("<w:sectPr"), 5)
+            self.assertNotIn("</w:sectPr></w:pPr></w:p><w:p><w:pPr><w:sectPr", document)  # no empty section
+            self.assertTrue(document.rstrip().endswith('w:orient="landscape"/><w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134" w:header="709" w:footer="709" w:gutter="0"/><w:cols w:space="708"/><w:docGrid w:linePitch="360"/></w:sectPr></w:body></w:document>'))
+            heights = [int(v) for v in re.findall(r'<wp:extent cx="\d+" cy="(\d+)"/>', document)]
+            landscape_text_h = (11906 - 2 * 1134) * md_to_docx.EMU_PER_TWIP
+            self.assertTrue(all(h <= landscape_text_h * 0.9 + 1 for h in heights), heights)
+
+    def test_later_sections_continue_page_numbers(self):
+        sect = '<w:sectPr><w:headerReference w:type="first" r:id="rId9"/><w:pgSz w:w="11906" w:h="16838"/><w:pgNumType w:fmt="decimal" w:start="1"/><w:titlePg/></w:sectPr>'
+        later = md_to_docx.continued_section(sect)
+        self.assertNotIn("titlePg", later)
+        self.assertNotIn("w:start", later)
+        self.assertIn('<w:pgNumType w:fmt="decimal"/>', later)
 
 
 if __name__ == "__main__":

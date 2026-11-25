@@ -1,7 +1,7 @@
 # HƯỚNG DẪN SỬ DỤNG BỘ KIT BA 3.10 (ADVANCED ANALYSIS & WRITING QUALITY ENGINE)
 
-> **Chào mừng bạn đến với BA-Agent 3.4!**
-> Bộ kit "Layered OS" v3.4 — **"Think Deeper, Write Better"**: Advanced Analysis + Requirement Quality Engine.
+> **Chào mừng bạn đến với BA-Agent 3.10!**
+> Bộ kit "Layered OS" v3.10 — **"Think Deeper, Write Better"**: Advanced Analysis + Requirement Quality Engine.
 > Multi-LLM là protocol phân vai reviewer/drafter khuyến nghị; repo này cung cấp tài liệu và runtime scripts, không tự gọi các model thay người dùng.
 
 ---
@@ -10,7 +10,7 @@
 
 **Lệnh chính:** `/ba-workflow [tên_dự_án] [mô_tả_ngắn]`
 
-**Quy trình 3.4 (gates + generation + validation):**
+**Quy trình 3.10 (gates + generation + validation):**
 
 ```
 🚪 GATES (bắt buộc)
@@ -115,11 +115,11 @@ Step 5 FAIL (pre-flight trước doc) → Quay lại Step 0/2 (bổ sung input)
 |---|---|---|---|
 | **Elicitation Gate** | `@ba-specialist phỏng vấn KH cho dự án X` | Interview questions + Insight Cards | Claude 4.6 |
 | **Risk Management** | `@ba-specialist tạo risk register dựa trên BRD` | Risk Register + Heatmap + Response Strategies | o4 |
-| **As-Is Documentation** | `@ba-specialist document As-Is cho quy trình [X]` | As-Is Swimlane + Gap Analysis | — |
+| **As-Is Documentation** | `@ba-specialist document As-Is cho quy trình [X]` | Sơ đồ As-Is BPMN 2.0 (pool/lane) + Gap Analysis | — |
 | **Pre-Flight Engine** | (Tự động chạy trước mỗi doc) | Checklist PASS/FAIL | — |
 | **Traceability Validator** | `@ba-specialist kiểm tra truy vết dự án` | Full Chain Report + Gaps (incl. NFR→TC) | Gemini 3 |
 | **Screen Inventory** | `@ba-specialist liệt kê screens cho dự án X` | Screen list + Nav map + Wireframes | — |
-| **Auto-Diagram Engine** | `@ba-specialist vẽ [loại] cho [quy trình]` | Mermaid diagram tự động | — |
+| **Auto-Diagram Engine** | `@ba-specialist vẽ [loại] cho [quy trình]` | Quy trình nghiệp vụ: file BPMN 2.0 (`.bpmn` + ảnh PNG, sinh bằng `bpmn_tool.py`); sơ đồ khác: Mermaid | — |
 | **Code-to-Req Audit** | `@ba-specialist đối soát SRS với code` | Audit Report + Match/Mismatch | Claude + o4 |
 | **Impact Analysis** | `@ba-specialist phân tích ảnh hưởng thay đổi X` | Dependency scan | Gemini 3 |
 | **Review theo vai trò** | `@ba-specialist review BRD bằng vai trò sếp, nhân viên và người dùng ít thời gian` | Báo cáo phát hiện theo ID, bằng chứng, tác động và người cần quyết định; có thể thêm CFO, QA, Ops, bảo mật... theo rủi ro | — |
@@ -190,7 +190,7 @@ BA-agent/
 ├── CHANGELOG.md                ← Lịch sử thay đổi
 ├── CONTRIBUTING.md             ← ⭐ NEW v3.2: Quy trình đóng góp
 ├── Anti_ai_writing_rules.md      ← ⭐ Bộ quy tắc viết văn chống "mùi AI" (27 Điều)
-└── so_do.md                    ← Thư viện Mermaid (10 loại sơ đồ)
+└── so_do.md                    ← Chuẩn vẽ sơ đồ: quy trình nghiệp vụ bằng BPMN 2.0, sơ đồ khác bằng Mermaid
 ```
 
 ---

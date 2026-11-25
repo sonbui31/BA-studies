@@ -11,7 +11,7 @@
 | **Quản lý yêu cầu** | Trello, GitHub Issues | Jira, Azure DevOps, Linear | Jira phổ biến nhất |
 | **Tài liệu** | Google Docs, Notion (free) | Confluence, Notion (team) | Confluence + Jira = combo |
 | **Wireframe** | Draw.io, Excalidraw | Figma, Balsamiq, Axure | Figma miễn phí cho cá nhân |
-| **Process Flow** | Draw.io, Mermaid (markdown) | Lucidchart, Bizagi Modeler | Mermaid = tích hợp trong markdown |
+| **Process Flow (BPMN 2.0)** | `bpmn_tool.py`, bpmn.io, Camunda Modeler | Bizagi Modeler, Signavio | File `.bpmn` là bản chuẩn (`so_do.md` mục 4); draw.io chỉ khi khách bắt buộc, khi đó `.drawio` là bản chuẩn |
 | **ERD** | dbdiagram.io, Draw.io | DataGrip, Navicat | dbdiagram.io miễn phí |
 | **API Docs** | Swagger UI, Postman | Stoplight, ReadMe | Swagger/OpenAPI = chuẩn |
 | **Giao tiếp** | Google Meet, Discord | Slack, Teams, Zoom | Teams nếu dùng Microsoft |
@@ -30,7 +30,8 @@
 | Quản lý | **Trello** hoặc **Notion** | Đơn giản, miễn phí |
 | Tài liệu | **Notion** hoặc **Google Docs** | Collaboration tốt |
 | Wireframe | **Figma** (free) | Miễn phí, powerful |
-| Diagram | **Mermaid** (trong markdown) | Không cần tool riêng |
+| Quy trình nghiệp vụ | **BPMN 2.0** qua `bpmn_tool.py`, sửa bằng bpmn.io | `.bpmn` mở được ở mọi công cụ BPMN; sinh từ bản mô tả `.json` |
+| Sơ đồ khác | **Mermaid** (trong markdown) | Không cần tool riêng |
 
 ### Team trung bình (5-20 người)
 
@@ -48,7 +49,7 @@
 | Quản lý | **Azure DevOps** hoặc **Jira** | Enterprise features |
 | Tài liệu | **Confluence** | Spaces, permissions |
 | Wireframe | **Figma** (Organization) | Design system |
-| Process | **Bizagi** hoặc **Camunda** | BPMN standards |
+| Process | **Camunda Modeler** hoặc **Bizagi** | Mở và sửa file `.bpmn` (BPMN 2.0) do `bpmn_tool.py` sinh |
 
 ---
 
@@ -58,7 +59,7 @@
 
 | Loại | Syntax | Dùng cho |
 |------|--------|---------|
-| Flowchart | `` ```mermaid flowchart TD `` | Process Flow, Activity |
+| Flowchart | `` ```mermaid flowchart TD `` | Decision Flowchart, user flow một người dùng, phác thảo nhanh (quy trình giao khách vẽ BPMN 2.0) |
 | Sequence | `` ```mermaid sequenceDiagram `` | API flow, Integration |
 | ERD | `` ```mermaid erDiagram `` | Data Model |
 | State | `` ```mermaid stateDiagram-v2 `` | Entity lifecycle |

@@ -53,6 +53,14 @@ THEME_LINE = (
     '"noteBorderColor": "#B7791F"}}}%%'
 )
 EMOJI_WITH_SPACE = re.compile("(?:[\U0001F300-\U0001FAFF\U00002600-\U000027BF\U0001F000-\U0001F2FF]\uFE0F?\u200D?)+ ?")
+# Mermaid also writes a label inside the arrow: A -- Có --> B, A -. Có .-> B, A == Có ==> B.
+TEXT_ON_ARROW = [
+    (re.compile(r"(?<![-.=<])--\s+([^\s>|-][^>|]*?)\s+(-->|---)"), lambda m: f"{m.group(2)}|{m.group(1)}|"),
+    (re.compile(r"(?<![-.=<])==\s+([^\s>|=][^>|]*?)\s+(==>|===)"), lambda m: f"{m.group(2)}|{m.group(1)}|"),
+    (re.compile(r"(?<![-.=<])-\.\s+([^\s>|.][^>|]*?)\s+(\.->|\.-)"), lambda m: f"-{m.group(2)}|{m.group(1)}|"),
+]
+OTHER_FENCE = re.compile(r"^\s*(`{3,}|~{3,})")
+EMPTY_LABEL = re.compile(r"\[\s*\]|\(\s*\)|\{\s*\}|\|\s*\||\"\s*\"")
 SKIP_LINE = re.compile(r"^\s*(%%|classDef\b|class\b|style\b|linkStyle\b|subgraph\b|end\b|direction\b|click\b)")
 
 
@@ -73,7 +81,7 @@ class Diagram:
 
     @property
     def kind(self) -> str:
-        for line in self.lines:
+        for line in self.lines[front_matter_end(self.lines):]:
             stripped = line.strip()
             if not stripped or stripped.startswith("%%"):
                 continue
@@ -85,11 +93,41 @@ class Diagram:
         return self.kind in {"flowchart", "graph"}
 
 
+def front_matter_end(lines: List[str]) -> int:
+    """Index of the first line after a leading `---` ... `---` front-matter block (0 when none)."""
+    first = next((i for i, line in enumerate(lines) if line.strip()), None)
+    if first is None or lines[first].strip() != "---":
+        return 0
+    close = next((i for i in range(first + 1, len(lines)) if lines[i].strip() == "---"), None)
+    return close + 1 if close is not None else 0
+
+
+class _OuterFence:
+    """Tracks non-Mermaid fences (```text, ````markdown examples...) so Mermaid shown inside them is skipped."""
+
+    def __init__(self) -> None:
+        self.marker: Optional[str] = None
+
+    def inside(self, line: str) -> bool:
+        match = OTHER_FENCE.match(line)
+        if self.marker is None:
+            if match and not FENCE_OPEN.match(line):
+                self.marker = match.group(1)
+                return True
+            return False
+        if match and match.group(1)[0] == self.marker[0] and len(match.group(1)) >= len(self.marker) and not line.strip()[len(match.group(1)):].strip():
+            self.marker = None
+        return True
+
+
 def extract_diagrams(path: Path) -> List[Diagram]:
     diagrams: List[Diagram] = []
     current: Optional[Diagram] = None
+    outer = _OuterFence()
     for number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), start=1):
         if current is None:
+            if outer.inside(line):
+                continue
             if FENCE_OPEN.match(line):
                 current = Diagram(file=path, line=number + 1)
             continue
@@ -104,6 +142,8 @@ def extract_diagrams(path: Path) -> List[Diagram]:
 def _edges(lines: List[str]):
     """(source, target, labelled, line offset) for every arrow in a flowchart."""
     for offset, raw in enumerate(lines):
+        for pattern, label in TEXT_ON_ARROW:
+            raw = pattern.sub(label, raw)
         if SKIP_LINE.match(raw) or not ARROW.search(raw):
             continue
         parts = ARROW.split(raw)
@@ -188,30 +228,47 @@ def fix_file(path: Path) -> int:
     inside = False
     block_start = 0
     kind = ""
+    front: Optional[str] = None
+    outer = _OuterFence()
     for line in lines:
         if not inside:
             out.append(line)
+            if outer.inside(line):
+                continue
             if FENCE_OPEN.match(line):
-                inside, block_start, kind = True, len(out), ""
+                inside, block_start, kind, front = True, len(out), "", None
             continue
         if FENCE_CLOSE.match(line):
             body = out[block_start:]
             if not any(item.strip().startswith("%%{init") for item in body):
+                at = block_start + front_matter_end(body)  # the init line goes after front-matter
                 indent = re.match(r"\s*", body[0]).group(0) if body else ""
-                out.insert(block_start, indent + THEME_LINE)
+                out.insert(at, indent + THEME_LINE)
                 changed += 1
             out.append(line)
             inside = False
             continue
         new = line
         stripped = line.strip()
+        if front is None and stripped:
+            front = "in" if stripped == "---" else "done"
+        elif front == "in" and stripped == "---":
+            front = "done"
+            out.append(line)
+            continue
+        if front == "in":  # front-matter (title, config): left as written
+            out.append(line)
+            continue
         if not kind and stripped and not stripped.startswith("%%"):
             kind = stripped.split()[0]
         if not stripped.startswith("%%"):
             new = new.replace("\\n", "<br/>")
             if kind in {"flowchart", "graph"}:
                 new = STEREOTYPE.sub(lambda m: "≪" + m.group(0)[2:-2].strip() + "≫", new)
-            new = EMOJI_WITH_SPACE.sub("", new)
+            without_emoji = EMOJI_WITH_SPACE.sub("", new)
+            # A label made only of emoji would become empty; leave that line for a person to reword.
+            if len(EMPTY_LABEL.findall(without_emoji)) <= len(EMPTY_LABEL.findall(new)):
+                new = without_emoji
         if new != line:
             changed += 1
         out.append(new)

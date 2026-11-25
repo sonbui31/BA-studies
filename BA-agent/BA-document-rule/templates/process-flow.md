@@ -25,27 +25,34 @@
 - ❌ {{Pain point 1}}
 - ❌ {{Pain point 2}}
 
-```mermaid
-%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
-flowchart TD
-    Start(("● Bắt đầu")) --> A
+> Vẽ bằng BPMN 2.0 theo `so_do.md` mục 4. Viết bản mô tả `diagrams/{{tên}}-asis.json`, sinh `.bpmn` và ảnh bằng `bpmn_tool.py build diagrams/{{tên}}-asis.json --png diagrams/{{tên}}-asis.png`. Bước gây điểm đau ghi `"highlight": "pain"`. Sơ đồ chưa được SME xác nhận thì ghi `[CẦN XÁC NHẬN]` cạnh tên sơ đồ.
 
-    subgraph "{{Vai trò 1}}"
-        A["{{Bước 1}}"]
-        A --> B["{{Bước 2}}"]
-    end
+Khung bản mô tả (đủ trường xem `so_do.md` mục 4.2):
 
-    B --> C
+```json
+{
+  "id": "{{ten}}_asis", "name": "As-Is: {{Tên quy trình}}", "pool": "{{Tên tổ chức}}",
+  "lanes": [{"id": "vt1", "name": "{{Vai trò 1}}"}, {"id": "vt2", "name": "{{Vai trò 2}}"}],
+  "nodes": [
+    {"id": "start", "type": "start", "name": "{{Sự kiện kích hoạt}}", "lane": "vt1"},
+    {"id": "a1", "type": "manual", "name": "{{Bước 1}}", "lane": "vt1"},
+    {"id": "a2", "type": "manual", "name": "{{Bước 2 gây điểm đau}}", "lane": "vt2", "highlight": "pain"},
+    {"id": "g1", "type": "xor", "name": "{{Điều kiện}}?", "lane": "vt2"},
+    {"id": "end_ok", "type": "end", "name": "{{Kết quả khi đạt}}", "lane": "vt2"},
+    {"id": "end_no", "type": "end", "name": "{{Kết quả khi không đạt}}", "lane": "vt2"}
+  ],
+  "flows": [["start", "a1"], ["a1", "a2"], ["a2", "g1"], ["g1", "end_ok", "Có"], ["g1", "end_no", "Không"]]
+}
+```
 
-    subgraph "{{Vai trò 2}}"
-        C["{{Bước 3}}"]
-        C --> D{"◇ {{Điều kiện}}?"}
-        D -->|"Có"| E["{{Bước 4a}}"]
-        D -->|"Không"| F["{{Bước 4b}}"]
-    end
+Chèn vào tài liệu:
 
-    E --> End((("◎ Kết thúc")))
-    F --> End
+```markdown
+![As-Is: {{Tên quy trình}}](diagrams/{{tên}}-asis.png)
+
+Bản chuẩn BPMN 2.0: [`diagrams/{{tên}}-asis.bpmn`](diagrams/{{tên}}-asis.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Ô viền đỏ là bước gây điểm đau.
+
+<!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/{{tên}}-asis.json --png diagrams/{{tên}}-asis.png -->
 ```
 
 ### 2.2 Gap Analysis — So sánh As-Is vs To-Be
@@ -62,42 +69,34 @@ flowchart TD
 - ✅ {{Cải tiến 1}}
 - ✅ {{Cải tiến 2}}
 
-```mermaid
-%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
-flowchart TD
-    Start(("● Bắt đầu")) --> A
+> Cùng pool và cùng tên lane với As-Is. Bước hệ thống tự làm đặt trong lane "Hệ thống" (`"type": "service"`); bước mới so với As-Is ghi `"highlight": "new"`; cổng rẽ nhánh theo quy tắc nghiệp vụ ghi mã BR trong tên cổng. Sinh bằng `bpmn_tool.py build diagrams/{{tên}}-tobe.json --png diagrams/{{tên}}-tobe.png`.
 
-    subgraph "{{Vai trò 1}}"
-        A["{{Bước 1 — cải tiến}}"]
-        A --> B["{{Bước 2}}"]
-    end
+Chèn vào tài liệu:
 
-    B --> C
+```markdown
+![To-Be: {{Tên quy trình}}](diagrams/{{tên}}-tobe.png)
 
-    subgraph "HỆ THỐNG"
-        C["{{Xử lý tự động}}"]
-        C --> D{"◇ {{Validate}}?"}
-        D -->|"Hợp lệ"| E["{{Bước thành công}}"]
-        D -->|"Không hợp lệ"| ERR["{{Thông báo lỗi}}"]
-        ERR --> A
-    end
+Bản chuẩn BPMN 2.0: [`diagrams/{{tên}}-tobe.bpmn`](diagrams/{{tên}}-tobe.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler.
 
-    E --> End((("◎ Kết thúc")))
+<!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/{{tên}}-tobe.json --png diagrams/{{tên}}-tobe.png -->
 ```
 
 ---
 
 ## 3. Quy ước sơ đồ
 
-> Ký hiệu BPMN-lite và khi nào phải dùng BPMN 2.0: `BA-agent/so_do.md` mục 4.
+> Quy trình giao khách vẽ bằng BPMN 2.0; ký hiệu, bản mô tả `.json` và quy tắc mô hình nằm ở `BA-agent/so_do.md` mục 4. Phác thảo nhanh bằng Mermaid (BPMN-lite, mục 4.5) chỉ dùng trong buổi trao đổi, không đưa vào tài liệu giao khách.
 
-| Thành phần | Hình | Dùng cho |
+| Thành phần BPMN 2.0 | `type` trong `.json` | Dùng cho |
 |-----------|------|---------|
-| Start | `(("● Bắt đầu"))` | Điểm bắt đầu |
-| End | `((("◎ Kết thúc")))` | Điểm kết thúc |
-| Hành động | `["Tên"]` | Bước xử lý |
-| Quyết định | `{"◇ Điều kiện?"}` | Rẽ nhánh |
-| Swimlane | `subgraph "Vai trò"` | Ai chịu trách nhiệm |
+| Pool, Lane | `"pool"`, `"lanes"` | Tổ chức chủ quy trình; mỗi lane một vai trò chịu trách nhiệm |
+| Start Event | `start`, `start_timer`, `start_message` | Sự kiện kích hoạt |
+| End Event | `end` | Mỗi kết quả nghiệp vụ một sự kiện kết thúc |
+| Task | `user`, `manual`, `service`, `send`, `business_rule` | Bước công việc |
+| Exclusive Gateway (X) | `xor` | Rẽ đúng một nhánh, tên là câu hỏi |
+| Parallel Gateway (+) | `and` | Các nhánh chạy cùng lúc, có cặp tách và hợp |
+| Inclusive Gateway (O) | `or` | Một hoặc nhiều nhánh theo điều kiện |
+| Boundary Timer | `boundary_timer` | Quá hạn mà bước chưa xong |
 
 ### 8 câu hỏi vàng khi thu thập quy trình
 
@@ -105,7 +104,7 @@ flowchart TD
 1. Quy trình BẮT ĐẦU khi nào?           → Start
 2. BƯỚC TIẾP THEO là gì?                 → Flow
 3. Có trường hợp ĐI KHÁC ĐƯỜNG không?    → Decision ◇
-4. AI thực hiện bước này?                 → Swimlane
+4. AI thực hiện bước này?                 → Lane
 5. Nếu LỖI xảy ra thì sao?              → Exception
 6. Quy trình KẾT THÚC khi nào?           → End
 7. Bước nào HỆ THỐNG TỰ LÀM?            → Automation
@@ -121,7 +120,8 @@ flowchart TD
 ☐ Gap Analysis so sánh rõ ràng
 ☐ Diagram có Start + End
 ☐ Decision node có ĐỦ nhánh
-☐ Swimlane ghi rõ vai trò chịu trách nhiệm
+☐ Mỗi bước nằm trong lane của vai trò chịu trách nhiệm
 ☐ Happy path đi thẳng, exception rẽ ngang
 ☐ Pain points As-Is được giải quyết ở To-Be
+☐ bpmn_tool.py check diagrams không còn lỗi; ảnh .png khớp bản .bpmn
 ```

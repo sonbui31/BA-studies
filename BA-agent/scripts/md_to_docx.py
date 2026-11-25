@@ -731,6 +731,28 @@ def text_width(sect_pr: str) -> int:
     return TEXT_WIDTH_TWIPS
 
 
+def text_height(sect_pr: str) -> Optional[int]:
+    """Usable text height (twips) from a sectPr, or None when the sectPr does not say."""
+    def num(tag: str, name: str) -> Optional[float]:
+        match = re.search(rf'<w:{tag}\b[^>]*\bw:{name}="([\d.]+)"', sect_pr)
+        return float(match.group(1)) if match else None
+
+    height, top, bottom = num("pgSz", "h"), num("pgMar", "top"), num("pgMar", "bottom")
+    if height and top is not None and bottom is not None and height - top - bottom > 1000:
+        return int(height - abs(top) - abs(bottom))
+    return None
+
+
+def continued_section(sect_pr: str) -> str:
+    """Section properties for a section after the first: no own first-page header, numbering continues."""
+    sect = re.sub(r"<w:titlePg\b[^>]*/>", "", sect_pr)
+    return re.sub(r'(<w:pgNumType\b[^>]*?)\s+w:start="\d+"', r"\1", sect)
+
+
+# Markers left in the body by _wide_picture_xml and resolved by _resolve_sections.
+BREAK_BEFORE, LANDSCAPE_SLOT, WIDE_END = "\x00P\x00", "\x00L\x00", "\x00E\x00"
+
+
 class Template:
     """Read-only view of a customer's reference .docx/.dotx."""
 
@@ -826,6 +848,7 @@ class DocxWriter:
         self.image_rids: Dict[str, Tuple[str, int, int]] = {}
         self.counts = {"headings": 0, "tables": 0, "images": 0, "diagrams": 0, "diagrams_as_code": 0, "landscape_pages": 0}
         self.max_image_emu = MAX_IMAGE_EMU
+        self.page_sect: Optional[str] = None  # section a picture is being drawn for, when not the main one
         self.title: Optional[str] = None
         self.drawing_id = 0
         self.ordered_nums: List[Tuple[int, int, int]] = []
@@ -1009,22 +1032,59 @@ class DocxWriter:
         if width_px < WIDE_IMAGE_MIN_PX or width_px / max(height_px, 1) < WIDE_IMAGE_RATIO:
             run = drawing()
             return f'<w:p><w:pPr><w:jc w:val="center"/></w:pPr>{run}</w:p>' if run else None
-        portrait = re.sub(r"\s+w:rsid\w*=\"[^\"]*\"", "", self.sect_pr)
         landscape = self._landscape_sect()
         previous = self.max_image_emu
         self.max_image_emu = text_width(landscape) * EMU_PER_TWIP
+        self.page_sect = landscape
         try:
             run = drawing()
         finally:
             self.max_image_emu = previous
+            self.page_sect = None
         if not run:
             return None
         self.counts["landscape_pages"] += 1
-        return (
-            f"<w:p><w:pPr>{portrait}</w:pPr></w:p>"
-            f'<w:p><w:pPr><w:jc w:val="center"/></w:pPr>{run}</w:p>'
-            f"<w:p><w:pPr>{landscape}</w:pPr></w:p>"
-        )
+        # The landscape section ends on the picture's own paragraph (no empty paragraph that could
+        # spill onto a page of its own); _resolve_sections decides which breaks are really needed.
+        return f'{BREAK_BEFORE}<w:p><w:pPr><w:jc w:val="center"/>{LANDSCAPE_SLOT}</w:pPr>{run}</w:p>{WIDE_END}'
+
+    def _resolve_sections(self, body: str) -> Tuple[str, str]:
+        """Turn the wide-picture markers into section breaks; return (body, final sectPr).
+
+        - no portrait break at the very start or right after another wide picture (no blank page);
+        - a wide picture at the very end makes the last section landscape (no blank last page);
+        - only the first section keeps a separate first-page header and a numbering restart.
+        """
+        portrait = re.sub(r"\s+w:rsid\w*=\"[^\"]*\"", "", self.sect_pr)
+        landscape = self._landscape_sect()
+        pieces = re.split("(\x00[PLE]\x00)", body)
+        out: List[str] = []
+        sections = 0
+        content = False
+        final = None
+        for index, piece in enumerate(pieces):
+            if piece == BREAK_BEFORE:
+                if content:
+                    out.append(f"<w:p><w:pPr>{portrait if sections == 0 else continued_section(portrait)}</w:pPr></w:p>")
+                    sections += 1
+                    content = False
+            elif piece == LANDSCAPE_SLOT:
+                rest = "".join(p for p in pieces[index + 1:] if p not in (BREAK_BEFORE, LANDSCAPE_SLOT, WIDE_END))
+                own = landscape if sections == 0 else continued_section(landscape)
+                tail = rest.split("</w:p>", 1)[1] if "</w:p>" in rest else ""
+                if not tail.strip():
+                    final = own
+                else:
+                    out.append(own)
+                    sections += 1
+            elif piece == WIDE_END:
+                content = False
+            elif piece:
+                out.append(piece)
+                content = True
+        if final is None:
+            final = self.sect_pr if sections == 0 else continued_section(self.sect_pr)
+        return "".join(out), final
 
     def _drawing_run(self, key: str, load: Callable[[], bytes], alt: str, file_name: str) -> Optional[str]:
         """Inline picture run for PNG/JPEG bytes (embedded once per key), or None if not an image."""
@@ -1044,6 +1104,11 @@ class DocxWriter:
         if cx > self.max_image_emu:
             cy = int(cy * self.max_image_emu / cx)
             cx = self.max_image_emu
+        # 90 % of the text height leaves room for the caption line on the same page.
+        page_h = text_height(self.page_sect or self.sect_pr)
+        if page_h and cy > page_h * EMU_PER_TWIP * 0.9:
+            limit = int(page_h * EMU_PER_TWIP * 0.9)
+            cx, cy = int(cx * limit / cy), limit
         self.drawing_id += 1
         did = self.drawing_id
         alt_attr = esc(alt, True)
@@ -1204,8 +1269,8 @@ class DocxWriter:
 
     def build(self, markdown: str) -> bytes:
         blocks = parse_blocks(markdown)
-        body = self.body_xml(blocks)
-        document = f"{XML_DECL}<w:document {DOC_NAMESPACES}><w:body>{body}{self.sect_pr}</w:body></w:document>"
+        body, final_sect = self._resolve_sections(self.body_xml(blocks))
+        document = f"{XML_DECL}<w:document {DOC_NAMESPACES}><w:body>{body}{final_sect}</w:body></w:document>"
 
         self.add_rel(RT + "styles", "styles.xml")
         self.add_rel(RT + "numbering", "numbering.xml")

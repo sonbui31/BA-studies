@@ -39,7 +39,7 @@ CI (`.github/workflows/ba-agent-ci.yml`) runs all of the above and also runs str
 - `SKILL.md` is the orchestrator. It covers:
   - intake triage (lanes L0–L4);
   - the 6-step process;
-  - Hard Gates 1–7;
+  - Hard Gates 1–8;
   - Rigor Tiers 1–3.
 
   It points to detail files and does not duplicate them.
@@ -62,7 +62,7 @@ CI (`.github/workflows/ba-agent-ci.yml`) runs all of the above and also runs str
 
 **Business processes are BPMN 2.0 files.** Each process lives in a bundle's `diagrams/` folder as `<name>.json` (spec), `<name>.bpmn` (standard XML with DI layout, opens in bpmn.io / Camunda Modeler) and `<name>.png` (embedded in the Markdown next to a link to the `.bpmn`). `bpmn_tool.py build` regenerates `.bpmn` and the image; `tests/test_bpmn.py` fails when a `.bpmn` no longer matches its `.json`, so after editing a spec, rebuild (rendering needs Node, `bpmn_render.mjs`, and `BA_BPMN_NODE_MODULES` or `npm install --prefix BA-agent/scripts`). If a `.bpmn` is edited by hand in a modeler, delete its `.json`.
 
-**Diagrams have one owner: `BA-agent/so_do.md`.** Every delivered Mermaid diagram starts with the standard `%%{init ...}%%` line (`diagram_check.THEME_LINE`) and uses the shared `classDef` set; business processes use BPMN-lite (roles by colour and bold name, not `subgraph` lanes, which Mermaid lays out badly). `diagram_check.py --strict` must pass on samples, curated templates and `so_do.md` (CI and `tests/test_diagrams.py`). Rendering for real needs mermaid-cli (`mmdc`), which is optional: `md_to_docx.py` and `diagram_check.py --render` use it when present; on a machine without its bundled Chromium pass `--browser` to an installed Chrome/Edge.
+**Diagrams have one owner: `BA-agent/so_do.md`.** Every delivered Mermaid diagram starts with the standard `%%{init ...}%%` line (`diagram_check.THEME_LINE`) and uses the shared `classDef` set. Delivered business processes are BPMN 2.0 files (previous paragraph); Mermaid BPMN-lite (roles by colour and bold name, not `subgraph` lanes, which Mermaid lays out badly) is only for quick sketches during elicitation (`so_do.md` §4.5). Mermaid diagrams are capped at 12 nodes (`so_do.md` §1.2, `diagram_check --max-nodes`), BPMN processes at about 15 activities (§4.4). `diagram_check.py --strict` must pass on samples, curated templates and `so_do.md` (CI and `tests/test_diagrams.py`). Rendering for real needs mermaid-cli (`mmdc`), which is optional: `md_to_docx.py` and `diagram_check.py --render` use it when present; on a machine without its bundled Chromium pass `--browser` to an installed Chrome/Edge.
 
 **Document headers drive the checks.**
 - `preflight_check.py` and `persona_review_check.py` read `Tier:` near the top of a document.

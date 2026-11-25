@@ -67,13 +67,17 @@ SignalDesk cung cấp public feedback portal cho khách hàng gửi request và 
 
 ![To-Be: Vòng phản hồi feedback trên SignalDesk](diagrams/feedback-tobe.png)
 
-Bản chuẩn BPMN 2.0: [`diagrams/feedback-tobe.bpmn`](diagrams/feedback-tobe.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Sinh lại (chạy trong thư mục bộ tài liệu): `python ../scripts/bpmn_tool.py build diagrams/feedback-tobe.json --png diagrams/feedback-tobe.png`.
+Bản chuẩn BPMN 2.0: [`diagrams/feedback-tobe.bpmn`](diagrams/feedback-tobe.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler.
+
+<!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/feedback-tobe.json --png diagrams/feedback-tobe.png -->
 
 #### 4.2.1. Quy trình hiện tại (As-Is)
 
 ![As-Is: Thu và phản hồi feedback khách hàng](diagrams/feedback-asis.png)
 
-Bản chuẩn BPMN 2.0: [`diagrams/feedback-asis.bpmn`](diagrams/feedback-asis.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Sinh lại (chạy trong thư mục bộ tài liệu): `python ../scripts/bpmn_tool.py build diagrams/feedback-asis.json --png diagrams/feedback-asis.png`. Ô viền đỏ là bước gây điểm nghẽn.
+Bản chuẩn BPMN 2.0: [`diagrams/feedback-asis.bpmn`](diagrams/feedback-asis.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Ô viền đỏ là bước gây điểm nghẽn.
+
+<!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/feedback-asis.json --png diagrams/feedback-asis.png -->
 
 | Bước | Ai làm | Điểm nghẽn (số liệu ở mục 1.1) |
 |---|---|---|

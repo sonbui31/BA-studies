@@ -27,7 +27,8 @@ manual, business_rule, subprocess, xor, and, or, timer, message_catch, message_t
 boundary_message. Optional per node: "row" (stack position inside the lane), "col" (force a column),
 "highlight" ("pain" / "new"). Task kinds are drawn as plain tasks without icons unless the spec sets
 "task_icons": true (the icons overlap task names in small boxes).
-Exit codes: 0 ok; 1 model errors (or render failure); 2 bad arguments, unreadable file, missing Node.
+Exit codes: 0 ok; 1 model errors (or render failure); 2 bad arguments, unreadable spec or .bpmn,
+no .bpmn in the folder, missing Node. `check` validates every pool (<process>) of a collaboration.
 """
 import argparse
 import json
@@ -75,7 +76,19 @@ TYPES: Dict[str, Tuple[str, Optional[str], str]] = {
     "boundary_message": ("boundaryEvent", "messageEventDefinition", "boundary"),
 }
 ELEMENT_KIND = {element: (category, spec) for spec, (element, _, category) in TYPES.items()}
-ACTIVITIES = {"task", "userTask", "serviceTask", "sendTask", "receiveTask", "manualTask", "businessRuleTask", "scriptTask", "subProcess", "callActivity"}
+# Elements a modeler may save that the spec format does not produce; read them so `check` works.
+ELEMENT_KIND.update({
+    "eventBasedGateway": ("gateway", "event_based"),
+    "complexGateway": ("gateway", "complex"),
+    "scriptTask": ("activity", "task"),
+    "callActivity": ("activity", "task"),
+    "transaction": ("activity", "subprocess"),
+    "adHocSubProcess": ("activity", "subprocess"),
+})
+ACTIVITIES = {
+    "task", "userTask", "serviceTask", "sendTask", "receiveTask", "manualTask", "businessRuleTask", "scriptTask",
+    "subProcess", "callActivity", "transaction", "adHocSubProcess",
+}
 
 # Optional colouring (bpmn.io colour extension, read by bpmn.io and Camunda Modeler):
 # pain = step causing a pain point in an As-Is model, new = step introduced by the To-Be model.
@@ -99,6 +112,9 @@ class Node:
     row: Optional[int] = None
     col: Optional[int] = None
     highlight: Optional[str] = None
+    # requested by the spec; row/col above are recomputed by every layout() call
+    want_row: Optional[int] = None
+    want_col: Optional[int] = None
     # layout
     x: float = 0
     y: float = 0
@@ -132,10 +148,39 @@ class Model:
 
 
 def _slug(value: str) -> str:
-    return re.sub(r"[^A-Za-z0-9_]", "_", value)
+    """An XML id (NCName): ASCII letters, digits and _, not starting with a digit."""
+    slug = re.sub(r"[^A-Za-z0-9_]", "_", str(value))
+    return slug if slug and not slug[0].isdigit() else f"_{slug}"
+
+
+def _check_unique_ids(model: Model) -> None:
+    """Every id the XML writer emits must be unique, or modelers refuse the file."""
+    seen: Dict[str, str] = {}
+
+    def claim(xml_id: str, owner: str) -> None:
+        if xml_id in seen:
+            raise ValueError(f"id trùng sau khi chuẩn hóa: {owner} và {seen[xml_id]} cùng thành \"{xml_id}\"")
+        seen[xml_id] = owner
+
+    for prefix in ("Definitions_", "Collaboration_", "Participant_", "Process_", "LaneSet_", "BPMNDiagram_", "BPMNPlane_"):
+        claim(prefix + model.id, "id của quy trình")
+    claim(f"Participant_{model.id}_di", "id của quy trình")
+    for lane_id, lane_name in model.lanes:
+        claim(lane_id, f"lane \"{lane_name}\"")
+        claim(f"{lane_id}_di", f"lane \"{lane_name}\"")
+    for node in model.nodes.values():
+        claim(node.id, f"node \"{node.name or node.id}\"")
+        claim(f"{node.id}_di", f"node \"{node.name or node.id}\"")
+        if node.event_def:
+            claim(f"{node.id}_def", f"node \"{node.name or node.id}\"")
+    for flow in model.flows:
+        claim(flow.id, f"luồng {flow.source} -> {flow.target}")
+        claim(f"{flow.id}_di", f"luồng {flow.source} -> {flow.target}")
 
 
 def model_from_spec(spec: dict) -> Model:
+    if not isinstance(spec, dict):
+        raise ValueError("spec phải là một đối tượng JSON {...}")
     model = Model(id=_slug(spec.get("id", "process")), name=spec.get("name", ""), pool=spec.get("pool", spec.get("name", "")))
     model.task_icons = bool(spec.get("task_icons", False))
     model.lanes = [(_slug(lane["id"]), lane.get("name", lane["id"])) for lane in spec.get("lanes", [])]
@@ -153,15 +198,17 @@ def model_from_spec(spec: dict) -> Model:
             event_def=event_def,
             attached_to=_slug(raw["attached_to"]) if raw.get("attached_to") else None,
             interrupting=bool(raw.get("interrupting", True)),
-            row=raw.get("row"),
-            col=raw.get("col"),
+            want_row=raw.get("row"),
+            want_col=raw.get("col"),
             highlight=raw.get("highlight"),
         )
         if node.id in model.nodes:
-            raise ValueError(f"duplicate node id {node.id}")
+            raise ValueError(f"id node trùng: {node.id}")
         model.nodes[node.id] = node
     for index, raw in enumerate(spec.get("flows", []), start=1):
         if isinstance(raw, (list, tuple)):
+            if len(raw) < 2:
+                raise ValueError(f"luồng thứ {index} cần ít nhất [từ, tới]: {raw}")
             source, target, name = raw[0], raw[1], (raw[2] if len(raw) > 2 else "")
             default = False
         else:
@@ -170,16 +217,27 @@ def model_from_spec(spec: dict) -> Model:
     for node in model.nodes.values():
         if node.category == "boundary" and node.attached_to in model.nodes and not node.lane:
             node.lane = model.nodes[node.attached_to].lane
+    _check_unique_ids(model)
     return model
 
 
 def model_from_bpmn(path: Path) -> Model:
+    """The first process of the file (the one a single-pool diagram has)."""
+    return models_from_bpmn(path)[0]
+
+
+def models_from_bpmn(path: Path) -> List[Model]:
+    """One model per <process> (one per pool in a collaboration)."""
     root = ET.parse(path).getroot()
-    process = root.find("bpmn:process", NS)
-    if process is None:
-        raise ValueError("no <process> element")
-    participant = root.find(".//bpmn:participant", NS)
-    model = Model(id=process.get("id", "process"), name=process.get("name", ""), pool=participant.get("name", "") if participant is not None else "")
+    processes = root.findall("bpmn:process", NS)
+    if not processes:
+        raise ValueError("không có phần tử <process>")
+    pool_of = {p.get("processRef"): p.get("name", "") for p in root.iter(f"{{{BPMN_NS}}}participant")}
+    return [_model_from_process(process, pool_of.get(process.get("id"), "")) for process in processes]
+
+
+def _model_from_process(process: ET.Element, pool: str) -> Model:
+    model = Model(id=process.get("id", "process"), name=process.get("name", ""), pool=pool)
     lane_of: Dict[str, str] = {}
     for lane in process.iter(f"{{{BPMN_NS}}}lane"):
         model.lanes.append((lane.get("id"), lane.get("name", "")))
@@ -206,12 +264,13 @@ def model_from_bpmn(path: Path) -> Model:
             )
             if child.get("default"):
                 defaults[child.get("default")] = True
-        elif tag in ("scriptTask", "callActivity"):
-            model.nodes[child.get("id")] = Node(id=child.get("id"), element=tag, category="activity", name=child.get("name", ""), lane=lane_of.get(child.get("id")))
     for child in process.findall("bpmn:sequenceFlow", NS):
         model.flows.append(
             Flow(id=child.get("id"), source=child.get("sourceRef"), target=child.get("targetRef"), name=child.get("name", ""), default=child.get("id") in defaults)
         )
+    for node in model.nodes.values():  # modelers often leave boundary events out of flowNodeRef
+        if node.category == "boundary" and not node.lane and node.attached_to in model.nodes:
+            node.lane = model.nodes[node.attached_to].lane
     return model
 
 
@@ -240,7 +299,9 @@ def validate(model: Model) -> Tuple[List[str], List[str]]:
 
     for node in nodes.values():
         label = f"{node.id} \"{node.name}\""
-        if model.lanes and node.lane not in lane_ids:
+        if node.lane and node.lane not in lane_ids:
+            errors.append(f"{label}: không thuộc lane nào (lane \"{node.lane}\" không có trong danh sách lanes)")
+        elif model.lanes and node.lane not in lane_ids:
             errors.append(f"{label}: không thuộc lane nào")
         if not node.name.strip() and node.category != "gateway":
             warnings.append(f"{node.id}: chưa đặt tên")
@@ -341,19 +402,21 @@ def layout(model: Model) -> Dict[str, List[Tuple[float, float]]]:
                 ready.append(target)
     for node in nodes.values():
         col.setdefault(node.id, 0)
-        if node.col is not None:
-            col[node.id] = node.col
+        if node.want_col is not None:
+            col[node.id] = node.want_col
         node.col = col[node.id]
 
     lane_ids = [lane_id for lane_id, _ in model.lanes] or [None]
     rows_in_lane: Dict[Optional[str], int] = {lane: 1 for lane in lane_ids}
     taken: Dict[Tuple[Optional[str], int, int], str] = {}
-    for node_id in order + [n for n in nodes if n not in order]:
+    sequence = order + [n for n in nodes if n not in order]
+    # Rows the spec asks for are reserved first, so an automatically placed node never lands on them.
+    for node_id in sorted(sequence, key=lambda n: nodes[n].want_row is None):
         node = nodes[node_id]
         if node.category == "boundary":
             continue
-        row = node.row if node.row is not None else 0
-        while node.row is None and (node.lane, node.col, row) in taken:
+        row = node.want_row if node.want_row is not None else 0
+        while (node.lane, node.col, row) in taken:
             row += 1
         node.row = row
         taken[(node.lane, node.col, row)] = node.id
@@ -370,7 +433,7 @@ def layout(model: Model) -> Dict[str, List[Tuple[float, float]]]:
         source, target = nodes[flow.source], nodes[flow.target]
         if flow.name and source.category == "gateway" and target.col == source.col + 1 and source.row == target.row and source.lane == target.lane:
             gap_needed = flow_label_width(flow.name) + 16
-            gap_now = (col_width[source.col] - source.w) / 2 + (col_width[target.col] - SIZE[target.category][0]) / 2
+            gap_now = (col_width[source.col] - SIZE[source.category][0]) / 2 + (col_width[target.col] - SIZE[target.category][0]) / 2
             if gap_now < gap_needed:
                 col_width[source.col] += 2 * (gap_needed - gap_now)
     col_left = [content_x + sum(col_width[:index]) for index in range(columns)]
@@ -422,9 +485,12 @@ def layout(model: Model) -> Dict[str, List[Tuple[float, float]]]:
     loops_from = {flow.source for flow in flows if is_back(flow) and flow.id not in loop_over_top}
     placed = [n for n in nodes.values() if n.category != "boundary"]
 
-    def clear(column: int, y1: float, y2: float, skip: Tuple[str, ...]) -> bool:
-        low, high = min(y1, y2), max(y1, y2)
-        return not any(n.col == column and n.id not in skip and low < n.y + n.h / 2 < high for n in placed)
+    def crossings(pts: List[Tuple[float, float]], skip: Tuple[str, ...]) -> int:
+        """How many elements (other than the flow's own ends) the route passes through."""
+        return sum(
+            1 for n in placed
+            if n.id not in skip and any(_hits_segment((n.x, n.y, n.w, n.h), pts[i], pts[i + 1], pad=4) for i in range(len(pts) - 1))
+        )
 
     used_exit: Dict[Tuple[str, str], bool] = {}
     for node_id in loops_from:
@@ -456,20 +522,25 @@ def layout(model: Model) -> Dict[str, List[Tuple[float, float]]]:
         elif (flow.source, flow.target) in back or t.col <= s.col:
             below = max(s.y + s.h, t.y + t.h) + 22
             pts = [(sx, s.y + s.h), (sx, below), (tx, below), (tx, t.y + t.h)]
-        elif abs(ty - sy) < 1:
-            pts = [(s.x + s.w, sy), (t.x, ty)]
-        elif t.category == "gateway" and clear(t.col, sy, ty, (s.id, t.id)):
-            pts = [(s.x + s.w, sy), (tx, sy), (tx, t.y + t.h if sy > ty else t.y)]
-            used_exit[(t.id, "down" if sy > ty else "up")] = True
-        elif (
-            s.category == "gateway"
-            and not used_exit.get((s.id, direction))
-            and clear(s.col, sy, ty, (s.id, t.id))
-        ):
-            used_exit[(s.id, direction)] = True
-            pts = [(sx, s.y + s.h if direction == "down" else s.y), (sx, ty), (t.x, ty)]
         else:
-            pts = [(s.x + s.w, sy), (gap_x, sy), (gap_x, ty), (t.x, ty)]
+            # Candidate routes in order of preference; the first one that passes through no
+            # other element wins, otherwise the one that crosses the fewest.
+            candidates: List[Tuple[List[Tuple[float, float]], List[Tuple[str, str]]]] = []
+            if abs(ty - sy) < 1:
+                candidates.append(([(s.x + s.w, sy), (t.x, ty)], []))
+            else:
+                enter = "down" if sy > ty else "up"
+                if t.category == "gateway" and not used_exit.get((t.id, enter)):
+                    candidates.append(([(s.x + s.w, sy), (tx, sy), (tx, t.y + t.h if sy > ty else t.y)], [(t.id, enter)]))
+                if s.category == "gateway" and not used_exit.get((s.id, direction)):
+                    candidates.append(([(sx, s.y + s.h if direction == "down" else s.y), (sx, ty), (t.x, ty)], [(s.id, direction)]))
+                candidates.append(([(s.x + s.w, sy), (gap_x, sy), (gap_x, ty), (t.x, ty)], []))
+                out_x = s.x + s.w + (col_width[s.col] - s.w) / 2 - COL_GAP / 4
+                if s.x + s.w < out_x < gap_x:
+                    candidates.append(([(s.x + s.w, sy), (out_x, sy), (out_x, ty), (t.x, ty)], []))
+            pts, exits = min(candidates, key=lambda c: crossings(c[0], (s.id, t.id)))
+            for exit_key in exits:
+                used_exit[exit_key] = True
         waypoints[flow.id] = pts
     return waypoints
 
@@ -674,7 +745,10 @@ def render(bpmn_path: Path, out_path: Path, browser: Optional[str] = None) -> Tu
     cmd = [node, str(script), str(bpmn_path), str(out_path)]
     if browser:
         cmd += ["--browser", browser]
-    proc = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=180)
+    try:
+        proc = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=180)
+    except subprocess.TimeoutExpired:
+        return 1, "vẽ ảnh quá 180 giây, đã dừng (kiểm tra trình duyệt --browser)"
     return proc.returncode, (proc.stdout + proc.stderr).strip()
 
 
@@ -708,7 +782,7 @@ def main(argv: Optional[List[str]] = None) -> int:
     if args.command == "build":
         try:
             model = model_from_spec(json.loads(args.spec.read_text(encoding="utf-8")))
-        except (OSError, ValueError, KeyError, json.JSONDecodeError) as exc:
+        except (OSError, ValueError, KeyError, TypeError, AttributeError, json.JSONDecodeError) as exc:
             print(f"LỖI: không đọc được spec {args.spec}: {exc}")
             return 2
         errors, warnings = validate(model)
@@ -732,16 +806,24 @@ def main(argv: Optional[List[str]] = None) -> int:
             print(f"LỖI: không tìm thấy {args.target}")
             return 2
         files = [args.target] if args.target.is_file() else sorted(args.target.rglob("*.bpmn"))
-        failed = False
+        if not files:
+            print(f"LỖI: không có file .bpmn nào trong {args.target}")
+            return 2
+        failed = unreadable = False
         for path in files:
             try:
-                errors, warnings = validate(model_from_bpmn(path))
+                models = models_from_bpmn(path)
             except (ET.ParseError, ValueError) as exc:
-                errors, warnings = [f"không đọc được XML: {exc}"], []
-            report(str(path), errors, warnings)
-            failed = failed or bool(errors) or (args.strict and bool(warnings))
+                report(str(path), [f"không đọc được XML: {exc}"], [])
+                unreadable = True
+                continue
+            for model in models:
+                errors, warnings = validate(model)
+                name = str(path) if len(models) == 1 else f"{path} [{model.pool or model.id}]"
+                report(name, errors, warnings)
+                failed = failed or bool(errors) or (args.strict and bool(warnings))
         print(f"\n{len(files)} file .bpmn")
-        return 1 if failed else 0
+        return 2 if unreadable else (1 if failed else 0)
 
     code, message = render(args.bpmn, args.output, args.browser)
     print(message)

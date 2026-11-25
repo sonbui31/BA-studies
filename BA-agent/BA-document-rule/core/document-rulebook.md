@@ -56,7 +56,7 @@ Ghi rủi ro cụ thể nếu bỏ sót một bên liên quan gián tiếp.
 - **Lane = Stakeholder:** mỗi Lane khớp một Stakeholder trong Stakeholder Map.
 - **Nhánh chưa rõ:** gắn `[CẦN XÁC NHẬN]` trực tiếp trên Gateway; không tự đặt điều kiện rẽ nhánh.
 - Mỗi Gateway có ít nhất một Business Rule (`BR-*`) viết thành văn bản.
-- Sơ đồ Mermaid tuân thủ `so_do.md` (Start/End, mọi nhánh có đường đi, có Exception Flow, không phần tử lơ lửng).
+- Mỗi quy trình là file `diagrams/<tên>.bpmn` kèm ảnh `.png` theo `so_do.md` mục 4; `bpmn_tool.py check diagrams` không còn lỗi (có Start/End, mọi nhánh có đường đi, không phần tử lơ lửng). Exception Flow vẽ trong sơ đồ, không chỉ happy path.
 
 ---
 

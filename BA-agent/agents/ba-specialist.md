@@ -96,4 +96,4 @@ Mức tối thiểu theo Tier nằm ở `human-accountability.md` H4: Tier 2 m�
 | "điều kiện", "nếu...thì" | Decision Flowchart |
 | "timeline", "sprint", "deadline" | Gantt Chart |
 
-Thứ tự dựng: chọn loại sơ đồ → tách vai trò, bước, cổng rẽ nhánh → vẽ luồng chính trước, ngoại lệ sau → khối khai báo chuẩn và lớp màu theo `../so_do.md` mục 1 → chạy `../scripts/diagram_check.py` → giải thích từng cổng rẽ nhánh bằng mã BR.
+Thứ tự dựng: chọn loại sơ đồ → tách vai trò, bước, cổng rẽ nhánh → vẽ luồng chính trước, ngoại lệ sau → quy trình nghiệp vụ: bản mô tả `.json`, `../scripts/bpmn_tool.py build` rồi `check` (`../so_do.md` mục 4); sơ đồ Mermaid: khối khai báo chuẩn và lớp màu theo `../so_do.md` mục 1, chạy `../scripts/diagram_check.py` → giải thích từng cổng rẽ nhánh bằng mã BR.

@@ -32,22 +32,50 @@ Tài liệu hóa quy trình **hiện tại** (As-Is) mà tổ chức đang vận
 
 **Mô tả:** [Tóm tắt 1-2 dòng quy trình hiện tại]
 
-**Swimlane Diagram (As-Is):**
+**Sơ đồ quy trình As-Is (BPMN 2.0):**
 
-```mermaid
-%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
-graph LR
-    subgraph "KTTS"
-        A1["Nhận biên bản<br/>mua sắm (giấy)"] --> A2["Ghi vào sổ<br/>quản lý tài sản"]
-    end
-    subgraph "Kế toán"
-        A2 --> B1["Lập phiếu<br/>nhập kho (giấy)"]
-        B1 --> B2["Ghi sổ<br/>kế toán (Excel)"]
-    end
-    subgraph "Phòng TC"
-        A2 --> C1["Phê duyệt<br/>(ký tay)"]
-    end
+> Vẽ bằng BPMN 2.0 theo `so_do.md` mục 4: một pool cho tổ chức, mỗi vai trò một lane, mỗi bước nằm trong đúng một lane. Bước làm tay ngoài hệ thống ghi `"type": "manual"`. Bước gây điểm đau ghi `"highlight": "pain"` và mã PP-xx (bảng điểm đau ở mục 4 dưới đây) trong tên bước. Viết bản mô tả `diagrams/<tên>-asis.json`, rồi sinh `.bpmn` và ảnh bằng `bpmn_tool.py build diagrams/<tên>-asis.json --png diagrams/<tên>-asis.png`. Sơ đồ chưa được SME xác nhận thì ghi `[CẦN XÁC NHẬN]` cạnh tên sơ đồ. Mermaid chỉ dùng để phác thảo nhanh trong buổi trao đổi (`so_do.md` mục 4.5), không thay sơ đồ này.
+
+Khung bản mô tả (ví dụ nhập tài sản mới; thay bằng quy trình thật):
+
+```json
+{
+  "id": "nhap_tai_san_asis",
+  "name": "As-Is: Nhập tài sản mới",
+  "pool": "[Tên tổ chức]",
+  "lanes": [
+    {"id": "ktts", "name": "Kế toán tài sản"},
+    {"id": "ke_toan", "name": "Kế toán"},
+    {"id": "tai_chinh", "name": "Phòng Tài chính"}
+  ],
+  "nodes": [
+    {"id": "start", "type": "start", "name": "Nhận biên bản mua sắm", "lane": "ktts"},
+    {"id": "a1", "type": "manual", "name": "Ghi vào sổ quản lý tài sản (PP-01)", "lane": "ktts", "highlight": "pain"},
+    {"id": "a2", "type": "manual", "name": "Lập phiếu nhập kho giấy", "lane": "ke_toan"},
+    {"id": "a3", "type": "manual", "name": "Ký duyệt phiếu nhập", "lane": "tai_chinh"},
+    {"id": "g1", "type": "xor", "name": "Phiếu đủ chữ ký?", "lane": "tai_chinh"},
+    {"id": "a4", "type": "manual", "name": "Ghi sổ kế toán trên Excel", "lane": "ke_toan"},
+    {"id": "end_ok", "type": "end", "name": "Tài sản đã vào sổ", "lane": "ke_toan"},
+    {"id": "end_back", "type": "end", "name": "Phiếu bị trả lại", "lane": "tai_chinh"}
+  ],
+  "flows": [
+    ["start", "a1"], ["a1", "a2"], ["a2", "a3"], ["a3", "g1"],
+    ["g1", "a4", "Đủ"], ["g1", "end_back", "Thiếu"], ["a4", "end_ok"]
+  ]
+}
 ```
+
+Chèn vào tài liệu:
+
+```markdown
+![As-Is: <Tên quy trình>](diagrams/<tên>-asis.png)
+
+Bản chuẩn BPMN 2.0: [`diagrams/<tên>-asis.bpmn`](diagrams/<tên>-asis.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Ô viền đỏ là bước gây điểm đau.
+
+<!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/<tên>-asis.json --png diagrams/<tên>-asis.png -->
+```
+
+Lệnh sinh lại ảnh nằm trong chú thích HTML vì đó là việc nội bộ của BA; `md_to_docx.py` bỏ chú thích nên bản Word giao khách không có lệnh này.
 
 **Các bước chi tiết:**
 
@@ -123,24 +151,14 @@ graph LR
 
 ---
 
-## 7. Dual Swimlane (As-Is vs To-Be Comparison)
+## 7. So sánh As-Is và To-Be
 
-```mermaid
-%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
-graph LR
-    subgraph "AS-IS: Nhập Tài sản"
-        A1["Ghi sổ tay"] --> A2["Copy vào Excel"]
-        A2 --> A3["Gửi email phê duyệt"]
-        A3 --> A4["⏳ Chờ ký (1-3 ngày)"]
-    end
-    
-    subgraph "TO-BE: Nhập Tài sản"
-        B1["Nhập trên PM"]
-        B1 --> B2["Auto-validate + QR"]
-        B2 --> B3["Push notification phê duyệt"]
-        B3 --> B4["Phê duyệt online (real-time)"]
-    end
-```
+> Mỗi quy trình có hai sơ đồ BPMN 2.0 riêng, `diagrams/<tên>-asis` và `diagrams/<tên>-tobe`, cùng pool và cùng tên lane để người đọc đặt cạnh nhau. Không gộp As-Is và To-Be vào một sơ đồ. Trong To-Be, bước mới ghi `"highlight": "new"` (ô viền xanh). Chèn từng sơ đồ theo mẫu ở mục 3.1, rồi tóm tắt khác biệt bằng bảng dưới.
+
+| Bước As-Is | Bước To-Be | Thay đổi | Điểm đau được giải quyết |
+|---|---|---|---|
+| [VD: Ghi sổ tay rồi chép vào Excel] | [VD: Nhập trên phần mềm, kiểm tra trùng mã khi lưu] | [VD: Bỏ một lần nhập lại] | [PP-xx] |
+| [VD: Gửi email xin duyệt, chờ ký 1-3 ngày] | [VD: Người duyệt nhận thông báo và duyệt trên phần mềm] | [VD: Bước mới, `"highlight": "new"`] | [PP-xx] |
 
 ---
 

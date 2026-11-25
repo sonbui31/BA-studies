@@ -19,31 +19,45 @@
 
 ### 1.2 eKYC Flow (Tier 1 — Phổ biến nhất)
 
-```mermaid
-%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
-flowchart TD
-    A["User đăng ký"] --> B["Nhập thông tin cơ bản"]
-    B --> C["Upload CCCD (mặt trước + sau)"]
-    C --> D{"OCR extract thành công?"}
-    
-    D -->|"Fail"| E["Yêu cầu chụp lại"]
-    E --> C
-    
-    D -->|"OK"| F["Chụp Selfie"]
-    F --> G{"Face match > {{85%}}?"}
-    
-    G -->|"Fail"| H["Thử lại (max 3 lần)"]
-    H --> F
-    H -->|"3 lần fail"| I["Chuyển Manual Review"]
-    
-    G -->|"OK"| J{"Liveness check pass?"}
-    
-    J -->|"Fail"| K["Nghi ngờ ảnh giả → Manual"]
-    J -->|"OK"| L["Kiểm tra Blacklist/Sanctions"]
-    
-    L --> M{"Match?"}
-    M -->|"Match"| N["BLOCK + Alert Compliance"]
-    M -->|"No match"| O["KYC APPROVED → Tier 1"]
+> Luồng eKYC có ba bên (người dùng, hệ thống eKYC, bộ phận Tuân thủ) nên vẽ bằng BPMN 2.0 theo `so_do.md` mục 4, không vẽ Mermaid. Viết `diagrams/<tên>.json`, sinh `.bpmn` và ảnh bằng `bpmn_tool.py build diagrams/<tên>.json --png diagrams/<tên>.png`; chèn ảnh và liên kết `.bpmn` theo `so_do.md` mục 4.3. Ngưỡng so khớp và số lần thử lấy từ bảng mục 1.3 và Business Rule của dự án.
+
+Bản mô tả:
+
+```json
+{
+  "id": "ekyc_tier1", "name": "eKYC Tier 1", "pool": "{{Tên tổ chức}}",
+  "lanes": [{"id": "nguoi_dung", "name": "Người dùng"}, {"id": "he_thong", "name": "Hệ thống eKYC"}, {"id": "tuan_thu", "name": "Bộ phận Tuân thủ"}],
+  "nodes": [
+    {"id": "start", "type": "start", "name": "Người dùng bắt đầu đăng ký", "lane": "nguoi_dung"},
+    {"id": "t1", "type": "user", "name": "Nhập thông tin cơ bản", "lane": "nguoi_dung"},
+    {"id": "m1", "type": "xor", "name": "", "lane": "nguoi_dung"},
+    {"id": "t2", "type": "user", "name": "Chụp CCCD hai mặt", "lane": "nguoi_dung"},
+    {"id": "t3", "type": "service", "name": "Đọc thông tin CCCD (OCR)", "lane": "he_thong"},
+    {"id": "g1", "type": "xor", "name": "Đọc được CCCD?", "lane": "he_thong"},
+    {"id": "m2", "type": "xor", "name": "", "lane": "nguoi_dung"},
+    {"id": "t4", "type": "user", "name": "Chụp ảnh chân dung", "lane": "nguoi_dung"},
+    {"id": "t5", "type": "service", "name": "So khớp khuôn mặt với ảnh CCCD", "lane": "he_thong"},
+    {"id": "g2", "type": "xor", "name": "Khớp từ {{85%}}?", "lane": "he_thong"},
+    {"id": "g3", "type": "xor", "name": "Đã thử đủ 3 lần?", "lane": "he_thong"},
+    {"id": "t6", "type": "service", "name": "Kiểm tra người thật (liveness)", "lane": "he_thong"},
+    {"id": "g4", "type": "xor", "name": "Đạt liveness?", "lane": "he_thong"},
+    {"id": "t7", "type": "service", "name": "Đối chiếu danh sách cấm vận", "lane": "he_thong"},
+    {"id": "g5", "type": "xor", "name": "Trùng danh sách?", "lane": "he_thong"},
+    {"id": "t8", "type": "send", "name": "Chặn đăng ký và báo bộ phận Tuân thủ", "lane": "he_thong"},
+    {"id": "m3", "type": "xor", "name": "", "lane": "tuan_thu"},
+    {"id": "t9", "type": "user", "name": "Xét duyệt hồ sơ thủ công", "lane": "tuan_thu"},
+    {"id": "end_ok", "type": "end", "name": "KYC đạt, tài khoản lên Tier 1", "lane": "he_thong"},
+    {"id": "end_block", "type": "end", "name": "Đăng ký bị chặn", "lane": "he_thong"},
+    {"id": "end_review", "type": "end", "name": "Hồ sơ có kết luận thủ công", "lane": "tuan_thu"}
+  ],
+  "flows": [
+    ["start", "t1"], ["t1", "m1"], ["m1", "t2"], ["t2", "t3"], ["t3", "g1"],
+    ["g1", "m2", "Có"], ["g1", "m1", "Không, chụp lại"], ["m2", "t4"], ["t4", "t5"], ["t5", "g2"],
+    ["g2", "t6", "Có"], ["g2", "g3", "Không"], ["g3", "m2", "Chưa"], ["g3", "m3", "Đủ 3 lần"],
+    ["t6", "g4"], ["g4", "t7", "Đạt"], ["g4", "m3", "Không đạt"], ["t7", "g5"],
+    ["g5", "end_ok", "Không trùng"], ["g5", "t8", "Trùng"], ["t8", "end_block"], ["m3", "t9"], ["t9", "end_review"]
+  ]
+}
 ```
 
 ### 1.3 eKYC Data Captured

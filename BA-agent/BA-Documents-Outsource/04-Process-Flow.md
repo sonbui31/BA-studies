@@ -39,7 +39,9 @@
 
 ![P1 As-Is: Điều chuyển tài sản](diagrams/p1-dieu-chuyen-asis.png)
 
-Bản chuẩn BPMN 2.0: [`diagrams/p1-dieu-chuyen-asis.bpmn`](diagrams/p1-dieu-chuyen-asis.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Sinh lại (chạy trong thư mục bộ tài liệu): `python ../scripts/bpmn_tool.py build diagrams/p1-dieu-chuyen-asis.json --png diagrams/p1-dieu-chuyen-asis.png`. Ô viền đỏ là bước gây điểm đau.
+Bản chuẩn BPMN 2.0: [`diagrams/p1-dieu-chuyen-asis.bpmn`](diagrams/p1-dieu-chuyen-asis.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Ô viền đỏ là bước gây điểm đau.
+
+<!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/p1-dieu-chuyen-asis.json --png diagrams/p1-dieu-chuyen-asis.png -->
 
 | Mã | Điểm đau | Mức | Nguồn |
 |---|---|---|---|
@@ -49,7 +51,9 @@ Bản chuẩn BPMN 2.0: [`diagrams/p1-dieu-chuyen-asis.bpmn`](diagrams/p1-dieu-c
 
 ![P1 To-Be: Điều chuyển tài sản](diagrams/p1-dieu-chuyen-tobe.png)
 
-Bản chuẩn BPMN 2.0: [`diagrams/p1-dieu-chuyen-tobe.bpmn`](diagrams/p1-dieu-chuyen-tobe.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Sinh lại (chạy trong thư mục bộ tài liệu): `python ../scripts/bpmn_tool.py build diagrams/p1-dieu-chuyen-tobe.json --png diagrams/p1-dieu-chuyen-tobe.png`.
+Bản chuẩn BPMN 2.0: [`diagrams/p1-dieu-chuyen-tobe.bpmn`](diagrams/p1-dieu-chuyen-tobe.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler.
+
+<!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/p1-dieu-chuyen-tobe.json --png diagrams/p1-dieu-chuyen-tobe.png -->
 
 **Cải tiến:** mỗi lần điều chuyển có người yêu cầu, người duyệt, người giao, người nhận và thời điểm hoàn tất (BRQ-04); khoa sở hữu chỉ đổi sau xác nhận thứ hai (BR-002).
 
@@ -61,7 +65,9 @@ Bản chuẩn BPMN 2.0: [`diagrams/p1-dieu-chuyen-tobe.bpmn`](diagrams/p1-dieu-c
 
 ![P2 As-Is: Kiểm kê cuối tháng](diagrams/p2-kiem-ke-asis.png)
 
-Bản chuẩn BPMN 2.0: [`diagrams/p2-kiem-ke-asis.bpmn`](diagrams/p2-kiem-ke-asis.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Sinh lại (chạy trong thư mục bộ tài liệu): `python ../scripts/bpmn_tool.py build diagrams/p2-kiem-ke-asis.json --png diagrams/p2-kiem-ke-asis.png`. Ô viền đỏ là bước gây điểm đau.
+Bản chuẩn BPMN 2.0: [`diagrams/p2-kiem-ke-asis.bpmn`](diagrams/p2-kiem-ke-asis.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Ô viền đỏ là bước gây điểm đau.
+
+<!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/p2-kiem-ke-asis.json --png diagrams/p2-kiem-ke-asis.png -->
 
 | Mã | Điểm đau | Mức | Nguồn |
 |---|---|---|---|
@@ -72,7 +78,9 @@ Bản chuẩn BPMN 2.0: [`diagrams/p2-kiem-ke-asis.bpmn`](diagrams/p2-kiem-ke-as
 
 ![P2 To-Be: Kiểm kê theo đợt](diagrams/p2-kiem-ke-tobe.png)
 
-Bản chuẩn BPMN 2.0: [`diagrams/p2-kiem-ke-tobe.bpmn`](diagrams/p2-kiem-ke-tobe.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Sinh lại (chạy trong thư mục bộ tài liệu): `python ../scripts/bpmn_tool.py build diagrams/p2-kiem-ke-tobe.json --png diagrams/p2-kiem-ke-tobe.png`.
+Bản chuẩn BPMN 2.0: [`diagrams/p2-kiem-ke-tobe.bpmn`](diagrams/p2-kiem-ke-tobe.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler.
+
+<!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/p2-kiem-ke-tobe.json --png diagrams/p2-kiem-ke-tobe.png -->
 
 **Cải tiến:** kiểm kê tháng từ khoảng 3 ngày xuống 1 ngày (`02-BRD.md` mục 6.2); không chốt đợt khi còn chênh lệch chưa phân loại (BR-005).
 
@@ -84,7 +92,9 @@ As-Is: không có lịch bảo trì tập trung; kỹ sư thiết bị nhớ h�
 
 ![P3 To-Be: Cảnh báo và lên lịch bảo trì](diagrams/p3-bao-tri-tobe.png)
 
-Bản chuẩn BPMN 2.0: [`diagrams/p3-bao-tri-tobe.bpmn`](diagrams/p3-bao-tri-tobe.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Sinh lại (chạy trong thư mục bộ tài liệu): `python ../scripts/bpmn_tool.py build diagrams/p3-bao-tri-tobe.json --png diagrams/p3-bao-tri-tobe.png`.
+Bản chuẩn BPMN 2.0: [`diagrams/p3-bao-tri-tobe.bpmn`](diagrams/p3-bao-tri-tobe.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler.
+
+<!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/p3-bao-tri-tobe.json --png diagrams/p3-bao-tri-tobe.png -->
 
 ---
 

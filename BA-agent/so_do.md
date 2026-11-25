@@ -45,7 +45,7 @@ Sơ đồ `flowchart` dùng thêm bộ lớp màu sau, đặt ở cuối sơ đ�
 
 | # | Quy tắc | Vì sao |
 |---|---|---|
-| 1 | Một sơ đồ trả lời một câu hỏi; tối đa 12 bước (không tính sự kiện) hoặc 8 use case | Quá mức này người đọc không theo được; tách thành quy trình con `[[...]]` |
+| 1 | Một sơ đồ trả lời một câu hỏi; sơ đồ Mermaid tối đa 12 bước (không tính sự kiện) hoặc 8 use case. Quy trình BPMN 2.0 có giới hạn riêng ở mục 4.4 | Quá mức này người đọc không theo được; tách thành quy trình con `[[...]]` |
 | 2 | Mọi nhánh ra khỏi hình thoi đều có nhãn điều kiện, các điều kiện phủ hết khả năng | Nhánh không nhãn là nơi lập trình viên phải đoán |
 | 3 | Mũi tên trong Context Diagram ghi dữ liệu di chuyển; quan hệ include/extend ghi nhãn | Mũi tên tuần tự trong một luồng không cần nhãn |
 | 4 | Tên bước: Động từ + Danh từ ("Duyệt yêu cầu"); tên sự kiện kết thúc là kết quả nghiệp vụ ("Đơn đã giao") | Đọc được như câu |
@@ -54,7 +54,7 @@ Sơ đồ `flowchart` dùng thêm bộ lớp màu sau, đặt ở cuối sơ đ�
 | 7 | Không `{{placeholder}}` trong khối Mermaid | Sơ đồ báo lỗi, không hiển thị; dùng tên mẫu như `KHACH_HANG` |
 | 8 | Nhãn khuôn mẫu UML viết `≪include≫`, `≪extend≫` | `<<include>>` bị đọc là thẻ HTML và hiện thành `<>` |
 | 9 | Xuống dòng trong nhãn dùng `<br/>` | `\n` không hoạt động ở mọi trình hiển thị |
-| 10 | Quy trình ngắn (đến 8 bước) vẽ `flowchart LR`; dài hơn vẽ `flowchart TD` | Sơ đồ quá rộng bị thu nhỏ trong Word, chữ không đọc được |
+| 10 | Flowchart ngắn (đến 8 bước) vẽ `flowchart LR`; dài hơn vẽ `flowchart TD` | Sơ đồ quá rộng bị thu nhỏ trong Word, chữ không đọc được |
 
 ---
 
@@ -170,11 +170,13 @@ python BA-agent/scripts/bpmn_tool.py render diagrams/hoan-tien.bpmn diagrams/hoa
 
 Bản chuẩn: [`diagrams/vi-du-hoan-tien.bpmn`](diagrams/vi-du-hoan-tien.bpmn), mô tả: [`diagrams/vi-du-hoan-tien.json`](diagrams/vi-du-hoan-tien.json). Đọc sơ đồ: đơn đến 1 triệu đi thẳng tới điểm gộp; đơn lớn hơn chờ Quản lý duyệt, quá 24 giờ thì hệ thống nhắc nhưng bước duyệt vẫn chờ (sự kiện biên không ngắt); khi đồng ý, hệ thống hoàn tiền và gửi thư cùng lúc (cổng song song), cả hai xong mới kết thúc.
 
+Cách chèn vào tài liệu: ảnh `.png`, ngay dưới là một câu dẫn tới file `.bpmn` (khách hàng mở và sửa được). Lệnh sinh lại ảnh là việc nội bộ của BA, ghi trong chú thích `<!-- Sinh lại ảnh: python ../scripts/bpmn_tool.py build ... -->`; `md_to_docx.py` bỏ chú thích nên bản Word giao khách không có lệnh này.
+
 Ví dụ quy trình thật của một dự án (3 quy trình, As-Is và To-Be): `BA-Documents-Outsource/04-Process-Flow.md`.
 
 ### 4.4. Quy tắc mô hình
 
-1. Một sơ đồ một quy trình, tối đa khoảng 15 bước; dài hơn thì tách quy trình con.
+1. Một sơ đồ một quy trình, tối đa 15 hoạt động (task và sub-process, không tính sự kiện và cổng); dài hơn thì tách quy trình con. Giới hạn 12 bước ở mục 1.2 chỉ áp dụng cho sơ đồ Mermaid.
 2. Tên bước: Động từ + Danh từ. Tên cổng loại trừ là câu hỏi; nhãn nhánh là câu trả lời ("Có", "Từ chối", "Quá 48 giờ").
 3. Mỗi cổng song song tách phải có cổng hợp; nhiều luồng nhập vào một bước thì đặt cổng gộp (XOR không tên) trước bước đó.
 4. Quy tắc nghiệp vụ quyết định một nhánh ghi mã BR ở tên cổng hoặc tên bước kiểm tra ("Kiểm tra trạng thái tài sản (BR-003)").
@@ -247,11 +249,9 @@ flowchart LR
 | Chờ bao lâu thì xử lý thế nào? | Sự kiện chờ |
 | Nếu lỗi hoặc bị từ chối thì sao? | Nhánh ngoại lệ |
 | Kết thúc với kết quả gì? Có mấy kết quả? | Sự kiện kết thúc |
-| Bước nào hệ thống tự làm? | Lớp `sys` |
+| Bước nào hệ thống tự làm? | Bước trong lane "Hệ thống" |
 
-Thứ tự vẽ: luồng chính trước, rồi rẽ nhánh, ngoại lệ, chờ thời gian, cuối cùng tô màu vai trò. Kỹ thuật thu thập (phỏng vấn, quan sát, workshop): `BA-document-rule/references/elicitation-playbook.md`.
-
----
+Thứ tự vẽ: luồng chính trước, rồi rẽ nhánh, ngoại lệ, chờ thời gian, cuối cùng rà lại mỗi bước đã nằm đúng lane của vai trò làm nó. Kỹ thuật thu thập (phỏng vấn, quan sát, workshop): `BA-document-rule/references/elicitation-playbook.md`.
 
 ---
 
@@ -556,7 +556,7 @@ Tự động: `bpmn_tool.py check` cho sơ đồ BPMN; `diagram_check.py` cho s�
 
 | Công cụ | Dùng khi |
 |---|---|
-| Mermaid | Mặc định, viết cùng tài liệu Markdown, kiểm tra bằng script |
+| Mermaid | Mặc định cho mọi sơ đồ trừ quy trình nghiệp vụ; viết cùng tài liệu Markdown, kiểm tra bằng `diagram_check.py` |
 | mermaid-cli (`mmdc`) | Vẽ sơ đồ thành ảnh khi xuất Word hoặc PDF |
 | bpmn.io / Camunda Modeler | Mở, sửa, xuất ảnh file `.bpmn` của quy trình (mục 4) |
 | `bpmn_tool.py` | Sinh `.bpmn` từ bản mô tả `.json`, kiểm tra mô hình, vẽ ảnh |

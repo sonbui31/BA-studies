@@ -296,7 +296,9 @@ _(Chi tiết: xem `03-Stakeholder-Map.md` và `../BA-document-rule/core/stakehol
 
 ![Tổng quan As-Is: Vòng đời tài sản](diagrams/tong-quan-asis.png)
 
-Bản chuẩn BPMN 2.0: [`diagrams/tong-quan-asis.bpmn`](diagrams/tong-quan-asis.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Sinh lại (chạy trong thư mục bộ tài liệu): `python ../scripts/bpmn_tool.py build diagrams/tong-quan-asis.json --png diagrams/tong-quan-asis.png`. Ô viền đỏ là bước gây điểm nghẽn bên dưới.
+Bản chuẩn BPMN 2.0: [`diagrams/tong-quan-asis.bpmn`](diagrams/tong-quan-asis.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Ô viền đỏ là bước gây điểm nghẽn bên dưới.
+
+<!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/tong-quan-asis.json --png diagrams/tong-quan-asis.png -->
 
 **Điểm nghẽn chính:**
 1. 🔴 Không có mã duy nhất nên một tài sản có thể xuất hiện dưới nhiều tên khác nhau.
@@ -307,7 +309,9 @@ Bản chuẩn BPMN 2.0: [`diagrams/tong-quan-asis.bpmn`](diagrams/tong-quan-asis
 
 ![Tổng quan To-Be: Vòng đời tài sản](diagrams/tong-quan-tobe.png)
 
-Bản chuẩn BPMN 2.0: [`diagrams/tong-quan-tobe.bpmn`](diagrams/tong-quan-tobe.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Sinh lại (chạy trong thư mục bộ tài liệu): `python ../scripts/bpmn_tool.py build diagrams/tong-quan-tobe.json --png diagrams/tong-quan-tobe.png`.
+Bản chuẩn BPMN 2.0: [`diagrams/tong-quan-tobe.bpmn`](diagrams/tong-quan-tobe.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler.
+
+<!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/tong-quan-tobe.json --png diagrams/tong-quan-tobe.png -->
 
 Sơ đồ To-Be là tổng quan: ba ô có dấu + là quy trình con thu gọn (P1 Điều chuyển, P2 Kiểm kê, P3 Bảo trì), vẽ chi tiết trong `04-Process-Flow.md`; cổng hình tròn là cổng bao hàm, một hoặc nhiều nghiệp vụ có thể phát sinh trong cùng kỳ.
 

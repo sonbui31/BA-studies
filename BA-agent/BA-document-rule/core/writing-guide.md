@@ -231,9 +231,7 @@ BRD (BR-001) → SRS (FR-ORD-001) → User Story (US-ORD-001) → Test Case (TC-
 
 1. **Luôn kèm diagram** — văn bản mô tả + diagram minh họa
 2. **1 diagram = 1 mục đích** — không gộp Use Case + Activity vào 1 sơ đồ
-3. **Dùng Mermaid** trong markdown — dễ version control, dễ edit
-4. **Đánh label rõ ràng** — mũi tên phải có nhãn, node phải có tên
-5. **Giới hạn kích thước** — tối đa 7-10 node chính / diagram
+3. **Công cụ, ký hiệu, nhãn và giới hạn kích thước theo `BA-agent/so_do.md`**: quy trình nghiệp vụ vẽ bằng BPMN 2.0 (mục 4), sơ đồ khác vẽ bằng Mermaid (mục 1–3)
 
 ### Khi nào dùng diagram nào
 
@@ -241,7 +239,7 @@ BRD (BR-001) → SRS (FR-ORD-001) → User Story (US-ORD-001) → Test Case (TC-
 |-------------|-------------|----------|
 | Ai tương tác với hệ thống? | Context Diagram | Vision & Scope |
 | User làm gì? | Use Case Diagram | BRD, SRS |
-| Quy trình chạy thế nào? | Activity/Swimlane | Process Flow |
+| Quy trình chạy thế nào? | Quy trình nghiệp vụ BPMN 2.0 (`so_do.md` mục 4) | Process Flow, BRD |
 | Hệ thống gọi nhau thế nào? | Sequence Diagram | SRS |
 | Trạng thái chuyển thế nào? | State Diagram | SRS, Data Model |
 | Dữ liệu quan hệ thế nào? | ERD | Data Model |

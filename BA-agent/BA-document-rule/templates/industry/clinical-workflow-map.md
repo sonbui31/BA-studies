@@ -54,45 +54,53 @@
 | EX-2 | 6 | DDI phát hiện tương tác thuốc | Popup cảnh báo + BS xác nhận / đổi thuốc | 🔴 |
 | EX-3 | 4 | Kết quả XN bất thường nguy hiểm | Alert tức thì cho BS + ĐD trực | 🔴 |
 
-#### Diagram (Mermaid)
+#### Sơ đồ quy trình (BPMN 2.0)
 
-```mermaid
-%%{init: {"theme": "base", "fontFamily": "Arial, Helvetica, sans-serif", "themeVariables": {"fontSize": "15px", "primaryColor": "#FFFFFF", "primaryBorderColor": "#4A5568", "primaryTextColor": "#1A202C", "lineColor": "#4A5568", "secondaryColor": "#F7FAFC", "tertiaryColor": "#F7FAFC", "clusterBkg": "#F7FAFC", "clusterBorder": "#A0AEC0", "edgeLabelBackground": "#FFFFFF", "actorBkg": "#EBF8FF", "actorBorder": "#2B6CB0", "noteBkgColor": "#FFF8E1", "noteBorderColor": "#B7791F"}}}%%
-flowchart TD
-    Start(("●")) --> A["Tiếp nhận BN"]
-    
-    subgraph "Đăng ký"
-        A --> B{"BHYT?"}
-        B -->|"Có"| C["Tra cứu BHYT"]
-        B -->|"Không"| D["Thu phí dịch vụ"]
-    end
+> Vẽ bằng BPMN 2.0 theo `so_do.md` mục 4: mỗi actor ở bảng trên một lane, bước hệ thống HIS tự làm đặt trong lane "Hệ thống HIS". Tối đa khoảng 15 bước một sơ đồ (`so_do.md` mục 4.4); pathway dài hơn thì tách quy trình con (ví dụ "Cận lâm sàng" thành sơ đồ riêng). Viết `diagrams/<tên>.json`, sinh `.bpmn` và ảnh bằng `bpmn_tool.py build diagrams/<tên>.json --png diagrams/<tên>.png`.
 
-    C --> E
-    D --> E
+Bản mô tả cho ví dụ pathway Ngoại trú:
 
-    subgraph "Khám bệnh"
-        E["BS khám"]
-        E --> F{"Cần XN?"}
-        F -->|"Có"| G["Chỉ định XN"]
-        F -->|"Không"| H["Chẩn đoán"]
-    end
-
-    G --> I["KTV thực hiện XN"]
-    I --> J["Trả kết quả"]
-    J --> H
-
-    subgraph "Điều trị"
-        H --> K["Kê đơn thuốc"]
-        K --> L{"DDI Check?"}
-        L -->|"Tương tác"| M["Cảnh báo BS"]
-        M --> K
-        L -->|"OK"| N["Dược sĩ duyệt"]
-    end
-
-    N --> O["Cấp phát thuốc"]
-    O --> P["Thanh toán"]
-    P --> End(("◎"))
+```json
+{
+  "id": "opd_tobe", "name": "Pathway Ngoại trú (OPD)", "pool": "[Tên bệnh viện]",
+  "lanes": [
+    {"id": "tiep_nhan", "name": "Tiếp nhận"}, {"id": "bac_si", "name": "Bác sĩ"},
+    {"id": "ktv", "name": "Kỹ thuật viên xét nghiệm"}, {"id": "he_thong", "name": "Hệ thống HIS"},
+    {"id": "duoc", "name": "Dược sĩ"}, {"id": "thu_ngan", "name": "Thu ngân"}
+  ],
+  "nodes": [
+    {"id": "start", "type": "start", "name": "Bệnh nhân đến phòng khám", "lane": "tiep_nhan"},
+    {"id": "t1", "type": "user", "name": "Đăng ký bệnh nhân", "lane": "tiep_nhan"},
+    {"id": "g1", "type": "xor", "name": "Có thẻ BHYT?", "lane": "tiep_nhan"},
+    {"id": "t2", "type": "service", "name": "Tra cứu thẻ BHYT", "lane": "he_thong"},
+    {"id": "t3", "type": "user", "name": "Thu phí dịch vụ", "lane": "thu_ngan"},
+    {"id": "m1", "type": "xor", "name": "", "lane": "bac_si"},
+    {"id": "t4", "type": "user", "name": "Khám và ghi nhận triệu chứng", "lane": "bac_si"},
+    {"id": "g2", "type": "xor", "name": "Cần xét nghiệm?", "lane": "bac_si"},
+    {"id": "t5", "type": "user", "name": "Chỉ định xét nghiệm", "lane": "bac_si"},
+    {"id": "t6", "type": "manual", "name": "Lấy mẫu và thực hiện xét nghiệm", "lane": "ktv"},
+    {"id": "t7", "type": "user", "name": "Trả kết quả xét nghiệm", "lane": "ktv"},
+    {"id": "m2", "type": "xor", "name": "", "lane": "bac_si"},
+    {"id": "t8", "type": "user", "name": "Chẩn đoán theo ICD-10", "lane": "bac_si"},
+    {"id": "m3", "type": "xor", "name": "", "lane": "bac_si"},
+    {"id": "t9", "type": "user", "name": "Kê đơn thuốc", "lane": "bac_si"},
+    {"id": "t10", "type": "business_rule", "name": "Kiểm tra tương tác thuốc (mục 3)", "lane": "he_thong"},
+    {"id": "g3", "type": "xor", "name": "Có tương tác thuốc?", "lane": "he_thong"},
+    {"id": "t11", "type": "send", "name": "Cảnh báo bác sĩ", "lane": "he_thong"},
+    {"id": "t12", "type": "user", "name": "Duyệt đơn và cấp phát thuốc", "lane": "duoc"},
+    {"id": "t13", "type": "user", "name": "Tính viện phí và thanh toán", "lane": "thu_ngan"},
+    {"id": "end", "type": "end", "name": "Bệnh nhân nhận thuốc và ra về", "lane": "thu_ngan"}
+  ],
+  "flows": [
+    ["start", "t1"], ["t1", "g1"], ["g1", "t2", "Có"], ["g1", "t3", "Không"], ["t2", "m1"], ["t3", "m1"],
+    ["m1", "t4"], ["t4", "g2"], ["g2", "t5", "Có"], ["g2", "m2", "Không"], ["t5", "t6"], ["t6", "t7"], ["t7", "m2"],
+    ["m2", "t8"], ["t8", "m3"], ["m3", "t9"], ["t9", "t10"], ["t10", "g3"],
+    ["g3", "t11", "Có"], ["g3", "t12", "Không"], ["t11", "m3"], ["t12", "t13"], ["t13", "end"]
+  ]
+}
 ```
+
+Chèn vào tài liệu: ảnh `![Pathway <tên>](diagrams/<tên>.png)`, ngay dưới là câu "Bản chuẩn BPMN 2.0: [`diagrams/<tên>.bpmn`](diagrams/<tên>.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler.", lệnh sinh lại ảnh để trong chú thích HTML (`so_do.md` mục 4.3).
 
 ---
 
@@ -121,7 +129,7 @@ flowchart TD
 ## ✅ Review Checklist
 
 ```
-☐ Tất cả pathways chính đã có workflow map
+☐ Tất cả pathways chính đã có workflow map (sơ đồ BPMN 2.0, bpmn_tool.py check không còn lỗi)
 ☐ Mỗi pathway có: Trigger, End state, Actors, SLA
 ☐ Rủi ro y khoa đã ghi rõ per bước → Patient Safety
 ☐ DDI rules đã spec severity + override policy

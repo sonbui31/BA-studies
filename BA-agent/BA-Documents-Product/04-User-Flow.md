@@ -44,7 +44,9 @@ Nhãn trên mũi tên là sự kiện analytics phát ra khi bước trước ho
 
 ![Vòng phản hồi feedback trên portal](diagrams/vong-phan-hoi.png)
 
-Bản chuẩn BPMN 2.0: [`diagrams/vong-phan-hoi.bpmn`](diagrams/vong-phan-hoi.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Sinh lại (chạy trong thư mục bộ tài liệu): `python ../scripts/bpmn_tool.py build diagrams/vong-phan-hoi.json --png diagrams/vong-phan-hoi.png`.
+Bản chuẩn BPMN 2.0: [`diagrams/vong-phan-hoi.bpmn`](diagrams/vong-phan-hoi.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler.
+
+<!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/vong-phan-hoi.json --png diagrams/vong-phan-hoi.png -->
 
 **Related requirements**
 - `BRQ-01` / `FR-POR-001`, `FR-POR-002`
@@ -129,7 +131,9 @@ flowchart LR
 
 ![Gộp feedback trùng](diagrams/gop-feedback-trung.png)
 
-Bản chuẩn BPMN 2.0: [`diagrams/gop-feedback-trung.bpmn`](diagrams/gop-feedback-trung.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Sinh lại (chạy trong thư mục bộ tài liệu): `python ../scripts/bpmn_tool.py build diagrams/gop-feedback-trung.json --png diagrams/gop-feedback-trung.png`.
+Bản chuẩn BPMN 2.0: [`diagrams/gop-feedback-trung.bpmn`](diagrams/gop-feedback-trung.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler.
+
+<!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/gop-feedback-trung.json --png diagrams/gop-feedback-trung.png -->
 
 **Control points**
 - Chỉ `Admin` hoặc `PM` được merge.
@@ -140,7 +144,9 @@ Bản chuẩn BPMN 2.0: [`diagrams/gop-feedback-trung.bpmn`](diagrams/gop-feedba
 
 ![Cập nhật trạng thái công khai và thông báo](diagrams/cap-nhat-trang-thai.png)
 
-Bản chuẩn BPMN 2.0: [`diagrams/cap-nhat-trang-thai.bpmn`](diagrams/cap-nhat-trang-thai.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler. Sinh lại (chạy trong thư mục bộ tài liệu): `python ../scripts/bpmn_tool.py build diagrams/cap-nhat-trang-thai.json --png diagrams/cap-nhat-trang-thai.png`.
+Bản chuẩn BPMN 2.0: [`diagrams/cap-nhat-trang-thai.bpmn`](diagrams/cap-nhat-trang-thai.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler.
+
+<!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/cap-nhat-trang-thai.json --png diagrams/cap-nhat-trang-thai.png -->
 
 Phát hành release note: PM chọn các feedback ở trạng thái `Released`, đặt `publish_at`, phát hành; hệ thống gắn feedback lên portal và phát `release_note_published`. Không có rẽ nhánh nên không vẽ sơ đồ.
 

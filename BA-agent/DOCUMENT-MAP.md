@@ -1,7 +1,7 @@
 # HƯỚNG DẪN BỘ TÀI LIỆU BA (Document Map v3.10)
 
 > **Mục đích:** Giải thích chức năng và nội dung từng file trong hệ thống BA-agent
-> **Cập nhật:** 12/05/2026 — v3.4 (đóng gói skill + đồng bộ numbering/validation)
+> **Cập nhật:** 21/11/2026 — v3.10 (quy trình nghiệp vụ vẽ bằng BPMN 2.0, `bpmn_tool.py`)
 
 ---
 
@@ -63,7 +63,7 @@
 | `README.md` | Tổng quan: cách hoạt động, cấu trúc thư mục, flow sử dụng |
 | `QUICK-START.md` | Hướng dẫn 5 phút: chọn overlay → copy template → viết tài liệu |
 | `Anti_ai_writing_rules.md` | Bộ quy tắc viết văn nghiêm ngặt chống "mùi AI": 27 Điều & Checklist 13 bước tự kiểm duyệt văn bản |
-| `so_do.md` | Sổ tay quy chuẩn vẽ sơ đồ BA chuẩn Mermaid (Level 0→3, ký hiệu, 10 tiêu chuẩn vàng) |
+| `so_do.md` | Chuẩn vẽ sơ đồ BA, file chủ của mọi quy tắc vẽ: quy trình nghiệp vụ bằng BPMN 2.0 (`.bpmn` + ảnh, `bpmn_tool.py`), sơ đồ khác (Context, Use Case, Sequence, State, ERD, Decision, User Journey, Gantt) bằng Mermaid; khối khai báo chung, mười quy tắc, chọn sơ đồ theo level |
 
 ### 📁 Curated templates/ — NGUỒN TEMPLATE DUY NHẤT cho BRD, SRS, User Story, AC
 
