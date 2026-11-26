@@ -4,7 +4,7 @@
 > **Phiên bản:** 0.2 | **Ngày:** 12/05/2026
 > **Product:** SignalDesk | **Trạng thái:** Trình duyệt (chưa ký; còn 1 nhận định trọng yếu chờ nguồn trực tiếp)
 > **Người chịu trách nhiệm:** PM/BA của epic
-> **Tham chiếu:** Vision & Scope v1.0
+> **Tham chiếu:** `01-Vision-Scope.md` bản 1.0 (Draft 12/05/2026, chưa ký)
 > **Tier:** 2 — điểm rủi ro 2/7 (câu 6, 7): hai PM có thể merge cùng một feedback và merge khó đảo ngược; email thông báo và release note công khai đã gửi ra ngoài thì không thu hồi được
 > **Nhãn:** [TÀI LIỆU MẪU] — ví dụ minh họa cấu trúc, không phải dự án thật
 
@@ -13,26 +13,27 @@
 ## 1. Vấn đề cần giải quyết
 
 > **Vấn đề người dùng gặp phải:**
-> PM và CS teams đang thu feedback từ nhiều nguồn nhưng không có một luồng thống nhất để biến feedback thành roadmap decisions.
+> Đội Product Manager và Customer Success đang thu feedback từ nhiều nguồn nhưng không có một luồng chung để biến feedback thành quyết định trên roadmap.
 
 > **Bằng chứng / Số liệu:** mỗi dòng dưới đây ghi nguồn và mức bằng chứng; Sổ nguồn ở mục 8.
 
-### 1.1. Pain Points / Vấn đề hiện tại
+### 1.1. Vấn đề hiện tại
 
 | # | Vấn đề hiện tại | Ảnh hưởng | Mức độ | Nguồn · Mức |
 |---|----------------------|-----------|--------|-------------|
 | 1 | 43% feedback mới đang nằm trong Slack hoặc email, không vào backlog | PM không thấy toàn cảnh nhu cầu khách hàng | 🔴 Cao | SRC-02 · E3 |
 | 2 | 31% khách hàng beta nói họ không biết request của mình đang ở trạng thái nào | CS mất thời gian trả lời thủ công | 🟠 Cao | SRC-01 · E2, gián tiếp (PM/CS thuật lại) — `[CẦN XÁC NHẬN: hỏi trực tiếp khách hàng beta trong khảo sát tuần 2, PO]` |
-| 3 | 22% feedback bị trùng nội dung nhưng không được gộp | Roadmap bị noisy, vote count không đáng tin | 🟠 Cao | SRC-02 · E3 |
+| 3 | 22% feedback bị trùng nội dung nhưng không được gộp | Roadmap bị nhiễu, số phiếu bầu không đáng tin | 🟠 Cao | SRC-02 · E3 |
 
-### 1.2. Glossary
+### 1.2. Thuật ngữ
 
 | Thuật ngữ | Giải thích |
 |---|---|
-| Feedback item | Một yêu cầu hoặc phản hồi từ người dùng cuối |
-| Subscriber | Người theo dõi một feedback item để nhận update |
-| Merge | Gộp feedback trùng vào một parent item |
-| Release note | Bản ghi public mô tả giá trị đã phát hành |
+| Feedback item (mục feedback) | Một yêu cầu hoặc phản hồi từ người dùng cuối |
+| Subscriber (người theo dõi) | Người theo dõi một mục feedback để nhận thông báo khi mục đổi trạng thái |
+| Merge (gộp) | Gộp feedback trùng vào một mục cha (parent item) |
+| Declined | Trạng thái nội bộ khi PM quyết định không làm; portal không hiển thị (BR-003) |
+| Release note | Bản ghi công khai mô tả tính năng đã phát hành |
 
 ---
 
@@ -40,9 +41,9 @@
 
 | Nhóm người dùng | Đặc điểm | Nhu cầu | Khó khăn / Nỗi đau | Mục tiêu |
 |-----------------|----------|---------|---------------------|----------|
-| Product Manager | Quản lý roadmap cho 1-3 squads | Thấy feedback theo theme và priority | Feedback rải rác, khó defend roadmap | Prioritize đúng hơn |
-| CS Lead | Là người tiếp xúc khách hàng mỗi ngày | Trả lời khách hàng có update trạng thái | Không biết feedback đã được PM xử lý chưa | Reduce manual follow-up |
-| End User / Customer Champion | Power user trong công ty khách hàng | Gửi request, upvote, theo dõi tiến độ | Không có kênh rõ ràng, gửi rồi “mất hút” | Được phản hồi rõ ràng |
+| Product Manager | Quản lý roadmap cho 1-3 squad | Thấy feedback theo chủ đề và mức ưu tiên | Feedback rải rác, khó bảo vệ quyết định roadmap | Xếp ưu tiên dựa trên số liệu |
+| CS Lead | Tiếp xúc khách hàng mỗi ngày | Trả lời khách hàng kèm trạng thái mới nhất | Không biết PM đã xử lý feedback chưa | Bớt việc hỏi lại PM và trả lời khách thủ công |
+| Người dùng cuối / Customer Champion | Người dùng thành thạo trong công ty khách hàng | Gửi yêu cầu, bình chọn, theo dõi tiến độ | Không có kênh rõ ràng, gửi rồi “mất hút” | Được phản hồi rõ ràng |
 
 ---
 
@@ -50,10 +51,10 @@
 
 | Mục tiêu | Kết quả then chốt | Chỉ tiêu | Hiện tại | Công cụ đo |
 |----------|--------------------|----------|----------|------------|
-| O1: Kích hoạt workflow feedback | KR1: 55% workspace mới publish portal trong 14 ngày | 55% | 0% | Mixpanel |
-| | KR2: 60% feedback mới có status trong 7 ngày | 60% | 0% | Mixpanel |
-| O2: Giảm support friction | KR3: 30% ticket “status request” chuyển sang portal self-serve | 30% | 0% | Zendesk + Mixpanel |
-| O3: Tạo perceived value cho Pro | KR4: 8% workspace free dùng notification feature nâng cấp Pro trong 60 ngày | 8% | 0% | Stripe |
+| O1: Kích hoạt quy trình xử lý feedback | KR1: 55% workspace mới công khai portal trong 14 ngày | 55% | 0% | Mixpanel |
+| | KR2: 60% feedback mới có trạng thái trong 7 ngày (cùng chỉ tiêu với `01-Vision-Scope.md` O2-KR2) | 60% | 0% | Mixpanel |
+| O2: Giảm số lần khách hỏi trạng thái qua support | KR3: 30% ticket hỏi trạng thái chuyển sang khách tự xem trên portal | 30% | 0% | Zendesk + Mixpanel |
+| O3: Cho thấy giá trị của gói Pro | KR4: 8% workspace free dùng tính năng thông báo nâng cấp Pro trong 60 ngày | 8% | 0% | Stripe |
 
 ---
 
@@ -64,12 +65,6 @@ SignalDesk cung cấp public feedback portal cho khách hàng gửi request và 
 
 ### 4.2. Luồng thao tác người dùng
 > Chi tiết tại `04-User-Flow.md`
-
-![To-Be: Vòng phản hồi feedback trên SignalDesk](diagrams/feedback-tobe.png)
-
-Bản chuẩn BPMN 2.0: [`diagrams/feedback-tobe.bpmn`](diagrams/feedback-tobe.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler.
-
-<!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/feedback-tobe.json --png diagrams/feedback-tobe.png -->
 
 #### 4.2.1. Quy trình hiện tại (As-Is)
 
@@ -85,10 +80,20 @@ Bản chuẩn BPMN 2.0: [`diagrams/feedback-asis.bpmn`](diagrams/feedback-asis.b
 | Gộp nội dung trùng | PM | 22% feedback trùng nhưng không được gộp, vote count không đáng tin |
 | Báo trạng thái | CS | 31% khách hàng beta không biết request đang ở trạng thái nào |
 
-Chưa có quy trình hiện tại thống nhất giữa PM và CS; mỗi team giữ nguồn riêng.
+Chưa có quy trình hiện tại thống nhất giữa PM và CS; mỗi team giữ nguồn riêng. Sơ đồ As-Is vẽ quy trình tại công ty khách hàng (startup SaaS B2B) trước khi có SignalDesk.
+
+#### 4.2.2. Quy trình đề xuất (To-Be)
+
+![To-Be: Vòng phản hồi feedback trên SignalDesk](diagrams/feedback-tobe.png)
+
+Bản chuẩn BPMN 2.0: [`diagrams/feedback-tobe.bpmn`](diagrams/feedback-tobe.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler.
+
+<!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/feedback-tobe.json --png diagrams/feedback-tobe.png -->
+
+Đọc sơ đồ: feedback vào inbox từ hai nguồn, khách tự gửi trên portal hoặc CS tạo thay khách sau cuộc gọi, email và thêm khách vào danh sách theo dõi. Hệ thống gợi ý mục trùng (FR-TRI-001); PM chọn một trong ba hướng. Gộp vào mục cha thì hệ thống chuyển phiếu bầu, người theo dõi, lịch sử (BR-002). Không làm thì mục chuyển `Declined`, CS trả lời khách kèm lý do. Đưa vào kế hoạch thì mỗi lần PM đổi sang trạng thái công khai, hệ thống báo người theo dõi (BR-003); khi tính năng ra mắt, PM phát hành release note gắn feedback (BR-004). Người bình chọn một mục có sẵn không tạo mục mới nên không quay lại bước phân loại của PM (`04-User-Flow.md` mục 1.2).
 
 ### 4.3. Giao diện phác thảo
-> Link Figma: Figma / SignalDesk Beta / Portal-v5
+> Link Figma: Figma / SignalDesk Beta / Portal-v5 (bản màu của đội thiết kế). Wireframe chốt hành vi của portal (SCR-01) và hộp thư phân loại (SCR-02) nằm ở `05-SRS-Lite.md` mục 2.7.
 
 ---
 
@@ -225,6 +230,7 @@ Chưa có quy trình hiện tại thống nhất giữa PM và CS; mỗi team gi
 |---|---------|-----------|-------------|--------|
 | 1 | Có cần custom status per workspace trong MVP không? | Product Lead | 20/05/2026 | |
 | 2 | Có cho anonymous feedback submit không? | PM + Legal | 22/05/2026 | |
+| 3 | Có công khai trạng thái `Declined` và báo người theo dõi không? Theo BR-003 hiện tại thì không; CS trả lời từng khách | Product Lead + CS Lead | 22/05/2026 | |
 
 ---
 

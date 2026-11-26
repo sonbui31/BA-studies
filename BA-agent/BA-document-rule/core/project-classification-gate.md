@@ -47,7 +47,7 @@ When the user asks "what documents are needed", recommend documents by layer, no
 |---|---|
 | Product | Product Vision Document, Product Strategy/Roadmap, Product Analytics Spec |
 | Business | Project Charter, BRD, Business Case, KPI/Success Metrics, Stakeholder Map/RACI, Scope In/Out |
-| Process | As-Is Process, To-Be Process, Business Rules Catalog, BPMN/Swimlane |
+| Process | As-Is Process, To-Be Process, Business Rules Catalog, BPMN 2.0 (pool/lane) |
 | Requirements | SRS/FRD, Use Case Specification, User Story Map, Product Backlog, Acceptance Criteria |
 | UX | Personas, User Journey, User Flow, Screen Inventory, Wireframe/Prototype |
 | AI/Data | AI Feature Spec, Assessment Framework, Prompt/Output Spec, Data Dictionary, ERD, Data Governance |

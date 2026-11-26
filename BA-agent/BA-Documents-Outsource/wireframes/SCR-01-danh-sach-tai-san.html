@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="wireframe-size" content="1280x760">
+<title>SCR-01 Danh sách tài sản</title><link rel="stylesheet" href="wireframe.css"></head>
+<body><div class="app">
+<div class="top">Quản lý tài sản — Bệnh viện Đa khoa An Phúc <small>Nhân viên Vật tư · Phòng Vật tư</small></div>
+<nav><a class="on">Danh sách tài sản</a><a>Điều chuyển</a><a>Kiểm kê</a><a>Bảo trì</a><a>Dashboard</a><a>Cấu hình</a></nav>
+<main>
+<h1>SCR-01 · Danh sách tài sản</h1>
+<div class="sub">Người dùng khoa chỉ thấy tài sản của khoa mình (FR-ADM-002); Phòng Vật tư thấy toàn viện.</div>
+<div class="bar">
+  <span class="input">Tìm theo mã, tên, barcode…</span>
+  <span class="select">Khoa: Tất cả</span><span class="select">Nhóm: Tất cả</span><span class="select">Trạng thái: Tất cả</span>
+  <span class="btn right">Xuất Excel</span><span class="btn">Nhập Excel</span><span class="btn main">+ Thêm tài sản</span>
+</div>
+<table>
+<tr><th>Mã TS</th><th>Tên tài sản</th><th>Nhóm</th><th>Khoa sở hữu</th><th>Trạng thái</th><th>Hạn bảo trì</th><th>Thao tác</th></tr>
+<tr><td>TS-000124</td><td>Máy siêu âm Doppler</td><td>Thiết bị y tế quan trọng</td><td>Chẩn đoán hình ảnh</td><td><span class="tag">Đang dùng</span></td><td>02/12/2026 <span class="tag warn">còn 6 ngày</span></td><td>Xem · Sửa · Điều chuyển</td></tr>
+<tr><td>TS-000125</td><td>Máy thở</td><td>Thiết bị y tế quan trọng</td><td>Hồi sức tích cực</td><td><span class="tag">Đang bảo trì</span></td><td>—</td><td>Xem · Sửa</td></tr>
+<tr><td>TS-000310</td><td>Bàn khám bệnh</td><td>Nội thất y tế</td><td>Khám bệnh</td><td><span class="tag">Đang dùng</span></td><td>—</td><td>Xem · Sửa · Điều chuyển</td></tr>
+<tr><td>TS-000402</td><td>Máy tính để bàn</td><td>Thiết bị CNTT</td><td>Kế toán</td><td><span class="tag">Chờ thanh lý</span></td><td>—</td><td>Xem</td></tr>
+</table>
+<div class="pager"><span>Hiển thị 1–20 / 2.340 tài sản · 20 dòng mỗi trang</span><span>‹ Trước  1  2  3 … 117  Sau ›</span></div>
+<div class="note">Trạng thái rỗng: "Chưa có tài sản nào khớp bộ lọc" + nút Xóa bộ lọc. Tài sản đang bảo trì hoặc chờ thanh lý ẩn thao tác Điều chuyển (BR-003, FR-TRF-001).</div>
+</main></div></body></html>

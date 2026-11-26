@@ -23,11 +23,11 @@
       <bpmn:incoming>Flow_1</bpmn:incoming>
       <bpmn:outgoing>Flow_2</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="a2" name="Đếm và đánh dấu tay tại từng khoa (PD-01)">
+    <bpmn:task id="a2" name="Đếm và đánh dấu tay theo tên trong file (PD-01)">
       <bpmn:incoming>Flow_2</bpmn:incoming>
       <bpmn:outgoing>Flow_3</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="a3" name="Gộp kết quả, dò chênh lệch bằng tay (PD-03)">
+    <bpmn:task id="a3" name="Gộp kết quả, dò chênh lệch bằng tay (PD-04)">
       <bpmn:incoming>Flow_3</bpmn:incoming>
       <bpmn:outgoing>Flow_4</bpmn:outgoing>
     </bpmn:task>

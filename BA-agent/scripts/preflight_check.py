@@ -5,7 +5,7 @@ import json
 import re
 import sys
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List, Optional, Tuple
 
 try:
     from ba_id_utils import (
@@ -274,7 +274,23 @@ def evidence_sources_check(text: str) -> Dict[str, str]:
 BASELINE_STATUS = re.compile(r"Trạng thái\W{0,6}\s*(?:baseline|approved|đã phê duyệt|đã chốt|đã ký)", re.IGNORECASE)
 VERSION_ROW_APPROVED = re.compile(r"^\|\s*v?\d+(?:\.\d+)+\s*\|.*(?:đã phê duyệt|chốt phạm vi|approved|baseline)", re.IGNORECASE)
 SIGNOFF_HEADING = re.compile(r"^#{1,6}\s.*(?:phê duyệt|ký duyệt|sign-?off|chữ ký|xác nhận nghiệm thu)", re.IGNORECASE)
-DATE_PATTERN = re.compile(r"\b\d{1,2}/\d{1,2}/\d{4}\b|\b\d{4}-\d{2}-\d{2}\b")
+DATE_PATTERN = re.compile(r"\b(\d{1,2})/(\d{1,2})/(\d{4})\b|\b(\d{4})-(\d{2})-(\d{2})\b")
+NAME_HEADER = re.compile(r"họ\s*(?:và\s*)?tên|người\s*(?:ký|duyệt|phê\s*duyệt|xác\s*nhận)|^tên$|^name$|signed\s*by|approver", re.IGNORECASE)
+PLACEHOLDER_CELL = re.compile(r"^\s*(?:\[[^\]]*\]|\{\{[^}]*\}\}|[-—–_.…]*|tbd|n/?a)\s*$", re.IGNORECASE)
+OPEN_ITEM = re.compile(r"\[CẦN XÁC NHẬN")
+BARE_TAG_IN_CODE = re.compile(r"`\s*\[CẦN XÁC NHẬN\]\s*`")
+
+
+def has_real_date(cell_text: str) -> bool:
+    """A plausible calendar date (not 00/00/0000 or dd/mm/yyyy)."""
+    for match in DATE_PATTERN.finditer(cell_text):
+        if match.group(1):
+            day, month, year = int(match.group(1)), int(match.group(2)), int(match.group(3))
+        else:
+            year, month, day = int(match.group(4)), int(match.group(5)), int(match.group(6))
+        if 1 <= day <= 31 and 1 <= month <= 12 and 1990 <= year <= 2100:
+            return True
+    return False
 
 
 def claims_baseline(text: str) -> bool:
@@ -292,30 +308,86 @@ def claims_baseline(text: str) -> bool:
 
 
 def signed_rows(text: str) -> int:
-    """Rows of a sign-off table (under a Phê duyệt / Sign-off heading) that carry a date."""
+    """Rows of a sign-off table (under a Phê duyệt / Sign-off heading, sub-headings included) that
+    carry a real date and, when the table has a name column, a filled-in name."""
     count = 0
-    in_signoff = False
+    signoff_level = 0  # heading level of the sign-off section, 0 when outside it
+    name_col: Optional[int] = None
     for _, line in iter_non_fenced_lines(text):
         stripped = line.strip()
-        if stripped.startswith("#"):
-            in_signoff = bool(SIGNOFF_HEADING.match(stripped))
+        heading = re.match(r"^(#{1,6})\s", stripped)
+        if heading:
+            level = len(heading.group(1))
+            if SIGNOFF_HEADING.match(stripped):
+                signoff_level = signoff_level if signoff_level and level > signoff_level else level
+            elif signoff_level and level <= signoff_level:
+                signoff_level = 0
+            name_col = None
             continue
-        if in_signoff and stripped.startswith("|") and DATE_PATTERN.search(stripped):
-            count += 1
+        if not signoff_level or not stripped.startswith("|"):
+            if not stripped.startswith("|"):
+                name_col = None
+            continue
+        cells = [cell.strip(" *") for cell in stripped.strip("|").split("|")]
+        if name_col is None and not has_real_date(stripped) and any(NAME_HEADER.search(cell) for cell in cells):
+            name_col = next(i for i, cell in enumerate(cells) if NAME_HEADER.search(cell))
+            continue
+        if not has_real_date(stripped):
+            continue
+        if name_col is not None and (name_col >= len(cells) or PLACEHOLDER_CELL.match(cells[name_col])):
+            continue
+        count += 1
     return count
 
 
-PROCESS_DIAGRAM = re.compile(r"^[ \t]*```mermaid[ \t]*\r?\n(?:[ \t]*(?:%%.*)?\r?\n)*[ \t]*(?:flowchart|graph)\b", re.MULTILINE)
-DIAGRAM_FILE_LINK = re.compile(r"!\[[^\]]*\]\([^)]+\.(?:png|jpe?g|svg)\)|\.bpmn\b|\.drawio\b", re.IGNORECASE)
+def open_items(text: str) -> int:
+    """[CẦN XÁC NHẬN] markers still open. Not counted: code fences, a sentence saying none are left,
+    and the bare tag quoted as an example (`[CẦN XÁC NHẬN]`). A quoted tag with content
+    (`[CẦN XÁC NHẬN: Giám đốc]`) is a real open item: some teams write it that way."""
+    total = 0
+    for _, line in iter_non_fenced_lines(text):
+        visible = BARE_TAG_IN_CODE.sub("", line)
+        if "không còn" in visible.lower():
+            continue
+        total += len(OPEN_ITEM.findall(visible))
+    return total
+
+
+PROCESS_DIAGRAM = re.compile(
+    r"^[ \t]*```mermaid[ \t]*\r?\n(?:[ \t]*---[ \t]*\r?\n(?:.*\r?\n)*?[ \t]*---[ \t]*\r?\n)?(?:[ \t]*(?:%%.*)?\r?\n)*[ \t]*(?:flowchart|graph)\b",
+    re.MULTILINE,
+)
+MODEL_LINK = re.compile(r"\]\(([^)\s]+\.(?:bpmn|drawio))\)", re.IGNORECASE)
+PROCESS_IMAGE = re.compile(r"!\[([^\]]*)\]\(([^)\s]+\.(?:png|jpe?g|svg))\)", re.IGNORECASE)
+PROCESS_WORDS = re.compile(r"quy trình|quy trinh|process|luồng|flow|bpmn|swimlane|as-is|to-be", re.IGNORECASE)
+AGILE_LITE_MARK = "[LỐI AGILE LITE]"
+BUNDLE_DIR: Optional[Path] = None  # set by evaluate_bundle so links can be checked on disk
+
+
+def _file_ok(link: str) -> bool:
+    if BUNDLE_DIR is None or re.match(r"(?i)^[a-z]+://", link):
+        return True
+    return (BUNDLE_DIR / link).exists()
 
 
 def has_process_diagram(text: str) -> bool:
-    return bool(PROCESS_DIAGRAM.search(text) or DIAGRAM_FILE_LINK.search(text))
+    """A Mermaid flowchart, a link to a .bpmn/.drawio file, or a process image (under diagrams/,
+    or whose caption or file name says it is a process); code fences do not count."""
+    visible = "\n".join(line for _, line in iter_non_fenced_lines(text))
+    if PROCESS_DIAGRAM.search(text):
+        return True
+    if any(_file_ok(link) for link in MODEL_LINK.findall(visible)):
+        return True
+    for alt, link in PROCESS_IMAGE.findall(visible):
+        if ("diagrams/" in link.replace("\\", "/") or PROCESS_WORDS.search(alt) or PROCESS_WORDS.search(link)) and _file_ok(link):
+            return True
+    return False
 
 
 def process_diagram_check(text: str, ctx: Dict[str, str]) -> Dict[str, str]:
     """Hard Gate 1: the BRD rests on a drawn process (in the BRD or a Process/User Flow file)."""
-    if "LỐI AGILE LITE" in text.upper():
+    head = [line for _, line in iter_non_fenced_lines(text)][:25]
+    if any(AGILE_LITE_MARK in line.upper() for line in head):
         return make_na("Process Diagram", "Agile Lite: BPMN only for flows with branches")
     if has_process_diagram(text):
         return make_check("Process Diagram", True, "process diagram in BRD")
@@ -334,12 +406,12 @@ def human_signoff_check(text: str) -> Dict[str, str]:
     if not claims_baseline(text):
         return make_na("Human Sign-off", "document does not claim baseline/approval")
     rows = signed_rows(text)
-    open_items = text.count("[CẦN XÁC NHẬN")
+    still_open = open_items(text)
     problems = []
     if rows == 0:
         problems.append("claims baseline but the sign-off table has no row with a name and date")
-    if open_items:
-        problems.append(f"{open_items} [CẦN XÁC NHẬN] still open")
+    if still_open:
+        problems.append(f"{still_open} [CẦN XÁC NHẬN] still open")
     return make_check("Human Sign-off", not problems, "; ".join(problems) or f"{rows} signed row(s)")
 
 
@@ -542,6 +614,8 @@ def evaluate_bundle(target: Path, config: Path = None) -> Dict[str, object]:
     scheme_path = config or find_project_scheme(target)
     set_project_scheme(load_project_scheme(scheme_path) if scheme_path else None)
     docs = {path.name: read_text(path) for path in collect_markdown_files(target)}
+    global BUNDLE_DIR
+    BUNDLE_DIR = target if target.is_dir() else target.parent
     results = []
     total_pass = total_fail = total_na = 0
     for name, text in docs.items():
@@ -568,6 +642,7 @@ def evaluate_bundle(target: Path, config: Path = None) -> Dict[str, object]:
                 "checks": checks,
             }
         )
+    BUNDLE_DIR = None
     errors = []
     if not results:
         total_fail += 1

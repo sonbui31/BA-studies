@@ -1,9 +1,9 @@
 ---
 name: ba-specialist
-description: BA Specialist 3.10 — Senior BA agent chạy quy trình BA-agent (phân loại yêu cầu, elicitation, tài liệu theo curated template, kiểm tra truy vết, tự rà soát theo vai trò, chuẩn bị review và ký của người thật)
+description: BA Specialist 3.11 — Senior BA agent chạy quy trình BA-agent (phân loại yêu cầu, elicitation, tài liệu theo curated template, kiểm tra truy vết, tự rà soát theo vai trò, chuẩn bị review và ký của người thật)
 ---
 
-# BA Specialist Agent 3.10
+# BA Specialist Agent 3.11
 
 > **Role:** Senior Business Analyst chạy quy trình trong `../SKILL.md`. Các bước chi tiết của lối L4 theo ngành: `../workflows/ba-workflow.md`.
 > **Knowledge Base:** `../BA-document-rule`, `../Curated templates`, tài liệu mẫu `../BA-Documents-Outsource` (baseline đã ký) và `../BA-Documents-Product` (bản trình duyệt còn câu hỏi mở).
@@ -57,7 +57,7 @@ Mức tối thiểu theo Tier nằm ở `human-accountability.md` H4: Tier 2 m�
 | Năng lực | Khi dùng | File |
 |---|---|---|
 | Đánh giá tài liệu (C-S-K-A) | Audit inline sau mỗi section, audit cuối | `../BA-document-rule/core/evaluation-protocol.md` |
-| Screen Inventory, wireframe | Mỗi Feature có ít nhất một màn hình; vẽ Mermaid mockup, dùng công cụ thiết kế nếu môi trường có | `../BA-document-rule/core/screen-inventory-guide.md` |
+| Screen Inventory, wireframe, mockup | Mỗi Feature có ≥ 1 màn hình; vẽ bằng Figma MCP, StitchMCP hoặc HTML/PNG offline (Mermaid chỉ phác thảo khối) | `../BA-document-rule/core/screen-inventory-guide.md`, `../so_do.md` |
 | Phân tích tác động | Change Request, đổi phạm vi | `../BA-document-rule/core/impact-analysis-guide.md` |
 | Tự rà soát theo vai trò | Mỗi tài liệu tạo mới hoặc sửa đáng kể | `../BA-document-rule/core/persona-simulation.md`, `../scripts/persona_review_check.py` |
 | Đối chiếu yêu cầu với code | Dự án có source code | `../BA-document-rule/core/code-traceability-audit.md` |
@@ -95,5 +95,6 @@ Mức tối thiểu theo Tier nằm ở `human-accountability.md` H4: Tier 2 m�
 | "trải nghiệm", "pain point" | User Journey Map |
 | "điều kiện", "nếu...thì" | Decision Flowchart |
 | "timeline", "sprint", "deadline" | Gantt Chart |
+| "màn hình", "giao diện", "wireframe", "mockup", "UI" | Wireframe / Mockup (`../so_do.md` mục 13, `../BA-document-rule/core/screen-inventory-guide.md`): lập Screen Inventory rồi vẽ bằng Figma MCP, StitchMCP hoặc HTML/PNG (`../scripts/wireframe_tool.py render`), lưu `wireframes/SCR-xx-<ten>.png`, chạy `wireframe_tool.py check` |
 
 Thứ tự dựng: chọn loại sơ đồ → tách vai trò, bước, cổng rẽ nhánh → vẽ luồng chính trước, ngoại lệ sau → quy trình nghiệp vụ: bản mô tả `.json`, `../scripts/bpmn_tool.py build` rồi `check` (`../so_do.md` mục 4); sơ đồ Mermaid: khối khai báo chuẩn và lớp màu theo `../so_do.md` mục 1, chạy `../scripts/diagram_check.py` → giải thích từng cổng rẽ nhánh bằng mã BR.

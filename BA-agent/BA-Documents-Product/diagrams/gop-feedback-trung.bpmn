@@ -5,7 +5,7 @@
   </bpmn:collaboration>
   <bpmn:process id="Process_gop_feedback_trung" name="Gộp feedback trùng" isExecutable="false">
     <bpmn:laneSet id="LaneSet_gop_feedback_trung">
-      <bpmn:lane id="pm" name="Product Manager hoặc Admin">
+      <bpmn:lane id="pm" name="Product Manager">
         <bpmn:flowNodeRef>start</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>g1</bpmn:flowNodeRef>
@@ -14,6 +14,11 @@
       </bpmn:lane>
       <bpmn:lane id="he_thong" name="Hệ thống SignalDesk">
         <bpmn:flowNodeRef>t2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g0</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>end_none</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>t_chk</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>end_blocked</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>t4</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>end_merged</bpmn:flowNodeRef>
       </bpmn:lane>
@@ -25,47 +30,72 @@
       <bpmn:incoming>Flow_1</bpmn:incoming>
       <bpmn:outgoing>Flow_2</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="t2" name="Gợi ý các mục có thể trùng">
+    <bpmn:task id="t2" name="Tìm mục có thể trùng, chấm điểm (FR-TRI-001)">
       <bpmn:incoming>Flow_2</bpmn:incoming>
       <bpmn:outgoing>Flow_3</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:exclusiveGateway id="g1" name="Chấp nhận gộp?">
+    <bpmn:exclusiveGateway id="g0" name="Có mục trên ngưỡng điểm?">
       <bpmn:incoming>Flow_3</bpmn:incoming>
       <bpmn:outgoing>Flow_4</bpmn:outgoing>
       <bpmn:outgoing>Flow_5</bpmn:outgoing>
     </bpmn:exclusiveGateway>
-    <bpmn:endEvent id="end_keep" name="Giữ hai mục riêng">
+    <bpmn:endEvent id="end_none" name="Không gợi ý, PM xử lý như mục mới">
       <bpmn:incoming>Flow_4</bpmn:incoming>
     </bpmn:endEvent>
-    <bpmn:task id="t3" name="Chọn mục cha, xem trước kết quả gộp">
+    <bpmn:exclusiveGateway id="g1" name="Chấp nhận gộp?">
       <bpmn:incoming>Flow_5</bpmn:incoming>
       <bpmn:outgoing>Flow_6</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="t4" name="Chuyển phiếu bầu, người theo dõi, lịch sử; mục con thành Merged (BR-002)">
-      <bpmn:incoming>Flow_6</bpmn:incoming>
       <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="end_keep" name="Giữ hai mục riêng">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="t3" name="Chọn mục cha, xem trước kết quả gộp">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="t_chk" name="Kiểm tra quyền gộp và cùng workspace (FR-TRI-002)">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:exclusiveGateway id="g2" name="Hợp lệ?">
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:exclusiveGateway>
+    <bpmn:endEvent id="end_blocked" name="Chặn gộp, báo lý do">
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+    </bpmn:endEvent>
+    <bpmn:task id="t4" name="Chuyển phiếu bầu, người theo dõi, lịch sử; mục con thành Merged (BR-002)">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
     </bpmn:task>
     <bpmn:endEvent id="end_merged" name="Đã gộp, có nhật ký thao tác">
-      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:incoming>Flow_12</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1" sourceRef="start" targetRef="t1" />
     <bpmn:sequenceFlow id="Flow_2" sourceRef="t1" targetRef="t2" />
-    <bpmn:sequenceFlow id="Flow_3" sourceRef="t2" targetRef="g1" />
-    <bpmn:sequenceFlow id="Flow_4" name="Không" sourceRef="g1" targetRef="end_keep" />
-    <bpmn:sequenceFlow id="Flow_5" name="Có" sourceRef="g1" targetRef="t3" />
-    <bpmn:sequenceFlow id="Flow_6" sourceRef="t3" targetRef="t4" />
-    <bpmn:sequenceFlow id="Flow_7" sourceRef="t4" targetRef="end_merged" />
+    <bpmn:sequenceFlow id="Flow_3" sourceRef="t2" targetRef="g0" />
+    <bpmn:sequenceFlow id="Flow_4" name="Không" sourceRef="g0" targetRef="end_none" />
+    <bpmn:sequenceFlow id="Flow_5" name="Có" sourceRef="g0" targetRef="g1" />
+    <bpmn:sequenceFlow id="Flow_6" name="Không" sourceRef="g1" targetRef="end_keep" />
+    <bpmn:sequenceFlow id="Flow_7" name="Có" sourceRef="g1" targetRef="t3" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="t3" targetRef="t_chk" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="t_chk" targetRef="g2" />
+    <bpmn:sequenceFlow id="Flow_10" name="Thiếu quyền hoặc khác workspace" sourceRef="g2" targetRef="end_blocked" />
+    <bpmn:sequenceFlow id="Flow_11" name="Hợp lệ" sourceRef="g2" targetRef="t4" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="t4" targetRef="end_merged" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_gop_feedback_trung">
     <bpmndi:BPMNPlane id="BPMNPlane_gop_feedback_trung" bpmnElement="Collaboration_gop_feedback_trung">
       <bpmndi:BPMNShape id="Participant_gop_feedback_trung_di" bpmnElement="Participant_gop_feedback_trung" isHorizontal="true">
-        <dc:Bounds x="160" y="80" width="1200" height="530" />
+        <dc:Bounds x="160" y="80" width="1624" height="660" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="pm_di" bpmnElement="pm" isHorizontal="true">
-        <dc:Bounds x="190" y="80" width="1170" height="330" />
+        <dc:Bounds x="190" y="80" width="1594" height="330" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="he_thong_di" bpmnElement="he_thong" isHorizontal="true">
-        <dc:Bounds x="190" y="410" width="1170" height="200" />
+        <dc:Bounds x="190" y="410" width="1594" height="330" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="start_di" bpmnElement="start">
         <dc:Bounds x="287" y="162" width="36" height="36" />
@@ -79,28 +109,55 @@
       <bpmndi:BPMNShape id="t2_di" bpmnElement="t2">
         <dc:Bounds x="580" y="470" width="130" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="g1_di" bpmnElement="g1" isMarkerVisible="true">
-        <dc:Bounds x="770" y="155" width="50" height="50" />
+      <bpmndi:BPMNShape id="g0_di" bpmnElement="g0" isMarkerVisible="true">
+        <dc:Bounds x="770" y="485" width="50" height="50" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="740" y="111" width="110" height="40" />
+          <dc:Bounds x="740" y="441" width="110" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="end_none_di" bpmnElement="end_none">
+        <dc:Bounds x="887" y="622" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="850" y="662" width="110" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g1_di" bpmnElement="g1" isMarkerVisible="true">
+        <dc:Bounds x="880" y="155" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="850" y="111" width="110" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="end_keep_di" bpmnElement="end_keep">
-        <dc:Bounds x="927" y="162" width="36" height="36" />
+        <dc:Bounds x="1037" y="292" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="890" y="202" width="110" height="40" />
+          <dc:Bounds x="1000" y="332" width="110" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="t3_di" bpmnElement="t3">
-        <dc:Bounds x="880" y="270" width="130" height="80" />
+        <dc:Bounds x="990" y="140" width="130" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="t_chk_di" bpmnElement="t_chk">
+        <dc:Bounds x="1180" y="470" width="130" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g2_di" bpmnElement="g2" isMarkerVisible="true">
+        <dc:Bounds x="1377" y="485" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1347" y="441" width="110" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="end_blocked_di" bpmnElement="end_blocked">
+        <dc:Bounds x="1541" y="622" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="1504" y="662" width="110" height="40" />
+        </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="t4_di" bpmnElement="t4">
-        <dc:Bounds x="1070" y="470" width="130" height="80" />
+        <dc:Bounds x="1494" y="470" width="130" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="end_merged_di" bpmnElement="end_merged">
-        <dc:Bounds x="1267" y="492" width="36" height="36" />
+        <dc:Bounds x="1691" y="492" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1230" y="532" width="110" height="40" />
+          <dc:Bounds x="1654" y="532" width="110" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
@@ -115,30 +172,56 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_3_di" bpmnElement="Flow_3">
         <di:waypoint x="710" y="510" />
-        <di:waypoint x="795" y="510" />
-        <di:waypoint x="795" y="205" />
+        <di:waypoint x="770" y="510" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4">
-        <di:waypoint x="820" y="180" />
-        <di:waypoint x="927" y="180" />
-        <bpmndi:BPMNLabel><dc:Bounds x="879" y="160" width="44" height="18" /></bpmndi:BPMNLabel>
+        <di:waypoint x="795" y="535" />
+        <di:waypoint x="795" y="640" />
+        <di:waypoint x="887" y="640" />
+        <bpmndi:BPMNLabel><dc:Bounds x="801" y="539" width="44" height="18" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5">
-        <di:waypoint x="820" y="180" />
-        <di:waypoint x="835" y="180" />
-        <di:waypoint x="835" y="310" />
-        <di:waypoint x="880" y="310" />
-        <bpmndi:BPMNLabel><dc:Bounds x="839" y="290" width="24" height="18" /></bpmndi:BPMNLabel>
+        <di:waypoint x="820" y="510" />
+        <di:waypoint x="905" y="510" />
+        <di:waypoint x="905" y="205" />
+        <bpmndi:BPMNLabel><dc:Bounds x="824" y="490" width="24" height="18" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_6_di" bpmnElement="Flow_6">
-        <di:waypoint x="1010" y="310" />
-        <di:waypoint x="1025" y="310" />
-        <di:waypoint x="1025" y="510" />
-        <di:waypoint x="1070" y="510" />
+        <di:waypoint x="930" y="180" />
+        <di:waypoint x="945" y="180" />
+        <di:waypoint x="945" y="310" />
+        <di:waypoint x="1037" y="310" />
+        <bpmndi:BPMNLabel><dc:Bounds x="949" y="290" width="44" height="18" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_7_di" bpmnElement="Flow_7">
-        <di:waypoint x="1200" y="510" />
-        <di:waypoint x="1267" y="510" />
+        <di:waypoint x="930" y="180" />
+        <di:waypoint x="990" y="180" />
+        <bpmndi:BPMNLabel><dc:Bounds x="962" y="160" width="24" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_8_di" bpmnElement="Flow_8">
+        <di:waypoint x="1120" y="180" />
+        <di:waypoint x="1135" y="180" />
+        <di:waypoint x="1135" y="510" />
+        <di:waypoint x="1180" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_9_di" bpmnElement="Flow_9">
+        <di:waypoint x="1310" y="510" />
+        <di:waypoint x="1377" y="510" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10_di" bpmnElement="Flow_10">
+        <di:waypoint x="1402" y="535" />
+        <di:waypoint x="1402" y="640" />
+        <di:waypoint x="1541" y="640" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1406" y="604" width="130" height="34" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11_di" bpmnElement="Flow_11">
+        <di:waypoint x="1427" y="510" />
+        <di:waypoint x="1494" y="510" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1431" y="490" width="51" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12_di" bpmnElement="Flow_12">
+        <di:waypoint x="1624" y="510" />
+        <di:waypoint x="1691" y="510" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

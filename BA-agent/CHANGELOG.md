@@ -5,6 +5,31 @@
 
 ---
 
+## [3.11.0] — 2026-11-26
+
+Wireframe và mockup thành ảnh thật trong SRS; rà soát toàn dự án sau 3.10 và sửa các lỗi tìm được (script, rule template còn vẽ quy trình bằng Mermaid, nội dung bộ mẫu lệch nhau).
+
+### Added
+- `so_do.md` mục 13 và `core/screen-inventory-guide.md`: wireframe/mockup bằng Figma, StitchMCP hoặc HTML offline; ảnh `wireframes/SCR-xx-<tên>.png` nhúng vào SRS kèm dòng nguồn; mã `SCR-xx` giống nhau ở Screen Inventory, SRS và tên ảnh. Hướng dẫn mô tả công cụ theo năng lực (tên lệnh MCP đổi theo phiên bản) và nói rõ bước cần người làm (export PNG từ Figma, hoặc Figma REST API khi có token).
+- `scripts/wireframe_tool.py`: `render` chụp HTML wireframe thành PNG bằng Chrome/Edge headless (không cần Node, không gửi dữ liệu ra ngoài); `check` báo ảnh thiếu file, tên ảnh không theo mã, mã không có trong Screen Inventory, dòng trỏ nhầm ảnh màn hình khác, ảnh thiếu dòng nguồn, ảnh thừa, mã được nhắc mà không có dòng. Chạy trong CI trên hai bộ mẫu.
+- Bộ mẫu: Outsource 6 wireframe (SCR-01 đến SCR-07, SCR-06 ghi lý do không cần) thay mã `S-0xx`/`Figma/AP-0xx` không khớp nhau trong SRS, RTM và Story Map; Product 2 wireframe ở `05-SRS-Lite.md` mục 2.7.
+- Curated SRS template mục 2.9.3: bảng danh mục ảnh màn hình nối `SCR-xx` với FR.
+- `tests/test_wireframes.py` (10 test); `test_bpmn.py` thêm kiểm tra không đường nối nào xuyên qua ô, lệnh sinh lại ảnh không lọt vào bản Word, id XML hợp lệ, spec sai thoát mã 2, đọc file nhiều pool và cổng event-based, trang ngang trong Word; `test_diagrams.py` thêm kiểm tra cổng Process Diagram và Human Sign-off.
+
+### Fixed
+- `bpmn_tool.py`: đường nối không còn vẽ xuyên qua ô (chọn tuyến ít va chạm nhất); khe nhãn nhánh tính đúng bề rộng cổng; dòng `"row"` đặt trong spec không bị ô tự xếp đè lên; gọi `layout` nhiều lần cho cùng kết quả; id XML trùng sau chuẩn hóa hoặc bắt đầu bằng chữ số bị chặn; node trỏ tới lane không có báo lỗi thay vì traceback; `check` đọc cổng event-based/complex, transaction, mọi pool của collaboration, sự kiện biên không nằm trong `flowNodeRef`; thư mục không có `.bpmn` hoặc XML hỏng thoát mã 2; vẽ ảnh quá 180 giây báo lỗi thay vì traceback.
+- `bpmn_render.mjs`: `--scale` sai, file không đọc được, không mở được trình duyệt đều thoát mã 2 kèm hướng dẫn.
+- `md_to_docx.py`: hai ảnh rộng liền nhau không còn trang dọc trắng ở giữa; ảnh rộng cuối tài liệu không tạo trang trắng; ảnh không còn cao quá trang ngang; trang bìa riêng và đánh số lại từ 1 chỉ giữ ở section đầu; `--mmdc` sai đường dẫn báo lỗi thay vì lặng lẽ dùng mmdc khác; ảnh có dòng chú thích ngay dưới (cùng đoạn) vẫn được tách thành hình riêng, ảnh rộng và chú thích nằm chung trang ngang.
+- `md_to_docx.py`, `diagram_check.py --render`, `bpmn_tool.py`: không truyền `--browser` thì tự dùng Chrome/Edge đã cài (biến `BA_MERMAID_BROWSER`, `PUPPETEER_EXECUTABLE_PATH`, rồi đường dẫn cài đặt thường gặp). Trước đây cài công cụ Node với `PUPPETEER_SKIP_DOWNLOAD=1` mà quên `--browser` thì sơ đồ Mermaid trong Word giữ dạng mã.
+- `diagram_check.py`: hiểu nhãn viết trong mũi tên (`A -- Có --> B`); sơ đồ có front-matter `---` được kiểm tra và `--fix` chèn dòng khai báo sau front-matter; `--fix` không xóa nhãn chỉ gồm emoji và không sửa ví dụ Mermaid nằm trong khối code khác.
+- `preflight_check.py` Process Diagram: không còn đạt nhờ ảnh bất kỳ (logo), chữ `.bpmn` trong câu văn hoặc khối code, liên kết tới file không tồn tại; N/A chỉ khi có nhãn `[LỐI AGILE LITE]` ở đầu tài liệu. Human Sign-off: thấy bảng ký dưới mục con, bỏ dòng có ngày giả (`00/00/0000`) hoặc thiếu tên, không đếm `[CẦN XÁC NHẬN]` trong khối code, câu "không còn …" và ví dụ trong backtick.
+- Tài liệu mẫu: lệnh sinh lại ảnh BPMN chuyển vào chú thích HTML nên không lọt vào bản Word giao khách.
+- Rule và template còn vẽ quy trình bằng Mermaid `subgraph` (`as-is-process.md`, `process-flow.md`, `process-decomposition-guide.md`, `clinical-workflow-map.md`, `aml-kyc-process.md`, `impact-analysis-guide.md`) chuyển sang BPMN 2.0; `templates/brd.md` thêm mục quy trình As-Is/To-Be; giới hạn số bước thống nhất (Mermaid 12 nút, BPMN khoảng 15 hoạt động); định nghĩa cấp L0–L3 do `process-decomposition-guide.md` giữ; `CLAUDE.md` ghi Hard Gate 1–8.
+- Bộ Outsource: một bộ số chi phí, lợi ích, ROI thống nhất giữa BRD mục 3 và 9; Vision & Scope và Stakeholder Map điền đủ; mã điểm đau PD-01 đến PD-04 định nghĩa một chỗ; sơ đồ P1, P2, P3 và tổng quan khớp FR/BR (thêm BR-006 duyệt hai cấp theo nguyên giá, FR-TRF-003, US-TRF-003, TC-TRF-004; nhánh từ chối, phản đối, chi phí bảo trì vượt ngưỡng); ngày SRS và CR-001 khớp Change Log.
+- Bộ Product: chỉ trạng thái công khai mới gửi thông báo; số lần gửi lại ghi một cách; thêm nhánh `Declined`, lane Customer Success, nhánh không có gợi ý trùng và chặn gộp khác workspace; OKR 60% thống nhất; BRD, User Flow viết lại bằng tiếng Việt.
+
+---
+
 ## [3.10.0] — 2026-11-21
 
 Quy trình nghiệp vụ chuyển từ Mermaid BPMN-lite sang BPMN 2.0 thật (định dạng bpmn.io), theo yêu cầu vẽ đúng chuẩn.

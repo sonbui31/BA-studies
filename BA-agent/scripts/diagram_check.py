@@ -337,7 +337,9 @@ def main(argv: Optional[List[str]] = None) -> int:
         if not mmdc:
             print("LỖI: --render cần mermaid-cli (npm i -g @mermaid-js/mermaid-cli) hoặc --mmdc <đường dẫn>")
             return 2
-        findings += render_check(diagrams, mmdc, args.browser)
+        from wireframe_tool import find_browser  # an installed Chrome/Edge when mmdc has no Chromium of its own
+
+        findings += render_check(diagrams, mmdc, args.browser or find_browser())
 
     errors = [f for f in findings if f.level == "error"]
     warnings = [f for f in findings if f.level == "warning"]

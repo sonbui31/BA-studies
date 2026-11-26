@@ -1,7 +1,7 @@
 # CHUẨN VẼ SƠ ĐỒ BA
 
 > **Phạm vi:** file chủ của mọi quy tắc vẽ sơ đồ trong BA-agent. `BA-document-rule/core/diagram-guide.md` chỉ trỏ về đây.
-> **Công cụ:** quy trình nghiệp vụ vẽ bằng BPMN 2.0 (định dạng bpmn.io, mục 4); các sơ đồ còn lại vẽ bằng Mermaid trong Markdown.
+> **Công cụ:** quy trình nghiệp vụ vẽ bằng BPMN 2.0 (định dạng bpmn.io, mục 4); wireframe và mockup vẽ bằng Figma, StitchMCP hoặc HTML/PNG (mục 13); các sơ đồ còn lại vẽ bằng Mermaid trong Markdown.
 > **Kiểm tra tự động:** `python BA-agent/scripts/diagram_check.py <file-hoặc-thư-mục>` (thêm `--render` để vẽ thử bằng mermaid-cli). Xuất Word kèm hình: `md_to_docx.py` (cần mermaid-cli, xem `scripts/README.md`).
 > **Ví dụ minh họa:** hệ thống bán hàng trực tuyến. Ví dụ quy trình thật của một dự án: `BA-Documents-Outsource/04-Process-Flow.md`.
 
@@ -70,6 +70,7 @@ Sơ đồ `flowchart` dùng thêm bộ lớp màu sau, đặt ở cuối sơ đ�
 | 3 | Sequence Diagram | Các thành phần gọi nhau theo thứ tự nào? | SRS (tích hợp) | Dev |
 | 3 | State Diagram | Một đối tượng chuyển trạng thái ra sao? | SRS, Data Model | Dev, QC |
 | 3 | ERD | Dữ liệu liên kết thế nào? | Data Model, SRS | Dev, DBA |
+| 3 (UI) | Wireframe / Mockup | Màn hình bố trí vùng dữ liệu, nút thao tác và trạng thái thế nào? | SRS (mục 2.9), Screen Inventory | PO, UX, Dev, QC |
 | — | Gantt | Mốc thời gian, mốc thanh toán | Vision & Scope, kế hoạch | PM, Sponsor |
 
 Không trộn level trong một sơ đồ: Context không có bước xử lý, quy trình nghiệp vụ không có lời gọi API.
@@ -533,9 +534,29 @@ gantt
 
 ---
 
-## 13. Kiểm tra trước khi gửi sơ đồ
+## 13. Wireframe và Mockup
 
-Tự động: `bpmn_tool.py check` cho sơ đồ BPMN; `diagram_check.py` cho sơ đồ Mermaid (khối khai báo chuẩn, nhánh của hình thoi có nhãn, không `{{placeholder}}`, không `<<...>>` trong flowchart, không emoji, số bước không quá ngưỡng). Thêm `--render` để chắc sơ đồ vẽ được.
+Sơ đồ quy trình và kiến trúc không thay được giao diện màn hình. Quy trình lập Screen Inventory, chọn công cụ và cách gọi chi tiết nằm tại file chủ **`BA-document-rule/core/screen-inventory-guide.md`**. Dưới đây là chuẩn đầu ra khi đưa wireframe/mockup vào bộ tài liệu BA:
+
+| Mức trực quan | Nội dung tối thiểu | Công cụ chuẩn | Khi nào dùng |
+|---|---|---|---|
+| **Sketch** | Phân vùng khối chính (header, bộ lọc, bảng/form, thanh hành động) | Mermaid `graph TD` hoặc FigJam | Phác thảo nhanh trong buổi khơi gợi |
+| **Wireframe** | Bố cục thang xám, đủ nhãn trường, nút bấm, luồng điều hướng và ghi chú trạng thái lỗi/rỗng | Figma, hoặc HTML/CSS xuất PNG offline bằng `wireframe_tool.py render` | Chốt bố cục chức năng trong SRS mục 2.9 |
+| **Mockup** | Màu sắc, font, tỷ lệ, dữ liệu mẫu thực tế, phân cấp thị giác rõ | Figma MCP (theo Design System) hoặc StitchMCP | Trình PO/khách hàng duyệt giao diện hoặc bàn giao UI/UX |
+| **Prototype** | Chuyển màn hình tương tác giữa các frame chính | Figma Prototype | Kiểm thử khả năng sử dụng (Usability Testing) |
+
+Quy tắc bắt buộc khi nhúng vào tài liệu:
+
+1. **Một màn hình một mã (`SCR-01`, `SCR-02`...):** tên frame trên Figma, tên ảnh `wireframes/SCR-xx-<ten-khong-dau>.png`, dòng trong Screen Inventory và dòng trong bảng danh mục ảnh SRS mục 2.9.3 (nối màn hình với FR) dùng cùng một mã.
+2. **Luôn có ảnh cục bộ kèm liên kết nguồn:** nhúng ảnh PNG vào `05-SRS.md` mục 2.9 (để xuất Word bằng `md_to_docx.py` vẫn có hình) và ghi liên kết Figma, Stitch hoặc file `.html` nguồn ngay dưới ảnh.
+3. **Không dùng Mermaid thay wireframe giao khách ở Tier 2–3:** sơ đồ hộp chữ không thể hiện được form, bảng dữ liệu, thông báo lỗi hay bố cục di động.
+4. **Đủ trạng thái hiển thị:** ảnh wireframe/mockup đi cùng bảng 5 trạng thái trường (`Default`, `Active/Focus`, `Error`, `Disabled`, `Empty State`) trong SRS mục 2.9.2.
+
+---
+
+## 14. Kiểm tra trước khi gửi sơ đồ
+
+Tự động: `bpmn_tool.py check` cho sơ đồ BPMN; `diagram_check.py` cho sơ đồ Mermaid (khối khai báo chuẩn, nhánh của hình thoi có nhãn, không `{{placeholder}}`, không `<<...>>` trong flowchart, không emoji, số bước không quá ngưỡng). Thêm `--render` để chắc sơ đồ vẽ được. Wireframe/mockup: `wireframe_tool.py check <thư-mục-bộ-tài-liệu> --strict` (ảnh tồn tại, mã `SCR-xx` khớp Screen Inventory, có dòng nguồn dưới ảnh, không có ảnh thừa).
 
 Đọc tay:
 
@@ -549,16 +570,20 @@ Tự động: `bpmn_tool.py check` cho sơ đồ BPMN; `diagram_check.py` cho s�
 | 6 | Đúng level cho người đọc (mục 2), không lẫn thuật ngữ kỹ thuật vào sơ đồ nghiệp vụ? |
 | 7 | Tên bước, quy tắc, ngưỡng khớp BRD/SRS (ví dụ BR-002 trong sơ đồ và trong BRD cùng nội dung)? |
 | 8 | Người làm quy trình (SME) đã xem và xác nhận? Sơ đồ As-Is chưa được SME xác nhận thì ghi `[CẦN XÁC NHẬN]` cạnh tên sơ đồ. |
+| 9 | Mọi màn hình phức tạp trong SRS đã có ảnh wireframe/mockup, liên kết nguồn và đủ 5 trạng thái trường? |
 
 ---
 
-## 14. Công cụ
+## 15. Công cụ
 
 | Công cụ | Dùng khi |
 |---|---|
-| Mermaid | Mặc định cho mọi sơ đồ trừ quy trình nghiệp vụ; viết cùng tài liệu Markdown, kiểm tra bằng `diagram_check.py` |
+| Mermaid | Mặc định cho mọi sơ đồ trừ quy trình nghiệp vụ và wireframe bàn giao; viết cùng tài liệu Markdown, kiểm tra bằng `diagram_check.py` |
 | mermaid-cli (`mmdc`) | Vẽ sơ đồ thành ảnh khi xuất Word hoặc PDF |
 | bpmn.io / Camunda Modeler | Mở, sửa, xuất ảnh file `.bpmn` của quy trình (mục 4) |
 | `bpmn_tool.py` | Sinh `.bpmn` từ bản mô tả `.json`, kiểm tra mô hình, vẽ ảnh |
+| Figma (MCP / Design) | Vẽ wireframe và mockup chỉnh sửa được theo Design System; ảnh PNG lấy bằng Export hoặc Figma REST API rồi lưu `wireframes/` (mục 13) |
+| StitchMCP | Sinh nhanh mockup high-fidelity từ mô tả màn hình; ảnh PNG tải về `wireframes/` (mục 13) |
+| HTML/CSS + `wireframe_tool.py render` | Xuất ảnh wireframe low-fidelity offline bằng Chrome/Edge đã cài, khi không dùng Figma/Stitch hoặc dự án cấm đưa dữ liệu ra ngoài |
 | draw.io | Sơ đồ kiến trúc; BPMN khi khách bắt buộc dùng draw.io (khi đó `.drawio` là bản chuẩn) |
-| Miro, FigJam | Vẽ nháp cùng khách trong workshop; sau đó vẽ lại bằng Mermaid hoặc BPMN 2.0 |
+| Miro, FigJam | Vẽ nháp cùng khách trong workshop; sau đó vẽ lại bằng Mermaid, BPMN 2.0 hoặc Figma |

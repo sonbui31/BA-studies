@@ -23,20 +23,22 @@ Chuẩn hóa cách vẽ và review quy trình để tài liệu As-Is/To-Be rõ 
 | Parallel Gateway (AND) | Các nhánh chạy cùng lúc | Luôn có cặp tách và hợp | `P1{"+"}` … `P2{"+"}` |
 | Inclusive Gateway (OR) | Một hoặc nhiều nhánh | Ghi rõ điều kiện từng nhánh | Không có trong BPMN-lite: tách thành nhiều XOR hoặc vẽ BPMN 2.0 |
 | End Event | Kết thúc quy trình | Kết quả nghiệp vụ; mỗi kết quả một sự kiện | `E((("...")))` lớp `endEvt` |
-| Pool/Lane | Phân tách tổ chức/role | Tên phòng ban hoặc role | Màu và tên in đậm của bước; pool riêng thì dùng BPMN 2.0 |
+| Pool/Lane | Phân tách tổ chức/role | Tên phòng ban hoặc role | Màu và tên in đậm của bước (chỉ khi phác thảo); quy trình giao khách luôn vẽ BPMN 2.0 có pool/lane |
 
 ## 3. Process Decomposition
 
-| Level | Nội dung | Khi nào dừng |
-|-------|----------|--------------|
-| L0 | End-to-end value stream | Dùng cho sponsor |
-| L1 | Major process | Dùng cho BRD/process flow |
-| L2 | Activity groups | Dùng cho SRS/workshop |
-| L3 | Task-level detail | Dùng khi cần AC/test case |
+Định nghĩa L0–L3, tài liệu nào dùng level nào và quy tắc dừng phân rã: `core/process-decomposition-guide.md` (file chủ). Bảng dưới ghi level áp dụng cho dự án này.
+
+| Level | Tên (theo process-decomposition-guide) | Đặt ở | Quy trình của dự án |
+|-------|----------------------------------------|-------|---------------------|
+| L0 | Value Chain | Vision & Scope | {{}} |
+| L1 | Process Group | Vision & Scope, BRD | {{}} |
+| L2 | Process Detail (BPMN 2.0 có pool/lane) | BRD, Process Flow, SRS | {{}} |
+| L3 | Task/Work Instruction | SRS, User Story/AC, UAT | {{}} |
 
 ## 4. Gateway Checklist
 
-| Gateway ID | Loại (XOR/AND) | Câu hỏi điều kiện | Các nhánh và điều kiện | Nhánh mặc định | BR quyết định | Exception |
+| Gateway ID | Loại (XOR/AND/OR) | Câu hỏi điều kiện | Các nhánh và điều kiện | Nhánh mặc định | BR quyết định | Exception |
 |------------|----------------|-------------------|------------------------|----------------|---------------|-----------|
 | GW-001 | XOR | {{Điều kiện có đạt không?}} | {{Có: ... / Không: ...}} | {{}} | {{BR-xxx}} | {{}} |
 

@@ -1,7 +1,7 @@
 {
   "id": "feedback_asis",
   "name": "As-Is: Thu và phản hồi feedback khách hàng",
-  "pool": "SignalDesk — khách hàng và đội sản phẩm",
+  "pool": "Startup SaaS B2B: đội sản phẩm và khách hàng của họ",
   "lanes": [
     {"id": "khach_hang", "name": "Khách hàng"},
     {"id": "cs", "name": "Customer Success"},

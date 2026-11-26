@@ -109,7 +109,7 @@ Khi user yêu cầu tạo bộ tài liệu BA, agent phải cân nhắc các art
 | SRS/FRS | Functional requirements, NFRs, business rules, UI behavior, data, integration, error handling. |
 | Use Case Specification | Actors, preconditions, main flow, alternate flow, exception flow, postconditions. |
 | User Story + AC | INVEST, role-goal-benefit, Given-When-Then, negative/boundary/permission scenarios. |
-| Process Flow/BPMN | As-Is, To-Be, swimlanes, gateway rules, exception flow, handoff, SLA. |
+| Process Flow/BPMN | As-Is, To-Be, BPMN 2.0 pool/lane, gateway rules, exception flow, handoff, SLA. |
 | Context Diagram/DFD | System boundary, external actors/systems, data movement, integration touchpoints. |
 | ERD/Data Dictionary | Entities, attributes, relationships, validation rules, ownership, source of truth. |
 | RTM | Trace business need -> requirement -> feature -> story -> test case. |
@@ -169,7 +169,7 @@ Chọn sơ đồ theo câu hỏi cần trả lời:
 | Câu hỏi | Sơ đồ nên dùng |
 |---|---|
 | Ai tương tác với hệ thống? | Use Case Diagram / Context Diagram |
-| Quy trình nghiệp vụ chạy thế nào? | BPMN / Activity Diagram / Swimlane |
+| Quy trình nghiệp vụ chạy thế nào? | BPMN 2.0 (pool/lane), `so_do.md` mục 4 |
 | Dữ liệu đi qua đâu? | DFD / Integration Context |
 | Dữ liệu lưu thế nào? | ERD / Data Dictionary |
 | Các object/hệ thống gọi nhau theo thứ tự nào? | Sequence Diagram |

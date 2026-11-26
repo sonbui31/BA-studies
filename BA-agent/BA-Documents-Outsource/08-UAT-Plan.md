@@ -96,6 +96,7 @@
 |-------|----------|---------------------|----------|-------------------|---------|---------|--------|-----------|
 | TC-TRF-001 | **Tạo yêu cầu điều chuyển** | Tài sản đang Active, user khoa có quyền tạo yêu cầu | 1. Chọn tài sản<br>2. Chọn khoa nhận<br>3. Nhập lý do<br>4. Gửi yêu cầu | - Yêu cầu ở trạng thái Pending Approval | ☐ | BRQ-04 | FR-TRF-001 | US-TRF-001 |
 | TC-TRF-002 | **Xác nhận giao và nhận tài sản** | Yêu cầu điều chuyển đã duyệt | 1. Bên giao xác nhận<br>2. Bên nhận xác nhận | - Khoa sở hữu mới được cập nhật<br>- Có lịch sử điều chuyển | ☐ | BRQ-04 | FR-TRF-002 | US-TRF-002 |
+| TC-TRF-004 | **Duyệt hai bước cho tài sản giá trị cao** | Tài sản AP-TS-0210 nguyên giá 120.000.000 VND; yêu cầu điều chuyển đang Pending Approval | 1. Trưởng phòng Vật tư đồng ý<br>2. Kiểm tra trạng thái yêu cầu<br>3. Giám đốc vận hành đồng ý | - Sau bước 1 yêu cầu chờ Giám đốc vận hành duyệt (BR-006)<br>- Sau bước 3 yêu cầu ở trạng thái Approved<br>- Lịch sử ghi tên và thời điểm của cả hai người duyệt | ☐ | BRQ-04 | FR-TRF-003 | US-TRF-003 |
 | TC-TRF-003 | **Chặn điều chuyển tài sản chờ thanh lý** | Tài sản AP-TS-0105 ở trạng thái `PendingDisposal` | 1. Chọn tài sản AP-TS-0105<br>2. Chọn khoa nhận<br>3. Gửi yêu cầu điều chuyển | - Hệ thống chặn tạo yêu cầu<br>- Thông báo nêu rõ tài sản đang chờ thanh lý (BR-003)<br>- Không phát sinh bản ghi điều chuyển | ☐ | BRQ-04 | FR-TRF-001 | US-TRF-001 |
 | TC-INV-001 | **Mở đợt kiểm kê và ghi nhận lệch** | Danh sách tài sản khoa Nội đã sẵn sàng | 1. Tạo đợt kiểm kê<br>2. Quét barcode 3 tài sản<br>3. Đánh dấu 1 tài sản sai vị trí | - Đợt kiểm kê được tạo<br>- Tài sản lệch được phân loại `Sai vị trí` | ☐ | BRQ-05, BRQ-06 | FR-INV-001 | US-INV-001, US-INV-002 |
 
@@ -191,18 +192,18 @@
          BIÊN BẢN NGHIỆM THU / CHỨNG NHẬN CHẤP NHẬN
 ═══════════════════════════════════════════════════════════
 
-Dự án:      [Tên dự án]
-Hợp đồng:   [Số HĐ]
+Dự án:      Hệ thống Quản lý Tài sản Bệnh viện
+Hợp đồng:   HD-AP-2026-018
 Phiên bản:  [PB1 / PB2 / Cuối cùng]
 
 ────────────────────────────────────────────────────────
 
 1. CÁC BÊN:
 
-   BÊN A (Khách hàng):  [Tên công ty]
+   BÊN A (Khách hàng):  Bệnh viện Đa khoa An Phúc
    Đại diện:            [Họ tên, chức vụ]
 
-   BÊN B (Nhà cung cấp): [Tên công ty]
+   BÊN B (Nhà cung cấp): Công ty Giải pháp Số Sao Việt
    Đại diện:            [Họ tên, chức vụ]
 
 2. PHẠM VI NGHIỆM THU:

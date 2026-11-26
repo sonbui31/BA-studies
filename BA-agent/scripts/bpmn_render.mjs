@@ -22,6 +22,10 @@ const option = (name, fallback) => {
   return value;
 };
 const scale = Number(option("--scale", "2"));
+if (!Number.isFinite(scale) || scale <= 0) {
+  console.error("--scale needs a positive number, e.g. --scale 2");
+  process.exit(2);
+}
 const browserPath = option("--browser", process.env.BA_MERMAID_BROWSER || process.env.PUPPETEER_EXECUTABLE_PATH);
 const [input, output] = args;
 if (!input || !output || !/\.(png|svg)$/i.test(output)) {
@@ -49,11 +53,24 @@ try {
   }
 }
 const dist = path.join(modulesDir, "bpmn-js", "dist");
-const xml = readFileSync(input, "utf8");
+let xml;
+try {
+  xml = readFileSync(input, "utf8");
+} catch (error) {
+  console.error("Cannot read " + input + ": " + error.message);
+  process.exit(2);
+}
 
 const launchOptions = { headless: true, args: ["--no-sandbox"] };
 if (browserPath) launchOptions.executablePath = browserPath;
-const browser = await puppeteer.launch(launchOptions);
+let browser;
+try {
+  browser = await puppeteer.launch(launchOptions);
+} catch (error) {
+  const reason = String(error && error.message ? error.message : error).split(/\r?\n/)[0];
+  console.error("Cannot start a browser (" + reason + "). Pass --browser <chrome/edge path> or set BA_MERMAID_BROWSER.");
+  process.exit(2);
+}
 try {
   const page = await browser.newPage();
   await page.setContent('<!doctype html><html><head><meta charset="utf-8"></head><body style="margin:0"><div id="canvas" style="width:3000px;height:2000px"></div></body></html>');

@@ -1,4 +1,4 @@
-# TRACEABILITY VALIDATOR (v3.10)
+# TRACEABILITY VALIDATOR (v3.11)
 
 > **Mục đích:** Tự động phát hiện gaps trong cross-document traceability.
 > **Trigger:** Chạy SAU khi sinh xong bộ tài liệu (hoặc khi user yêu cầu audit).

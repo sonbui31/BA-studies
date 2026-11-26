@@ -1,8 +1,8 @@
 ---
-description: Business Analysis Workflow 3.10.0 - các bước lối L4, định tuyến theo ngành, rollback và ước lượng công
+description: Business Analysis Workflow 3.11.0 - các bước lối L4, định tuyến theo ngành, rollback và ước lượng công
 ---
 
-# BA Workflow Protocol 3.10.0
+# BA Workflow Protocol 3.11.0
 
 Các bước chi tiết của lối L4: định tuyến theo loại dự án và ngành (Government / Healthcare / Fintech), tài liệu phụ theo tín hiệu nghiệp vụ, rollback và ước lượng công.
 
@@ -171,7 +171,7 @@ Các bước chi tiết của lối L4: định tuyến theo loại dự án và
      - 🏥 HC → Tích hợp Clinical Workflow vào Process Flow + PHI NFRs vào SRS + DDI specs
      - 💰 FT → Tích hợp Transaction State Machine vào SRS + AML rules vào Feature Spec
    - **Auto-Diagram:** chọn loại sơ đồ theo `../so_do.md` mục 2. Quy trình nghiệp vụ: BPMN 2.0 (`../so_do.md` mục 4) bằng `../scripts/bpmn_tool.py build diagrams/<tên>.json --png diagrams/<tên>.png`, chèn ảnh kèm liên kết `.bpmn`, chạy `bpmn_tool.py check`. Sơ đồ khác: Mermaid theo khối khai báo chuẩn, chạy `../scripts/diagram_check.py --strict`
-   - **Wireframes:** Mermaid mockup cho screens trong Inventory; dùng công cụ thiết kế nếu môi trường có
+   - **Wireframes & Mockups:** lập Screen Inventory rồi vẽ bằng Figma MCP, StitchMCP hoặc HTML/PNG offline (`../scripts/wireframe_tool.py render`) lưu trong `wireframes/` kèm link nguồn (`../so_do.md` mục 13, `../BA-document-rule/core/screen-inventory-guide.md`), chạy `wireframe_tool.py check --strict`; Mermaid chỉ dùng phác thảo khối nhanh
    - **Requirement Quality Engine (NEW v3.3):**
      - Áp dụng 4 Decomposition Patterns (`../BA-document-rule/core/writing-guide.md` §10)
      - Khám phá NFR qua 7 câu hỏi (`../BA-document-rule/core/nfr-discovery-guide.md`)

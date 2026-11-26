@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="wireframe-size" content="1280x760">
+<title>SCR-04 Kiểm kê theo khoa</title><link rel="stylesheet" href="wireframe.css"></head>
+<body><div class="app">
+<div class="top">Quản lý tài sản — Bệnh viện Đa khoa An Phúc <small>Nhân viên Vật tư · Phòng Vật tư</small></div>
+<nav><a>Danh sách tài sản</a><a>Điều chuyển</a><a class="on">Kiểm kê</a><a>Bảo trì</a><a>Dashboard</a><a>Cấu hình</a></nav>
+<main>
+<h1>SCR-04 · Đợt kiểm kê KK-2026-Q4 · Khoa Nội tổng hợp</h1>
+<div class="sub">Đã quét 182 / 240 tài sản · 5 dòng lệch · Hạn chốt 30/11/2026</div>
+<div class="bar">
+  <span class="input" style="min-width:320px">Quét barcode hoặc nhập mã tài sản…</span>
+  <span class="btn">Đánh dấu thủ công (tem hỏng)</span>
+  <span class="select">Lọc: Chỉ dòng lệch</span>
+  <span class="btn main right">Gửi Trưởng khoa xác nhận</span><span class="btn off">Khóa sổ</span>
+</div>
+<table>
+<tr><th>Mã TS</th><th>Tên tài sản</th><th>Kết quả</th><th>Phân loại lệch (BR-005)</th><th>Ghi chú</th><th>Trưởng khoa</th></tr>
+<tr><td>TS-000511</td><td>Monitor theo dõi bệnh nhân</td><td><span class="tag">Khớp</span></td><td>—</td><td></td><td>—</td></tr>
+<tr><td>TS-000530</td><td>Bơm tiêm điện</td><td><span class="tag warn">Không tìm thấy</span></td><td><span class="select">Chờ xác minh</span></td><td>Có thể đang mượn ở khoa Ngoại</td><td>Chưa xác nhận</td></tr>
+<tr><td>TS-000544</td><td>Máy đo đường huyết</td><td><span class="tag warn">Sai vị trí</span></td><td><span class="select">Sai vị trí</span></td><td>Tìm thấy tại phòng 204</td><td>Đồng ý</td></tr>
+<tr><td>TS-000601</td><td>Xe đẩy cấp cứu</td><td><span class="tag warn">Hỏng</span></td><td><span class="select">Hỏng</span></td><td>Gãy bánh xe</td><td>Phản đối: đã sửa ngày 18/11</td></tr>
+</table>
+<div class="error">Barcode "8930000123" không thuộc danh sách tài sản của khoa này. Đã ghi một dòng lệch ở trạng thái Chờ xác minh.</div>
+<div class="note">Khóa sổ chỉ mở khi Trưởng khoa đã xác nhận mọi dòng lệch và Trưởng phòng Vật tư duyệt (FR-INV-001). Dòng bị Trưởng khoa phản đối quay lại kiểm lại.</div>
+</main></div></body></html>

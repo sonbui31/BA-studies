@@ -1,7 +1,7 @@
 # QUY TRÌNH BA — DỰ ÁN PRODUCT (SaaS / Platform / App)
 
-> **Methodology:** Product Development Cycle (Lean + Agile)
-> **Version:** 1.0 | **Ngày:** 06/03/2026
+> **Phương pháp:** Product Development Cycle (Lean + Agile)
+> **Phiên bản:** 1.0 | **Ngày:** 06/03/2026
 > **Đặc thù:** Data-driven, iteration liên tục, user research, metrics-focused
 
 ---

@@ -81,6 +81,7 @@ EMU_PER_TWIP = 635
 WIDE_IMAGE_RATIO = 1.3
 WIDE_IMAGE_MIN_PX = 1400
 IMAGE_ONLY_PARA = re.compile(r"^!\[([^\]]*)\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)$")
+IMAGE_WITH_CAPTION = re.compile(r"^(!\[[^\]]*\]\([^)\s]+(?:\s+\"[^\"]*\")?\))\s+(\S.*)$", re.S)
 EMU_PER_PX = 9525  # 96 dpi
 
 # Logical style -> canonical Word style name (used to find localized style ids in templates).
@@ -549,7 +550,9 @@ class MermaidRenderer:
     @staticmethod
     def find(explicit: Optional[str] = None) -> Optional[str]:
         local = Path(__file__).resolve().parent / "node_modules" / ".bin" / ("mmdc.cmd" if os.name == "nt" else "mmdc")
-        for candidate in (explicit, os.environ.get("BA_MMDC"), "mmdc", str(local)):
+        # A path the user names is the only one tried: falling back would hide a typo.
+        candidates = (explicit,) if explicit else (os.environ.get("BA_MMDC"), "mmdc", str(local))
+        for candidate in candidates:
             if not candidate:
                 continue
             found = shutil.which(candidate) or (candidate if Path(candidate).is_file() else None)
@@ -993,7 +996,7 @@ class DocxWriter:
         drawing = self._drawing_run(str(path), path.read_bytes, alt, path.name)
         return drawing if drawing else self._text_run(placeholder)
 
-    def _image_paragraph(self, text: str) -> Optional[str]:
+    def _image_paragraph(self, text: str, caption: Optional[str] = None) -> Optional[str]:
         """A paragraph holding only a local PNG/JPEG: centred, landscape page when wide."""
         match = IMAGE_ONLY_PARA.match(text)
         if not match:
@@ -1011,7 +1014,7 @@ class DocxWriter:
         if not info:
             return None
         _, width, height = info
-        return self._wide_picture_xml(lambda: self._drawing_run(str(path), path.read_bytes, alt or path.name, path.name), width, height)
+        return self._wide_picture_xml(lambda: self._drawing_run(str(path), path.read_bytes, alt or path.name, path.name), width, height, caption)
 
     def _landscape_sect(self) -> str:
         """The current section properties turned to landscape (headers, footers, margins kept)."""
@@ -1027,11 +1030,16 @@ class DocxWriter:
         size = f'<w:pgSz w:w="{max(w, h)}" w:h="{min(w, h)}" w:orient="landscape"/>'
         return sect[: match.start()] + size + sect[match.end():]
 
-    def _wide_picture_xml(self, drawing: Callable[[], Optional[str]], width_px: int, height_px: int) -> Optional[str]:
-        """Picture paragraph; wide pictures get a landscape page between two section breaks."""
+    def _wide_picture_xml(self, drawing: Callable[[], Optional[str]], width_px: int, height_px: int, caption: Optional[str] = None) -> Optional[str]:
+        """Picture paragraph (and its caption); wide pictures get a landscape page between two section breaks."""
+        center = '<w:jc w:val="center"/>'
+        keep = "<w:keepNext/>" if caption else ""  # picture and caption stay on one page
         if width_px < WIDE_IMAGE_MIN_PX or width_px / max(height_px, 1) < WIDE_IMAGE_RATIO:
             run = drawing()
-            return f'<w:p><w:pPr><w:jc w:val="center"/></w:pPr>{run}</w:p>' if run else None
+            if not run:
+                return None
+            under = self.paragraph(caption, extra_ppr=center) if caption else ""
+            return f"<w:p><w:pPr>{keep}{center}</w:pPr>{run}</w:p>{under}"
         landscape = self._landscape_sect()
         previous = self.max_image_emu
         self.max_image_emu = text_width(landscape) * EMU_PER_TWIP
@@ -1046,7 +1054,10 @@ class DocxWriter:
         self.counts["landscape_pages"] += 1
         # The landscape section ends on the picture's own paragraph (no empty paragraph that could
         # spill onto a page of its own); _resolve_sections decides which breaks are really needed.
-        return f'{BREAK_BEFORE}<w:p><w:pPr><w:jc w:val="center"/>{LANDSCAPE_SLOT}</w:pPr>{run}</w:p>{WIDE_END}'
+        if caption:  # the section ends on the caption, so it shares the landscape page
+            under = self.paragraph(caption, extra_ppr=center + LANDSCAPE_SLOT)
+            return f"{BREAK_BEFORE}<w:p><w:pPr>{keep}{center}</w:pPr>{run}</w:p>{under}{WIDE_END}"
+        return f'{BREAK_BEFORE}<w:p><w:pPr>{center}{LANDSCAPE_SLOT}</w:pPr>{run}</w:p>{WIDE_END}'
 
     def _resolve_sections(self, body: str) -> Tuple[str, str]:
         """Turn the wide-picture markers into section breaks; return (body, final sectPr).
@@ -1216,7 +1227,13 @@ class DocxWriter:
                     style = "Title"
                 out.append(self.paragraph(block.text, self.style_ids[style]))
             elif block.kind == "para":
-                picture = self._image_paragraph(block.text.strip())
+                text = block.text.strip()
+                picture = self._image_paragraph(text)
+                if not picture:
+                    # An image followed by its caption line ("Nguồn thiết kế: ...") in the same paragraph:
+                    # picture on its own (landscape page when wide), caption as a normal paragraph after it.
+                    lead = IMAGE_WITH_CAPTION.match(text)
+                    picture = self._image_paragraph(lead.group(1), lead.group(2)) if lead else None
                 out.append(picture if picture else self.paragraph(block.text))
             elif block.kind == "list":
                 out.append(self.list_xml(block))
@@ -1376,7 +1393,9 @@ def main(argv: Optional[List[str]] = None) -> int:
     if args.diagrams != "code":
         mmdc = MermaidRenderer.find(args.mmdc)
         if mmdc:
-            renderer = MermaidRenderer(mmdc, args.browser or os.environ.get("BA_MERMAID_BROWSER"))
+            from wireframe_tool import find_browser  # an installed Chrome/Edge when mmdc has no Chromium of its own
+
+            renderer = MermaidRenderer(mmdc, args.browser or find_browser())
         elif args.diagrams == "image":
             print("LỖI: --diagrams image cần mermaid-cli (npm i -g @mermaid-js/mermaid-cli) hoặc --mmdc <đường dẫn>")
             return 2

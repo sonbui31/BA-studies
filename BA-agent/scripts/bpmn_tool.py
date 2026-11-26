@@ -743,6 +743,10 @@ def render(bpmn_path: Path, out_path: Path, browser: Optional[str] = None) -> Tu
     if not node:
         return 2, "cần Node.js để vẽ ảnh (bpmn_render.mjs)"
     cmd = [node, str(script), str(bpmn_path), str(out_path)]
+    if not browser:
+        from wireframe_tool import find_browser  # an installed Chrome/Edge when puppeteer has none of its own
+
+        browser = find_browser()
     if browser:
         cmd += ["--browser", browser]
     try:

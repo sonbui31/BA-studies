@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="wireframe-size" content="1280x760">
+<title>SCR-02 Tạo/Sửa hồ sơ tài sản</title><link rel="stylesheet" href="wireframe.css"></head>
+<body><div class="app">
+<div class="top">Quản lý tài sản — Bệnh viện Đa khoa An Phúc <small>Nhân viên Vật tư · Phòng Vật tư</small></div>
+<nav><a class="on">Danh sách tài sản</a><a>Điều chuyển</a><a>Kiểm kê</a><a>Bảo trì</a><a>Dashboard</a><a>Cấu hình</a></nav>
+<main>
+<h1>SCR-02 · Tạo hồ sơ tài sản</h1>
+<div class="sub">Trường có dấu * là bắt buộc (FR-AST-001). Nhóm tài sản quyết định các trường hiển thị (FR-AST-003).</div>
+<div class="error">Không lưu được: Mã tài sản "TS-000124" đã tồn tại. Kiểm tra lại hoặc để hệ thống tự sinh mã.</div>
+<div class="form">
+  <div class="field bad"><label>Mã tài sản *</label><span class="input">TS-000124</span><div class="msg">Mã đã tồn tại</div></div>
+  <div class="field"><label>Tên tài sản *</label><span class="input">Máy siêu âm Doppler</span></div>
+  <div class="field"><label>Nhóm tài sản *</label><span class="input select">Thiết bị y tế quan trọng</span></div>
+  <div class="field"><label>Khoa sở hữu *</label><span class="input select">Chẩn đoán hình ảnh</span></div>
+  <div class="field"><label>Ngày mua *</label><span class="input">15/01/2026</span></div>
+  <div class="field"><label>Nguyên giá (VND) *</label><span class="input">1.250.000.000</span></div>
+  <div class="field"><label>Hạn bảo hành</label><span class="input">15/01/2029</span></div>
+  <div class="field"><label>Chu kỳ bảo trì (tháng) *</label><span class="input">6</span><div class="sub">Chỉ hiện với nhóm thiết bị y tế</div></div>
+  <div class="field"><label>Nhà cung cấp</label><span class="input select">Chọn nhà cung cấp</span></div>
+  <div class="field"><label>Barcode</label><span class="input">Chưa sinh — bấm "Sinh mã" sau khi lưu (FR-AST-002)</span></div>
+</div>
+<div class="bar" style="margin-top:16px"><span class="btn main">Lưu</span><span class="btn off">Sinh mã barcode</span><span class="btn">Hủy</span></div>
+<div class="note">Nút "Sinh mã barcode" bị khóa cho đến khi hồ sơ lưu thành công. Lỗi dịch vụ in tem: giữ hồ sơ, báo "Chưa in được tem, thử lại sau".</div>
+</main></div></body></html>

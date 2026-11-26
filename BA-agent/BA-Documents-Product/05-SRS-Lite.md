@@ -100,7 +100,7 @@ sequenceDiagram
 | Mã | Requirement | Mô tả chi tiết | Ref BRQ / BR | Actor | Ref Story |
 |---|---|---|---|---|---|
 | FR-STS-001 | Update public status | Precondition: feedback item đang active. Trigger: PM đổi status. Main flow: hệ thống kiểm tra status hợp lệ, lưu status history, cập nhật public portal. Exception: người dùng không có quyền public-facing status. Postcondition: hệ thống phát event `feedback_status_changed` và lưu audit log. | BRQ-03, BR-003, BR-005 | Product Manager | US-STS-001 |
-| FR-STS-002 | Notify subscribers on status change | Precondition: feedback item có subscriber. Trigger: FR-STS-001 thành công. Main flow: hệ thống tạo notification job; hệ thống gửi email hoặc in-app update. Exception: email bounce hoặc unsubscribed. Postcondition: hệ thống lưu notification status để retry/reporting. | BRQ-03 | System Scheduler | US-STS-001 |
+| FR-STS-002 | Notify subscribers on status change | Precondition: feedback item có subscriber. Trigger: FR-STS-001 thành công. Main flow: hệ thống tạo notification job; hệ thống gửi email hoặc in-app update. Exception: không còn người theo dõi đăng ký thì không tạo job; email bounce thì gửi lại tối đa 2 lần sau lần gửi đầu. Postcondition: hệ thống lưu notification status để retry/reporting. | BRQ-03 | System Scheduler | US-STS-001 |
 | FR-REL-001 | Link release note to delivered feedback | Precondition: PM tạo release note draft. Trigger: PM publish release note. Main flow: PM chọn feedback items đã `Released`; hệ thống gắn release note; hệ thống set `publish_at`; hệ thống phát event `release_note_published`. Exception: feedback chưa ở trạng thái Released. Postcondition: release note public hiển thị linked feedback trên portal. | BRQ-04, BRQ-05, BR-004 | Product Manager | US-REL-001 |
 
 ### 2.4. Data model summary
@@ -124,6 +124,7 @@ stateDiagram-v2
     Planned --> InProgress
     InProgress --> Released
     Reviewed --> Merged
+    Reviewed --> Declined
     Released --> Archived
 ```
 
@@ -133,9 +134,25 @@ stateDiagram-v2
 |---|---|---|---|---|
 | BR-001 | Mỗi user chỉ upvote một feedback item một lần | FR-POR-002 | VR-103 kiểm tra vote duy nhất theo workspace và email/account | TC-POR-002 |
 | BR-002 | Merge không làm mất vote, subscriber, audit history | FR-TRI-002 | Chuyển vote, subscriber, history từ child sang parent trong cùng giao dịch | TC-TRI-002 |
-| BR-003 | Chỉ status `Planned`, `In Progress`, `Released` hiển thị công khai | FR-STS-001 | Portal ẩn status `New`, `Reviewed`, `Merged` | TC-STS-002 |
+| BR-003 | Chỉ status `Planned`, `In Progress`, `Released` hiển thị công khai | FR-STS-001 | Portal ẩn status `New`, `Reviewed`, `Merged`, `Declined` | TC-STS-002 |
 | BR-004 | Release note chỉ hiển thị public sau `publish_at` | FR-REL-001 | Hệ thống set `publish_at` khi publish; portal chỉ hiển thị khi đã qua thời điểm này | TC-REL-001 |
 | BR-005 | Mọi transition status phải ghi event analytics và audit log | FR-STS-001 | Phát event `feedback_status_changed` và ghi audit log cho mỗi lần đổi status | TC-STS-001 |
+
+### 2.7. Màn hình chính (Wireframe)
+
+Hai màn hình phức tạp có wireframe; ảnh vẽ bằng HTML thang xám rồi xuất bằng `wireframe_tool.py render` (cách C trong `core/screen-inventory-guide.md`), dữ liệu trong ảnh là dữ liệu mẫu. Bản giao diện màu của đội thiết kế nằm trên Figma (BRD mục 4.3); khi hai bản lệch nhau, hành vi theo SRS này.
+
+| Mã MH | Tên màn hình | FR liên quan | Wireframe |
+|---|---|---|---|
+| SCR-01 | Portal feedback công khai | FR-POR-001, FR-POR-002, FR-STS-001 | `wireframes/SCR-01-portal-feedback.png` |
+| SCR-02 | Hộp thư phân loại của PM | FR-TRI-001, FR-TRI-002, FR-STS-001 | `wireframes/SCR-02-hop-thu-phan-loai.png` |
+| SCR-03 | Soạn release note | FR-REL-001 | Không cần: dùng trình soạn release note sẵn có, chỉ thêm ô chọn feedback đã `Released` |
+
+![SCR-01: Portal feedback công khai](wireframes/SCR-01-portal-feedback.png)
+*Nguồn thiết kế: [`wireframes/SCR-01-portal-feedback.html`](wireframes/SCR-01-portal-feedback.html) | Cấp trực quan: Wireframe. Gợi ý mục tương tự hiện khi khách gõ, trước khi cho gửi mục mới; mục đã bình chọn có nút xám (BR-001).*
+
+![SCR-02: Hộp thư phân loại của PM](wireframes/SCR-02-hop-thu-phan-loai.png)
+*Nguồn thiết kế: [`wireframes/SCR-02-hop-thu-phan-loai.html`](wireframes/SCR-02-hop-thu-phan-loai.html) | Cấp trực quan: Wireframe. Hộp xác nhận gộp nói rõ số phiếu bầu và người theo dõi được chuyển (BR-002); không có gợi ý trên ngưỡng thì chỉ còn hai nút.*
 
 ---
 
@@ -167,7 +184,7 @@ stateDiagram-v2
 
 | # | External Service | Purpose | Protocol | Auth | Error handling |
 |---|-----------------|---------|----------|------|----------------|
-| 1 | Email Service | Status notification | REST API | API Key | Retry 2 lần, dead-letter sau đó |
+| 1 | Email Service | Status notification | REST API | API Key | Gửi lại tối đa 2 lần sau lần gửi đầu (tổng 3 lần), sau đó chuyển hàng lỗi (dead-letter) |
 | 2 | Mixpanel | Event tracking | HTTPS | Token | Queue nếu fail, retry async |
 | 3 | Feature Flag Service | Gradual rollout | SDK/API | Server key | Default safe-off |
 

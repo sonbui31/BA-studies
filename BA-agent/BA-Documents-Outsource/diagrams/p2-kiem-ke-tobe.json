@@ -3,33 +3,43 @@
   "name": "P2 To-Be: Kiểm kê theo đợt",
   "pool": "Bệnh viện Đa khoa An Phúc",
   "lanes": [
-    {"id": "vat_tu", "name": "Phòng Vật tư"},
     {"id": "nv_vat_tu", "name": "Nhân viên Vật tư"},
-    {"id": "truong_khoa", "name": "Trưởng khoa"}
+    {"id": "he_thong", "name": "Hệ thống quản lý tài sản"},
+    {"id": "truong_khoa", "name": "Trưởng khoa"},
+    {"id": "tp_vat_tu", "name": "Trưởng phòng Vật tư"}
   ],
   "nodes": [
-    {"id": "start", "type": "start_timer", "name": "Đến kỳ kiểm kê", "lane": "vat_tu"},
-    {"id": "t1", "type": "user", "name": "Mở đợt kiểm kê cho khoa (FR-INV-001)", "lane": "vat_tu"},
-    {"id": "t2", "type": "user", "name": "Quét barcode từng tài sản", "lane": "nv_vat_tu"},
-    {"id": "g1", "type": "xor", "name": "Có chênh lệch?", "lane": "nv_vat_tu"},
-    {"id": "t3", "type": "user", "name": "Phân loại chênh lệch: Mất, Hỏng, Sai vị trí, Chờ xác minh", "lane": "nv_vat_tu"},
-    {"id": "g2", "type": "xor", "name": "Còn dòng chưa phân loại (BR-005)?", "lane": "nv_vat_tu"},
+    {"id": "start", "type": "start_timer", "name": "Đến kỳ kiểm kê", "lane": "nv_vat_tu"},
+    {"id": "t1", "type": "user", "name": "Mở đợt kiểm kê cho khoa (FR-INV-001)", "lane": "nv_vat_tu"},
+    {"id": "t2", "type": "user", "name": "Quét barcode từng tài sản; tem hỏng thì đánh dấu thủ công", "lane": "nv_vat_tu"},
+    {"id": "g1", "type": "xor", "name": "Có tài sản không tìm thấy, sai barcode hoặc lệch?", "lane": "nv_vat_tu"},
+    {"id": "m0", "type": "xor", "name": "", "lane": "nv_vat_tu", "row": 1},
+    {"id": "t3", "type": "user", "name": "Phân loại: Mất, Hỏng, Sai vị trí, Chờ xác minh", "lane": "nv_vat_tu", "row": 1},
+    {"id": "t_chk", "type": "business_rule", "name": "Kiểm tra mọi dòng lệch đã phân loại (BR-005)", "lane": "he_thong"},
+    {"id": "g2", "type": "xor", "name": "Còn dòng chưa phân loại?", "lane": "he_thong"},
     {"id": "m1", "type": "xor", "name": "", "lane": "truong_khoa"},
     {"id": "t4", "type": "user", "name": "Xác nhận kết quả kiểm kê của khoa", "lane": "truong_khoa"},
-    {"id": "t5", "type": "user", "name": "Khóa sổ đợt kiểm kê", "lane": "vat_tu"},
-    {"id": "end", "type": "end", "name": "Báo cáo lệch đã chốt", "lane": "vat_tu"}
+    {"id": "g3", "type": "xor", "name": "Trưởng khoa đồng ý?", "lane": "truong_khoa"},
+    {"id": "t_re", "type": "user", "name": "Kiểm lại tại khoa các dòng bị phản đối", "lane": "nv_vat_tu", "row": 1},
+    {"id": "t5", "type": "user", "name": "Duyệt chênh lệch, khóa sổ đợt kiểm kê", "lane": "tp_vat_tu"},
+    {"id": "end", "type": "end", "name": "Báo cáo lệch đã chốt", "lane": "tp_vat_tu"}
   ],
   "flows": [
     ["start", "t1"],
     ["t1", "t2"],
     ["t2", "g1"],
-    ["g1", "t3", "Có"],
+    ["g1", "m0", "Có"],
     ["g1", "m1", "Không"],
-    ["t3", "g2"],
-    ["g2", "t3", "Còn"],
+    ["m0", "t3"],
+    ["t3", "t_chk"],
+    ["t_chk", "g2"],
+    ["g2", "m0", "Còn"],
     ["g2", "m1", "Hết"],
     ["m1", "t4"],
-    ["t4", "t5"],
+    ["t4", "g3"],
+    ["g3", "t5", "Đồng ý"],
+    ["g3", "t_re", "Phản đối, ghi lý do"],
+    ["t_re", "m0"],
     ["t5", "end"]
   ]
 }

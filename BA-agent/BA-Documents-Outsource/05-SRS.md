@@ -1,7 +1,7 @@
 # ĐẶC TẢ YÊU CẦU PHẦN MỀM (SRS)
 # Dự án Gia công: Hệ thống Quản lý Tài sản Bệnh viện
 
-> **Phiên bản:** 1.0 | **Ngày:** 26/02/2026
+> **Phiên bản:** 1.0 | **Ngày:** 05/03/2026
 > **Trạng thái:** Baseline 1.0 — đã ký mục 8 ngày 05/03/2026; bản 1.1 là nháp theo CR-001, chờ duyệt
 > **Người chịu trách nhiệm:** Nguyễn Văn A — BA Lead
 > **Hợp đồng tham chiếu:** HD-AP-2026-018
@@ -33,7 +33,7 @@
 | BRD | 02-BRD.md | v1.0 đã ký |
 | Quy trình nghiệp vụ | 04-Process-Flow.md | v1.0 đã ký |
 | Story Map | 06-User-Story-Map.md | v1.0 |
-| Wireframe/Prototype | Figma / AP Asset v7 | v7 |
+| Wireframe | `wireframes/` (HTML thang xám + PNG, mục 6.2) | v1.0 |
 
 ### 1.4. Thuật ngữ & Viết tắt
 
@@ -88,9 +88,9 @@ flowchart LR
 
 | Mã | Yêu cầu | Mô tả chi tiết | Ưu tiên | Source BRQ | Primary Actor | Ref Wireframe |
 |----|---------|-----------------|---------|------------|---------------|---------------|
-| FR-AST-001 | Tạo hồ sơ tài sản mới | Precondition: người dùng có quyền `asset.create`. Trigger: người dùng mở form tạo tài sản. Main flow: nhập thông tin nhận diện, nhóm tài sản, khoa sở hữu, ngày mua, giá trị, bảo hành. Exception: thiếu trường bắt buộc hoặc mã tài sản trùng. Postcondition: tài sản ở trạng thái `Available` và có mã duy nhất. | P0 | BRQ-01 | Nhân viên Vật tư | S-001 |
-| FR-AST-002 | Tạo mã barcode cho tài sản | Precondition: FR-AST-001 thành công. Trigger: người dùng chọn `Sinh mã`. Main flow: hệ thống tạo barcode; hệ thống gắn barcode vào hồ sơ tài sản; hệ thống trả file in tem cho người dùng. Exception: lỗi kết nối dịch vụ in tem. Postcondition: hồ sơ tài sản lưu barcode cùng trạng thái in tem. | P0 | BRQ-02 | Nhân viên Vật tư | S-002 |
-| FR-AST-003 | Phân loại tài sản theo nhóm | Precondition: danh mục nhóm tài sản có sẵn. Trigger: người dùng chọn nhóm tài sản. Main flow: hệ thống áp dụng rule hiển thị trường phù hợp theo loại. Exception: nhóm tài sản bị vô hiệu hóa. Postcondition: tài sản có classification phục vụ báo cáo và SLA bảo trì. | P1 | BRQ-03 | Nhân viên Vật tư | S-003 |
+| FR-AST-001 | Tạo hồ sơ tài sản mới | Precondition: người dùng có quyền `asset.create`. Trigger: người dùng mở form tạo tài sản. Main flow: nhập thông tin nhận diện, nhóm tài sản, khoa sở hữu, ngày mua, giá trị, bảo hành. Exception: thiếu trường bắt buộc hoặc mã tài sản trùng. Postcondition: tài sản ở trạng thái `Available` và có mã duy nhất. | P0 | BRQ-01 | Nhân viên Vật tư | SCR-02 |
+| FR-AST-002 | Tạo mã barcode cho tài sản | Precondition: FR-AST-001 thành công. Trigger: người dùng chọn `Sinh mã`. Main flow: hệ thống tạo barcode; hệ thống gắn barcode vào hồ sơ tài sản; hệ thống trả file in tem cho người dùng. Exception: lỗi kết nối dịch vụ in tem. Postcondition: hồ sơ tài sản lưu barcode cùng trạng thái in tem. | P0 | BRQ-02 | Nhân viên Vật tư | SCR-02 |
+| FR-AST-003 | Phân loại tài sản theo nhóm | Precondition: danh mục nhóm tài sản có sẵn. Trigger: người dùng chọn nhóm tài sản. Main flow: hệ thống áp dụng rule hiển thị trường phù hợp theo loại. Exception: nhóm tài sản bị vô hiệu hóa. Postcondition: tài sản có classification phục vụ báo cáo và SLA bảo trì. | P1 | BRQ-03 | Nhân viên Vật tư | SCR-02 |
 
 **Quy tắc nghiệp vụ:**
 - BR-001: Mỗi tài sản chỉ có một mã định danh duy nhất trong toàn viện. Ref BRQ-01.
@@ -151,46 +151,82 @@ sequenceDiagram
 
 | Mã | Yêu cầu | Mô tả chi tiết | Ưu tiên | Source BRQ | Primary Actor | Ref Wireframe |
 |----|---------|-----------------|---------|------------|---------------|---------------|
-| FR-ADM-001 | Quản lý danh mục khoa/phòng và nhóm tài sản | Precondition: người dùng có quyền cấu hình. Trigger: vào màn hình cấu hình. Main flow: tạo/sửa/vô hiệu hóa danh mục. Exception: không cho vô hiệu hóa khi còn asset active tham chiếu. Postcondition: danh mục mới có hiệu lực cho các form nghiệp vụ. | P0 | BRQ-01 | Quản trị | S-004 |
-| FR-ADM-002 | Phân quyền theo vai trò | Precondition: role matrix đã được cấu hình. Trigger: người dùng đăng nhập. Main flow: hệ thống cấp quyền theo vai trò. Exception: vai trò bị vô hiệu hóa. Postcondition: người dùng chỉ thấy chức năng được cấp. | P0 | BRQ-04 | Quản trị | S-005 |
+| FR-ADM-001 | Quản lý danh mục khoa/phòng và nhóm tài sản | Precondition: người dùng có quyền cấu hình. Trigger: vào màn hình cấu hình. Main flow: tạo/sửa/vô hiệu hóa danh mục. Exception: không cho vô hiệu hóa khi còn asset active tham chiếu. Postcondition: danh mục mới có hiệu lực cho các form nghiệp vụ. | P0 | BRQ-01 | Quản trị | SCR-06 |
+| FR-ADM-002 | Phân quyền theo vai trò | Precondition: role matrix đã được cấu hình. Trigger: người dùng đăng nhập. Main flow: hệ thống cấp quyền theo vai trò. Exception: vai trò bị vô hiệu hóa. Postcondition: người dùng chỉ thấy chức năng được cấp. | P0 | BRQ-04 | Quản trị | SCR-01 |
 
 ---
 
 ### 2.2. Module 2: Điều chuyển và Kiểm kê
 
 **Goal:** Khóa trách nhiệm sở hữu tài sản và rút ngắn thời gian kiểm kê.
-**Actors:** Người dùng khoa, Trưởng khoa, Nhân viên Vật tư.
+**Actors:** Người dùng khoa, Trưởng khoa, Nhân viên Vật tư, Trưởng phòng Vật tư, Giám đốc vận hành.
 **Dependencies:** Asset master, role matrix, barcode.
 
 #### Tính năng 2.1: Điều chuyển tài sản
 
 | Mã | Yêu cầu | Mô tả chi tiết | Ưu tiên | Source BRQ | Primary Actor | Ref Wireframe |
 |----|---------|-----------------|---------|------------|---------------|---------------|
-| FR-TRF-001 | Tạo yêu cầu điều chuyển | Precondition: tài sản đang active và có khoa sở hữu. Trigger: người dùng khoa hoặc Vật tư tạo yêu cầu điều chuyển. Main flow: chọn tài sản, khoa nhận, lý do, ngày dự kiến. Exception: tài sản đang bảo trì hoặc ở trạng thái `PendingDisposal` theo BR-003. Postcondition: yêu cầu ở trạng thái `Pending Approval`. | P0 | BRQ-04 | Người dùng khoa | S-010 |
-| FR-TRF-002 | Xác nhận giao và nhận bàn giao | Precondition: FR-TRF-001 đã được phê duyệt. Trigger: bên giao xác nhận theo BR-002, sau đó bên nhận xác nhận. Main flow: hệ thống ghi nhận xác nhận của bên giao; hệ thống ghi nhận xác nhận của bên nhận; hệ thống cập nhật khoa sở hữu mới. Exception: quá hạn xác nhận hoặc một bên từ chối. Postcondition: hệ thống cập nhật lịch sử sở hữu và audit log. | P0 | BRQ-04 | Trưởng khoa / Vật tư | S-011 |
-| FR-INV-001 | Tạo đợt kiểm kê và chốt chênh lệch | Precondition: Nhân viên Vật tư có danh sách tài sản active của khoa. Trigger: Nhân viên Vật tư mở đợt kiểm kê. Main flow: quét barcode hoặc đánh dấu thủ công, ghi lệch theo BR-005, gửi xác nhận. Exception: tài sản không tìm thấy hoặc barcode sai. Postcondition: đợt kiểm kê có báo cáo lệch và trạng thái khóa sổ. | P0 | BRQ-05, BRQ-06 | Nhân viên Vật tư | S-012 |
+| FR-TRF-001 | Tạo yêu cầu điều chuyển | Precondition: tài sản đang active và có khoa sở hữu. Trigger: người dùng khoa giao tạo yêu cầu điều chuyển (Nhân viên Vật tư được tạo thay khi khoa giao đề nghị bằng văn bản). Main flow: chọn tài sản, khoa nhận, lý do, ngày dự kiến. Exception: tài sản đang bảo trì (`UnderMaintenance`), hoặc ở trạng thái `PendingDisposal` theo BR-003. Postcondition: yêu cầu ở trạng thái `Pending Approval`. | P0 | BRQ-04 | Người dùng khoa | SCR-03 |
+| FR-TRF-002 | Xác nhận giao và nhận bàn giao | Precondition: yêu cầu đã được duyệt theo FR-TRF-003. Trigger: bên giao xác nhận đã giao theo BR-002. Main flow: hệ thống ghi nhận xác nhận của bên giao; bên nhận kiểm tra tình trạng tài sản và xác nhận đã nhận; hệ thống cập nhật khoa sở hữu mới. Exception: bên nhận chưa xác nhận sau 48 giờ kể từ khi bên giao xác nhận thì hệ thống cảnh báo Phòng Vật tư, Trưởng khoa nhận; yêu cầu vẫn mở; bên nhận từ chối kèm lý do thì tài sản quay về khoa giao, yêu cầu đóng ở trạng thái `Cancelled`, khoa sở hữu giữ nguyên. Postcondition: hệ thống cập nhật lịch sử sở hữu, audit log. | P0 | BRQ-04 | Trưởng khoa / Vật tư | SCR-03 |
+| FR-TRF-003 | Duyệt yêu cầu điều chuyển | Precondition: yêu cầu ở trạng thái `Pending Approval` (FR-TRF-001). Trigger: Trưởng phòng Vật tư mở yêu cầu. Main flow: Trưởng phòng Vật tư đồng ý hoặc từ chối kèm lý do; nếu nguyên giá tài sản từ 50.000.000 VND, hệ thống chuyển yêu cầu sang Giám đốc vận hành duyệt bước hai theo BR-006. Exception: một người duyệt từ chối thì yêu cầu chuyển `Rejected`; khoa giao nhận thông báo kèm lý do. Postcondition: yêu cầu ở trạng thái `Approved` hoặc `Rejected`, có tên người duyệt, thời điểm của từng bước. | P0 | BRQ-04 | Trưởng phòng Vật tư / Giám đốc vận hành | SCR-03 |
+| FR-INV-001 | Tạo đợt kiểm kê và chốt chênh lệch | Precondition: Nhân viên Vật tư có danh sách tài sản active của khoa. Trigger: Nhân viên Vật tư mở đợt kiểm kê. Main flow: quét barcode, hoặc đánh dấu thủ công theo mã in trên tem khi tem hỏng; ghi, phân loại lệch theo BR-005; gửi Trưởng khoa xác nhận; Trưởng khoa xác nhận hoặc phản đối từng dòng kèm lý do, Nhân viên Vật tư kiểm lại dòng bị phản đối; Trưởng phòng Vật tư duyệt chênh lệch rồi khóa sổ. Exception: tài sản không tìm thấy hoặc barcode không khớp danh sách của khoa thì hệ thống ghi dòng lệch, mặc định `Chờ xác minh`. Postcondition: đợt kiểm kê có báo cáo lệch và trạng thái khóa sổ. | P0 | BRQ-05, BRQ-06 | Nhân viên Vật tư | SCR-04 |
 
 **Quy tắc nghiệp vụ:**
 - BR-002: Điều chuyển chỉ hoàn tất khi bên giao và bên nhận cùng xác nhận.
 - BR-005: Chênh lệch kiểm kê phải được phân loại trước khi khóa sổ.
 
-**Tiêu chí chấp nhận (FR-TRF-002)**
+**Tiêu chí chấp nhận (FR-TRF-001)**
 ```gherkin
-Scenario: Happy path - điều chuyển hoàn tất
-  Given yêu cầu điều chuyển đã được phê duyệt
-  When bên giao và bên nhận cùng xác nhận
-  Then hệ thống cập nhật khoa sở hữu mới
-    And ghi lịch sử điều chuyển
-
 Scenario: Negative - tài sản đang bảo trì
   Given tài sản ở trạng thái Under Maintenance
   When người dùng tạo yêu cầu điều chuyển
   Then hệ thống chặn tạo yêu cầu
 
-Scenario: Exception - quá hạn xác nhận
-  Given yêu cầu điều chuyển đã quá hạn 48 giờ
-  When bên nhận chưa xác nhận
-  Then hệ thống cảnh báo cho Vật tư và Trưởng khoa
+Scenario: Negative - tài sản chờ thanh lý (BR-003)
+  Given tài sản ở trạng thái PendingDisposal
+  When người dùng tạo yêu cầu điều chuyển
+  Then hệ thống chặn tạo yêu cầu và nêu lý do chờ thanh lý
+```
+
+**Tiêu chí chấp nhận (FR-TRF-003)**
+```gherkin
+Scenario: Happy path - tài sản dưới ngưỡng, một bước duyệt
+  Given yêu cầu điều chuyển tài sản nguyên giá 30.000.000 VND đang Pending Approval
+  When Trưởng phòng Vật tư đồng ý
+  Then yêu cầu chuyển sang Approved
+
+Scenario: Boundary - tài sản từ 50 triệu VND, hai bước duyệt (BR-006)
+  Given yêu cầu điều chuyển tài sản nguyên giá 50.000.000 VND đang Pending Approval
+  When Trưởng phòng Vật tư đồng ý
+  Then yêu cầu chờ Giám đốc vận hành duyệt
+    And chỉ chuyển sang Approved khi Giám đốc vận hành đồng ý
+
+Scenario: Negative - người duyệt từ chối
+  Given yêu cầu đang chờ duyệt
+  When người duyệt từ chối và nhập lý do
+  Then yêu cầu chuyển sang Rejected
+    And khoa giao nhận thông báo kèm lý do
+```
+
+**Tiêu chí chấp nhận (FR-TRF-002)**
+```gherkin
+Scenario: Happy path - điều chuyển hoàn tất
+  Given yêu cầu điều chuyển đã được duyệt
+  When bên giao và bên nhận cùng xác nhận
+  Then hệ thống cập nhật khoa sở hữu mới
+    And ghi lịch sử điều chuyển
+
+Scenario: Exception - bên nhận chưa xác nhận sau 48 giờ
+  Given bên giao đã xác nhận đã giao từ 48 giờ trước
+  When bên nhận vẫn chưa xác nhận
+  Then hệ thống cảnh báo cho Phòng Vật tư và Trưởng khoa nhận
+    And yêu cầu vẫn chờ bên nhận xác nhận
+
+Scenario: Negative - bên nhận từ chối
+  Given bên giao đã xác nhận đã giao
+  When bên nhận từ chối và nhập lý do
+  Then yêu cầu chuyển sang Cancelled
+    And khoa sở hữu của tài sản giữ nguyên là khoa giao
 ```
 
 ---
@@ -198,13 +234,13 @@ Scenario: Exception - quá hạn xác nhận
 ### 2.3. Module 3: Bảo trì và Báo cáo điều hành
 
 **Goal:** Giảm dừng thiết bị và hỗ trợ quyết định ngân sách.
-**Actors:** Nhân viên Vật tư, Ban điều hành, Kỹ sư bảo trì.
+**Actors:** Nhân viên Vật tư, Kỹ sư thiết bị y tế, Trưởng phòng Vật tư, Ban điều hành.
 
 | Mã | Yêu cầu | Mô tả chi tiết | Ưu tiên | Source BRQ | Primary Actor | Ref Wireframe |
 |----|---------|-----------------|---------|------------|---------------|---------------|
-| FR-MNT-001 | Lập lịch bảo trì định kỳ | Precondition: tài sản có chu kỳ bảo trì. Trigger: hệ thống scheduler chạy hằng ngày. Main flow: xác định tài sản sắp đến hạn theo BR-004, tạo nhắc việc. Exception: tài sản đang dừng sử dụng hoặc chờ thanh lý. Postcondition: có work item bảo trì và cảnh báo. | P0 | BRQ-07, BRQ-08 | Scheduler / Vật tư | S-020 |
-| FR-MNT-002 | Ghi nhận kết quả bảo trì | Precondition: Nhân viên Vật tư hoặc kỹ sư có lịch bảo trì mở. Trigger: Nhân viên Vật tư hoặc kỹ sư cập nhật kết quả. Main flow: nhập ngày thực hiện, nội dung, chi phí, trạng thái. Exception: chi phí vượt ngưỡng cần phê duyệt. Postcondition: lịch sử bảo trì cập nhật, hạn bảo trì kế tiếp được tính lại. | P0 | BRQ-07, BRQ-08 | Nhân viên Vật tư | S-021 |
-| FR-RPT-001 | Dashboard điều hành | Precondition: hệ thống đã ghi nhận dữ liệu nghiệp vụ. Trigger: Ban điều hành mở dashboard. Main flow: hệ thống hiển thị tổng số tài sản, tổng giá trị, tài sản sắp bảo trì, tài sản lệch kiểm kê theo bộ lọc khoa/thời gian. Exception: người dùng không có quyền executive dashboard. Postcondition: dashboard lưu bộ lọc cuối cùng của người dùng. | P1 | BRQ-09 | Ban điều hành | S-022 |
+| FR-MNT-001 | Lập lịch bảo trì định kỳ | Precondition: tài sản có chu kỳ bảo trì. Trigger: scheduler chạy lúc 06:00 hằng ngày. Main flow: hệ thống tìm tài sản sắp đến hạn (thiết bị y tế mức quan trọng cao trước 15 ngày theo BR-004, tài sản khác trước 7 ngày), tạo phiếu bảo trì, gửi cảnh báo cho Phòng Vật tư, khoa sở hữu; Nhân viên Vật tư chọn ngày và phân công kỹ sư thiết bị y tế hoặc nhà cung cấp dịch vụ. Cùng lần chạy, hệ thống gửi Phòng Vật tư danh sách tài sản còn 90 ngày nữa hết số năm sử dụng theo nhóm để xem xét thanh lý (BRQ-08). Exception: bỏ qua tài sản đang dừng sử dụng hoặc `PendingDisposal`. Postcondition: có phiếu bảo trì đã phân công, cảnh báo đã gửi. | P0 | BRQ-07, BRQ-08 | Scheduler / Vật tư | SCR-07 |
+| FR-MNT-002 | Ghi nhận kết quả bảo trì | Precondition: có phiếu bảo trì đã phân công (FR-MNT-001). Trigger: Kỹ sư thiết bị y tế hoặc Nhân viên Vật tư cập nhật kết quả. Main flow: nhập ngày thực hiện, nội dung, chi phí, trạng thái. Exception: chi phí trên 20.000.000 VND cần Trưởng phòng Vật tư duyệt trước khi đóng phiếu; người duyệt có thể trả lại để kỹ sư giải trình. Postcondition: phiếu đóng, lịch sử bảo trì cập nhật, hạn bảo trì kế tiếp được tính lại. | P0 | BRQ-07, BRQ-08 | Kỹ sư thiết bị y tế / Nhân viên Vật tư | SCR-07 |
+| FR-RPT-001 | Dashboard điều hành | Precondition: hệ thống đã ghi nhận dữ liệu nghiệp vụ. Trigger: Ban điều hành mở dashboard. Main flow: hệ thống hiển thị tổng số tài sản, tổng giá trị, tài sản sắp bảo trì, tài sản lệch kiểm kê theo bộ lọc khoa/thời gian. Exception: người dùng không có quyền executive dashboard. Postcondition: dashboard lưu bộ lọc cuối cùng của người dùng. | P1 | BRQ-09 | Ban điều hành | SCR-05 |
 
 ### 2.4. Mô hình dữ liệu tóm tắt
 
@@ -240,6 +276,7 @@ stateDiagram-v2
 | BR-003 | Tài sản `Chờ thanh lý` không được cấp phát lại | FR-TRF-001 | Chặn tạo yêu cầu điều chuyển khi tài sản ở trạng thái `PendingDisposal` | TC-TRF-003 |
 | BR-004 | Thiết bị y tế quan trọng phải có lịch bảo trì và cảnh báo trước tối thiểu 15 ngày | FR-AST-001, FR-MNT-001 | VR-103 bắt buộc chu kỳ bảo trì; scheduler tạo cảnh báo trước hạn 15 ngày | TC-AST-003, TC-MNT-001 |
 | BR-005 | Chênh lệch kiểm kê phải được phân loại trước khi khóa sổ | FR-INV-001 | Không cho chốt đợt kiểm kê khi còn dòng lệch chưa phân loại | TC-INV-001 |
+| BR-006 | Tài sản nguyên giá từ 50 triệu VND cần thêm Giám đốc vận hành duyệt điều chuyển | FR-TRF-003 | Sau khi Trưởng phòng Vật tư đồng ý, hệ thống so nguyên giá với ngưỡng và chuyển bước duyệt thứ hai | TC-TRF-004 |
 
 ---
 
@@ -343,13 +380,35 @@ stateDiagram-v2
 
 ### 6.2. Màn hình chính (Ref Wireframe)
 
-| Mã MH | Tên màn hình | Module | Link Wireframe | Ưu tiên |
-|-------|-------------|--------|----------------|---------|
-| S-001 | Danh sách tài sản | Danh mục tài sản | Figma/AP-001 | P0 |
-| S-002 | Tạo/Sửa hồ sơ tài sản | Danh mục tài sản | Figma/AP-002 | P0 |
-| S-003 | Điều chuyển tài sản | Điều chuyển | Figma/AP-010 | P0 |
-| S-004 | Kiểm kê theo khoa | Kiểm kê | Figma/AP-011 | P0 |
-| S-005 | Dashboard điều hành | Báo cáo | Figma/AP-020 | P1 |
+Mã `SCR-xx` ở bảng dưới là mã dùng trong cột Ref Wireframe của các bảng FR và trong RTM (mục 7). Wireframe vẽ bằng HTML thang xám rồi xuất ảnh bằng `wireframe_tool.py render` (cách C trong `core/screen-inventory-guide.md`), dữ liệu trong ảnh là dữ liệu mẫu. Bố cục chốt ở đây; màu và chữ theo hệ thống thiết kế ở mục 6.1. Trạng thái lỗi và rỗng của từng màn hình ghi trong khung ghi chú cuối ảnh.
+
+| Mã MH | Tên màn hình | Module | FR liên quan | Wireframe | Ưu tiên |
+|-------|-------------|--------|--------------|-----------|---------|
+| SCR-01 | Danh sách tài sản | Danh mục tài sản | FR-ADM-002, FR-AST-001 | `wireframes/SCR-01-danh-sach-tai-san.png` | P0 |
+| SCR-02 | Tạo/Sửa hồ sơ tài sản | Danh mục tài sản | FR-AST-001, FR-AST-002, FR-AST-003 | `wireframes/SCR-02-ho-so-tai-san.png` | P0 |
+| SCR-03 | Yêu cầu điều chuyển | Điều chuyển | FR-TRF-001, FR-TRF-002, FR-TRF-003 | `wireframes/SCR-03-dieu-chuyen-tai-san.png` | P0 |
+| SCR-04 | Kiểm kê theo khoa | Kiểm kê | FR-INV-001 | `wireframes/SCR-04-kiem-ke-theo-khoa.png` | P0 |
+| SCR-05 | Dashboard điều hành | Báo cáo | FR-RPT-001 | `wireframes/SCR-05-dashboard-dieu-hanh.png` | P1 |
+| SCR-06 | Cấu hình danh mục khoa/phòng, nhóm tài sản | Quản trị | FR-ADM-001 | Không cần: bảng thêm/sửa/khóa 3 trường, dùng mẫu danh mục chuẩn của hệ thống thiết kế | P1 |
+| SCR-07 | Phiếu bảo trì | Bảo trì | FR-MNT-001, FR-MNT-002 | `wireframes/SCR-07-phieu-bao-tri.png` | P0 |
+
+![SCR-01: Danh sách tài sản](wireframes/SCR-01-danh-sach-tai-san.png)
+*Nguồn thiết kế: [`wireframes/SCR-01-danh-sach-tai-san.html`](wireframes/SCR-01-danh-sach-tai-san.html) | Cấp trực quan: Wireframe. Người dùng khoa chỉ thấy tài sản của khoa mình; tài sản đang bảo trì hoặc chờ thanh lý không có thao tác Điều chuyển.*
+
+![SCR-02: Tạo hồ sơ tài sản](wireframes/SCR-02-ho-so-tai-san.png)
+*Nguồn thiết kế: [`wireframes/SCR-02-ho-so-tai-san.html`](wireframes/SCR-02-ho-so-tai-san.html) | Cấp trực quan: Wireframe. Ảnh chụp ở trạng thái lỗi mã trùng; nút Sinh mã barcode khóa đến khi lưu xong.*
+
+![SCR-03: Yêu cầu điều chuyển](wireframes/SCR-03-dieu-chuyen-tai-san.png)
+*Nguồn thiết kế: [`wireframes/SCR-03-dieu-chuyen-tai-san.html`](wireframes/SCR-03-dieu-chuyen-tai-san.html) | Cấp trực quan: Wireframe. Thanh bước thể hiện duyệt hai cấp theo BR-006 và cảnh báo 48 giờ của FR-TRF-002.*
+
+![SCR-04: Kiểm kê theo khoa](wireframes/SCR-04-kiem-ke-theo-khoa.png)
+*Nguồn thiết kế: [`wireframes/SCR-04-kiem-ke-theo-khoa.html`](wireframes/SCR-04-kiem-ke-theo-khoa.html) | Cấp trực quan: Wireframe. Ảnh có dòng lệch ở cả ba loại theo BR-005, một dòng bị Trưởng khoa phản đối và lỗi barcode ngoài danh sách.*
+
+![SCR-05: Dashboard điều hành](wireframes/SCR-05-dashboard-dieu-hanh.png)
+*Nguồn thiết kế: [`wireframes/SCR-05-dashboard-dieu-hanh.html`](wireframes/SCR-05-dashboard-dieu-hanh.html) | Cấp trực quan: Wireframe. Ô biểu đồ chỉ đánh dấu vị trí; loại biểu đồ chốt ở đây, kiểu vẽ theo hệ thống thiết kế.*
+
+![SCR-07: Phiếu bảo trì](wireframes/SCR-07-phieu-bao-tri.png)
+*Nguồn thiết kế: [`wireframes/SCR-07-phieu-bao-tri.html`](wireframes/SCR-07-phieu-bao-tri.html) | Cấp trực quan: Wireframe. Ảnh chụp phiếu có chi phí trên 20 triệu nên nút chính là Gửi duyệt.*
 
 ---
 
@@ -359,20 +418,21 @@ stateDiagram-v2
 
 | Mục BRQ | Mã FR/NFR | Wireframe | Story | Kịch bản KT | Trạng thái |
 |---------|-----------|-----------|-------|-------------|-----------|
-| BRQ-01 | FR-AST-001 | S-001, S-002 | US-AST-001 | TC-AST-001 | ☐ |
-| BRQ-01 | FR-ADM-001 | S-004 | US-ADM-001 | TC-ADM-001 | ☐ |
-| BRQ-02 | FR-AST-002 | S-002 | US-AST-002 | TC-AST-002 | ☐ |
-| BRQ-03 | FR-AST-003 | S-002 | US-AST-003 | TC-AST-003 | ☐ |
-| BRQ-04 | FR-TRF-001 | S-003 | US-TRF-001 | TC-TRF-001, TC-TRF-003 | ☐ |
-| BRQ-04 | FR-TRF-002 | S-003 | US-TRF-002 | TC-TRF-002 | ☐ |
-| BRQ-04 | FR-ADM-002 | S-005 | US-ADM-002 | TC-ADM-002 | ☐ |
-| BRQ-05 | FR-INV-001 | S-004 | US-INV-001 | TC-INV-001 | ☐ |
-| BRQ-06 | FR-INV-001 | S-004 | US-INV-002 | TC-INV-001 | ☐ |
-| BRQ-07 | FR-MNT-001 | S-005 | US-MNT-001 | TC-MNT-001 | ☐ |
-| BRQ-07 | FR-MNT-002 | S-005 | US-MNT-002 | TC-MNT-002 | ☐ |
-| BRQ-08 | FR-MNT-001 | S-005 | US-MNT-001 | TC-MNT-001 | ☐ |
-| BRQ-09 | FR-RPT-001 | S-005 | US-RPT-001 | TC-RPT-001 | ☐ |
-| BRQ-09 | NFR-PERF-001 | S-005 | — | TC-NFR-001 | ☐ |
+| BRQ-01 | FR-AST-001 | SCR-01, SCR-02 | US-AST-001 | TC-AST-001 | ☐ |
+| BRQ-01 | FR-ADM-001 | SCR-06 | US-ADM-001 | TC-ADM-001 | ☐ |
+| BRQ-02 | FR-AST-002 | SCR-02 | US-AST-002 | TC-AST-002 | ☐ |
+| BRQ-03 | FR-AST-003 | SCR-02 | US-AST-003 | TC-AST-003 | ☐ |
+| BRQ-04 | FR-TRF-001 | SCR-03 | US-TRF-001 | TC-TRF-001, TC-TRF-003 | ☐ |
+| BRQ-04 | FR-TRF-002 | SCR-03 | US-TRF-002 | TC-TRF-002 | ☐ |
+| BRQ-04 | FR-TRF-003 | SCR-03 | US-TRF-003 | TC-TRF-004 | ☐ |
+| BRQ-04 | FR-ADM-002 | SCR-01 | US-ADM-002 | TC-ADM-002 | ☐ |
+| BRQ-05 | FR-INV-001 | SCR-04 | US-INV-001 | TC-INV-001 | ☐ |
+| BRQ-06 | FR-INV-001 | SCR-04 | US-INV-002 | TC-INV-001 | ☐ |
+| BRQ-07 | FR-MNT-001 | SCR-07 | US-MNT-001 | TC-MNT-001 | ☐ |
+| BRQ-07 | FR-MNT-002 | SCR-07 | US-MNT-002 | TC-MNT-002 | ☐ |
+| BRQ-08 | FR-MNT-001 | SCR-07 | US-MNT-001 | TC-MNT-001 | ☐ |
+| BRQ-09 | FR-RPT-001 | SCR-05 | US-RPT-001 | TC-RPT-001 | ☐ |
+| BRQ-09 | NFR-PERF-001 | SCR-05 | — | TC-NFR-001 | ☐ |
 | BRQ-05 | NFR-PERF-003 | — | — | TC-NFR-001 | ☐ |
 | BRQ-01 | NFR-SEC-004 | — | — | TC-NFR-003 | ☐ |
 

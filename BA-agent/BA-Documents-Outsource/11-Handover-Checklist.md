@@ -1,5 +1,5 @@
 # DANH MỤC BÀN GIAO & CHUYỂN GIAO KIẾN THỨC
-# Dự án [Tên dự án]
+# Dự án Hệ thống Quản lý Tài sản Bệnh viện
 
 > **⚠️ ĐẶC THÙ GIA CÔNG: Bàn giao là giai đoạn BẮT BUỘC — KH cần tự vận hành sau khi NCC rời đi**
 
@@ -129,8 +129,8 @@
          BIÊN BẢN BÀN GIAO
 ═══════════════════════════════════════════════════
 
-Dự án:      [Tên dự án]
-Hợp đồng:   [HĐ-ID]
+Dự án:      Hệ thống Quản lý Tài sản Bệnh viện
+Hợp đồng:   HD-AP-2026-018
 Ngày:       ___/___/______
 
 Các bên xác nhận đã hoàn tất bàn giao:

@@ -73,6 +73,11 @@ jobs:
           python BA-agent/scripts/bpmn_tool.py check BA-agent/BA-Documents-Product/diagrams --strict
           python BA-agent/scripts/bpmn_tool.py check BA-agent/diagrams --strict
 
+      - name: Wireframes and screen codes
+        run: |
+          python BA-agent/scripts/wireframe_tool.py check BA-agent/BA-Documents-Outsource --strict
+          python BA-agent/scripts/wireframe_tool.py check BA-agent/BA-Documents-Product --strict
+
       - name: Pre-flight on sample bundles
         run: |
           python BA-agent/scripts/preflight_check.py BA-agent/BA-Documents-Outsource

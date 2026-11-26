@@ -47,7 +47,7 @@
 
 | Gap còn lại | Ưu tiên | Gợi ý triển khai |
 |-------------|:-------:|------------------|
-| Tool execution thật với Jira/Confluence/Figma | High | Thêm connector workflow hoặc hướng dẫn thao tác theo từng tool |
+| Tool execution thật với Jira/Confluence (wireframe đã có: Figma/Stitch trong `screen-inventory-guide.md`, `so_do.md` mục 13; HTML offline và kiểm tra mã màn hình bằng `wireframe_tool.py`) | High | Thêm connector workflow hoặc hướng dẫn thao tác cho Jira/Confluence; xuất PNG từ Figma bằng REST API khi có token |
 | SIT/UAT automation scripts | Medium | Mở rộng `traceability_scan.py` để check test coverage từ `test-strategy.md` |
 | Analytics event linting | Medium | Thêm script kiểm tra event naming và required properties |
 | RBAC consistency scan | Medium | Thêm script check Role/Permission trong SRS/API/UAT |

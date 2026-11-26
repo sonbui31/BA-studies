@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:color="http://www.omg.org/spec/BPMN/non-normative/color/1.0" id="Definitions_feedback_asis" targetNamespace="http://bpmn.io/schema/bpmn" exporter="BA-agent bpmn_tool.py" exporterVersion="1.0">
   <bpmn:collaboration id="Collaboration_feedback_asis">
-    <bpmn:participant id="Participant_feedback_asis" name="SignalDesk — khách hàng và đội sản phẩm" processRef="Process_feedback_asis" />
+    <bpmn:participant id="Participant_feedback_asis" name="Startup SaaS B2B: đội sản phẩm và khách hàng của họ" processRef="Process_feedback_asis" />
   </bpmn:collaboration>
   <bpmn:process id="Process_feedback_asis" name="As-Is: Thu và phản hồi feedback khách hàng" isExecutable="false">
     <bpmn:laneSet id="LaneSet_feedback_asis">

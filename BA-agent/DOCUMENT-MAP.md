@@ -1,7 +1,7 @@
-# HƯỚNG DẪN BỘ TÀI LIỆU BA (Document Map v3.10)
+# HƯỚNG DẪN BỘ TÀI LIỆU BA (Document Map v3.11)
 
 > **Mục đích:** Giải thích chức năng và nội dung từng file trong hệ thống BA-agent
-> **Cập nhật:** 21/11/2026 — v3.10 (quy trình nghiệp vụ vẽ bằng BPMN 2.0, `bpmn_tool.py`)
+> **Cập nhật:** 26/11/2026 — v3.11 (wireframe/mockup bằng Figma, StitchMCP hoặc HTML offline, `wireframe_tool.py`; quy trình nghiệp vụ vẽ bằng BPMN 2.0, `bpmn_tool.py`)
 
 ---
 
@@ -63,7 +63,7 @@
 | `README.md` | Tổng quan: cách hoạt động, cấu trúc thư mục, flow sử dụng |
 | `QUICK-START.md` | Hướng dẫn 5 phút: chọn overlay → copy template → viết tài liệu |
 | `Anti_ai_writing_rules.md` | Bộ quy tắc viết văn nghiêm ngặt chống "mùi AI": 27 Điều & Checklist 13 bước tự kiểm duyệt văn bản |
-| `so_do.md` | Chuẩn vẽ sơ đồ BA, file chủ của mọi quy tắc vẽ: quy trình nghiệp vụ bằng BPMN 2.0 (`.bpmn` + ảnh, `bpmn_tool.py`), sơ đồ khác (Context, Use Case, Sequence, State, ERD, Decision, User Journey, Gantt) bằng Mermaid; khối khai báo chung, mười quy tắc, chọn sơ đồ theo level |
+| `so_do.md` | Chuẩn vẽ sơ đồ BA, file chủ của mọi quy tắc vẽ: quy trình nghiệp vụ bằng BPMN 2.0 (`.bpmn` + ảnh, `bpmn_tool.py`), wireframe/mockup bằng Figma MCP, StitchMCP hoặc HTML/PNG (mục 13), sơ đồ khác (Context, Use Case, Sequence, State, ERD, Decision, User Journey, Gantt) bằng Mermaid; khối khai báo chung, mười quy tắc, chọn sơ đồ theo level |
 
 ### 📁 Curated templates/ — NGUỒN TEMPLATE DUY NHẤT cho BRD, SRS, User Story, AC
 
@@ -105,7 +105,7 @@
 | `project-classification-gate.md` | ⭐ Gate phân loại dự án trước khi chọn tài liệu; bắt buộc Product Vision cho product/B2B/commercializable MVP | ⭐ NEW |
 | `pre-flight-checklist.md` | ⭐ Pre-Flight Engine: checklist per document type — PASS mới được viết | ⭐ NEW |
 | `traceability-validator.md` | ⭐ Auto-scan cross-doc traceability: BRQ→FR/NFR→Feature→US→AC/TC + bi-directional + impact chain | ⬆ v3.4.3 |
-| `screen-inventory-guide.md` | ⭐ Screen Inventory & Wireframe enforcement: mỗi Feature ≥ 1 screen | v3.0 |
+| `screen-inventory-guide.md` | ⭐ Screen Inventory, Wireframe & Mockup protocol (Figma MCP, StitchMCP, HTML/PNG offline, quy ước nhúng `wireframes/`, kiểm tra bằng `wireframe_tool.py`) | ⬆ v3.11 |
 | `requirement-quality-rubric.md` | ⭐ Rubric 5 bậc chấm điểm từng câu requirement + 8 Smell Detector patterns | ⭐ NEW v3.3 |
 | `decision-analysis-framework.md` | ⭐ 4 công cụ ra quyết định: Weighted Scoring, Pugh, CBA, Decision Tree | ⭐ NEW v3.3 |
 | `nfr-discovery-guide.md` | ⭐ 7 câu hỏi + 5 kỹ thuật phát hiện NFR specific cho từng dự án | ⭐ NEW v3.3 |

@@ -25,11 +25,11 @@
 
 | # | Quy trình | Yêu cầu liên quan | Ưu tiên | Trạng thái | Khách hàng duyệt |
 |---|-----------|-------------------|---------|-----------|------------------|
-| P1 | Điều chuyển tài sản giữa các khoa | BRQ-04, BR-002, BR-003, FR-TRF-001, FR-TRF-002 | P0 | Baseline 1.0 | Đã ký 26/02/2026 |
+| P1 | Điều chuyển tài sản giữa các khoa | BRQ-04, BR-002, BR-003, BR-006, FR-TRF-001, FR-TRF-002, FR-TRF-003 | P0 | Baseline 1.0 | Đã ký 26/02/2026 |
 | P2 | Kiểm kê theo đợt | BRQ-05, BRQ-06, BR-005, FR-INV-001 | P0 | Baseline 1.0 | Đã ký 26/02/2026 |
-| P3 | Cảnh báo và lên lịch bảo trì | BRQ-07, BRQ-08, BR-004 | P0 | Baseline 1.0 | Đã ký 26/02/2026 |
+| P3 | Cảnh báo và lên lịch bảo trì | BRQ-07, BRQ-08, BR-004, FR-MNT-001, FR-MNT-002 | P0 | Baseline 1.0 | Đã ký 26/02/2026 |
 
-Đọc sơ đồ: mỗi làn (lane) là một vai trò, bước nằm trong làn nào thì vai trò đó làm (làn "Hệ thống quản lý tài sản" là bước tự động); hình thoi chữ X là rẽ nhánh một đường, dấu + là làm song song; vòng tròn có đồng hồ là chờ thời gian; vòng tròn viền đậm là kết thúc. Ô viền đỏ trong sơ đồ As-Is là bước gây điểm đau.
+Đọc sơ đồ: mỗi làn (lane) là một vai trò, bước nằm trong làn nào thì vai trò đó làm (làn "Hệ thống quản lý tài sản" là bước tự động); hình thoi chữ X là rẽ nhánh một đường, dấu + là làm song song; vòng tròn có đồng hồ là chờ thời gian; vòng tròn viền đậm là kết thúc. Ô viền đỏ trong sơ đồ As-Is là bước gây điểm đau; mã PD-xx định nghĩa một lần ở `02-BRD.md` mục 6.1. Tên làn khớp vai trò trong `03-Stakeholder-Map.md` mục 2.3.
 
 ---
 
@@ -45,7 +45,7 @@ Bản chuẩn BPMN 2.0: [`diagrams/p1-dieu-chuyen-asis.bpmn`](diagrams/p1-dieu-c
 
 | Mã | Điểm đau | Mức | Nguồn |
 |---|---|---|---|
-| PD-02 | Điều chuyển không có luồng xác nhận chuẩn; file Excel và thực tế lệch nhau | 🟠 Cao | SRC-01 · E2 (`02-BRD.md` mục 6.1) |
+| PD-02 | Điều chuyển ghi tay hoặc qua email, không có luồng xác nhận giao nhận; không rõ ai đang giữ tài sản | 🟠 Cao | SRC-01 · E2 |
 
 ### 3.2. Tương lai (To-Be)
 
@@ -54,6 +54,8 @@ Bản chuẩn BPMN 2.0: [`diagrams/p1-dieu-chuyen-asis.bpmn`](diagrams/p1-dieu-c
 Bản chuẩn BPMN 2.0: [`diagrams/p1-dieu-chuyen-tobe.bpmn`](diagrams/p1-dieu-chuyen-tobe.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler.
 
 <!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/p1-dieu-chuyen-tobe.json --png diagrams/p1-dieu-chuyen-tobe.png -->
+
+Đọc sơ đồ: hệ thống chặn yêu cầu khi tài sản đang bảo trì (FR-TRF-001) hoặc ở trạng thái `Chờ thanh lý` (BR-003). Trưởng phòng Vật tư duyệt mọi yêu cầu (FR-TRF-003); tài sản có nguyên giá từ 50 triệu VND cần thêm Giám đốc vận hành duyệt (BR-006). Sau khi khoa giao xác nhận đã giao, khoa nhận kiểm tra tình trạng và xác nhận; quá 48 giờ chưa xác nhận thì hệ thống cảnh báo Phòng Vật tư và Trưởng khoa nhận, bước xác nhận vẫn chờ (đồng hồ viền đứt, không ngắt). Khoa nhận từ chối (tài sản sai tình trạng, thiếu phụ kiện) thì khoa giao nhận lại tài sản, yêu cầu đóng kèm lý do và khoa sở hữu giữ nguyên.
 
 **Cải tiến:** mỗi lần điều chuyển có người yêu cầu, người duyệt, người giao, người nhận và thời điểm hoàn tất (BRQ-04); khoa sở hữu chỉ đổi sau xác nhận thứ hai (BR-002).
 
@@ -71,8 +73,8 @@ Bản chuẩn BPMN 2.0: [`diagrams/p2-kiem-ke-asis.bpmn`](diagrams/p2-kiem-ke-as
 
 | Mã | Điểm đau | Mức | Nguồn |
 |---|---|---|---|
-| PD-01 | Không có mã duy nhất; một tài sản có nhiều tên, đếm trùng hoặc sót | 🔴 Nghiêm trọng | SRC-01 · E2, SRC-02 · E4 |
-| PD-03 | Gộp file từ nhiều khoa mất khoảng 3 ngày công mỗi tháng | 🟡 Trung bình | SRC-02 · E4 |
+| PD-01 | Tài sản ghi bằng tên tự đặt, không có mã chung; một tài sản mang nhiều tên nên kiểm kê đếm trùng hoặc sót | 🔴 Nghiêm trọng | SRC-01 · E2, SRC-02 · E4 |
+| PD-04 | Gộp file nhiều khoa bằng tay: kiểm kê mất khoảng 3 ngày, báo cáo điều hành chậm 5-7 ngày | 🟡 Trung bình | SRC-02 · E4 |
 
 ### 4.2. Tương lai (To-Be)
 
@@ -82,19 +84,25 @@ Bản chuẩn BPMN 2.0: [`diagrams/p2-kiem-ke-tobe.bpmn`](diagrams/p2-kiem-ke-to
 
 <!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/p2-kiem-ke-tobe.json --png diagrams/p2-kiem-ke-tobe.png -->
 
+Đọc sơ đồ: Nhân viên Vật tư mở đợt và quét barcode từng tài sản; tem hỏng hoặc không đọc được thì đánh dấu thủ công theo mã in trên tem (FR-INV-001). Tài sản không tìm thấy, barcode không khớp danh sách của khoa hoặc nằm sai vị trí đều thành dòng lệch phải phân loại; hệ thống không cho gửi kết quả khi còn dòng chưa phân loại (BR-005). Trưởng khoa xác nhận, hoặc phản đối từng dòng kèm lý do; dòng bị phản đối được kiểm lại tại khoa rồi phân loại lại. Chỉ Trưởng phòng Vật tư duyệt chênh lệch cuối cùng và khóa sổ (`02-BRD.md` mục 4.7).
+
 **Cải tiến:** kiểm kê tháng từ khoảng 3 ngày xuống 1 ngày (`02-BRD.md` mục 6.2); không chốt đợt khi còn chênh lệch chưa phân loại (BR-005).
 
 ---
 
 ## 5. P3 — Cảnh báo và lên lịch bảo trì (To-Be)
 
-As-Is: không có lịch bảo trì tập trung; kỹ sư thiết bị nhớ hạn theo sổ riêng (SRC-03). Không vẽ sơ đồ As-Is vì không có quy trình chung để vẽ.
+As-Is: không có lịch bảo trì tập trung; kỹ sư thiết bị y tế nhớ hạn theo email và sổ riêng (PD-03, SRC-03). Không vẽ sơ đồ As-Is riêng vì không có quy trình chung; bước này có trong sơ đồ tổng quan As-Is (`02-BRD.md` mục 6.1).
 
 ![P3 To-Be: Cảnh báo và lên lịch bảo trì](diagrams/p3-bao-tri-tobe.png)
 
 Bản chuẩn BPMN 2.0: [`diagrams/p3-bao-tri-tobe.bpmn`](diagrams/p3-bao-tri-tobe.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler.
 
 <!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/p3-bao-tri-tobe.json --png diagrams/p3-bao-tri-tobe.png -->
+
+Đọc sơ đồ: lần quét 06:00 lấy các tài sản có chu kỳ bảo trì. Thiết bị y tế mức quan trọng cao được cảnh báo trước 15 ngày (BR-004), tài sản khác trước 7 ngày; tài sản đang dừng sử dụng hoặc `Chờ thanh lý` bị bỏ qua (FR-MNT-001). Nhân viên Vật tư chọn ngày và giao phiếu cho kỹ sư thiết bị y tế hoặc nhà cung cấp dịch vụ. Kỹ sư ghi kết quả và chi phí (FR-MNT-002); chi phí trên 20 triệu VND phải được Trưởng phòng Vật tư duyệt trước khi đóng phiếu, thiếu căn cứ thì trả lại kỹ sư giải trình. Đóng phiếu xong hệ thống tính hạn bảo trì kế tiếp.
+
+Cảnh báo tài sản sắp hết thời gian sử dụng để xem xét thanh lý (BRQ-08) chạy cùng lần quét nhưng không vẽ ở đây: hệ thống gửi Phòng Vật tư danh sách tài sản còn 90 ngày nữa hết số năm sử dụng theo nhóm (FR-MNT-001). Hồ sơ và quyết định thanh lý làm ngoài hệ thống ở giai đoạn 1 (`02-BRD.md` mục 4.3).
 
 ---
 
@@ -118,6 +126,6 @@ Bản chuẩn BPMN 2.0: [`diagrams/p3-bao-tri-tobe.bpmn`](diagrams/p3-bao-tri-to
 |-----------|-----------|--------------------------|------|---------|
 | P1: Điều chuyển tài sản | 1.0 | Phạm Thu Hà — Trưởng phòng Vật tư (đã ký) | 26/02/2026 | Ký cùng BRD |
 | P2: Kiểm kê theo đợt | 1.0 | Phạm Thu Hà — Trưởng phòng Vật tư (đã ký) | 26/02/2026 | Ký cùng BRD |
-| P3: Cảnh báo bảo trì | 1.0 | Phạm Thu Hà — Trưởng phòng Vật tư (đã ký) | 26/02/2026 | Kỹ sư thiết bị đã xem trước (SRC-03) |
+| P3: Cảnh báo bảo trì | 1.0 | Phạm Thu Hà — Trưởng phòng Vật tư (đã ký) | 26/02/2026 | Kỹ sư thiết bị y tế đã xem trước (SRC-03) |
 
 > Tên người ký là dữ liệu minh họa của tài liệu mẫu. **Sau khi phê duyệt**, quy trình là baseline; mọi thay đổi đi qua Yêu cầu thay đổi (CR).

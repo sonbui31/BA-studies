@@ -65,6 +65,8 @@ REQUIRED_FILES = [
     ROOT / "scripts" / "diagram_check.py",
     ROOT / "scripts" / "bpmn_tool.py",
     ROOT / "scripts" / "bpmn_render.mjs",
+    ROOT / "scripts" / "wireframe_tool.py",
+    ROOT / "tests" / "test_wireframes.py",
     ROOT / "scripts" / "package.json",
     ROOT / "tests" / "test_bpmn.py",
     ROOT / "diagrams" / "vi-du-hoan-tien.bpmn",

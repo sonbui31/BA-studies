@@ -9,8 +9,8 @@
   "nodes": [
     {"id": "start", "type": "start_timer", "name": "Cuối tháng", "lane": "vat_tu"},
     {"id": "a1", "type": "manual", "name": "In danh sách tài sản từ file Excel từng khoa", "lane": "vat_tu"},
-    {"id": "a2", "type": "manual", "name": "Đếm và đánh dấu tay tại từng khoa (PD-01)", "lane": "nv_vat_tu", "highlight": "pain"},
-    {"id": "a3", "type": "manual", "name": "Gộp kết quả, dò chênh lệch bằng tay (PD-03)", "lane": "vat_tu", "highlight": "pain"},
+    {"id": "a2", "type": "manual", "name": "Đếm và đánh dấu tay theo tên trong file (PD-01)", "lane": "nv_vat_tu", "highlight": "pain"},
+    {"id": "a3", "type": "manual", "name": "Gộp kết quả, dò chênh lệch bằng tay (PD-04)", "lane": "vat_tu", "highlight": "pain"},
     {"id": "end", "type": "end", "name": "Báo cáo kiểm kê sau khoảng 3 ngày", "lane": "vat_tu"}
   ],
   "flows": [

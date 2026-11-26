@@ -80,14 +80,12 @@ graph TD
     DM -->|"L5"| UAT["UAT<br/>+ 3 Test Cases"]
     DM -->|"L6"| CODE["Code<br/>Asset form<br/>+ API + Migration"]
     USM --> UAT
-    
-    style CR fill:#ffeb3b
-    style SRS fill:#e3f2fd
-    style DM fill:#fce4ec
-    style USM fill:#e8f5e9
-    style UAT fill:#fff3e0
-    style CODE fill:#f3e5f5
+
+    classDef pain fill:#FFF5F5,stroke:#C53030,stroke-dasharray:2 2
+    class CR pain
 ```
+
+Chỉ dùng bộ lớp màu của `so_do.md` mục 1.1, không đặt `style` riêng; ở đây lớp `pain` đánh dấu thay đổi gốc.
 
 ---
 

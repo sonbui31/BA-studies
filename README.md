@@ -25,7 +25,7 @@ Hệ thống AI Agent đóng vai Business Analyst — thu thập yêu cầu, ph�
 | [USER-GUIDE.md](BA-agent/USER-GUIDE.md) | Hướng dẫn sử dụng |
 | [DOCUMENT-MAP.md](BA-agent/DOCUMENT-MAP.md) | Bản đồ toàn bộ tài liệu BA |
 | [Anti_ai_writing_rules.md](BA-agent/Anti_ai_writing_rules.md) | Bộ quy tắc viết văn chống "mùi AI" (24 Điều cấm & Checklist) |
-| [so_do.md](BA-agent/so_do.md) | Quy chuẩn vẽ sơ đồ Mermaid Level 0→3 |
+| [so_do.md](BA-agent/so_do.md) | Chuẩn vẽ sơ đồ: quy trình nghiệp vụ bằng BPMN 2.0 (`.bpmn` + ảnh), sơ đồ khác bằng Mermaid |
 | `agents/` | Agent persona (ba-specialist) |
 | `workflows/` | Quy trình BA workflow |
 | `scripts/` | 19 scripts: preflight, quality rubric, traceability (cả ID riêng của dự án qua `ba-scheme.json`), xuất Word theo mẫu khách và gom góp ý Track Changes, knowledge search... |
@@ -136,7 +136,7 @@ Hãy làm việc với tôi theo kiểu hỏi đáp 1-1, đi theo ĐÚNG 6 bư�
 - Checklist: có actor rõ? có edge case? có mâu thuẫn với rule khác?
 
 ═══ BƯỚC 5 — TÀI LIỆU HÓA (Documentation) ═══
-- Xuất output theo đúng format: Stakeholder Map (bảng 6 cột), BPMN (text hoặc Mermaid), User Story + AC.
+- Xuất output theo đúng format: Stakeholder Map (bảng 6 cột), BPMN 2.0 (file `.bpmn` + ảnh PNG, `so_do.md` mục 4), User Story + AC.
 - Gắn version/ngày cập nhật.
 
 ═══ BƯỚC 6 — BÀN GIAO & PHẢN HỒI (Handoff) ═══
@@ -508,19 +508,22 @@ Sau đó tạo:
 5. Exception flows
 ```
 
-Nếu muốn Mermaid:
+Nếu muốn sơ đồ quy trình giao khách:
 
 ```text
-Hãy vẽ quy trình trên bằng Mermaid.
-Dùng swimlane nếu có nhiều actor/phòng ban.
+Hãy vẽ quy trình trên bằng BPMN 2.0 theo BA-agent/so_do.md mục 4.
+Mỗi actor/phòng ban một lane. Viết bản mô tả diagrams/<tên>.json,
+sinh .bpmn và ảnh .png bằng bpmn_tool.py, chèn ảnh kèm liên kết tới .bpmn.
 ```
+
+Chỉ cần phác thảo nhanh trong lúc trao đổi thì nhờ vẽ Mermaid (BPMN-lite, `so_do.md` mục 4.5); bản phác thảo không thay sơ đồ BPMN 2.0 trong tài liệu.
 
 Chọn diagram:
 
 | Cần hiểu gì | Diagram phù hợp |
 |---|---|
 | Ai dùng hệ thống | Use Case / Context Diagram |
-| Quy trình chạy thế nào | BPMN / Activity / Swimlane |
+| Quy trình chạy thế nào | BPMN 2.0 (pool/lane) |
 | Dữ liệu đi đâu | DFD |
 | Dữ liệu lưu thế nào | ERD |
 | Thành phần gọi nhau thế nào | Sequence Diagram |

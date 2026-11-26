@@ -13,9 +13,14 @@
       </bpmn:lane>
       <bpmn:lane id="vat_tu" name="Phòng Vật tư">
         <bpmn:flowNodeRef>a2</bpmn:flowNodeRef>
-        <bpmn:flowNodeRef>a5</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g1</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>a6</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>g2</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>a7</bpmn:flowNodeRef>
         <bpmn:flowNodeRef>end</bpmn:flowNodeRef>
+      </bpmn:lane>
+      <bpmn:lane id="ky_su" name="Kỹ sư thiết bị y tế">
+        <bpmn:flowNodeRef>a5</bpmn:flowNodeRef>
       </bpmn:lane>
     </bpmn:laneSet>
     <bpmn:startEvent id="start" name="Có tài sản mới">
@@ -25,7 +30,7 @@
       <bpmn:incoming>Flow_1</bpmn:incoming>
       <bpmn:outgoing>Flow_2</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="a2" name="Ghi vào file Excel tổng (PD-01)">
+    <bpmn:task id="a2" name="Ghi vào file Excel tổng, tên tự đặt, không có mã chung (PD-01)">
       <bpmn:incoming>Flow_2</bpmn:incoming>
       <bpmn:outgoing>Flow_3</bpmn:outgoing>
     </bpmn:task>
@@ -33,39 +38,63 @@
       <bpmn:incoming>Flow_3</bpmn:incoming>
       <bpmn:outgoing>Flow_4</bpmn:outgoing>
     </bpmn:task>
-    <bpmn:task id="a4" name="Điều chuyển ghi tay hoặc qua email (PD-02)">
+    <bpmn:inclusiveGateway id="g1" name="Phát sinh việc gì trong tháng?">
       <bpmn:incoming>Flow_4</bpmn:incoming>
       <bpmn:outgoing>Flow_5</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="a5" name="Kiểm kê bằng tay cuối tháng">
-      <bpmn:incoming>Flow_5</bpmn:incoming>
       <bpmn:outgoing>Flow_6</bpmn:outgoing>
-    </bpmn:task>
-    <bpmn:task id="a6" name="Gộp file các khoa, làm báo cáo Excel (PD-03)">
-      <bpmn:incoming>Flow_6</bpmn:incoming>
       <bpmn:outgoing>Flow_7</bpmn:outgoing>
+    </bpmn:inclusiveGateway>
+    <bpmn:task id="a4" name="Điều chuyển ghi tay hoặc qua email (PD-02)">
+      <bpmn:incoming>Flow_5</bpmn:incoming>
+      <bpmn:outgoing>Flow_8</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="a5" name="Nhắc và làm bảo trì theo email, sổ riêng (PD-03)">
+      <bpmn:incoming>Flow_6</bpmn:incoming>
+      <bpmn:outgoing>Flow_9</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:task id="a6" name="Kiểm kê bằng tay cuối tháng">
+      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:outgoing>Flow_10</bpmn:outgoing>
+    </bpmn:task>
+    <bpmn:inclusiveGateway id="g2" name="">
+      <bpmn:incoming>Flow_8</bpmn:incoming>
+      <bpmn:incoming>Flow_9</bpmn:incoming>
+      <bpmn:incoming>Flow_10</bpmn:incoming>
+      <bpmn:outgoing>Flow_11</bpmn:outgoing>
+    </bpmn:inclusiveGateway>
+    <bpmn:task id="a7" name="Gộp file các khoa, làm báo cáo Excel (PD-04)">
+      <bpmn:incoming>Flow_11</bpmn:incoming>
+      <bpmn:outgoing>Flow_12</bpmn:outgoing>
     </bpmn:task>
     <bpmn:endEvent id="end" name="Báo cáo điều hành chậm 5-7 ngày">
-      <bpmn:incoming>Flow_7</bpmn:incoming>
+      <bpmn:incoming>Flow_12</bpmn:incoming>
     </bpmn:endEvent>
     <bpmn:sequenceFlow id="Flow_1" sourceRef="start" targetRef="a1" />
     <bpmn:sequenceFlow id="Flow_2" sourceRef="a1" targetRef="a2" />
     <bpmn:sequenceFlow id="Flow_3" sourceRef="a2" targetRef="a3" />
-    <bpmn:sequenceFlow id="Flow_4" sourceRef="a3" targetRef="a4" />
-    <bpmn:sequenceFlow id="Flow_5" sourceRef="a4" targetRef="a5" />
-    <bpmn:sequenceFlow id="Flow_6" sourceRef="a5" targetRef="a6" />
-    <bpmn:sequenceFlow id="Flow_7" sourceRef="a6" targetRef="end" />
+    <bpmn:sequenceFlow id="Flow_4" sourceRef="a3" targetRef="g1" />
+    <bpmn:sequenceFlow id="Flow_5" name="Khoa cần chuyển tài sản" sourceRef="g1" targetRef="a4" />
+    <bpmn:sequenceFlow id="Flow_6" name="Thiết bị đến hạn bảo trì" sourceRef="g1" targetRef="a5" />
+    <bpmn:sequenceFlow id="Flow_7" name="Cuối tháng" sourceRef="g1" targetRef="a6" />
+    <bpmn:sequenceFlow id="Flow_8" sourceRef="a4" targetRef="g2" />
+    <bpmn:sequenceFlow id="Flow_9" sourceRef="a5" targetRef="g2" />
+    <bpmn:sequenceFlow id="Flow_10" sourceRef="a6" targetRef="g2" />
+    <bpmn:sequenceFlow id="Flow_11" sourceRef="g2" targetRef="a7" />
+    <bpmn:sequenceFlow id="Flow_12" sourceRef="a7" targetRef="end" />
   </bpmn:process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_tong_quan_asis">
     <bpmndi:BPMNPlane id="BPMNPlane_tong_quan_asis" bpmnElement="Collaboration_tong_quan_asis">
       <bpmndi:BPMNShape id="Participant_tong_quan_asis_di" bpmnElement="Participant_tong_quan_asis" isHorizontal="true">
-        <dc:Bounds x="160" y="80" width="1470" height="400" />
+        <dc:Bounds x="160" y="80" width="1572" height="600" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="khoa_di" bpmnElement="khoa" isHorizontal="true">
-        <dc:Bounds x="190" y="80" width="1440" height="200" />
+        <dc:Bounds x="190" y="80" width="1542" height="200" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="vat_tu_di" bpmnElement="vat_tu" isHorizontal="true">
-        <dc:Bounds x="190" y="280" width="1440" height="200" />
+        <dc:Bounds x="190" y="280" width="1542" height="200" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="ky_su_di" bpmnElement="ky_su" isHorizontal="true">
+        <dc:Bounds x="190" y="480" width="1542" height="200" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="start_di" bpmnElement="start">
         <dc:Bounds x="287" y="162" width="36" height="36" />
@@ -82,19 +111,31 @@
       <bpmndi:BPMNShape id="a3_di" bpmnElement="a3">
         <dc:Bounds x="770" y="140" width="130" height="80" />
       </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g1_di" bpmnElement="g1">
+        <dc:Bounds x="996" y="355" width="50" height="50" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="890" y="313" width="110" height="40" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="a4_di" bpmnElement="a4" bioc:stroke="#C53030" bioc:fill="#FFF5F5" color:border-color="#C53030" color:background-color="#FFF5F5">
-        <dc:Bounds x="960" y="140" width="130" height="80" />
+        <dc:Bounds x="1142" y="140" width="130" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="a5_di" bpmnElement="a5">
-        <dc:Bounds x="1150" y="340" width="130" height="80" />
+      <bpmndi:BPMNShape id="a5_di" bpmnElement="a5" bioc:stroke="#C53030" bioc:fill="#FFF5F5" color:border-color="#C53030" color:background-color="#FFF5F5">
+        <dc:Bounds x="1142" y="540" width="130" height="80" />
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape id="a6_di" bpmnElement="a6" bioc:stroke="#C53030" bioc:fill="#FFF5F5" color:border-color="#C53030" color:background-color="#FFF5F5">
-        <dc:Bounds x="1340" y="340" width="130" height="80" />
+      <bpmndi:BPMNShape id="a6_di" bpmnElement="a6">
+        <dc:Bounds x="1142" y="340" width="130" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="g2_di" bpmnElement="g2">
+        <dc:Bounds x="1332" y="355" width="50" height="50" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="a7_di" bpmnElement="a7" bioc:stroke="#C53030" bioc:fill="#FFF5F5" color:border-color="#C53030" color:background-color="#FFF5F5">
+        <dc:Bounds x="1442" y="340" width="130" height="80" />
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape id="end_di" bpmnElement="end">
-        <dc:Bounds x="1537" y="362" width="36" height="36" />
+        <dc:Bounds x="1639" y="362" width="36" height="36" />
         <bpmndi:BPMNLabel>
-          <dc:Bounds x="1500" y="402" width="110" height="40" />
+          <dc:Bounds x="1602" y="402" width="110" height="40" />
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge id="Flow_1_di" bpmnElement="Flow_1">
@@ -115,21 +156,48 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_4_di" bpmnElement="Flow_4">
         <di:waypoint x="900" y="180" />
-        <di:waypoint x="960" y="180" />
+        <di:waypoint x="1021" y="180" />
+        <di:waypoint x="1021" y="355" />
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_5_di" bpmnElement="Flow_5">
-        <di:waypoint x="1090" y="180" />
-        <di:waypoint x="1105" y="180" />
-        <di:waypoint x="1105" y="380" />
-        <di:waypoint x="1150" y="380" />
+        <di:waypoint x="1046" y="380" />
+        <di:waypoint x="1097" y="380" />
+        <di:waypoint x="1097" y="180" />
+        <di:waypoint x="1142" y="180" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1008" y="144" width="130" height="34" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_6_di" bpmnElement="Flow_6">
-        <di:waypoint x="1280" y="380" />
-        <di:waypoint x="1340" y="380" />
+        <di:waypoint x="1021" y="405" />
+        <di:waypoint x="1021" y="580" />
+        <di:waypoint x="1142" y="580" />
+        <bpmndi:BPMNLabel><dc:Bounds x="885" y="409" width="130" height="34" /></bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge id="Flow_7_di" bpmnElement="Flow_7">
-        <di:waypoint x="1470" y="380" />
-        <di:waypoint x="1537" y="380" />
+        <di:waypoint x="1046" y="380" />
+        <di:waypoint x="1142" y="380" />
+        <bpmndi:BPMNLabel><dc:Bounds x="1050" y="383" width="80" height="18" /></bpmndi:BPMNLabel>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_8_di" bpmnElement="Flow_8">
+        <di:waypoint x="1272" y="180" />
+        <di:waypoint x="1357" y="180" />
+        <di:waypoint x="1357" y="355" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_9_di" bpmnElement="Flow_9">
+        <di:waypoint x="1272" y="580" />
+        <di:waypoint x="1357" y="580" />
+        <di:waypoint x="1357" y="405" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_10_di" bpmnElement="Flow_10">
+        <di:waypoint x="1272" y="380" />
+        <di:waypoint x="1332" y="380" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_11_di" bpmnElement="Flow_11">
+        <di:waypoint x="1382" y="380" />
+        <di:waypoint x="1442" y="380" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_12_di" bpmnElement="Flow_12">
+        <di:waypoint x="1572" y="380" />
+        <di:waypoint x="1639" y="380" />
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

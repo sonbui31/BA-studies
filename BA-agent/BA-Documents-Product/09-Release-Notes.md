@@ -1,5 +1,5 @@
 # RELEASE NOTES
-# {{Tên sản phẩm}}
+# SignalDesk
 
 > **Cập nhật liên tục theo mỗi Release**
 > Thay thế Change Log truyền thống — Product dùng Release Notes hướng đến user.
@@ -69,8 +69,10 @@
 
 ## Lịch sử Release
 
+Chưa có bản nào phát hành; bảng dưới là kế hoạch theo `02-BRD.md` mục 11 và `06-User-Story-Map.md` (Release Mapping). Ngày thật ghi khi phát hành.
+
 | Version | Date | Highlights | Type |
 |---------|------|------------|------|
-| v1.0.0 | {{date}} | {{MVP launch}} | Major |
-| v1.1.0 | {{date}} | {{Feature X}} | Minor |
-| v1.1.1 | {{date}} | {{Hotfix Y}} | Patch |
+| v0.9.0 | Dự kiến sau Sprint 4 | Beta kín cho 5% workspace: portal, gợi ý và gộp feedback trùng, thông báo đổi trạng thái, release note gắn feedback | Beta |
+| v1.0.0 | Dự kiến sau 2 tuần beta kín và 1 tuần beta mở (20% workspace) | Ra mắt cho 100% workspace khi đạt KR kích hoạt | Major |
+| v1.1.0 | Dự kiến sau Sprint 5 | Saved filters (F06) | Minor |

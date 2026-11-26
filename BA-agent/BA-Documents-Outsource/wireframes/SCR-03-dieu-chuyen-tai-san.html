@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="wireframe-size" content="1280x760">
+<title>SCR-03 Điều chuyển tài sản</title><link rel="stylesheet" href="wireframe.css"></head>
+<body><div class="app">
+<div class="top">Quản lý tài sản — Bệnh viện Đa khoa An Phúc <small>Trưởng phòng Vật tư</small></div>
+<nav><a>Danh sách tài sản</a><a class="on">Điều chuyển</a><a>Kiểm kê</a><a>Bảo trì</a><a>Dashboard</a><a>Cấu hình</a></nav>
+<main>
+<h1>SCR-03 · Yêu cầu điều chuyển ĐC-2026-0087</h1>
+<div class="sub">Máy siêu âm Doppler (TS-000124) · Chẩn đoán hình ảnh → Hồi sức tích cực · Nguyên giá 1.250.000.000 VND</div>
+<div class="steps">
+  <div class="step done">1. Khoa giao tạo yêu cầu<br>20/11 09:10</div>
+  <div class="step now">2. Trưởng phòng Vật tư duyệt<br>Đang chờ</div>
+  <div class="step">3. Giám đốc vận hành duyệt<br>(nguyên giá từ 50 triệu, BR-006)</div>
+  <div class="step">4. Bên giao xác nhận đã giao</div>
+  <div class="step">5. Bên nhận xác nhận đã nhận<br>(quá 48 giờ: cảnh báo)</div>
+</div>
+<table>
+<tr><th style="width:220px">Thông tin</th><th>Giá trị</th></tr>
+<tr><td>Khoa giao</td><td>Chẩn đoán hình ảnh — Trưởng khoa: BS. Lê Thị B</td></tr>
+<tr><td>Khoa nhận</td><td>Hồi sức tích cực — Trưởng khoa: BS. Phạm Văn C</td></tr>
+<tr><td>Lý do</td><td>Tăng ca trực, cần thêm máy siêu âm tại giường</td></tr>
+<tr><td>Ngày dự kiến bàn giao</td><td>25/11/2026</td></tr>
+</table>
+<div class="field"><label>Ý kiến người duyệt (bắt buộc khi từ chối)</label><span class="input" style="display:block;height:54px"></span></div>
+<div class="bar" style="margin-top:12px"><span class="btn main">Đồng ý</span><span class="btn">Từ chối</span><span class="btn right">Lịch sử thao tác</span></div>
+<div class="note">Tài sản đang bảo trì hoặc chờ thanh lý: không tạo được yêu cầu, hiện "Tài sản đang ở trạng thái … nên chưa điều chuyển được" (FR-TRF-001, BR-003). Bên nhận từ chối: tài sản quay về khoa giao, yêu cầu chuyển Cancelled (FR-TRF-002).</div>
+</main></div></body></html>

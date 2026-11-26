@@ -1,7 +1,7 @@
 # BA-DOCUMENT-RULE
 ## Bộ quy tắc & Template tài liệu Business Analysis
 
-> **Phiên bản:** 3.10 | **Ngày:** 21/11/2026
+> **Phiên bản:** 3.11 | **Ngày:** 26/11/2026
 > **Kiến trúc:** Layered OS (Core + Templates + Overlays)
 > **Áp dụng:** Mọi loại dự án
 
@@ -84,7 +84,7 @@ BA-document-rule/
 │   ├── vision-scope.md               + Impact Mapping, Context Diagram
 │   ├── brd.md                        + SWOT, 5W1H, MoSCoW, Kano
 │   ├── stakeholder-map.md            + Power/Interest Grid, RACI
-│   ├── process-flow.md               + As-Is/To-Be, Gap Analysis, Swimlane
+│   ├── process-flow.md               + As-Is/To-Be, Gap Analysis, BPMN 2.0 (pool/lane)
 │   ├── srs.md                        + NFR categories, State/Sequence Diagram
 │   ├── user-story-map.md             + INVEST, GWT, MoSCoW, Kano, Release Plan
 │   ├── data-model.md                 + ERD, Data Dictionary, Index Strategy
@@ -107,7 +107,7 @@ BA-document-rule/
 │   ├── test-strategy.md              ⭐ SIT/UAT/regression/NFR coverage strategy
 │   ├── user-research-plan.md         ⭐ Research objective, script, synthesis plan
 │   ├── product-analytics-spec.md     ⭐ Funnel, event taxonomy, experiment metrics
-│   ├── bpmn-modeling-standard.md     ⭐ BPMN/swimlane notation and review rules
+│   ├── bpmn-modeling-standard.md     ⭐ BPMN 2.0 (pool/lane) notation and review rules
 │   └── data-governance-plan.md       ⭐ Ownership, classification, quality, retention
 │
 ├── overlays/                          ← OVERLAYS — Tùy chỉnh theo loại dự án (7 loại)

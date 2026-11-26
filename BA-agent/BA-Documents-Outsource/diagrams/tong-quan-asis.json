@@ -4,25 +4,34 @@
   "pool": "Bệnh viện Đa khoa An Phúc",
   "lanes": [
     {"id": "khoa", "name": "Khoa sử dụng"},
-    {"id": "vat_tu", "name": "Phòng Vật tư"}
+    {"id": "vat_tu", "name": "Phòng Vật tư"},
+    {"id": "ky_su", "name": "Kỹ sư thiết bị y tế"}
   ],
   "nodes": [
     {"id": "start", "type": "start", "name": "Có tài sản mới", "lane": "khoa"},
     {"id": "a1", "type": "send", "name": "Báo tài sản mới qua email hoặc phiếu", "lane": "khoa"},
-    {"id": "a2", "type": "manual", "name": "Ghi vào file Excel tổng (PD-01)", "lane": "vat_tu", "highlight": "pain"},
+    {"id": "a2", "type": "manual", "name": "Ghi vào file Excel tổng, tên tự đặt, không có mã chung (PD-01)", "lane": "vat_tu", "highlight": "pain"},
     {"id": "a3", "type": "manual", "name": "Sử dụng tài sản tại khoa", "lane": "khoa"},
+    {"id": "g1", "type": "or", "name": "Phát sinh việc gì trong tháng?", "lane": "vat_tu"},
     {"id": "a4", "type": "manual", "name": "Điều chuyển ghi tay hoặc qua email (PD-02)", "lane": "khoa", "highlight": "pain"},
-    {"id": "a5", "type": "manual", "name": "Kiểm kê bằng tay cuối tháng", "lane": "vat_tu"},
-    {"id": "a6", "type": "manual", "name": "Gộp file các khoa, làm báo cáo Excel (PD-03)", "lane": "vat_tu", "highlight": "pain"},
+    {"id": "a5", "type": "manual", "name": "Nhắc và làm bảo trì theo email, sổ riêng (PD-03)", "lane": "ky_su", "highlight": "pain"},
+    {"id": "a6", "type": "manual", "name": "Kiểm kê bằng tay cuối tháng", "lane": "vat_tu"},
+    {"id": "g2", "type": "or", "name": "", "lane": "vat_tu"},
+    {"id": "a7", "type": "manual", "name": "Gộp file các khoa, làm báo cáo Excel (PD-04)", "lane": "vat_tu", "highlight": "pain"},
     {"id": "end", "type": "end", "name": "Báo cáo điều hành chậm 5-7 ngày", "lane": "vat_tu"}
   ],
   "flows": [
     ["start", "a1"],
     ["a1", "a2"],
     ["a2", "a3"],
-    ["a3", "a4"],
-    ["a4", "a5"],
-    ["a5", "a6"],
-    ["a6", "end"]
+    ["a3", "g1"],
+    ["g1", "a4", "Khoa cần chuyển tài sản"],
+    ["g1", "a5", "Thiết bị đến hạn bảo trì"],
+    ["g1", "a6", "Cuối tháng"],
+    ["a4", "g2"],
+    ["a5", "g2"],
+    ["a6", "g2"],
+    ["g2", "a7"],
+    ["a7", "end"]
   ]
 }

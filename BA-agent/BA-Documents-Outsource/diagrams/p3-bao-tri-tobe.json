@@ -4,33 +4,43 @@
   "pool": "Bệnh viện Đa khoa An Phúc",
   "lanes": [
     {"id": "he_thong", "name": "Hệ thống quản lý tài sản"},
-    {"id": "vat_tu", "name": "Phòng Vật tư"},
-    {"id": "ky_su", "name": "Kỹ sư bảo trì"}
+    {"id": "nv_vat_tu", "name": "Nhân viên Vật tư"},
+    {"id": "ky_su", "name": "Kỹ sư thiết bị y tế"},
+    {"id": "tp_vat_tu", "name": "Trưởng phòng Vật tư"}
   ],
   "nodes": [
     {"id": "start", "type": "start_timer", "name": "Hằng ngày 06:00", "lane": "he_thong"},
-    {"id": "t1", "type": "service", "name": "Tìm thiết bị đến hạn bảo trì trong 15 ngày (BR-004)", "lane": "he_thong"},
-    {"id": "g1", "type": "xor", "name": "Có thiết bị đến hạn?", "lane": "he_thong"},
-    {"id": "end_none", "type": "end", "name": "Không cần cảnh báo", "lane": "he_thong"},
-    {"id": "p1", "type": "and", "name": "", "lane": "he_thong"},
-    {"id": "t2", "type": "send", "name": "Cảnh báo Phòng Vật tư", "lane": "he_thong", "row": 1},
-    {"id": "t3", "type": "send", "name": "Cảnh báo khoa sở hữu thiết bị", "lane": "he_thong", "row": 2},
-    {"id": "p2", "type": "and", "name": "", "lane": "he_thong", "row": 1},
-    {"id": "t4", "type": "user", "name": "Lên lịch với kỹ sư bảo trì", "lane": "vat_tu"},
-    {"id": "t5", "type": "user", "name": "Bảo trì thiết bị, ghi kết quả", "lane": "ky_su"},
-    {"id": "end", "type": "end", "name": "Lịch bảo trì đã cập nhật", "lane": "ky_su"}
+    {"id": "t1", "type": "service", "name": "Tìm tài sản đến hạn bảo trì (FR-MNT-001, BR-004)", "lane": "he_thong"},
+    {"id": "g1", "type": "xor", "name": "Có tài sản đến hạn?", "lane": "he_thong"},
+    {"id": "end_none", "type": "end", "name": "Không cần cảnh báo", "lane": "he_thong", "row": 1},
+    {"id": "t2", "type": "service", "name": "Tạo phiếu bảo trì cho từng tài sản", "lane": "he_thong"},
+    {"id": "t3", "type": "send", "name": "Gửi cảnh báo cho Phòng Vật tư và khoa sở hữu", "lane": "he_thong"},
+    {"id": "t4", "type": "user", "name": "Chọn ngày, phân công kỹ sư hoặc nhà cung cấp (FR-MNT-001)", "lane": "nv_vat_tu"},
+    {"id": "m1", "type": "xor", "name": "", "lane": "ky_su"},
+    {"id": "t5", "type": "user", "name": "Bảo trì thiết bị, ghi kết quả và chi phí (FR-MNT-002)", "lane": "ky_su"},
+    {"id": "g2", "type": "xor", "name": "Chi phí trên 20 triệu VND?", "lane": "ky_su"},
+    {"id": "t6", "type": "user", "name": "Duyệt chi phí bảo trì (FR-MNT-002)", "lane": "tp_vat_tu"},
+    {"id": "g3", "type": "xor", "name": "Duyệt chi phí?", "lane": "tp_vat_tu"},
+    {"id": "m2", "type": "xor", "name": "", "lane": "he_thong", "row": 1},
+    {"id": "t7", "type": "service", "name": "Đóng phiếu, tính hạn bảo trì kế tiếp", "lane": "he_thong", "row": 1},
+    {"id": "end", "type": "end", "name": "Lịch bảo trì đã cập nhật", "lane": "he_thong", "row": 1}
   ],
   "flows": [
     ["start", "t1"],
     ["t1", "g1"],
     ["g1", "end_none", "Không"],
-    ["g1", "p1", "Có"],
-    ["p1", "t2"],
-    ["p1", "t3"],
-    ["t2", "p2"],
-    ["t3", "p2"],
-    ["p2", "t4"],
-    ["t4", "t5"],
-    ["t5", "end"]
+    ["g1", "t2", "Có"],
+    ["t2", "t3"],
+    ["t3", "t4"],
+    ["t4", "m1"],
+    ["m1", "t5"],
+    ["t5", "g2"],
+    ["g2", "m2", "Không"],
+    ["g2", "t6", "Có"],
+    ["t6", "g3"],
+    ["g3", "m2", "Đồng ý"],
+    ["g3", "m1", "Yêu cầu giải trình"],
+    ["m2", "t7"],
+    ["t7", "end"]
   ]
 }

@@ -1,5 +1,5 @@
 # STANDUP NOTES & MEETING LOG
-# {{Tên sản phẩm}}
+# SignalDesk
 
 > Thay thế Meeting Minutes formal — Product dùng Standup Notes ngắn gọn.
 

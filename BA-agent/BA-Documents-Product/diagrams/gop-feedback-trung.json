@@ -3,26 +3,36 @@
   "name": "Gộp feedback trùng",
   "pool": "SignalDesk",
   "lanes": [
-    {"id": "pm", "name": "Product Manager hoặc Admin"},
+    {"id": "pm", "name": "Product Manager"},
     {"id": "he_thong", "name": "Hệ thống SignalDesk"}
   ],
   "nodes": [
     {"id": "start", "type": "start", "name": "Feedback mới vào inbox", "lane": "pm"},
     {"id": "t1", "type": "user", "name": "Mở chi tiết feedback", "lane": "pm"},
-    {"id": "t2", "type": "service", "name": "Gợi ý các mục có thể trùng", "lane": "he_thong"},
+    {"id": "t2", "type": "service", "name": "Tìm mục có thể trùng, chấm điểm (FR-TRI-001)", "lane": "he_thong"},
+    {"id": "g0", "type": "xor", "name": "Có mục trên ngưỡng điểm?", "lane": "he_thong"},
+    {"id": "end_none", "type": "end", "name": "Không gợi ý, PM xử lý như mục mới", "lane": "he_thong", "row": 1},
     {"id": "g1", "type": "xor", "name": "Chấp nhận gộp?", "lane": "pm"},
-    {"id": "end_keep", "type": "end", "name": "Giữ hai mục riêng", "lane": "pm"},
-    {"id": "t3", "type": "user", "name": "Chọn mục cha, xem trước kết quả gộp", "lane": "pm", "row": 1},
+    {"id": "end_keep", "type": "end", "name": "Giữ hai mục riêng", "lane": "pm", "row": 1},
+    {"id": "t3", "type": "user", "name": "Chọn mục cha, xem trước kết quả gộp", "lane": "pm"},
+    {"id": "t_chk", "type": "business_rule", "name": "Kiểm tra quyền gộp và cùng workspace (FR-TRI-002)", "lane": "he_thong"},
+    {"id": "g2", "type": "xor", "name": "Hợp lệ?", "lane": "he_thong"},
+    {"id": "end_blocked", "type": "end", "name": "Chặn gộp, báo lý do", "lane": "he_thong", "row": 1},
     {"id": "t4", "type": "service", "name": "Chuyển phiếu bầu, người theo dõi, lịch sử; mục con thành Merged (BR-002)", "lane": "he_thong"},
     {"id": "end_merged", "type": "end", "name": "Đã gộp, có nhật ký thao tác", "lane": "he_thong"}
   ],
   "flows": [
     ["start", "t1"],
     ["t1", "t2"],
-    ["t2", "g1"],
+    ["t2", "g0"],
+    ["g0", "end_none", "Không"],
+    ["g0", "g1", "Có"],
     ["g1", "end_keep", "Không"],
     ["g1", "t3", "Có"],
-    ["t3", "t4"],
+    ["t3", "t_chk"],
+    ["t_chk", "g2"],
+    ["g2", "end_blocked", "Thiếu quyền hoặc khác workspace"],
+    ["g2", "t4", "Hợp lệ"],
     ["t4", "end_merged"]
   ]
 }

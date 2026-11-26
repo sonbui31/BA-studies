@@ -123,7 +123,7 @@ Lệch thì báo bằng bảng `| Loại lệch | Tài liệu | ID | Đề xuấ
 
 ## 5. Sơ đồ
 
-Chuẩn vẽ duy nhất: **`BA-agent/so_do.md`** (mở khi cần vẽ). **Quy trình nghiệp vụ vẽ bằng BPMN 2.0** (mục 4): file `.bpmn` mở được bằng bpmn.io / Camunda Modeler, sinh từ bản mô tả `.json` và kiểm tra bằng `bpmn_tool.py`, ảnh PNG chèn vào tài liệu; Mermaid BPMN-lite chỉ để phác thảo trong lúc trao đổi. Các sơ đồ khác vẽ bằng Mermaid với khối khai báo chung, kiểm tra bằng `diagram_check.py`. Quy trình mẫu: `BA-Documents-Outsource/04-Process-Flow.md`.
+Chuẩn vẽ duy nhất: **`BA-agent/so_do.md`** (mở khi cần vẽ). **Quy trình nghiệp vụ vẽ bằng BPMN 2.0** (mục 4): file `.bpmn` mở được bằng bpmn.io / Camunda Modeler, sinh từ bản mô tả `.json` và kiểm tra bằng `bpmn_tool.py`, ảnh PNG chèn vào tài liệu; Mermaid BPMN-lite chỉ để phác thảo trong lúc trao đổi. **Wireframe và mockup** (mục 13, `core/screen-inventory-guide.md`): vẽ bằng Figma MCP, StitchMCP hoặc HTML/PNG offline, lưu ảnh trong `wireframes/` kèm liên kết nguồn; Mermaid chỉ để phác thảo khối nhanh. Các sơ đồ khác vẽ bằng Mermaid với khối khai báo chung, kiểm tra bằng `diagram_check.py`. Quy trình mẫu: `BA-Documents-Outsource/04-Process-Flow.md`.
 
 | Level | Loại | Công cụ / định dạng | Đặt ở |
 |---|---|---|---|
@@ -133,6 +133,7 @@ Chuẩn vẽ duy nhất: **`BA-agent/so_do.md`** (mở khi cần vẽ). **Quy tr
 | 3 | Sequence (có `alt` cho luồng lỗi) | `sequenceDiagram` | SRS |
 | 3 | State (tên trạng thái viết HOA) | `stateDiagram-v2` | SRS, Data Model |
 | 3 | ERD (PK, FK, kiểu dữ liệu) | `erDiagram` | SRS, Data Model |
+| 3 (UI) | Wireframe / Mockup | Figma MCP, StitchMCP hoặc HTML/PNG (`wireframes/`) | SRS mục 2.9, Screen Inventory |
 
 ---
 
@@ -227,6 +228,7 @@ Mô tả đúng phạm vi, tham số và mã thoát của từng script: **`BA-a
 | Sửa curated template / ảnh | `template_schema_check.py "BA-agent/Curated templates"`, `media_audit.py "BA-agent/Curated templates"` |
 | Sau khi vẽ hoặc sửa sơ đồ | `bpmn_tool.py check <thư-mục>` (BPMN), `diagram_check.py <file-hoặc-thư-mục> --strict` (Mermaid, thêm `--render` nếu có mermaid-cli) |
 | Vẽ quy trình BPMN 2.0 | `bpmn_tool.py build diagrams/<tên>.json --png diagrams/<tên>.png` |
+| Wireframe HTML thành ảnh, kiểm tra bộ màn hình | `wireframe_tool.py render wireframes/SCR-xx-<tên>.html`, `wireframe_tool.py check <thư-mục> --strict` |
 | Đánh giá độ phủ control theo loại dự án | `ba_response_eval.py <file> --scenario <loại>` |
 | Bảo trì skill | `ba_bundle_audit.py`, `python -m unittest discover -s BA-agent/tests` |
 
@@ -243,6 +245,7 @@ Mô tả đúng phạm vi, tham số và mã thoát của từng script: **`BA-a
 | Nguồn yêu cầu, gate bằng chứng, kế hoạch elicitation | `BA-document-rule/core/evidence-source-gate.md` |
 | Chốt theo lát cắt | `BA-document-rule/core/slice-baselining.md` |
 | Quy chuẩn từng loại tài liệu | `BA-document-rule/core/document-rulebook.md` |
+| Screen Inventory, wireframe, mockup | `core/screen-inventory-guide.md`, `BA-document-rule/templates/screen-inventory.md` |
 | Phân loại dự án | `BA-document-rule/core/project-classification-gate.md` |
 | Tier rủi ro, strategy, đo giá trị | `core/rigor-tiers.md`, `core/strategy-analysis-guide.md`, `core/solution-evaluation-guide.md` |
 | Elicitation, đàm phán | `references/elicitation-playbook.md`, `references/senior-ba-soft-skills.md` |

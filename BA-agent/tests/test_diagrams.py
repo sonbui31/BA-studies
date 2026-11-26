@@ -147,6 +147,51 @@ class ProcessDiagramGateTests(unittest.TestCase):
         self.assertEqual(preflight_check.process_diagram_check(bare + "![Quy trình](diagrams/p1.png)", {})["status_code"], preflight_check.PASS_CODE)
         self.assertEqual(preflight_check.process_diagram_check("[LỐI AGILE LITE]\n" + bare, {})["status_code"], preflight_check.NA_CODE)
 
+    def test_process_gate_is_not_fooled(self):
+        bare = "# BRD\n\n## Quy trình\n\nKhoa gửi phiếu -> Vật tư duyệt\n"
+        fail, ok, na = preflight_check.FAIL_CODE, preflight_check.PASS_CODE, preflight_check.NA_CODE
+
+        def status(text):
+            return preflight_check.process_diagram_check(text, {})["status_code"]
+
+        self.assertEqual(status(bare + "![Logo](assets/logo.png)\n"), fail)  # any picture is not a process
+        self.assertEqual(status(bare + "File gốc là quy-trinh.bpmn trong thư mục chung.\n"), fail)  # plain mention
+        self.assertEqual(status(bare + "```text\n[x](diagrams/p1.bpmn)\n```\n"), fail)  # inside a code fence
+        self.assertEqual(status(bare + "Bản chuẩn: [p1](diagrams/p1.bpmn)\n"), ok)
+        self.assertEqual(status(bare + "Không áp dụng lối Agile Lite cho dự án này.\n"), fail)
+        front = f"```mermaid\n---\ntitle: Duyệt\n---\n{THEME}\nflowchart LR\n    A[\"Nhận\"] --> B[\"Duyệt\"]\n```\n"
+        self.assertEqual(status(bare + front), ok)
+        with tempfile.TemporaryDirectory() as tmp:
+            (Path(tmp) / "02-BRD.md").write_text(bare + "Bản chuẩn: [p1](diagrams/khong-co.bpmn)\n", encoding="utf-8")
+            report = preflight_check.evaluate_bundle(Path(tmp))
+            gate = [c for d in report["documents"] for c in d["checks"] if c["item"] == "Process Diagram"][0]
+            self.assertEqual(gate["status_code"], fail)  # link to a file that does not exist
+        self.assertEqual(status(bare + "![Quy trình](diagrams/p1.png)"), ok)  # no bundle folder: not checked on disk
+        self.assertEqual(na, preflight_check.NA_CODE)
+
+
+class HumanSignoffTests(unittest.TestCase):
+    HEAD = "# SRS\n\n> Trạng thái: Baseline\n\n"
+
+    def code(self, text):
+        return preflight_check.human_signoff_check(self.HEAD + text)["status_code"]
+
+    def test_signoff_table_under_a_subheading_counts(self):
+        text = "## 9. Phê duyệt\n\n### 9.1 Bên khách hàng\n\n| Vai trò | Họ tên | Ngày |\n|---|---|---|\n| Sponsor | Nguyễn Văn A | 05/03/2026 |\n"
+        self.assertEqual(self.code(text), preflight_check.PASS_CODE)
+
+    def test_rows_without_a_name_or_with_a_placeholder_date_do_not_count(self):
+        no_name = "## Phê duyệt\n\n| Vai trò | Họ tên | Ngày |\n|---|---|---|\n| Sponsor | [Tên] | 05/03/2026 |\n"
+        self.assertEqual(self.code(no_name), preflight_check.FAIL_CODE)
+        fake_date = "## Phê duyệt\n\n| Vai trò | Họ tên | Ngày |\n|---|---|---|\n| Sponsor | Nguyễn Văn A | 00/00/0000 |\n"
+        self.assertEqual(self.code(fake_date), preflight_check.FAIL_CODE)
+
+    def test_open_items_ignore_code_and_checklist_sentences(self):
+        signed = "## Phê duyệt\n\n| Vai trò | Họ tên | Ngày |\n|---|---|---|\n| Sponsor | Nguyễn Văn A | 05/03/2026 |\n"
+        quiet = "- [x] Không còn mục [CẦN XÁC NHẬN] nào\n\nGhi `[CẦN XÁC NHẬN]` khi chưa rõ.\n\n```\n[CẦN XÁC NHẬN]\n```\n"
+        self.assertEqual(self.code(quiet + signed), preflight_check.PASS_CODE)
+        self.assertEqual(self.code("Ngưỡng duyệt 50 triệu [CẦN XÁC NHẬN]\n" + signed), preflight_check.FAIL_CODE)
+
 
 if __name__ == "__main__":
     unittest.main()

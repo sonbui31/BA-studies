@@ -321,6 +321,27 @@ class WideDiagramWordTests(unittest.TestCase):
             landscape_text_h = (11906 - 2 * 1134) * md_to_docx.EMU_PER_TWIP
             self.assertTrue(all(h <= landscape_text_h * 0.9 + 1 for h in heights), heights)
 
+    def test_caption_under_a_wide_picture_stays_on_its_landscape_page(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            (root / "wf.png").write_bytes(wide_png(1600, 900))
+            (root / "hep.png").write_bytes(wide_png(400, 300))
+            md = root / "doc.md"
+            md.write_text(
+                "# SRS\n\n![SCR-01: Danh sách](wf.png)\n*Nguồn thiết kế: Figma*\n\nSau ảnh\n\n![Hẹp](hep.png)\n*Chú thích hẹp*\n",
+                encoding="utf-8",
+            )
+            counts = md_to_docx.convert(md, root / "doc.docx")
+            self.assertEqual(counts["landscape_pages"], 1)
+            with zipfile.ZipFile(root / "doc.docx") as zf:
+                document = zf.read("word/document.xml").decode("utf-8")
+            caption_at = document.index("Nguồn thiết kế")
+            paragraph = document[document.rfind("<w:p>", 0, caption_at):document.find("</w:p>", caption_at)]
+            self.assertIn('w:orient="landscape"', paragraph)  # the landscape section closes on the caption
+            self.assertLess(caption_at, document.index("Sau ảnh"))
+            self.assertIn("Chú thích hẹp", document)
+            self.assertEqual(document.count("<w:drawing>"), 2)
+
     def test_later_sections_continue_page_numbers(self):
         sect = '<w:sectPr><w:headerReference w:type="first" r:id="rId9"/><w:pgSz w:w="11906" w:h="16838"/><w:pgNumType w:fmt="decimal" w:start="1"/><w:titlePg/></w:sectPr>'
         later = md_to_docx.continued_section(sect)

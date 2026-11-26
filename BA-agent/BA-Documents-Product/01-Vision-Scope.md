@@ -28,7 +28,7 @@
 | | KR2: 55% workspace mới publish ít nhất 1 public feedback portal trong 14 ngày | 55% | 0% | PM |
 | | KR3: Activation-to-value time ≤ 20 phút | ≤ 20 phút | N/A | UX |
 | O2: Tạo thói quen review feedback hàng tuần | KR1: 45% workspace active có ít nhất 1 roadmap review/tuần | 45% | 0% | Product Ops |
-| | KR2: 35% feedback mới được gắn trạng thái trong 7 ngày | 35% | 0% | PM |
+| | KR2: 60% feedback mới được gắn trạng thái trong 7 ngày | 60% | 0% | PM |
 | O3: Chứng minh willingness to pay | KR1: 8% workspace free chuyển sang Pro trong 60 ngày | 8% | 0% | Growth |
 | | KR2: MRR đạt 18.000 USD cuối quý | 18.000 USD | 0 | Business |
 

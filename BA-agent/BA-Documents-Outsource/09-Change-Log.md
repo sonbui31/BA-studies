@@ -1,5 +1,5 @@
 # NHẬT KÝ THAY ĐỔI & QUẢN LÝ CR — DỰ ÁN OUTSOURCE
-# Dự án [Tên dự án]
+# Dự án Hệ thống Quản lý Tài sản Bệnh viện
 
 > **⚠️ Gia công: Mọi thay đổi yêu cầu sau SRS baseline = Yêu cầu thay đổi (CR) = có ẢNH HƯỞNG CHI PHÍ**
 
@@ -148,11 +148,9 @@ PM NCC: _____________ Ngày: ___/___/______
 
 ## 4. Nhật ký yêu cầu thay đổi
 
-| Mã CR | Ngày | Người yêu cầu | Mô tả | Loại | Khối lượng (NC) | Chi phí ($) | Ảnh hưởng tiến độ | Trạng thái | Sprint | Duyệt bởi |
+| Mã CR | Ngày | Người yêu cầu | Mô tả | Loại | Khối lượng (NC) | Chi phí (VND) | Ảnh hưởng tiến độ | Trạng thái | Sprint | Duyệt bởi |
 |-------|------|---------------|-------|------|----------------|------------|-------------------|-----------|--------|-----------|
-| CR-001 | | | | | | | | Chờ | | |
-| CR-002 | | | | | | | | | | |
-| CR-003 | | | | | | | | | | |
+| CR-001 | 12/03/2026 | Vũ Hoàng Nam — Trưởng phòng CNTT (KH) | Bổ sung kịch bản kiểm thử NFR cho hiệu năng, bảo mật, phục hồi và bảo trì vào SRS 1.1 và `08-UAT-Plan.md` mục 5.4 | 🟡 Nhỏ | 2 | 16.000.000 | Không đổi mốc; làm trong S4 | Chờ | S4 | Chờ PO KH duyệt |
 
 ---
 
@@ -164,9 +162,9 @@ PM NCC: _____________ Ngày: ___/___/______
 |-----------|---------|---------|-------------|
 | Approved | — | — | — |
 | Rejected | — | — | — |
-| Chờ | — | — | — |
+| Chờ | 1 | 2 | 16.000.000 VND |
 | Hoãn | — | — | — |
-| **Tổng** | — | — | — |
+| **Tổng** | 1 | 2 | 16.000.000 VND |
 
 ### Ảnh hưởng ngân sách
 

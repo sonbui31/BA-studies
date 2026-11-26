@@ -1,7 +1,7 @@
-# HƯỚNG DẪN SỬ DỤNG BỘ KIT BA 3.10 (ADVANCED ANALYSIS & WRITING QUALITY ENGINE)
+# HƯỚNG DẪN SỬ DỤNG BỘ KIT BA 3.11 (ADVANCED ANALYSIS & WRITING QUALITY ENGINE)
 
-> **Chào mừng bạn đến với BA-Agent 3.10!**
-> Bộ kit "Layered OS" v3.10 — **"Think Deeper, Write Better"**: Advanced Analysis + Requirement Quality Engine.
+> **Chào mừng bạn đến với BA-Agent 3.11!**
+> Bộ kit "Layered OS" v3.11 — **"Think Deeper, Write Better"**: Advanced Analysis + Requirement Quality Engine.
 > Multi-LLM là protocol phân vai reviewer/drafter khuyến nghị; repo này cung cấp tài liệu và runtime scripts, không tự gọi các model thay người dùng.
 
 ---
@@ -10,7 +10,7 @@
 
 **Lệnh chính:** `/ba-workflow [tên_dự_án] [mô_tả_ngắn]`
 
-**Quy trình 3.10 (gates + generation + validation):**
+**Quy trình 3.11 (gates + generation + validation):**
 
 ```
 🚪 GATES (bắt buộc)
@@ -49,7 +49,14 @@ Step 5 FAIL (pre-flight trước doc) → Quay lại Step 0/2 (bổ sung input)
 
 ---
 
-## 🆕 Có gì mới trong v3.10?
+## 🆕 Có gì mới trong v3.11?
+
+- **Wireframe và mockup thành ảnh thật** (`so_do.md` mục 13, `core/screen-inventory-guide.md`): vẽ bằng Figma, StitchMCP hoặc HTML offline; ảnh lưu `wireframes/SCR-xx-<tên>.png`, nhúng vào SRS kèm dòng nguồn. Hướng dẫn nói rõ bước nào agent tự làm, bước nào cần người export từ Figma.
+- **`wireframe_tool.py`:** `render` chụp file HTML wireframe thành PNG bằng Chrome/Edge đã cài, không cần Node và không gửi dữ liệu ra ngoài; `check` kiểm tra ảnh tồn tại, mã `SCR-xx` khớp Screen Inventory, có dòng nguồn, không có ảnh thừa.
+- **Tài liệu mẫu:** bộ Outsource có 6 wireframe (danh sách tài sản, hồ sơ tài sản, điều chuyển, kiểm kê, dashboard, phiếu bảo trì) nối với FR qua cột Ref Wireframe; bộ Product có 2 (portal feedback, hộp thư phân loại của PM).
+- **Sửa lỗi:** bố cục BPMN không còn vẽ đường xuyên qua ô; `bpmn_tool check` đọc được cổng event-based và nhiều pool; xuất Word không còn trang trắng giữa hai ảnh rộng và giữ nguyên số trang; `preflight_check` không còn coi ảnh logo là sơ đồ quy trình và đếm đúng `[CẦN XÁC NHẬN]`; quy trình trong rule template chuyển hết sang BPMN 2.0; bộ mẫu sửa số liệu chi phí, Stakeholder Map và các chỗ sơ đồ lệch FR.
+
+## Có gì mới trong v3.10
 
 - **Quy trình nghiệp vụ vẽ bằng BPMN 2.0 thật** (định dạng bpmn.io): pool, lane, loại task, cổng loại trừ và song song, sự kiện hẹn giờ gắn biên. File `.bpmn` mở và sửa được bằng bpmn.io, Camunda Modeler; nhập được vào Bizagi, Signavio. Xem `so_do.md` mục 4.
 - **`bpmn_tool.py`:** viết bản mô tả JSON ngắn (lane, bước, luồng), script sinh `.bpmn` có bố cục, kiểm tra lỗi mô hình (luồng cụt, nhánh thiếu điều kiện, phần tử lơ lửng) và vẽ ảnh PNG/SVG bằng bpmn-js.

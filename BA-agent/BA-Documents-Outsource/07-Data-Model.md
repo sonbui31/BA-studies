@@ -1,8 +1,8 @@
 # MÔ HÌNH DỮ LIỆU & TỪ ĐIỂN DỮ LIỆU — DỰ ÁN OUTSOURCE
-# Dự án [Tên dự án]
+# Dự án Hệ thống Quản lý Tài sản Bệnh viện
 
 > **Phiên bản:** 1.0 | **Ngày:** 26/02/2026
-> **Rà soát bởi:** [Tech Lead — NCC] | **Phê duyệt bởi:** [CNTT KH]
+> **Rà soát bởi:** Hoàng Gia Khánh — Tech Lead (NCC) | **Người phê duyệt:** Vũ Hoàng Nam — Trưởng phòng CNTT (KH), chưa ký mục 7
 
 ---
 

@@ -94,9 +94,9 @@ Lịch bảo trì rời rạc       ───▶     Cảnh báo bảo trì theo
 |----------|---------|
 | **Vấn đề** | Bệnh viện không kiểm soát được vòng đời tài sản theo thời gian thực, gây thất thoát và chậm bảo trì |
 | **Giải pháp** | Triển khai hệ thống quản lý tài sản tập trung có kiểm kê, điều chuyển, bảo trì, dashboard |
-| **Chi phí ước tính** | 2.45 tỷ VND trong 3 năm |
-| **Lợi ích ước tính** | 1.62 tỷ VND/năm từ tiết kiệm thời gian, giảm thất thoát, giảm dừng thiết bị |
-| **Thời gian hoàn vốn** | 22 tháng |
+| **Chi phí ước tính** | 2,742 tỷ VND trong 3 năm: 1,62 tỷ đầu tư một lần và 1,122 tỷ chi phí định kỳ (mục 3.2, 3.4) |
+| **Lợi ích ước tính** | 1,466 tỷ VND/năm khi chạy đủ (mục 3.3) từ tiết kiệm thời gian, giảm thất thoát, giảm dừng thiết bị; năm đầu tính 80% |
+| **Thời gian hoàn vốn** | Khoảng 20 tháng sau go-live (mục 3.4) |
 | **Khuyến nghị** | **Tiến hành** nếu bệnh viện cam kết chuẩn hóa mã tài sản và bố trí đầu mối dữ liệu tại mỗi khoa |
 
 ### 3.2. Chi phí
@@ -126,31 +126,36 @@ Lịch bảo trì rời rạc       ───▶     Cảnh báo bảo trì theo
 | | **TỔNG LỢI ÍCH/NĂM** | | **1.466.400.000 VND** |
 
 #### Lợi ích định tính
-- ✅ Nâng cao trải nghiệm khách hàng → tăng trung thành
-- ✅ Ra quyết định nhanh hơn dựa trên dữ liệu
-- ✅ Nâng cao hình ảnh thương hiệu (ưu tiên số hóa)
-- ✅ Sẵn sàng mở rộng quy mô
-- ✅ Tuân thủ quy định
+- ✅ Kiểm soát nội bộ tra được ai giữ tài sản ở mọi thời điểm, từ log bàn giao lưu 5 năm (C3)
+- ✅ Thiết bị y tế quan trọng ít bị quá hạn bảo trì trong lúc đang phục vụ người bệnh
+- ✅ Ban điều hành quyết định mua mới, thanh lý dựa trên số liệu trong tuần thay vì báo cáo chậm 5-7 ngày
+- ✅ Hồ sơ bảo trì, kiểm kê, thanh lý có sẵn khi đoàn kiểm tra hoặc kiểm toán nội bộ yêu cầu
+- ✅ Cơ sở vệ tinh dùng ngay bộ mã tài sản và quy trình đã chuẩn hóa
 
 ### 3.4. Phân tích ROI
 
 ```
-                    Năm 0       Năm 1       Năm 2       Năm 3
-                    ──────      ──────      ──────      ──────
-Đầu tư:           -1.620.000.000   —            —            —
-Chi phí vận hành:    —         -255.000.000  -427.000.000  -440.000.000
-Lợi ích:             —         +1.173.000.000 +1.466.400.000 +1.612.000.000
-                    ──────      ──────      ──────      ──────
-Lợi ích ròng:     -1.620.000.000 +918.000.000 +1.039.400.000 +1.172.000.000
-Lũy kế:           -1.620.000.000 -702.000.000 +337.400.000 +1.509.400.000
-                                             ▲
-                                     Điểm hòa vốn
-                                     (~22 tháng)
+                     Năm 0            Năm 1            Năm 2            Năm 3
+                     ──────           ──────           ──────           ──────
+Đầu tư một lần:    -1.620.000.000          —                —                —
+Chi phí định kỳ:          —           -255.000.000     -427.000.000     -440.000.000
+Lợi ích:                  —         +1.173.120.000   +1.466.400.000   +1.613.040.000
+                     ──────           ──────           ──────           ──────
+Lợi ích ròng:      -1.620.000.000     +918.120.000   +1.039.400.000   +1.173.040.000
+Lũy kế:            -1.620.000.000     -701.880.000     +337.520.000   +1.510.560.000
+                                                       ▲
+                                         Hòa vốn khoảng tháng 20 sau go-live
+                                         (12 + 701,88 / 1.039,4 × 12 ≈ 20,1)
+
+Tổng chi phí 3 năm = 1.620.000.000 + 255.000.000 + 427.000.000 + 440.000.000 = 2.742.000.000
+Tổng lợi ích 3 năm = 1.173.120.000 + 1.466.400.000 + 1.613.040.000           = 4.252.560.000
 
 ROI (3 năm) = (Tổng lợi ích - Tổng chi phí) / Tổng chi phí × 100
-           = (4.251.400.000 - 2.742.000.000) / 2.742.000.000 × 100
-           = 55,0%
+            = (4.252.560.000 - 2.742.000.000) / 2.742.000.000 × 100
+            = 55,1%
 ```
+
+Cách đọc bảng: Năm 0 là giai đoạn xây dựng 14 tuần (mục 9.1), gồm ba hạng mục một lần ở mục 3.2: phát triển 1.350 triệu, đào tạo 90 triệu, chuyển đổi dữ liệu 180 triệu, cộng 1.620 triệu. Chi phí định kỳ năm 1 là giấy phép 60 triệu, hạ tầng 120 triệu, nhân sự nội bộ 75 triệu, cộng 255 triệu; hai phần cộng lại đúng 1.875 triệu của cột Năm 1 mục 3.2. Lợi ích năm 1 tính 80% mức đầy đủ 1.466,4 triệu vì người dùng còn làm quen; năm 3 tính 110% vì cơ sở vệ tinh bắt đầu dùng chung hệ thống.
 
 **Sensitivity analysis**
 
@@ -213,6 +218,7 @@ ROI (3 năm) = (Tổng lợi ích - Tổng chi phí) / Tổng chi phí × 100
 | 1 | Tích hợp ERP kế toán | Hạn chế phạm vi giai đoạn 1 | Khi hoàn thành chuẩn hóa mã tài sản |
 | 2 | Ứng dụng di động offline đầy đủ | Chi phí cao, phụ thuộc hạ tầng mạng nội bộ | Giai đoạn 2 |
 | 3 | Tự động nhận dạng tài sản bằng AI/camera | Chưa có nhu cầu rõ và thiếu dữ liệu huấn luyện | Khi đã có kho ảnh tài sản chuẩn |
+| 4 | Lập và duyệt hồ sơ thanh lý (Hội đồng thanh lý, biên bản) | Bệnh viện làm theo quy chế tài chính riêng, hồ sơ ký tay. Hệ thống chỉ ghi trạng thái `Chờ thanh lý`, `Đã thanh lý` và cảnh báo tài sản sắp hết thời gian sử dụng (FR-MNT-001) | Giai đoạn 2 |
 
 ### 4.4. Giả định
 
@@ -220,7 +226,7 @@ ROI (3 năm) = (Tổng lợi ích - Tổng chi phí) / Tổng chi phí × 100
 |---|----------|----------------------|----------------|
 | A1 | Mỗi khoa cử 1 đầu mối xác nhận dữ liệu tài sản | Chậm chuẩn hóa dữ liệu, trễ timeline migration | Trưởng khoa |
 | A2 | Danh mục tài sản hiện tại có thể làm sạch trong tối đa 8 tuần | Scope migration tăng, cần CR | Phòng Vật tư |
-| A3 | Bệnh viện chấp nhận quy trình phê duyệt điều chuyển 2 bước | Không chốt được workflow chính | Ban điều hành |
+| A3 | Bệnh viện chấp nhận duyệt điều chuyển theo ngưỡng giá trị (BR-006): một bước dưới 50 triệu VND, hai bước từ 50 triệu VND | Không chốt được workflow chính | Ban điều hành |
 
 ### 4.5. Ràng buộc
 
@@ -246,6 +252,7 @@ ROI (3 năm) = (Tổng lợi ích - Tổng chi phí) / Tổng chi phí × 100
 | BR-003 | Tài sản đang ở trạng thái `Chờ thanh lý` không được cấp phát lại | Tránh dùng lại tài sản rủi ro | Điều chuyển, kiểm kê | SRC-04 · E1 (quyết định của Sponsor) |
 | BR-004 | Thiết bị y tế mức độ quan trọng cao phải có lịch bảo trì bắt buộc và cảnh báo trước tối thiểu 15 ngày | Giảm dừng thiết bị | Bảo trì | SRC-03 · E1 (kỹ sư thiết bị, người sở hữu quy trình bảo trì) |
 | BR-005 | Mọi chênh lệch kiểm kê phải được phân loại `Mất / Hỏng / Sai vị trí / Chờ xác minh` trước khi chốt đợt kiểm kê | Chuẩn hóa xử lý lệch | Kiểm kê, dashboard | SRC-01 · E2 |
+| BR-006 | Điều chuyển tài sản có nguyên giá từ 50.000.000 VND trở lên cần thêm bước duyệt của Giám đốc vận hành sau Trưởng phòng Vật tư; dưới ngưỡng chỉ cần Trưởng phòng Vật tư duyệt | Kiểm soát tài sản giá trị cao mà không làm chậm điều chuyển thường ngày | Điều chuyển | SRC-04 · E1 (Sponsor chốt ngưỡng tại buổi duyệt BRD) |
 
 > Mỗi BR được thực thi bởi ít nhất một FR và kiểm chứng bởi ít nhất một kịch bản TC. Ma trận BR → FR → TC: xem `05-SRS.md` Mục 2.6.
 
@@ -253,7 +260,7 @@ ROI (3 năm) = (Tổng lợi ích - Tổng chi phí) / Tổng chi phí × 100
 
 - **Execution order:** Đăng ký tài sản -> bàn giao sở hữu -> sử dụng/vận hành -> điều chuyển -> kiểm kê -> bảo trì/thanh lý.
 - **Override matrix:** Quy tắc kiểm kê không được ghi đè quy tắc sở hữu; chỉ Trưởng phòng Vật tư hoặc người được ủy quyền mới được xác nhận chênh lệch cuối cùng.
-- **Decision owner:** Phòng Vật tư quyết định chuẩn mã tài sản; Ban điều hành quyết định ngưỡng tài sản cần phê duyệt điều chuyển.
+- **Decision owner:** Phòng Vật tư quyết định chuẩn mã tài sản; Ban điều hành quyết định ngưỡng giá trị cần thêm bước duyệt của Giám đốc vận hành khi điều chuyển (hiện là 50.000.000 VND, BR-006).
 
 ---
 
@@ -269,10 +276,11 @@ ROI (3 năm) = (Tổng lợi ích - Tổng chi phí) / Tổng chi phí × 100
 | 4 | Trưởng phòng CNTT | Giám sát kỹ thuật | Bảo mật, phân quyền, vận hành ổn định | 🟠 Cao |
 | 5 | Kế toán tài sản | Người dùng phụ trợ | Đối chiếu giá trị và hồ sơ thanh lý | 🟡 Trung bình |
 | 6 | Kiểm soát nội bộ | Stakeholder audit | Có log, có bằng chứng, truy xuất được | 🟠 Cao |
+| 7 | Kỹ sư thiết bị y tế | SME bảo trì, người dùng chính của P3 | Lịch bảo trì tập trung, không phải nhớ hạn bằng sổ riêng | 🟠 Cao |
 
 **Conflict-prone stakeholders**
 - Sponsor muốn go-live trước Q4/2026; CNTT muốn thêm thời gian hardening.
-- Vật tư muốn 1 bước xác nhận điều chuyển; các khoa muốn tối giản thao tác.
+- Vật tư muốn 1 bước xác nhận điều chuyển; các khoa muốn tối giản thao tác. Đã chốt: một bước duyệt cho tài sản dưới 50 triệu VND, hai bước từ 50 triệu VND (BR-006).
 - Kiểm soát nội bộ yêu cầu log đầy đủ; người dùng khoa muốn sửa nhanh hơn.
 
 _(Chi tiết: xem `03-Stakeholder-Map.md` và `../BA-document-rule/core/stakeholder-conflict-resolution.md`)_
@@ -300,10 +308,14 @@ Bản chuẩn BPMN 2.0: [`diagrams/tong-quan-asis.bpmn`](diagrams/tong-quan-asis
 
 <!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/tong-quan-asis.json --png diagrams/tong-quan-asis.png -->
 
-**Điểm nghẽn chính:**
-1. 🔴 Không có mã duy nhất nên một tài sản có thể xuất hiện dưới nhiều tên khác nhau.
-2. 🟠 Điều chuyển và nhận bàn giao không để lại luồng xác nhận chuẩn.
-3. 🟡 Báo cáo điều hành phải chờ hợp nhất file từ nhiều khoa.
+**Điểm nghẽn chính.** Bảng này là nơi duy nhất định nghĩa mã PD; mọi sơ đồ As-Is trong bộ tài liệu (ở đây và trong `04-Process-Flow.md`) dùng lại đúng các mã này.
+
+| Mã | Điểm nghẽn | Vấn đề ở mục 2.2 | Mức | Bước mang mã này trong sơ đồ | Nguồn · Mức |
+|---|---|---|---|---|---|
+| PD-01 | Tài sản ghi bằng tên tự đặt, không có mã chung; một tài sản mang nhiều tên nên kiểm kê đếm trùng hoặc sót | #1 | 🔴 Nghiêm trọng | Tổng quan: "Ghi vào file Excel tổng" (nơi phát sinh); P2: "Đếm và đánh dấu tay" (nơi gây sai lệch) | SRC-01 · E2, SRC-02 · E4 |
+| PD-02 | Điều chuyển ghi tay hoặc qua email, không có luồng xác nhận giao nhận; không rõ ai đang giữ tài sản | #2 | 🟠 Cao | Tổng quan: "Điều chuyển ghi tay"; P1: "Sửa file Excel tổng" và kết thúc "Không rõ ai đang giữ tài sản" | SRC-01 · E2 |
+| PD-03 | Lịch bảo trì nằm trong email và sổ riêng của kỹ sư; bỏ lỡ 2-3 lịch mỗi tháng | #3 | 🟠 Cao | Tổng quan: "Nhắc và làm bảo trì theo email, sổ riêng" | SRC-03 · E2 |
+| PD-04 | Gộp file nhiều khoa bằng tay: kiểm kê mất khoảng 3 ngày, báo cáo điều hành chậm 5-7 ngày | #1, #4 | 🟡 Trung bình | Tổng quan: "Gộp file các khoa"; P2: "Gộp kết quả, dò chênh lệch" | SRC-02 · E4, SRC-04 · E1 |
 
 ### 6.2. Quy trình tương lai (To-Be) — Tóm tắt
 
@@ -313,7 +325,7 @@ Bản chuẩn BPMN 2.0: [`diagrams/tong-quan-tobe.bpmn`](diagrams/tong-quan-tobe
 
 <!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/tong-quan-tobe.json --png diagrams/tong-quan-tobe.png -->
 
-Sơ đồ To-Be là tổng quan: ba ô có dấu + là quy trình con thu gọn (P1 Điều chuyển, P2 Kiểm kê, P3 Bảo trì), vẽ chi tiết trong `04-Process-Flow.md`; cổng hình tròn là cổng bao hàm, một hoặc nhiều nghiệp vụ có thể phát sinh trong cùng kỳ.
+Sơ đồ To-Be là tổng quan, các ô có dấu + là quy trình con thu gọn. P1 Điều chuyển, P2 Kiểm kê, P3 Bảo trì vẽ chi tiết trong `04-Process-Flow.md`. Cổng hình tròn là cổng bao hàm nằm ở làn hệ thống vì hệ thống theo dõi cả ba sự kiện: khoa gửi yêu cầu chuyển, đến kỳ kiểm kê theo lịch, đến hạn bảo trì theo lịch; một hoặc nhiều sự kiện có thể phát sinh trong cùng kỳ. Sau mỗi kỳ tài sản quay lại sử dụng cho tới khi có quyết định thanh lý. Thanh lý làm theo quy chế bệnh viện, ngoài hệ thống ở giai đoạn 1 (mục 4.3): Nhân viên Vật tư chuyển tài sản sang `Chờ thanh lý` khi mở hồ sơ (từ đó BR-003 chặn điều chuyển) và sang `Đã thanh lý` khi có quyết định; hệ thống giữ toàn bộ lịch sử (mục 4.5).
 
 **Cải tiến:**
 - ✅ Kiểm kê tháng giảm từ 3 ngày xuống còn 1 ngày.
@@ -368,11 +380,15 @@ _(Chi tiết: xem `05-SRS.md` Mục 3)_
 
 | Hạng mục | Số tiền |
 |----------|---------|
-| Phát triển phần mềm (NCC) | 420.000.000 VND |
-| Hạ tầng/Hosting (Năm 1) | 60.000.000 VND |
-| Đào tạo + Quản lý thay đổi | 40.000.000 VND |
-| Dự phòng (10-15%) | 60.000.000 VND |
-| **TỔNG** | **580.000.000 VND** |
+| Phát triển phần mềm (NCC, giá cố định, trần C1) | 1.350.000.000 VND |
+| Chuyển đổi dữ liệu | 180.000.000 VND |
+| Đào tạo nhân viên | 90.000.000 VND |
+| Giấy phép phần mềm (năm 1) | 60.000.000 VND |
+| Hạ tầng / Đám mây (năm 1) | 120.000.000 VND |
+| Nhân sự nội bộ (năm 1) | 75.000.000 VND |
+| **TỔNG NĂM 1** | **1.875.000.000 VND** |
+
+Bảng này khớp cột Năm 1 mục 3.2. Chi phí CR phát sinh không nằm trong tổng trên; mỗi CR được duyệt cộng thêm theo `09-Change-Log.md`.
 
 ---
 
@@ -391,6 +407,7 @@ _(Chi tiết: xem `05-SRS.md` Mục 3)_
 | SCOPE-09 | BRQ-07, BRQ-08 | FR-MNT-001 | HĐ 2.3 | US-MNT-001 | TC-MNT-001 | Bắt buộc |
 | SCOPE-10 | BRQ-07, BRQ-08 | FR-MNT-002 | HĐ 2.3 | US-MNT-002 | TC-MNT-002 | Bắt buộc |
 | SCOPE-11 | BRQ-09 | FR-RPT-001 | HĐ 2.3 | US-RPT-001 | TC-RPT-001 | Nên có |
+| SCOPE-12 | BRQ-04 | FR-TRF-003 | HĐ 2.2 | US-TRF-003 | TC-TRF-004 | Bắt buộc |
 
 > **Truy vết đảm bảo:** Mọi yêu cầu kinh doanh đều được triển khai và kiểm thử
 

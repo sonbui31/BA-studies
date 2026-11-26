@@ -78,6 +78,27 @@ Tài liệu này mô tả **yêu cầu kinh doanh** cho dự án {{Tên dự án
 |---|--------|----------------|---------|-------------------|
 | 1 | {{Vấn đề}} | {{Phòng ban / Vai trò}} | {{Hàng ngày / tuần / tháng}} | {{Ước tính}} |
 
+### 2.3 Quy trình nghiệp vụ (As-Is / To-Be)
+
+> Hard Gate 1: chưa có sơ đồ As-Is/To-Be được xác nhận thì chưa viết BRD. Vẽ bằng BPMN 2.0 theo `so_do.md` mục 4: mỗi quy trình chính một cặp As-Is / To-Be, bản mô tả `diagrams/<tên>.json`, sinh `.bpmn` và ảnh bằng `bpmn_tool.py build diagrams/<tên>.json --png diagrams/<tên>.png`. Bước gây điểm đau trong As-Is ghi `"highlight": "pain"`; bước mới trong To-Be có thể ghi `"highlight": "new"`. Quy trình dài tách sang Process Flow (`templates/process-flow.md`), ở đây chỉ giữ tóm tắt.
+>
+> Chèn mỗi sơ đồ theo mẫu:
+>
+> `![As-Is: <Tên quy trình>](diagrams/<tên>-asis.png)`
+>
+> `Bản chuẩn BPMN 2.0: [diagrams/<tên>-asis.bpmn](diagrams/<tên>-asis.bpmn), mở và sửa bằng bpmn.io hoặc Camunda Modeler.`
+>
+> `<!-- Sinh lại ảnh (chạy trong thư mục bộ tài liệu): python ../scripts/bpmn_tool.py build diagrams/<tên>-asis.json --png diagrams/<tên>-asis.png -->`
+
+**As-Is (hiện tại):**
+- {{Mô tả quy trình hiện tại; điểm đau ghi mã khớp bảng mục 2.2}}
+- Sơ đồ: {{ảnh `diagrams/<tên>-asis.png` + liên kết `.bpmn`}}; SME chưa xác nhận thì ghi `[CẦN XÁC NHẬN]` cạnh tên sơ đồ
+
+**To-Be (đề xuất):**
+- {{Mô tả quy trình mới; mỗi cổng rẽ nhánh ghi mã BR quyết định nhánh đó (mục 4.3)}}
+- Sơ đồ: {{ảnh `diagrams/<tên>-tobe.png` + liên kết `.bpmn`}}
+- Kiểm tra: `bpmn_tool.py check diagrams` không còn lỗi
+
 ---
 
 ## 3. SWOT Analysis

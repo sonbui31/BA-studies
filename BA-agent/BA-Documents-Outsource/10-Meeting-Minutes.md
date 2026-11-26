@@ -1,5 +1,5 @@
 # BIÊN BẢN HỌP — DỰ ÁN OUTSOURCE
-# Dự án [Tên dự án]
+# Dự án Hệ thống Quản lý Tài sản Bệnh viện
 
 ---
 
